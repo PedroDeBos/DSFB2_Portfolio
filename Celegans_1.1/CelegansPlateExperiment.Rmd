@@ -1,0 +1,25 @@
+---
+title: "L1 C.elegans plate experiment"
+author: "Pedro de Bos"
+date: '2022-04-19'
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+#Basic functions
+library(tidyverse)
+#Library to create dose-response curves
+library(drc)
+#Library to read excel documents
+library(readxl)
+library(here)
+```
+
+In this RMD, a excel data sheet supplied by J. louter (INT/ILC), derrived from a experiment in which adult C.elegans were exposed to varying concentrations of different compounds. In this RMD, a dose-response curve shall be created.
+
+First off, the data stored in an excel file shall be read
+````{r reading_excelData}
+excel_location<-here("CE.LIQ.FLOW.062_Tidydata.xlsx")
+read_excel(excel_location, sheet = 1)
+````
