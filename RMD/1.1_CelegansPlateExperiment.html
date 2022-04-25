@@ -376,13 +376,19 @@ varying concentrations of different compounds. In this RMD, a
 dose-response curve shall be created.</p>
 <p>First off, the data stored in an excel file shall be read</p>
 <pre class="r"><code>excel_location&lt;-here(&quot;data.raw/CE.LIQ.FLOW.062_Tidydata.xlsx&quot;)
-Celegans_data&lt;-read_excel(excel_location, sheet = 1)</code></pre>
+Celegans_data_raw&lt;-read_excel(excel_location, sheet = 1)</code></pre>
 <p>After reading in the data, it’s transformed in order to be able to
-create proper figures from it</p>
+create proper figures from it. For this, the important data columns.
+expType: The type of experiment (Experimental, control)</p>
+<p>RawData: Ammount of ofspring Celegans gave after 68 hours of exposure
+to the treatment</p>
+<p>compName: The compound to which the Celegans was exposed to.</p>
+<p>compConcentration: The concentration of the compound which the
+Celegans was exposed to.</p>
 <pre class="r"><code>#Dataset inspection and transformation
 
 #Selecting data for this goal
-Celegans_data_select&lt;-Celegans_data %&gt;% dplyr::select(RawData, compName, compConcentration)
+Celegans_data_select&lt;-Celegans_data_raw %&gt;% dplyr::select(expType, compName, RawData, compConcentration)
 
 #Datapoint 259 has a comma instead of a point. Transforming value via str_replace
 Celegans_data_select$compConcentration&lt;-Celegans_data_select$compConcentration %&gt;% str_replace(&quot;,&quot;, &quot;.&quot;)
@@ -390,26 +396,34 @@ Celegans_data_select$compConcentration&lt;-Celegans_data_select$compConcentratio
 #Now properly transforming the compConcentration data into numeric
 Celegans_data_select$compConcentration&lt;-Celegans_data_select$compConcentration %&gt;% as.numeric()
 
-#Transforming compName into a factor variable
-levels_Celegans&lt;-unique(Celegans_data_select$compName) #Storing all levels
-Celegans_data_select$compName&lt;-factor(Celegans_data_select$compName, levels = levels_Celegans) #Transforming compName into factor
+#Transforming expType and compName into a factor variable
+
+levels_exptype&lt;-unique(Celegans_data_select$expType) #storing all exptype levels
+Celegans_data_select$expType&lt;-factor(Celegans_data_select$expType, levels = levels_exptype) #Transforming exptype
+levels_compname&lt;-unique(Celegans_data_select$compName) #Storing all compName levels
+Celegans_data_select$compName&lt;-factor(Celegans_data_select$compName, levels = levels_compname) #Transforming compName into factor
+
+#Re-loading the
+Celegans_data&lt;-Celegans_data_select
 
 #Checking if transformation went properly
-Celegans_data_select</code></pre>
-<pre><code>## # A tibble: 360 x 3
-##    RawData compName                   compConcentration
-##      &lt;dbl&gt; &lt;fct&gt;                                  &lt;dbl&gt;
-##  1      44 2,6-diisopropylnaphthalene              4.99
-##  2      37 2,6-diisopropylnaphthalene              4.99
-##  3      45 2,6-diisopropylnaphthalene              4.99
-##  4      47 2,6-diisopropylnaphthalene              4.99
-##  5      41 2,6-diisopropylnaphthalene              4.99
-##  6      35 2,6-diisopropylnaphthalene              4.99
-##  7      41 2,6-diisopropylnaphthalene              4.99
-##  8      36 2,6-diisopropylnaphthalene              4.99
-##  9      40 2,6-diisopropylnaphthalene              4.99
-## 10      38 2,6-diisopropylnaphthalene              4.99
+Celegans_data</code></pre>
+<pre><code>## # A tibble: 360 x 4
+##    expType    compName                   RawData compConcentration
+##    &lt;fct&gt;      &lt;fct&gt;                        &lt;dbl&gt;             &lt;dbl&gt;
+##  1 experiment 2,6-diisopropylnaphthalene      44              4.99
+##  2 experiment 2,6-diisopropylnaphthalene      37              4.99
+##  3 experiment 2,6-diisopropylnaphthalene      45              4.99
+##  4 experiment 2,6-diisopropylnaphthalene      47              4.99
+##  5 experiment 2,6-diisopropylnaphthalene      41              4.99
+##  6 experiment 2,6-diisopropylnaphthalene      35              4.99
+##  7 experiment 2,6-diisopropylnaphthalene      41              4.99
+##  8 experiment 2,6-diisopropylnaphthalene      36              4.99
+##  9 experiment 2,6-diisopropylnaphthalene      40              4.99
+## 10 experiment 2,6-diisopropylnaphthalene      38              4.99
 ## # ... with 350 more rows</code></pre>
+<p>After tidying the data from the excel file, exploritary graphs have
+been created to study the data</p>
 
 
 
