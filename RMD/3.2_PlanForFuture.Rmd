@@ -1,0 +1,12 @@
+---
+title: "PlanForFuture_3.2"
+author: "Pedro de Bos"
+date: '2022-04-25'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In this RMD file, my plans for the future skill I want to learn will be layed out.
