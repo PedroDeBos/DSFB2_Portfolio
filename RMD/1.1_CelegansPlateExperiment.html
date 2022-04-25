@@ -375,28 +375,41 @@ derrived from a experiment in which adult C.elegans were exposed to
 varying concentrations of different compounds. In this RMD, a
 dose-response curve shall be created.</p>
 <p>First off, the data stored in an excel file shall be read</p>
-<pre class="r"><code>excel_location&lt;-here(&quot;CE.LIQ.FLOW.062_Tidydata.xlsx&quot;)
-read_excel(excel_location, sheet = 1)</code></pre>
-<pre><code>## # A tibble: 360 x 34
-##    plateRow plateColumn vialNr dropCode expType    expReplicate expName        
-##    &lt;lgl&gt;    &lt;lgl&gt;        &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;             &lt;dbl&gt; &lt;chr&gt;          
-##  1 NA       NA               1 a        experiment            3 CE.LIQ.FLOW.062
-##  2 NA       NA               1 b        experiment            3 CE.LIQ.FLOW.062
-##  3 NA       NA               1 c        experiment            3 CE.LIQ.FLOW.062
-##  4 NA       NA               1 d        experiment            3 CE.LIQ.FLOW.062
-##  5 NA       NA               1 e        experiment            3 CE.LIQ.FLOW.062
-##  6 NA       NA               2 a        experiment            3 CE.LIQ.FLOW.062
-##  7 NA       NA               2 b        experiment            3 CE.LIQ.FLOW.062
-##  8 NA       NA               2 c        experiment            3 CE.LIQ.FLOW.062
-##  9 NA       NA               2 d        experiment            3 CE.LIQ.FLOW.062
-## 10 NA       NA               2 e        experiment            3 CE.LIQ.FLOW.062
-## # ... with 350 more rows, and 27 more variables: expDate &lt;dttm&gt;,
-## #   expResearcher &lt;chr&gt;, expTime &lt;dbl&gt;, expUnit &lt;chr&gt;, expVolumeCounted &lt;dbl&gt;,
-## #   RawData &lt;dbl&gt;, compCASRN &lt;chr&gt;, compName &lt;chr&gt;, compConcentration &lt;chr&gt;,
-## #   compUnit &lt;chr&gt;, compDelivery &lt;chr&gt;, compVehicle &lt;chr&gt;, elegansStrain &lt;chr&gt;,
-## #   elegansInput &lt;dbl&gt;, bacterialStrain &lt;chr&gt;, bacterialTreatment &lt;chr&gt;,
-## #   bacterialOD600 &lt;dbl&gt;, bacterialConcX &lt;dbl&gt;, bacterialVolume &lt;dbl&gt;,
-## #   bacterialVolUnit &lt;chr&gt;, incubationVial &lt;chr&gt;, incubationVolume &lt;dbl&gt;, ...</code></pre>
+<pre class="r"><code>excel_location&lt;-here(&quot;data.raw/CE.LIQ.FLOW.062_Tidydata.xlsx&quot;)
+Celegans_data&lt;-read_excel(excel_location, sheet = 1)</code></pre>
+<p>After reading in the data, it’s transformed in order to be able to
+create proper figures from it</p>
+<pre class="r"><code>#Dataset inspection and transformation
+
+#Selecting data for this goal
+Celegans_data_select&lt;-Celegans_data %&gt;% dplyr::select(RawData, compName, compConcentration)
+
+#Datapoint 259 has a comma instead of a point. Transforming value via str_replace
+Celegans_data_select$compConcentration&lt;-Celegans_data_select$compConcentration %&gt;% str_replace(&quot;,&quot;, &quot;.&quot;)
+
+#Now properly transforming the compConcentration data into numeric
+Celegans_data_select$compConcentration&lt;-Celegans_data_select$compConcentration %&gt;% as.numeric()
+
+#Transforming compName into a factor variable
+levels_Celegans&lt;-unique(Celegans_data_select$compName) #Storing all levels
+Celegans_data_select$compName&lt;-factor(Celegans_data_select$compName, levels = levels_Celegans) #Transforming compName into factor
+
+#Checking if transformation went properly
+Celegans_data_select</code></pre>
+<pre><code>## # A tibble: 360 x 3
+##    RawData compName                   compConcentration
+##      &lt;dbl&gt; &lt;fct&gt;                                  &lt;dbl&gt;
+##  1      44 2,6-diisopropylnaphthalene              4.99
+##  2      37 2,6-diisopropylnaphthalene              4.99
+##  3      45 2,6-diisopropylnaphthalene              4.99
+##  4      47 2,6-diisopropylnaphthalene              4.99
+##  5      41 2,6-diisopropylnaphthalene              4.99
+##  6      35 2,6-diisopropylnaphthalene              4.99
+##  7      41 2,6-diisopropylnaphthalene              4.99
+##  8      36 2,6-diisopropylnaphthalene              4.99
+##  9      40 2,6-diisopropylnaphthalene              4.99
+## 10      38 2,6-diisopropylnaphthalene              4.99
+## # ... with 350 more rows</code></pre>
 
 
 

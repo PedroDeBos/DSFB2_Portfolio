@@ -21,7 +21,8 @@ Celegans_data %>% view()
 #Elegans after exposure. 
 
 #Selecting data for this goal
-Celegans_data_select<-Celegans_data %>% select(RawData, compName, compConcentration)
+select
+Celegans_data_select<-Celegans_data %>% dplyr::select(RawData, compName, compConcentration)
 
 #Comp concentration is stored as a character, transforming into a numeric variable
 Celegans_data_select$compConcentration %>% as.numeric()

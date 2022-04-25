@@ -21,5 +21,28 @@ In this RMD, a excel data sheet supplied by J. louter (INT/ILC), derrived from a
 First off, the data stored in an excel file shall be read
 ````{r reading_excelData}
 excel_location<-here("data.raw/CE.LIQ.FLOW.062_Tidydata.xlsx")
-read_excel(excel_location, sheet = 1)
+Celegans_data<-read_excel(excel_location, sheet = 1)
 ````
+After reading in the data, it's transformed in order to be able to create proper figures from it
+
+````{r tidying_Excel}
+#Dataset inspection and transformation
+
+#Selecting data for this goal
+Celegans_data_select<-Celegans_data %>% dplyr::select(RawData, compName, compConcentration)
+
+#Datapoint 259 has a comma instead of a point. Transforming value via str_replace
+Celegans_data_select$compConcentration<-Celegans_data_select$compConcentration %>% str_replace(",", ".")
+
+#Now properly transforming the compConcentration data into numeric
+Celegans_data_select$compConcentration<-Celegans_data_select$compConcentration %>% as.numeric()
+
+#Transforming compName into a factor variable
+levels_Celegans<-unique(Celegans_data_select$compName) #Storing all levels
+Celegans_data_select$compName<-factor(Celegans_data_select$compName, levels = levels_Celegans) #Transforming compName into factor
+
+#Checking if transformation went properly
+Celegans_data_select
+````
+
+
