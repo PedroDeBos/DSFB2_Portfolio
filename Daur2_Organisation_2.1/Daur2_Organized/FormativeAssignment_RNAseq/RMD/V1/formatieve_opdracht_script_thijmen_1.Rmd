@@ -1,0 +1,242 @@
+---
+title: "Formatieve opdracht script rna sequencing"
+author: "Thijmen van Brenk, Pedro de Bos"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(Rsubread)
+library(DESeq2)
+library(pheatmap)
+```
+
+# onderdeel les 1
+
+in deze Rmarkdown wordt er gekeken of er een verschil is in genexpressie tussen induced pluripotent stem cells(IPSC) en fibroblasten (hieruit zijn IPSC gemaakt)
+om dit te onderzoeken is er een RNA-sequencing experiment uitgevoerd met 2 fibroblast cell lines. uit deze 2 lijnen zijn ook 2 IPSC lijnen gemaakt.
+dit experiment is in duplo uitgevoerd.
+
+
+__Downloaden fastq bestanden mbv fastq-dump in bash__
+```{bash downloaden FastQ bestanden}
+
+for id in $(cat /home/1760065/daur2/formatieve_opdracht_rna-seq/bestanden/SSR_IPSC.txt)
+do  
+  echo fastq-dump --split-3 --outdir 'bestanden/fastq' --gzip $id
+  echo $id is gedownload
+done
+
+```
+
+__Per base sequence quality:__ voor alle bestanden zit de gemiddelde kwualiteit boven een score van 28.        
+__Per sequence quality scores:__ voor alle bestanden zit het overgrote aantal baseparen boven een scorde van 28.        
+De FastQ bestanden zijn goed genoeg om gebruikt te worden.
+
+__allignen van het RNA tegenover het humane genoom__
+```{r allignen}
+
+## maak eerst de directories aan voor de bestand locaties zodat deze gebruikt kunnen worden voor het allignen
+
+hg38_index <- "/home/daur2/rnaseq/hg38_index/"
+fastq_dir <- "bestanden/fastq/"
+samples <- list.files(fastq_dir, pattern = "_[12].fastq.gz") %>%
+  str_remove(pattern = "_[12].fastq.gz") %>%
+  unique()
+bam_dir <- "bestanden/bam/"
+
+## nu kan de allignment uitgevoerd worden
+
+# alignment_statistics <- align(
+#  index = hg38_index,
+#  readfile1 = paste0(fastq_dir, samples, "_1.fastq.gz"),
+#  readfile2 = paste0(fastq_dir, samples, "_2.fastq.gz"),
+#  type = "rna", input_format = "gzFASTQ", output_format = "BAM",
+#  output_file = paste0(bam_dir, samples, ".bam"),
+#  unique = T,
+#  nthreads = 10
+# )
+
+alignment_statistics <- readRDS("/home/1760065/daur2/formatieve_opdracht_rna-seq/bestanden/bam/alignment_statistics.rds")
+
+## voeg het percentage gemapped en niet gemapped toe aan de tibble
+alignment_statistics_tidy <- alignment_statistics %>%
+  t() %>%
+  as_tibble() %>%
+  mutate(bamfiles = colnames(alignment_statistics)) %>%
+  mutate(perc_mapped = Mapped_fragments * 100 / Total_fragments) %>%
+  mutate(perc_unmapped = 100 - perc_mapped)
+
+## maak van de percentages 1 kolom voor het makkelijk maken van een grafiek
+alignment_statistics_summary <- alignment_statistics_tidy %>%
+  pivot_longer(cols = c("perc_mapped", "perc_unmapped"),
+               names_to = "type_of_percentage", values_to = "percentages")
+
+## maak een grouped bar chart
+alignment_statistics_summary %>% 
+  ggplot(aes(x = bamfiles, y = percentages, fill = type_of_percentage)) +
+  geom_col() +
+  labs(title = "Percentage of the amount of mapped fragments",
+       x = "Sample",
+       y = "Percentage of mapped fragments",
+       fill = " ") +
+  scale_fill_discrete(labels = c("Mapped", "Unmapped")) +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 90)) 
+  
+
+```
+
+kijkend naar de grafiek zie je dat er 2 isolaten slecht uniek gemapped zijn met meer dan 25% niet uniek gemapped.       
+de andere isolaten zien er goed uit met ongeveer 90% uniek gemappede fragmenten
+
+# onderdeel les 2
+
+
+```{r quality control 1: check assigned reads}
+
+## maak eerst de directories aan om de bestanden te vinden en op te slaan
+
+counts_dir <- "bestanden/counts"
+bam_files <- list.files(bam_dir, pattern = ".\\.bam$", full.names = T)
+
+## nu kunnen we een count table maken
+
+# read_counts <- featureCounts(
+#  
+#  files = bam_files,
+#  annot.inbuilt = "hg38",
+#  useMetaFeatures = TRUE,
+#  strandSpecific = 0,
+#  isPairedEnd = TRUE, 
+#  countReadPairs = TRUE, 
+#  nthreads = 10
+# )
+
+## om een staafdiagram te maken maken we eerst een geschikte dataframe
+read_counts <- readRDS("/home/1760065/daur2/formatieve_opdracht_rna-seq/bestanden/counts/read_counts.rds")
+count_stats <- read_counts$stat
+
+# maak eerst de rows netjes
+rownames(count_stats) <- count_stats$Status
+count_stats$Status <- NULL
+
+# voeg de extra gegevens toe
+count_stats_tidy <- count_stats %>%
+  t() %>%
+  as_tibble() %>%
+  mutate(total = colSums(count_stats)) %>%
+  mutate(perc_assigned = Assigned * 100 / total) %>%
+  mutate(bamfile = colnames(count_stats))
+
+# maak nu de grafiek
+
+count_stats_tidy %>% 
+  ggplot(aes(x = bamfile, y = perc_assigned, fill = bamfile)) +
+  geom_col() +
+  theme_classic() +
+  theme(axis.text.x = element_text(angle = 90), legend.position = "hide") +
+  labs(title = "Hoeveelheid gekoppelde fragmenten aan menselijke genen",
+       x = "Sample",
+       y = "Percentage gekoppelde fragmenten") 
+  
+```
+
+Ongeveer 50% van de fragmenten kunnen gekoppeld worden aan genen in het menselijk genoom.    
+De rest komt van andere delen van het genoom.
+
+```{r quality control 2: maken van DESeq2}
+
+# maak de count matrix en de metadata
+count_matrix <- read_counts$counts
+
+metadata <- read_csv("/home/1760065/daur2/formatieve_opdracht_rna-seq/bestanden/ipsc_sampledata.csv")
+metadata <- as.data.frame(metadata)
+rownames(metadata) <- paste0(metadata$Run, ".bam")
+
+# controle of matrix en metadata gelijk zijn
+colnames(count_matrix) == rownames(metadata)
+
+
+# het verschil tussen de cell_types moet onderzocht worden dus gebruiken we deze kolom
+# deze moet eerst tot factor gemaakt worden
+metadata <- metadata %>% mutate(Cell_type = str_replace(Cell_type, "Skin derived fibroblast", "Skin_derived_fibroblast"))
+metadata$Cell_type <- as.factor(metadata$Cell_type)
+
+# nu moet de data zo neer gezet worden zodat de fibroblasten lijn voor de IPSC cells van dezelfde lijn komt te staan
+metadata <- metadata[c(1,5,2,6,3,7,4,8), ]
+
+
+# ook de count_matrix moet aangepast worden op volgorde
+count_matrix <- count_matrix[, c(1,5,2,6,3,7,4,8)]
+
+# check nu weer of ze gelijk zijn
+colnames(count_matrix) == rownames(metadata)
+
+
+# dan kunnen we nu de DESeqDataSet maken
+
+dds <- DESeqDataSetFromMatrix(
+  countData = count_matrix,
+  colData = metadata,
+  design = ~ Cell_type
+)
+
+# nu we de DESeq data hebben kunnen we hier een PC analyze op runnen 
+
+## eerst normalizeren zodat de verschillen zichtbaarder zijn
+dds_normalized <- rlog(dds)
+
+## nu de pca analyze uitvoeren
+pca <- dds_normalized %>% assay() %>% t() %>% prcomp()
+
+## nu hebben we de variabelen dus laten we kijken naar de hoeveelheid variatie tussen de variabelen
+pca_summary <- summary(pca)$importance
+pca_summary
+
+# PC1 en PC2 hebben samen al 90% van de variatie
+# hier kunnen we plot van maken
+
+pca_plotting <- cbind(metadata, pca$x)
+
+PC1_var <- round(pca_summary["Proportion of Variance", "PC1"]*100, digits = 1)
+PC2_var <- round(pca_summary["Proportion of Variance", "PC2"]*100, digits = 1)
+
+ggplot(pca_plotting) +
+  geom_point(aes(x = PC1, y= PC2, color = Cell_type, shape = Cell_line), size = 5) +
+  theme_classic() +
+  labs(title = "PCA for iPSC study",
+       x = paste0("PC1 (", PC1_var, "%)"),
+       y = paste0("PC2 (", PC2_var, "%)"),
+       color = "Cell type",
+       shape = "Cell line") +
+  scale_color_manual(labels = c("Induced Pluripotent Stem Cell", "Skin derived fibroblast"), values = c("blue", "red")) +
+  scale_shape_manual(labels = c("Fibroblast line 1", "Fibroblast line 2",
+                                "iPSC line 1 (derived from Fibroblast line 1)", "iPSC line 2 (derived from Fibroblast line 2)"),
+                     values = c(15,16,17,18))
+  
+  
+
+
+
+```
+
+uit deze grafiek kan geconcludeerd worden dat __80%__ van de variatie zit tussen de iPSC en de fibroblasten
+```{r quality control: heat map}
+
+# haal eerst de matrix uit de DESeq data
+dds_normalized_matrix <- assay(dds_normalized)
+
+# voer nu de correlatie test uit
+iPSC_cor <- cor(dds_normalized_matrix)
+
+# maak nu de heatmap
+
+pheatmap(iPSC_cor, annotation = metadata["Cell_type"])
+
+```
+
+de stamcellen en de fibroblasten liggen ver uit elkaar met variance.
+

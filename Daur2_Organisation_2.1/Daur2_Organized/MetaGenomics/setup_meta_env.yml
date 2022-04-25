@@ -1,0 +1,4 @@
+name: meta
+dependencies:
+- python=3.8
+

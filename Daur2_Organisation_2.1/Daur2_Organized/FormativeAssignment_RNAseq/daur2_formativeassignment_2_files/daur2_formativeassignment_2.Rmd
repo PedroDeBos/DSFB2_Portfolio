@@ -1,0 +1,385 @@
+---
+title: "Daur2: Formative assignment of lesson2"
+author: "Cherin-Juliette"
+date: "5-4-2022"
+output: html_document
+---
+
+
+#### Install packages if not previously installed
+
+```{r eval=FALSE}
+
+if (!require(car)) install.packages("car")
+if (!require(DESeq2)) install.packages("DESeq2")
+if (!require(dplyr)) install.packages("dplyr")
+if (!require(dslabs)) install.packages("dslabs")
+if (!require(ggplot2)) install.packages("ggplot2")
+if (!require(here)) install.packages("here")
+if (!require(mlbench)) install.packages("mlbench")
+if (!require(tidyverse)) install.packages("tidyverse")
+if (!require(schoRsch)) install.packages("schoRsch")
+if (!require(Rsubread)) install.packages("Rsubread")
+if (!require(stringr)) install.packages("stringr")
+```
+
+
+#### Attach packages with library()
+
+```{r include=FALSE}
+
+library(car)
+library(DESeq2)
+library(dplyr)
+library(dslabs)
+library(forcats)
+library(ggplot2)
+library(here) 
+library(mlbench)
+library(schoRsch)
+library(Rsubread)
+library(pheatmap)
+library(stringr)
+library(tidyverse)
+```
+
+
+#### **Write an introduction on the research**
+
+**Abstract:**
+For the previous assignment SRR identifiers associated with cell lines CL1500023 and CL1500024
+were evaluated with the fastqc analysis. In addition, the sequence obtained after the RNA seq were
+aligned with the reference genome hg38. This alignment has produced a number of BAM files which
+contains the alignment of each sample. In these BAM files we may also find the location on the genome where
+every fragment was mapped.
+
+After determining not only the percentage of mapped fragments in a graph but also the location of
+the fragments in relation to the reference genome, we now need to summarize the information.
+The number of mapped fragments/reads can be counted across the hg38 genome with a tool called
+featureCounts(). 
+
+After the alignment we can find a single file per sample, however to increase efficiency a matrix
+will be made. When this is completed a PCA analysis will be conducted which will produce results
+that are called principal components (PC). These PC's will summarize the variables and displays the
+varieties between them. The first PC, PC1, will generated in a manner that concludes the majority 
+of the variation in the data. Therefore, this PC will be used to generate a graph and draw a conclusion
+on the distinction between the gene expression of fibroblasts and iPSC cells.
+
+
+## **2a | Count table of iPSC and fibroblast data**
+
+```{r eval=FALSE, include=TRUE}
+
+# Making an object that stores the input directory of the bam files,
+# obtained after the alignment with hg38 reference.
+
+bam_dir_ipsc <- "/home/daur2/rnaseq/rnaseq_ipsc/bam/"
+```
+
+
+```{r eval=FALSE, include=TRUE}
+
+# Making an object that stores the output directory for count tables.
+
+counts_dir_ipsc <- "/home/daur2/rnaseq/rnaseq_ipsc/counts/"
+```
+
+
+```{r eval=FALSE, include=TRUE}
+
+# Making a vector that contains the names of the bam files
+# obtained after the alignment with hg38 reference.
+
+bam_files_ipsc <- list.files(bam_dir_ipsc, 
+                             pattern = ".*\\.bam$", 
+                             full.names = TRUE)
+```
+
+
+```{r eval=FALSE, include=TRUE}
+
+# Counting the reads per gene using the in-built NCBI RefSeq annotations.
+
+read_counts <- featureCounts(
+  
+  files = bam_files_ipsc,
+  annot.inbuilt = "hg38",
+  useMetaFeatures = TRUE,
+  strandSpecific = 0,
+  isPairedEnd = TRUE, 
+  countReadPairs = TRUE, 
+  nthreads = 10
+)
+```
+
+
+## **2b | Plotting the percentage assigned reads of each sample**
+
+```{r echo=TRUE}
+
+# Reading the stats dataframe into R.
+
+read_counts_ipsc <- readRDS("/home/daur2/rnaseq/rnaseq_ipsc/counts/read_counts.rds")
+
+read_counts_ipsc
+```
+
+
+```{r}
+
+# Inspecting the count table object
+
+str(read_counts_ipsc)
+```
+
+
+```{r echo=TRUE}
+
+# Obtaining the dataframe with the statistics
+
+count_stats_ipsc <- read_counts_ipsc$stat
+
+count_stats_ipsc
+```
+
+
+```{r echo=TRUE}
+
+# Converting first column to rownames
+
+rownames(count_stats_ipsc) <- count_stats_ipsc$Status
+count_stats_ipsc$Status <- NULL
+```
+
+
+```{r echo=TRUE}
+
+# Calculating the percentage of uniquely counting fragments
+
+stats_ipsc_tidy <- count_stats_ipsc %>% 
+  t %>% 
+  as_tibble() %>% 
+  mutate(bamfile=colnames(count_stats_ipsc)) %>%
+  mutate(Total=colSums(count_stats_ipsc)) %>%
+  mutate(perc_assigned = Assigned/Total*100)
+
+stats_ipsc_tidy
+```
+
+
+```{r echo=TRUE}
+
+# Making the plot
+
+stats_ipsc_tidy %>% 
+  ggplot(aes(x = bamfile,
+             y = perc_assigned,
+             fill = bamfile))+
+  geom_col() +
+  ggtitle("Proportion of assigned fragments for each sample") +
+  xlab("RNA-seq samples") +
+  ylab("Percentage of assigned fragments")+
+  theme(axis.text.x = element_text(angle = 90))
+```
+
+
+#### Conclusion on the graph:
+
+When testing expression of genes, the sequence fragments are matched with a reference genome and the fragments is then assigned to a location in the genome. 
+
+In the graph 8 samples from cell lines CL1500023 and CL1500024 are evaluated. Samples SRR786688, SRR786689 and SRR786690 have the highest percentage of reads assigned to a gene In contrast samples SRR786691 and SRR786692 have the lowest percentage of assigned reads to a gene, falling under 40% and 42%, respectively. This may be explained by the remaining fragments originating from other regions of the genome.
+
+
+## **2c | Make a DESeq object from the count table with DESeqDataSetFromMatrix()**
+
+```{r echo=TRUE}
+
+# Making a count matrix
+
+count_matrix_ipsc <- read_counts_ipsc$counts
+
+count_matrix_ipsc
+```
+ 
+
+```{r echo=TRUE}
+
+# To make a DESeq object metadata about the experiment needs to be put into a dataframe.
+
+# Importing the sample data as a dataframe.
+
+metadata_ipsc <- as.data.frame(read_csv("/home/daur2/rnaseq/rnaseq_ipsc/ipsc_sampledata.csv"))
+
+metadata_ipsc
+```
+
+
+```{r echo=TRUE}
+
+# Adding row names to the dataframe.
+
+# Add rownames to the metadata dataframe
+
+rownames(metadata_ipsc) <- paste0(metadata_ipsc$Run, ".bam")
+
+metadata_ipsc
+```
+
+
+```{r echo=TRUE}
+
+# Checking if column names of count table are the same as row names of metadata object.
+
+colnames(count_matrix_ipsc) == rownames(metadata_ipsc)
+```
+
+
+```{r echo=TRUE}
+
+# Creating the DESeqDataSet object
+
+dds <- DESeqDataSetFromMatrix(
+  countData = count_matrix_ipsc,
+  colData = metadata_ipsc, 
+  design = ~ Cell_type
+)
+
+dds
+```
+
+
+```{r echo=TRUE}
+
+# Show count distribution for one sample
+
+quantile(count_matrix_ipsc[,"SRR7866687.bam"])
+quantile(count_matrix_ipsc[,"SRR7866688.bam"])
+
+quantile(count_matrix_ipsc[,"SRR7866689.bam"])
+quantile(count_matrix_ipsc[,"SRR7866690.bam"])
+
+quantile(count_matrix_ipsc[,"SRR7866691.bam"])
+quantile(count_matrix_ipsc[,"SRR7866692.bam"])
+
+quantile(count_matrix_ipsc[,"SRR7866693.bam"])
+quantile(count_matrix_ipsc[,"SRR7866694.bam"])
+```
+
+
+*Conclusion:*
+Considering the sample size that have been subject to analysis during this experiment 
+it may be concluded that nearly half of the genes are limited in expression or even not 
+at all in the fibroblasts and iPSC cells. 
+
+
+```{r echo=TRUE}
+
+# Normalizing RNA-seq count data for quality control
+
+dds_normalized <- rlog(dds)
+
+dds_normalized
+```
+
+
+## **2d | PCA analysis and plot PC1/PC2**
+
+
+#### PCA test
+
+```{r echo=TRUE}
+
+pca_ipsc <- dds_normalized %>% 
+  assay() %>% 
+  t() %>% 
+  prcomp()
+
+glimpse(pca_ipsc)
+```
+
+
+```{r echo=TRUE}
+
+# Find the proportion of variance explained by each PC
+
+pca_ipsc_summary <- summary(pca_ipsc)$importance
+
+pca_ipsc_summary
+```
+
+
+```{r echo=TRUE}
+
+# Creating a data frame with metadata and the PCA values for plotting
+
+pca_ipsc_plotting <- cbind(metadata_ipsc, pca_ipsc$x)
+
+pca_ipsc_plotting
+```
+
+
+```{r echo=TRUE}
+
+# Obtaining the percentages of variation covered by PC1 and PC2
+
+PC1_ipsc_var <- round(pca_ipsc_summary["Proportion of Variance", "PC1"]*100, digits = 1)
+PC2_ipsc_var <- round(pca_ipsc_summary["Proportion of Variance", "PC2"]*100, digits = 1)
+
+PC1_ipsc_var
+PC2_ipsc_var
+```
+
+
+```{r echo=TRUE}
+
+# Plotting PC1 vs PC2 in ggplot2
+
+pca_ipsc_plotting %>% 
+ggplot()+ 
+  geom_point(aes(x=PC1,
+                 y=PC2, 
+                 color = Cell_type, 
+                 shape = Cell_line,
+                 size = 5))+
+  ggtitle("PCA for airway study") +
+  xlab(paste0("PC1 (", PC1_ipsc_var, "%)")) +
+  ylab(paste0("PC2 (", PC2_ipsc_var, "%)")) +
+  theme_bw()
+```
+
+
+*Conclusion:*
+In this instance PC1 captures 82,2% of the variation in the data. The samples here (fibroblasts and iPSC) 
+are distinguishable by their gene expression. The iPSC are pluripotent cells that due to their lack of differentiation
+will have a very different gene expression than adult mitotic cells that have a very fixed goal.
+
+
+## **2e | Make a heatmap that displays the correlation coefficients of the 8 samples**
+
+
+```{r echo=TRUE}
+
+# Extracting the matrix from the normalized DESeq object
+
+dds_normalized_matrix <- assay(dds_normalized)
+```
+
+
+```{r echo=TRUE}
+
+# Computing pairwise correlation values
+
+ipsc_cor <- cor(dds_normalized_matrix)    
+
+ipsc_cor
+```
+
+
+```{r echo=TRUE}
+
+# Plotting the heatmap using the correlation
+#annotate the heatmap based on the cell type
+
+pheatmap(ipsc_cor,
+         annotation = metadata_ipsc["Cell_type"])
+```

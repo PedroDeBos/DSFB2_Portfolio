@@ -1,0 +1,269 @@
+---
+title: "lesson6"
+author: "Pedro de Bos"
+date: "5-4-2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(png)
+library(grid)
+library(gridExtra)
+library(ggplot2)
+library(phyloseq)
+```
+
+__LESSON 1__
+__Updating conda__
+````{bash, engine.opts='-i', echo=TRUE, eval=FALSE}
+# Update conda to the latest version
+echo "y" | conda update -n base conda
+
+````
+__Checking conda enviroments and setup file__
+````{bash, engine.opts='-i', echo=TRUE, eval=TRUE}
+# Show all conda enviroments
+conda env list
+
+# Show the setup file
+cat ~/temp_daur2/lesson6/setup_meta_env.yml
+
+
+````
+__Creating a new virtual enviroment__
+````{bash, engine.opts='-i', echo=TRUE, eval=FALSE}
+# Create conda virtual enviroment
+conda env create --file ~/temp_daur2/lesson6/setup_meta_env.yml
+````
+
+__Bekijken van reads in data (opdracht 2)__
+````{bash}
+#Bekijken van reads
+zcat /home/daur2/metagenomics/reader_data/HU1_MOCK1_L001_R1_001.fastq.gz | head -n 10
+````
+
+__Installing conda packages__
+````{bash, engine.opts='-i', eval=FALSE}
+#Activating meta enviroment
+conda activate meta
+#Installing fastqc
+echo "y" | conda install -c bioconda fastqc
+#Deactivating enviroment
+conda deactivate
+````
+
+__Maken van de directories__
+````{bash, eval=FALSE}
+#Making necessary directories for FASTQC
+mkdir ~/temp_daur2/lesson6/fastqc_waternet
+````
+__Quality control uitvoeren op FASTQ data__
+````{bash, engine.opts='-i', eval=FALSE}
+#Activating meta enviroment
+conda activate meta
+
+#Pervorming the fastq control (ORIGINAL CODE)
+##fastqc -o ~/temp_daur2/lesson6/fastqc_waternet /home/daur2/metagenomics/reader_data/HU1_MOCK1_L001_R1_001.fastq.gz
+##fastqc -o ~/temp_daur2/lesson6/fastqc_waternet /home/daur2/metagenomics/reader_data/HU1_MOCK1_L001_R2_001.fastq.gz
+
+#Pervorming the fastq control (BETTER CODE)
+for fastq in /home/daur2/metagenomics/reader_data/HU1*
+do
+  fastqc -o ~/temp_daur2/lesson6/fastqc_waternet $fastq
+done
+
+#Conda de-activeren
+conda deactivate
+````
+
+__.zip bestanden uitpakken__
+````{bash, engine.opts='-i', eval=FALSE}
+#Conda activeren
+conda activate meta
+
+#Gemaakte .zip packages unpacken
+for fastqc in /home/1762403/temp_daur2/lesson6/fastqc_waternet/*.zip
+do
+unzip -d /home/1762403/temp_daur2/lesson6/fastqc_waternet $fastqc
+done
+
+#Conda deactiveren
+conda deactivate
+````
+
+````{r afbeeldingen opslaan, fig.height=3, out.width='100%', fig.cap="Fig. 1: Quality distribution: Right-side) Foward read quality scores range from 0 to 40 on the Phred scale. All bases for all reads have very high quality (>30), indicating that our reads have an accuracy of >99,9%. Left-side)" }
+
+basequality_img_1<-readPNG("~/temp_daur2/lesson6/fastqc_waternet/HU1_MOCK1_L001_R1_001_fastqc/Images/per_base_quality.png") %>%
+  as.raster() %>% rasterGrob()
+basequality_img_2<-readPNG("~/temp_daur2/lesson6/fastqc_waternet/HU1_MOCK1_L001_R2_001_fastqc/Images/per_base_quality.png") %>%
+  as.raster() %>% rasterGrob()
+grid.arrange(basequality_img_1, basequality_img_2, ncol=2, top=textGrob("Per base quality distribution of forward (right) and reverse (left) reads", gp=gpar(fontsize=10,font=8)))
+
+````
+
+__LESSON 2__
+__Installing Kraken__
+````{bash, engine.opts='-i', eval=FALSE}
+conda activate meta
+
+#Install kraken, use echo "y" to say yes to installation procedures
+echo "y" | conda install -c bioconda Kraken2
+
+conda deactivate
+````
+
+__Using Kraken__
+````{bash, engine.opts='-i', eval=FALSE}
+conda activate meta
+
+#Making directories voor Kraken to use
+mkdir ~/temp_daur2/lesson6/mock1
+
+#Using kraken:
+kraken2 --db /home/daur2/metagenomics/minikraken2_v2_8GB_201904_UPDATE/ --threads 2 --paired --gzip-compressed --output ~/temp_daur2/lesson6/mock1/mock1.kraken --report ~/temp_daur2/lesson6/mock1/mock1.report --use-names /home/daur2/metagenomics/reader_data/HU1_MOCK1_L001_R1_001.fastq.gz /home/daur2/metagenomics/reader_data/HU1_MOCK1_L001_R2_001.fastq.gz
+
+
+conda deactivate
+````
+
+__Installing bracken__
+````{bash, engine.opts='-i', eval=FALSE}
+conda activate meta
+
+#Installing bracken
+echo "y" | conda install -c bioconda bracken
+
+conda deactivate
+````
+
+__Activating bracken__
+````{bash, engine.opts='-i', eval=FALSE}
+conda activate meta
+
+#Activating bracken
+bracken -d /home/daur2/metagenomics/minikraken2_v2_8GB_201904_UPDATE/ -i ~/temp_daur2/lesson6/mock1/mock1.report -o ~/temp_daur2/lesson6/mock1/mock1.bracken
+
+conda deactivate 
+````
+
+__Installing kraken-biom__
+````{bash, engine.opts='-i', eval=FALSE}
+conda activate meta
+
+echo "y" | conda install -c bioconda kraken-biom
+
+conda deactivate
+````
+
+__Using kraken-biom__
+````{bash, engine.opts='-i', eval=FALSE}
+conda activate meta
+
+#Kraken biom uitvoeren om data plot-baar te maken
+kraken-biom ~/temp_daur2/lesson6/mock1/mock1_bracken_species.report --fmt json -o ~/temp_daur2/lesson6/mock1/mock1_bracken_species.biom
+
+conda deactivate
+````
+
+__LESSON 3__
+__Installing phyloseq__
+````{r Installing phyloseq, eval=TRUE}
+#Installeren van phyloseq
+BiocManager::install("phyloseq")
+
+````
+
+__Reading the kraken-biom data__
+````{r Reading data}
+#Data inlezen
+data<-"~/temp_daur2/lesson6/mock1/mock1_bracken_species.biom"
+merged_metagenomes<-import_biom(data)
+#Data inspecteren
+##View(merged_metagenomes@tax_table@.Data)
+#Eerste 3 (onnodige) characters verwijderen
+merged_metagenomes@tax_table@.Data<-substring(merged_metagenomes@tax_table@.Data, 4)
+#kolomn-namen duidelijker maken
+colnames(merged_metagenomes@tax_table@.Data) <- 
+  c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species")
+#Soorteren op dataset van alleen bacteriën
+merged_metagenomes_b<-subset_taxa(merged_metagenomes, Kingdom=="Bacteria")
+sample_names(merged_metagenomes_b) <- "Bacteria"
+
+#Opdracht 8.2: Hoeveelheid andere taxa #####
+merged_metagenomes_a<-subset_taxa(merged_metagenomes, Kingdom=="Archaea") #11 Archaea
+sample_names(merged_metagenomes_a) <- "Archaea"
+merged_metagenomes_v<-subset_taxa(merged_metagenomes, Kingdom=="Viruses") #10 virussen
+sample_names(merged_metagenomes_v) <- "Viruses"
+merged_metagenomes_e<-subset_taxa(merged_metagenomes, Kingdom=="Eukaryota") #1 Eukaryoot
+sample_names(merged_metagenomes_e) <- "Eukaryota"
+#De reads reflecteren  dit doordat het voornamelijk bacteriën zijn: 800+ bacteriën vs 22 niet-bacteriën totaal
+#Daaruit kan je duidelijk zien dat het experiment zich focust op bacteriën
+
+#Deze merged metagenomes omzetten tot logischere data frames
+data_b <- data.frame(Samples = sample_names(merged_metagenomes_b),
+                     Reads = sample_sums(merged_metagenomes_b))
+
+data_e <- data.frame(Samples = sample_names(merged_metagenomes_e),
+                     Reads = sample_sums(merged_metagenomes_e))
+
+data_a <- data.frame(Samples = sample_names(merged_metagenomes_a),
+                     Reads = sample_sums(merged_metagenomes_a))
+
+data_v <- data.frame(Samples = sample_names(merged_metagenomes_v),
+                     Reads = sample_sums(merged_metagenomes_v))
+
+data_t<-rbind(data_b,data_a,data_v,data_e)
+#Maken van een grafiek gebaseerd op de data om goed te zien wat de schaal in groteverschil is
+
+data_t %>% ggplot(aes(x=Samples, y=Reads, fill=Samples))+
+  geom_col()+
+  theme_classic()+
+  theme(axis.text.x=element_text(angle=45, hjust=1))+
+  labs(
+    title="Hoeveelheid reads van taxa in waternet sample",
+  )
+````
+
+_Creating graphs of abundance of bacteria__
+````{r abundance graphs}
+merged_metagenomes<-import_biom(data)
+merged_metagenomes@tax_table@.Data<-substring(merged_metagenomes@tax_table@.Data,4)
+#view(merged_metagenomes@tax_table@.Data)
+colnames(merged_metagenomes@tax_table@.Data)<- c("Kingdom", "Phylum", "Class", "Order", "Family", "Genus", "Species")
+colnames(merged_metagenomes@otu_table) <- c("mock1")
+
+#checken voor lege labels
+summary(merged_metagenomes@tax_table@.Data=="")
+
+#Data klaarzetten voor transformatie tot plot
+glom<-tax_glom(merged_metagenomes, taxrank = "Species")
+mock1_metagenome_species<-psmelt(glom)
+
+#Combining species and genus for plot
+mock1_metagenome_species$Species <- as.character(mock1_metagenome_species$Species)
+mock1_metagenome_species$Species<-paste(mock1_metagenome_species$Genus, mock1_metagenome_species$Species)
+
+#Making the plot
+mock1_metagenome_species %>% ggplot(aes(x=Sample, y=Abundance, fill=Species))+
+  geom_col()
+
+#Selecting for abundant species
+mock1_metagenome_species$Species[mock1_metagenome_species$Abundance < 160000] <- "Species < 160.000 abund."
+#Making the plot again
+mock1_metagenome_species %>% ggplot(aes(x=Sample, y=Abundance, fill=Species))+
+  geom_col(aes(), position="stack")      
+
+#Glomming again, this time for percentage graphs
+glom<-tax_glom(merged_metagenomes, taxrank="Species")
+mock1_metagenome_species_percentage<-psmelt(glom)
+mock1_metagenome_species_percentage$Abundance<-mock1_metagenome_species_percentage$Abundance/sum(mock1_metagenome_species_percentage$Abundance)*100
+#Selecting all species with a abundance higher than 0.5
+mock1_metagenome_species_percentage$Species<-paste(mock1_metagenome_species_percentage$Genus, mock1_metagenome_species_percentage$Species)
+mock1_metagenome_species_percentage$Species[mock1_metagenome_species_percentage$Abundance<0.5] <- "Species < 0.5% abund."
+
+mock1_metagenome_species_percentage %>% ggplot(aes(x=Sample, y=Abundance, fill=Species))+  
+geom_col(aes(), position="stack") 
+
+````

@@ -1,0 +1,144 @@
+---
+title: "Formatieve opdracht2"
+author: "Pedro de Bos"
+date: "6-4-2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+#Package voor het inscannen en presenteren van afbeeldingen
+library(png)
+library(grid)
+library(gridExtra)
+```
+
+__Updating conda__
+````{bash, engine.opts='-i', echo=TRUlibrary(tidyverse)
+library(png)
+library(grid)
+library(gridExtra)E, eval=FALSE}
+# Update conda to the latest version
+echo "y" | conda update -n base conda
+
+````
+
+__Creating a new virtual enviroment__
+````{bash, engine.opts='-i', echo=TRUE, eval=FALSE}
+# Create conda virtual enviroment
+conda env create --file ~/temp_daur2/formatieve_opdracht2/setup_formMeta_env.yml
+````
+
+__Checking conda enviroments and setup file__
+````{bash, engine.opts='-i', echo=TRUE}
+# Show all conda enviroments
+conda env list
+
+# Show the setup file
+cat ~/temp_daur2/formatieve_opdracht2/setup_formMeta_env.yml
+````
+
+__Installing conda packages__
+````{bash, engine.opts='-i', eval=FALSE}
+#Activating meta enviroment
+conda activate formMeta
+#Installing fastqc
+echo "y" | conda install -c bioconda fastqc
+#Deactivating enviroment
+conda deactivate
+````
+
+__Maken van nodige directories__
+````{bash, eval=FALSE}
+#Making directories for fastqc
+mkdir ~/temp_daur2/formatieve_opdracht2/fastqc
+````
+
+__Quality control op fastq bestanden uitvoeren__
+````{bash, engine.opts='-i', eval=FALSE}
+#Activating meta enviroment
+conda activate formMeta
+
+#For do done loop voor uitvoeren van fastqc
+for fastq in /home/daur2/metagenomics/formative_data/HU2*
+do
+  fastqc -o ~/temp_daur2/formatieve_opdracht2/fastqc $fastq
+done
+
+#Deactivate conda
+conda deactivate
+````
+
+__.zip bestanden van fastqc unpacken__
+````{bash, engine.opts='-i', eval=FALSE}
+#Conda activeren
+conda activate formMeta
+
+#Gemaakte .zip packages unpacken
+for fastqc in /home/1762403/temp_daur2/formatieve_opdracht2/fastqc/*.zip
+do
+unzip -d /home/1762403/temp_daur2/formatieve_opdracht2/fastqc $fastqc
+done
+
+#Conda deactiveren
+conda deactivate
+````
+
+__Afbeeldingen uit unzipde mappen halen__
+````{r afbeeldingen opslaan, fig.height=3, out.width='100%', fig.cap="Forward read quality score ranges from 0 to 40 on the phred scale. Reverse(left) reads have very high quality (>30), indicating a very high accuracy. Forward(right) reads bevatten lagere kwaliteitscores in hogere posities, echter de kwaliteit is hoog genoeg (>20) om te behouden." }
+
+basequality_img_1<-readPNG("~/temp_daur2/formatieve_opdracht2/fastqc/HU2_MOCK2_L001_R1_001_fastqc/Images/per_base_quality.png") %>%
+  as.raster() %>% rasterGrob()
+basequality_img_2<-readPNG("~/temp_daur2/formatieve_opdracht2/fastqc/HU2_MOCK2_L001_R2_001_fastqc/Images/per_base_quality.png") %>%
+  as.raster() %>% rasterGrob()
+grid.arrange(basequality_img_1, basequality_img_2, ncol=2, top=textGrob("Per base quality distribution of forward (right) and reverse (left) reads", gp=gpar(fontsize=10,font=8)))
+
+````
+
+_Installeren van nodige programma's voor Kraken-analyse__
+````{bash, engine.opts='-i', eval=FALSE}
+#Activeren van conda enviroment
+conda activate formMeta
+
+#Installeren van alle nodige programmas: Kraken voor initiele analyse, braken voor de secundaire analysen, kraken-biom om de data bewerkbaar maken
+echo "y" | conda install -c bioconda Kraken2
+echo "y" | conda install -c bioconda bracken
+echo "y" | conda install -c bioconda kraken-biom
+
+#De-activeren conda enviroment
+conda deactivate
+````
+
+__Kraken analyse uitvoeren__
+````{bash, engine.opts='-i', eval=FALSE}
+conda activate formMeta
+
+#Maken van directory voor kraken2 analyse
+mkdir ~/temp_daur2/formatieve_opdracht2/mock2
+
+#Kraken2 analyse: koppeld de fastq data terug tot de hoeveelheid organismen van elke soort in het monster
+kraken2 --db /home/daur2/metagenomics/minikraken2_v2_8GB_201904_UPDATE/ --threads 2 --paired --gzip-compressed --output ~/temp_daur2/formatieve_opdracht2/mock2/mock2.kraken --report ~/temp_daur2/formatieve_opdracht2/mock2/mock2.report --use-names /home/daur2/metagenomics/formative_data/HU2_MOCK2_L001_R1_001.fastq.gz /home/daur2/metagenomics/formative_data/HU2_MOCK2_L001_R2_001.fastq.gz
+
+conda deactivate
+````
+
+__Braken analyse uitvoeren__
+````{bash, engine.opts='-i', eval=FALSE}
+conda activate formMeta
+
+bracken -d /home/daur2/metagenomics/minikraken2_v2_8GB_201904_UPDATE/ -i ~/temp_daur2/formatieve_opdracht2/mock2/mock2.report -o ~/temp_daur2/lesson6/mock1/mock1.bracken
+
+conda deactivate
+````
+
+__Kraken biom uitvoeren__
+````{bash, engine.opts='-i', eval=FALSE}
+conda activate formMeta
+
+kraken-biom ~/temp_daur2/formatieve_opdracht2/mock2/mock2_bracken_species.report --fmt json -o ~/temp_daur2/formatieve_opdracht2/mock2/mock2_bracken_species.biom
+
+conda deactivate
+````
+
+__

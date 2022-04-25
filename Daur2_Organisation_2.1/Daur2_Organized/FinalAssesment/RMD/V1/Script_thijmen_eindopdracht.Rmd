@@ -1,0 +1,277 @@
+---
+title: "Verschil in genexpressie tussen het gebruik van BCLXL en ONECUT2 transcriptiefactoren"
+author: "Pedro de Bos, Thijmen van Brenk"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(here)
+library(Rsubread)
+library(DESeq2)
+library(pheatmap)
+library(org.Hs.eg.db)
+library(GO.db)
+library(GOstats)
+library(png)
+library(grid)
+library(gridExtra)
+```
+
+# inleiding
+
+om te onderzoeken of fibroblasten omgezet worden naar hersencellen na overstimulatie van ONECUT2 worden fibroblasten uit een proefpersoon gehaald waarvan een gedeelte wordt behandeld met ONECUT2 en een ander gedeelte met een controle transcriptiefactor BCLXL. vanuit deze cellen word het RNA geisoleerd en gesequenced om het verschil in genexpressie te meten na de behandeling. met deze data zal een PCA analyse uitgevoerd worden die zal weergeven welke genen upgereguleert en downgereguleert worden. met deze resultaten kan gekeken worden of ONECUT2 genen activeert die te maken hebben hersencellen
+
+# bekijken fastqc files
+
+```{r check per base quality, echo=FALSE, fig.height=3, out.width= '100%', fig.cap="Figuur 1: Gemiddelde kwaliteitscores van de basen in de reads in de range van 0 - 36. er is te zien dat er veel uitschieters zijn en dat de eerste 5 basen een lagere kwaliteit hebben. het gemiddelde zit overal net boven de 30 dus de kwaliteit is goed genoeg om gebruikt te worden."}
+
+img1 <- rasterGrob(as.raster(readPNG(here("eindopdracht/bestanden/pictures/SSR7866700_2_perbase.png"))))
+img2 <- rasterGrob(as.raster(readPNG(here("eindopdracht/bestanden/pictures/SSR7866704_2_perbase.png"))))
+
+grid.arrange(img1, img2, ncol = 2, top=textGrob("Per base kwaliteit distributie van behandeld met BCLXL (links) of ONECUT2 (rechts)"))
+```
+
+```{r check per read quality, echo=FALSE, fig.height=3, out.width= '100%', fig.cap="Figuur 2: Gemiddelde kwaliteitscores per read in de range van 0 - 36. er is te zien dat het overgrote deel van de reads boven een score van 28 zit, de data is dus goed genoeg om gebruikt te worden"}
+
+img3 <- rasterGrob(as.raster(readPNG(here("eindopdracht/bestanden/pictures/SSR7866700_2_persequence.png"))))
+img4 <- rasterGrob(as.raster(readPNG(here("eindopdracht/bestanden/pictures/SSR7866704_2_persequence.png"))))
+
+grid.arrange(img3, img4, ncol = 2, top=textGrob("Per sequence kwaliteits scores van behandeld met BCLXL (links) of ONECUT2 (rechts)"))
+
+```
+
+# analyse data
+
+## maken count table
+
+```{r count table generation, eval=FALSE}
+
+bam_dir <- "/home/daur2/rnaseq/rnaseq_onecut/bam/"
+
+bam_files <- list.files(bam_dir, pattern = "SRR7866(699|70(0|3|4))\\.bam$", full.names = T)
+
+read_counts <- featureCounts(
+  
+  files = bam_files,
+  annot.inbuilt = "hg38", # komt van menselijk genoom
+  useMetaFeatures = T, # we willen het op gen niveau weten en niet per transcript vanwege alternative splicing
+  strandSpecific = 1, # we hebben een stranded protocol
+  isPairedEnd = T, # we gebruiken een gepaard protocol
+  countReadPairs = T, # we willen alleen de read pairs hebben en niet de losse reads
+  nthreads = 10 # hoeveel threads we gebruiken voor snelheid
+)
+
+```
+
+## maken DESeq2 object
+```{r maken DESeq2 object}
+
+read_counts <- readRDS("/home/daur2/rnaseq/rnaseq_onecut/counts/read_counts_OC2.rds")
+count_matrix <- read_counts$counts
+
+metadata <- read_csv("/home/daur2/rnaseq/rnaseq_onecut/onecut_sampledata_OC2.csv")
+metadata <- as.data.frame(metadata)
+rownames(metadata) <- paste0(metadata$Run, ".bam")
+colnames(count_matrix) == rownames(metadata)
+
+metadata <- metadata %>% mutate(Cell_type = str_replace(Cell_type, "Skin derived fibroblast overexpressing Bclxl", "BCLXL"))
+metadata <- metadata %>% mutate(Cell_type = str_replace(Cell_type, "2 days after induction of OC2 in skin derived fibroblasts", "ONECUT2"))
+metadata$Cell_type <- as.factor(metadata$Cell_type)
+
+dds <- DESeqDataSetFromMatrix(
+  
+  countData = count_matrix,
+  colData = metadata,
+  design = ~ Cell_type
+)
+
+dds_normalized <- rlog(dds)
+
+```
+
+## PCA analyse
+```{r PCA analyse}
+
+pca <- dds_normalized %>% assay() %>% t() %>% prcomp()
+pca_summary <- summary(pca)$importance
+
+pca_tidy <- pca_summary %>% t() %>% as.data.frame() %>% rownames_to_column()
+colnames(pca_tidy) <- c("PCA", "sd", "proportion_of_variance", "cum_proportion")
+
+pca_tidy %>%
+  ggplot(aes(x = PCA, y = proportion_of_variance * 100, fill = PCA)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Percentage variatie per principal component",
+       x = "PCA nummer",
+       y = "Hoeveelheid variatie in %") +
+  theme_classic() +
+  theme(legend.position = "none")
+
+
+pca_plotting <- cbind(metadata, pca$x)
+
+pc1_var <- round(pca_summary["Proportion of Variance", "PC1"]*100, digits = 1)
+pc2_var <- round(pca_summary["Proportion of Variance", "PC2"]*100, digits = 1)
+
+pca_plotting %>%
+  ggplot(aes(x = PC1, y = PC2)) +
+  geom_point(aes(colour = Cell_type), size = 3) +
+  labs(title = "PCA voor cellen met ONECUT2 en BCLXL",
+       x = paste0("PC1 (", pc1_var, "%)"),
+       y = paste0("PC2 (", pc2_var, "%)"),
+       color = "Behandeling met",) +
+  theme_classic()
+
+
+
+```
+
+## DGE analyse
+```{r DGE analyse}
+
+dge_results <- DESeq(dds) %>% results(alpha = 0.05, lfcThreshold = 1, contrast = c("Cell_type", "ONECUT2", "BCLXL"))
+summary(dge_results)
+
+
+dge_plotting <- data.frame(dge_results) %>% filter(!is.na(padj))
+dge_plotting <- dge_plotting %>%
+  mutate(signif = if_else(padj > 0.01, "Not_significant",
+                          if_else(log2FoldChange > 1, "LFC_greater",
+                                  if_else(log2FoldChange < -1, "LFC_smaller", "Not_significant"))))
+dge_plotting$signif <- as.factor(dge_plotting$signif)
+
+dge_downregulated <- dge_plotting %>% filter(signif == "LFC_smaller") %>% nrow
+dge_upregulated <- dge_plotting %>% filter(signif == "LFC_greater") %>% nrow
+
+dge_plotting %>%
+  ggplot(aes(x = log2FoldChange, y = -log10(padj), color = signif)) +
+  geom_point(size = .7) +
+  labs(title = "Vulcano plot van de upgereguleerde en downgereguleerde genen",
+       x = "log2 fold change",
+       y = "-log10 adjusted p-value",
+       caption = paste("er zijn", dge_downregulated, "downgereguleerde genen\n",
+                       "er zijn", dge_upregulated, "upgereguleerde genen   ")) +
+  geom_vline(xintercept = 1, linetype = "dotted") +
+  geom_vline(xintercept = -1, linetype = "dotted") +
+  geom_hline(yintercept = 0.01, linetype = "dotted") +
+  scale_colour_manual(values = c("darkorange", "darkorange", "grey")) +
+  theme(legend.position = "none")
+
+top_5_highest <- dge_results[order(dge_results$log2FoldChange, decreasing = T)[1:5],] %>% data.frame()
+top_5_lowest <- dge_results[order(dge_results$log2FoldChange)[1:5],] %>% data.frame()
+top_10_highest_lowest <- rbind(top_5_highest, top_5_lowest)
+top_10_highest_lowest <- top_10_highest_lowest %>%
+  mutate(entrezid = rownames(top_10_highest_lowest))
+top_10_highest_lowest$symbol <- mapIds(org.Hs.eg.db,
+                             keys = top_10_highest_lowest$entrezid,
+                             column = "SYMBOL",
+                             keytype = "ENTREZID",
+                             multiVals = "first")
+
+top5_highest <- rownames(dge_results[order(dge_results$log2FoldChange, decreasing = T)[1:5],])
+top5_lowest <- rownames(dge_results[order(dge_results$log2FoldChange)[1:5],])
+top10_highest_lowest <- rbind(top5_highest, top5_lowest)
+count_values <- assay(dds)[top10_highest_lowest,]
+colnames(count_values) <- colData(dds)$Cell_type
+
+pheatmap(count_values, show_rownames = T, scale = "row", labels_row = top_10_highest_lowest$symbol)
+```
+## GO term analyse
+```{r go term analysis}
+
+GOid_to_symbol <- function(GOid) {
+  
+  select(org.Hs.eg.db,
+       keys = GOid,
+       keytype = "GO",
+       column = "SYMBOL")$SYMBOL
+}
+
+GOid_to_symbol("GO:0036003")
+
+# even de functie uit de formatieve opdracht stelen
+GO_term_analysis <- function(DESeq_results, upregulated = T, LFC = 1, P_value = 0.01) {
+  
+  # stap 1: maak een lijst van de genen
+  # stap 1a: maak een if else statement voor upregulated of downregulated
+  
+  genes <- DESeq_results%>% data.frame()
+  if (upregulated == T) {
+    
+  genes <- genes %>% filter(log2FoldChange > LFC, padj < P_value) 
+  
+  } else {
+    
+  genes <- genes %>% filter(log2FoldChange < -LFC, padj < P_value)
+  }
+  
+  genes <- genes %>% rownames()
+  
+  # stap 2: maak een lijst van alle genen
+  
+  all_genes <- DESeq_results %>% data.frame() %>% rownames()
+  
+  # stap 3: voer de GO term analyse uit
+  
+  test_object <- new("GOHyperGParams",
+                     geneIds = genes,
+                     universeGeneIds = all_genes,
+                     annotation = "org.Hs.eg.db",
+                     ontology = "BP",
+                     pvalueCutoff = 1,
+                     testDirection = "over")
+  goterm_analysis <- hyperGTest(test_object)
+  summary(goterm_analysis)
+ }
+
+upregulated <- GO_term_analysis(dge_results, T)
+
+downregulated <- GO_term_analysis(dge_results, F)
+
+# adjust de pvalues
+
+upregulated$padj <- p.adjust(upregulated$Pvalue, method = "BH")
+downregulated$padj <- p.adjust(downregulated$Pvalue, method = "BH")
+
+# selecteer alleen de gensets groter dan 5 maar kleiner dan 500
+
+upregulated <- upregulated %>% filter(Count > 5) %>% filter(Count < 500)
+downregulated <- downregulated %>% filter(Count > 5) %>% filter(Count < 500)
+
+# selecteer de top 20 GO terms
+
+upregulated_genes_top20 <- upregulated[order(upregulated$padj)[1:20],]
+downregulated_genes_top20 <- downregulated[order(downregulated$padj)[1:20],]
+
+# plot nu de 20 GO terms 
+
+upregulated_genes_top20$Term <- factor(upregulated_genes_top20$Term,
+                                  levels = upregulated_genes_top20$Term[
+                                    order(upregulated_genes_top20$padj, decreasing = T)])
+downregulated_genes_top20$Term <- factor(downregulated_genes_top20$Term,
+                                    levels = downregulated_genes_top20$Term[
+                                      order(downregulated_genes_top20$padj, decreasing = T)])
+
+upregulated_genes_top20 %>%
+  ggplot(aes(x = Term, y = -log10(padj))) +
+  geom_point() +
+  coord_flip() +
+  labs(title = "Top 20 verrijkte GO terms\n voor upregulated genes",
+       x = "GO terms",
+       y = expression(-log[10](adjusted~italic(P)~value))) +
+  theme_bw()
+
+downregulated_genes_top20 %>%
+  ggplot(aes(x = Term, y = -log10(padj))) +
+  geom_point() +
+  coord_flip() +
+  labs(title = "Top 20 verrijkte GO terms\n voor downregulated genes",
+       x = "GO terms",
+       y = expression(-log[10](adjusted~italic(P)~value))) +
+  theme_bw()
+
+
+
+```

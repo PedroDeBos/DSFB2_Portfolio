@@ -1,0 +1,364 @@
+---
+title: "Final assessment Pedro"
+author: "Pedro de Bos"
+date: "09/04/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+#Package with a lot of general functions
+library(tidyverse)
+#Packages for scanning in .png files
+library(png)
+library(grid)
+library(gridExtra)
+#Package for creating DESeq object
+library(DESeq2)
+#Package to create heatmaps
+library(pheatmap)
+#Package to transform Entrez numbers into gene names
+library("org.Hs.eg.db")
+#Package to be able to create a "GOHyperGParams" class dataset
+library(GOstats)
+```
+__Description of assignment__
+
+For many brain-related neuronal diseases, it is necessary to study neurons to properly treat the disease. However, with current technology it's practically impossible to extract neurons from the brain. Instead, fibroblasts of the patient are differentiated to induced pluripotent stem cells (iPSC), which are then differentiated into neuronal tissue. This differentiation from fibrolbasts to iPSC's can take up to 2 months. If it was possible to skip this step, and immediately go from fibroblasts to neuronal cells, treatment of neuronal diseases could be significantly improved.
+
+The subject of this analysis is the differentiation of fibroblasts in two different conditions:
+
+1: Fibroblasts exposed to control transcription factor BCLXL. The anti-apoptotic gene BCLXL is known to reduce cell death during neuronal reprogramming of cells.
+
+2: Fibroblasts exposed to the experimental transcription factor ONECUT2, a gene which is expected to stimulate the neuronal reprogramming of cells.
+
+A paired-end stranded protocol RNA-seq has been performed for the analysis of these fibroblasts (strain CL150003), in duplo for both BCLXL and ONECUT. The research question for this experiment is:
+
+__What are the differences in gene expression between BCLXL exposed and ONECUT exposed fibroblasts?__
+
+To analyse the quality of the FASTQ-files, a FASTQC-analysis has been perormed on these files, for both forward and reverse reads. In these FASTQC analysis', the PerBaseQuality and PerSequenceQuality were inspected. Due to practical limitations, only the highest quality and lowest quality figures are shown:
+
+
+````{r fastqc PerBaseQuality, fig.height=3, out.width="100%", fig.cap="Figure 1: Per base quality score of the highest quality read (left, SRR7866699_1) and the lowest quality (right, SRR7866703_2) read, based on the phred-scale (0-40). A average quality score of >30 is seen as sufficient.", echo=FALSE}
+
+#Reading the images taken out of the fastqc .html files.
+SRR7866699_PBQ<-readPNG("~/temp_daur2/eindopdracht/afbeeldingen/SRR7866699_1_perbasequality.png") %>% as.raster() %>% rasterGrob()
+SRR7866703_PBQ<-readPNG("~/temp_daur2/eindopdracht/afbeeldingen/SRR7866703_2_perbasequality.png") %>% as.raster() %>% rasterGrob()
+
+#Arranging these images, adding a title
+grid.arrange(SRR7866699_PBQ, SRR7866703_PBQ, ncol=2, top=textGrob("Per base quality distribution for the highest (left, SRR7866699_1) and the lowest (right, SRR7866703_2) quality read.", gp=gpar(fontsize=8, font=8)))
+````
+
+````{r fastqc PerSequenceQuality, fig.height=3, out.width="100%", fig.cap="Figure 2: Per sequence quality-score of the highest quality read (left, SRR7866699_1) and the lowest quality read (right, SRR7866703_2), based on the phred-scale (0-40). A average quality score of >30 is seen as sufficient.", echo=FALSE}
+
+#Reading the images taken out of the fastqc .html files.
+SRR7866699_1_PSQ<-readPNG("~/temp_daur2/eindopdracht/afbeeldingen/SRR7866699_1_persequencequality.png") %>% as.raster() %>% rasterGrob()
+SRR7866703_2_PSQ<-readPNG("~/temp_daur2/eindopdracht/afbeeldingen/SRR7866703_2_persequencequality.png") %>% as.raster() %>% rasterGrob()
+
+#Arranging these images, adding a title
+grid.arrange(SRR7866699_1_PSQ, SRR7866703_2_PSQ, ncol=2, top=textGrob("Per sequence quality distribution for the highest (left, SRR7866699_1) and the lowest (right, SRR7866703_2) quality read.", gp=gpar(fontsize=8, font=8)))
+````
+
+Both graphs from figure 1 show a high average base read, with the blue line constantly staying at >30. Furthermore, both graphs show a exponential curve in their perSequenceQuality in figure 2, which implies the average read quality is high. Due to this, we can conclude that the fastq data is of high enough quality to use.
+
+To be able to properly study the data, a count-table has been generated based on the .bam files
+````{r generating count table, eval=FALSE}
+bam_dir <- "/home/daur2/rnaseq/rnaseq_onecut/bam/"
+
+bam_files <- list.files(bam_dir, pattern = "SRR7866(699|70(0|3|4))\\.bam$", full.names = T)
+
+read_counts <- featureCounts(
+  
+  files = bam_files,
+  annot.inbuilt = "hg38", # komt van menselijk genoom
+  useMetaFeatures = T, # we willen het op gen niveau weten en niet per transcript vanwege alternative splicing
+  strandSpecific = 1, # we hebben een stranded protocol
+  isPairedEnd = T, # we gebruiken een gepaard protocol
+  countReadPairs = T, # we willen alleen de read pairs hebben en niet de losse reads
+  nthreads = 10 # hoeveel threads we gebruiken voor snelheid
+)
+````
+However, for this study, the count tables were already pre-generated, thus they have instead been read in directly from the .rds files
+````{r read count table RDS}
+#Reading the count directory (was already pre-generated, otherwise would be from counts_dir)
+read_counts<-readRDS("/home/daur2/rnaseq/rnaseq_onecut/counts/read_counts_OC2.rds")
+
+#Control to see if this is the proper RDS file
+read_counts$targets
+
+````
+Now, using the data from the count tables and the data from a given file containing metadata, a DESeq2 object wil be created to use for further downstream analysises
+````{r CreatingDESeq2, message=FALSE}
+#Extracting the count matrix
+count_matrix<-read_counts$counts
+
+#Loading in metadata
+metadata<-read_csv("/home/daur2/rnaseq/rnaseq_onecut/onecut_sampledata_OC2.csv") %>% as.data.frame()
+
+#Transforming the row-names so metadata can properly combine with the count matrix
+rownames(metadata)<-paste0(metadata$Run, ".bam")
+
+#Checking if the names are truly the same
+colnames(count_matrix)==rownames(metadata)
+
+#Creating a factor-value in metadata, to be used to distinguish the monsters in graphs
+metadata<-metadata %>% mutate(Treatment=c("Bclxl", "Bclxl", "OC2", "OC2"))
+metadata$Treatment<-metadata$Treatment %>% factor(levels=c("Bclxl", "OC2"))
+
+#Making sure treatment is a proper factor
+is.factor(metadata$Treatment)
+
+#Creating the DESeq2 object
+dds<-DESeqDataSetFromMatrix(
+  countData = count_matrix,
+  colData = metadata,
+  design = ~ Treatment
+)
+
+````
+
+__Downstream analysis__
+
+First off, a PCA analysis will be done to inspect any themes in relation between the measured monsters. For this, a normalised version of the dataset will be used, created using the rlog() command. For this PCA analysis, a bar-chart visualising the proportion of variance of each principal component and a PCA-graph will be created.
+
+````{r PCAVarianceProportion, fig.cap="Figure 3: Bar graph of the proportion of variance explained by each of the 4 principal components. Based on normalised PCA data comparing the effect of bclxl (control) and OC2 on fibroblasts."}
+#Normalising of DESeq2 library
+dds_normalised<-rlog(dds)
+
+#Creating a PCA (Assay transforms the dds into a single vector-like object, T creates a transposure, )
+PCA<-dds_normalised %>% assay() %>% t() %>% prcomp()
+
+#Creating a summary of the PCA
+PCA_summary<-summary(PCA)$importance
+PCA_summary_variance<-PCA_summary %>% t() %>% as.data.frame() %>% mutate(PC=colnames(PCA_summary))
+
+#Creating a bar chart to summarise the proportions of variance
+PCA_summary_variance %>% ggplot(aes(x=PC, y=`Proportion of Variance`*100, fill=PC))+
+  geom_col(colour="black")+
+  labs(
+    title="Proportion of variance of each principal component in percentage (%)",
+    x="Principal component",
+    y="Proportion of variance"
+  )+
+  theme_classic()+
+  theme(legend.position = "none")
+````
+
+````{r PCAGraph, fig.cap="Figure 4: PCA analysis of fibroblasts treated with Bclxl (control) and OC2."}
+#Sticking the metadata-results onto the PCA results
+PCA_plotting<-cbind(metadata, PCA$x)
+
+#Creating variables containing the exact PC proportion of variance percentages
+PC1<-round(PCA_summary["Proportion of Variance","PC1"]*100, digits=1)
+PC2<-round(PCA_summary["Proportion of Variance","PC2"]*100, digits=1)
+
+#Creating a plot 
+PCA_plotting %>% ggplot(aes(x=PC1, y=PC2))+
+  geom_point(aes(colour=Treatment), size=3)+
+  labs(
+    title="Principal component analysis of fibroblasts treated by Bclxl or OC2",
+    x=paste0("PC1 (",PC1,"%)"),
+    y=paste0("PC2 (",PC2,"%)")
+  )+
+  theme_bw()
+````
+
+Remarkable of these graphs is that the proportion of variance of the first principal component, PC1, is equal to 94,6% of the total variance. This is a exceptional large amount, and based on figure 4, this PC splits cells treat with Bclxl and cells treated with OC2. Based on this, we can reasonably conclude that treatment with OC2 is associated with different gene expressions than treatment with Bclxl.
+
+To further study whether the genes affected by this are upregulated or downregulated, a DGE analysis will be performed. Based on this DGE analysis, a volcano plot and a heatmap will be created to showcase the total amount of up/downregulated genes and the top 5 of both up- and downregulated genes.
+
+````{r DGEAnalyseVolcano, message=FALSE, fig.cap="Figure 5: Amount of significant genes, significance being defined as a |LFC|>1 and a padj<0.01"}
+
+#Performing DGE analysis
+neuron_dge<-DESeq(dds)
+
+#Storing the results with proper p and LFC value in a seperate RDS and inspecting the results
+neuron_dge_results<-results(neuron_dge, alpha = 0.01, lfcThreshold = 1)
+summary(neuron_dge_results)
+
+#Filtering all NA padj values
+neuron_dge_plotting<-neuron_dge_results %>% data.frame() %>% filter(!is.na(padj))
+
+#Adding a variable which tracks if a gene has a padj<0.05 and a log>|1|
+neuron_dge_plotting<-neuron_dge_plotting %>% mutate(
+  Significance=if_else(padj<0.01 & abs(log2FoldChange)>1,"Significant","Not significant")
+)
+
+#seperating the total amount of up- and downregulated genes
+upregulated<-neuron_dge_results %>% as.data.frame() %>% filter(padj<0.01 & log2FoldChange>1) %>% nrow()
+downregulated<-neuron_dge_results %>% as.data.frame() %>% filter(padj<0.01 & log2FoldChange< -1) %>% nrow()
+
+#Plotting it in graph
+neuron_dge_plotting %>% ggplot(aes(x=log2FoldChange, y=-log10(padj)))+
+  geom_point(aes(colour=Significance), size=0.7)+
+  labs(
+    title = "All genes showing a change in expression between Bclxl and OC2",
+    subtitle = "Significance is defined as padj<0.05 and |LFC|>1",
+    x="Log2 fold change in gene expression",
+    y="-10log adjusted P.value"
+  )+
+  geom_vline(xintercept = 1, linetype="dashed")+
+  geom_vline(xintercept = -1, linetype="dashed")+
+  geom_hline(yintercept = -log10(0.01), linetype="dashed")+
+  scale_colour_manual(values=c("Dark blue", "Dark orange"))+
+  annotate("text", x=-5, y=170, label=c("Downregulated:\n\n",downregulated))+
+  annotate("text", x=11, y=170, label=c("Upregulated:\n\n",upregulated))+
+  theme_bw()
+````
+
+In the volcano plot we can see that, with a padj>0.05 and a |LFC|>1, there's a large amount of genes considered up/downregulated. The dataset contains a larger amount of upregulated genes (2207) than downregulated genes (1183). To further study exactly which genes are heavily up/down regulated, a heatmap for the 5 most up and downregulated genes has been made.
+
+````{r HeatMap, fig.cap="Figure 6: Heatmap showing the relative expression of the top 5 upregulated and downregulated genes.", message=FALSE}
+
+#Obtaining the top 5 upregulated/downregulated genes, putting them into 1 list
+neuron_dge_results_p_0.01<-neuron_dge_results %>% as.data.frame() %>% filter(padj<0.01)
+
+bot_5_genes<-rownames(neuron_dge_results_p_0.01[order(neuron_dge_results_p_0.01$log2FoldChange)[1:5],])
+top_5_genes<-rownames(neuron_dge_results_p_0.01[order(neuron_dge_results_p_0.01$log2FoldChange, decreasing = TRUE)[1:5],])
+tb_10_genes<-c(top_5_genes, bot_5_genes)
+
+#Obtaining the original data associated with these genes
+count_values<-assay(dds)[tb_10_genes,]
+
+#Replacing column names with treament
+colnames(count_values)<-colData(dds)$Treatment
+
+#Replacing row name entrez numbers with gene names
+tb_10_genes_geneID<-data.frame(entrez=tb_10_genes)
+tb_10_genes_geneID$Symbol<-mapIds(org.Hs.eg.db, 
+       keys=tb_10_genes_geneID$entrez,
+       column = "SYMBOL",
+       keytype = "ENTREZID",
+       multiVals = "first")
+rownames(count_values)<-tb_10_genes_geneID$Symbol
+
+#Generating a heatmap
+pheatmap(count_values, scale="row", main = "Heatmap of top 5 up & downregulated genes")
+
+````
+
+In this heatmap we can see a multitude of genes, from MUC5AC to CH25H, are up/downregulated by exposure too Bclxl/OC2. However, next to information about specific genes, we also want a bigger picture of what kind of biological processes _all_ up/downregulated genes encode for. For this, we have performed an GO-enrichment analysis, as seen bellow.
+
+````{r GOEnrichtmentUpregulated, fig.cap="Figure 7: Top 20 GO-terms associated with gene upregulation in OC2 treated cells, in comparisson to Bclxl treated cells"}
+#Selecteren van upregulated, downregulated and all genes
+neuron_dge_upregulated<-neuron_dge_results %>% data.frame() %>% filter(log2FoldChange>1 & padj<0.01) %>% rownames()
+neuron_dge_downregulated<-neuron_dge_results %>% data.frame() %>% filter(log2FoldChange< -1 & padj<0.01) %>% rownames()
+neuron_dge_all<-neuron_dge_results %>% data.frame() %>% rownames()
+
+# ^ UPREGULATED ####
+#GO-term analysis object creation
+test_object<-new("GOHyperGParams",
+    geneIds=neuron_dge_upregulated,
+    universeGeneIds=neuron_dge_all,
+    annotation="org.Hs.eg.db",
+    ontology="BP",
+    pvalueCutoff=1,
+    testDirection="over")
+
+#Hyper G test
+neuron_dge_hyperG<-hyperGTest(test_object)
+neuron_dge_hyperG_result<-summary(neuron_dge_hyperG)
+
+#Padjust for the "BH" method, Bejmani hochberg which compensates for the false discovery rate
+neuron_dge_hyperG_result$padj<-p.adjust(neuron_dge_hyperG_result$Pvalue, method="BH")
+
+#Selecting gene sets larger than 5 but smaller than 500, to prevent too generic/too specific results from influencing the results
+neuron_dge_hyperG_result<-neuron_dge_hyperG_result %>% filter(Count>5 & Count<500)
+
+#Selecting the top 20 GO-terms, to prevent the graph from become unreadable
+hyperG_top20<-neuron_dge_hyperG_result[order(neuron_dge_hyperG_result$padj)[1:20],]
+
+#Creating a factor so that the graph goes the proper way
+hyperG_top20$Term<-factor(hyperG_top20$Term,
+                          levels = hyperG_top20$Term[
+                            order(hyperG_top20$padj,decreasing = TRUE)
+                          ])
+
+#Plotting the p-values of the top 20
+hyperG_top20 %>% ggplot(aes(x=Term, y=-log10(padj)))+
+  geom_point()+
+  coord_flip()+
+  labs(
+    title="Top 20 most upregulated \nG-terms",
+    x="GO terms",
+    y="-log10 adjusted P-value"
+  )+
+  theme_bw()
+
+````
+
+````{r GOEnrichtmentDownregulated, fig.cap="Figure 8: Top 20 GO-terms associated with gene downregulation in OC2 treated cells, in comparisson to Bclxl treated cells"}
+
+test_object_down<-new("GOHyperGParams",
+                 geneIds=neuron_dge_downregulated,
+                 universeGeneIds=neuron_dge_all,
+                 annotation="org.Hs.eg.db",
+                 ontology="BP",
+                 pvalueCutoff=1,
+                 testDirection="over")
+
+#Hyper G test
+neuron_dge_hyperG_down<-hyperGTest(test_object_down)
+neuron_dge_hyperG_result_down<-summary(neuron_dge_hyperG_down)
+
+#Padjust for the "BH" method, Bejmani hochberg which compensates for the false discovery rate
+neuron_dge_hyperG_result_down$padj<-p.adjust(neuron_dge_hyperG_result_down$Pvalue, method="BH")
+
+#Selecting gene sets larger than 5 but smaller than 500, to prevent too generic/too specific results from influencing the results
+neuron_dge_hyperG_result_down<-neuron_dge_hyperG_result_down %>% filter(Count>5 & Count<500)
+
+#Selecting the top 20 GO-terms, to prevent the graph from become unreadable
+hyperG_top20_down<-neuron_dge_hyperG_result_down[order(neuron_dge_hyperG_result_down$padj)[1:20],]
+
+#Making a factor so the plot goes in the proper direction
+hyperG_top20_down$Term <- factor(hyperG_top20_down$Term,
+                                 levels = hyperG_top20_down$Term[
+                                   order(hyperG_top20_down$padj, decreasing = TRUE)
+                                 ])
+
+#Plotting the p-values of the top 20
+hyperG_top20_down %>% ggplot(aes(x=Term, y=-log10(padj)))+
+  geom_point()+
+  coord_flip()+
+  labs(
+    title="Top 20 most downregulated \nG-terms",
+    x="GO terms",
+    y="-log10 adjusted P-value"
+  )+
+  theme_bw()
+
+````
+
+In figure 7, we can see that off all G-terms, "nervous system development" is the most upregulated term. This corresponds to our hypothesis, in which we hypothesized that exposure to OC2 would stimulate fibroblasts transforming into neuronal cells. 
+Furthermore, in figure 8, we can see that the most downregulated G-term is "anatomical structure morphogenesis" -log10 P-value of almost 1.5 times the size of the next G-term. A decrease in anatomical structure morphogenesis could be explained by the fact that fibroblasts, being skin cells, have a large dependancy on anatomical structures, while neuronal cells have a less defined structure.
+
+Based on the results from the GO enrichment analysis', we can conclude that in comparison to fibroblasts exposed to Bclxl, fibroblasts exposed to ONECUT2 do show signs of increased transformation into neuronal cells.
+
+Finally, a function has been set up so that with the input of a GO:term, the associated gene symbols can be aquired:
+
+````{r Function, message=FALSE}
+#Making the function
+GOidToSymbol<-function(GOid){
+  if(str_detect(string = paste(GOid), pattern = "GO:[0-9]{7}$")){
+    GO_list<-select(org.Hs.eg.db,
+                    keys=GOid,
+                    columns = "SYMBOL",
+                    keytype = "GO",
+                    multiVals = "list")
+    GO_list$SYMBOL %>% as.vector()  
+  }
+  else("Input GO-term is not of the correct type: has to start 'GO:' followed by 7 numbers")
+}
+
+#Running function
+GOidToSymbol(GOid = c("GO:0036003"))
+#Is the output a vector?
+GOidToSymbol(GOid = c("GO:0036003")) %>% is.vector()
+#Is the output a character?
+GOidToSymbol(GOid = c("GO:0036003")) %>% is.character()
+#Does the command give a proper response if the input is too long/short/spelled wrong?
+GOidToSymbol(GOid = c("GO:003603303")) #Too long
+GOidToSymbol(GOid = c("GO:0033")) #Too short
+GOidToSymbol(GOid = c("GD:0036003")) #GO spelled wrong
+
+````
