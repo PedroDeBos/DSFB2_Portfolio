@@ -23,7 +23,14 @@ First off, the data stored in an excel file shall be read
 excel_location<-here("data.raw/CE.LIQ.FLOW.062_Tidydata.xlsx")
 Celegans_data<-read_excel(excel_location, sheet = 1)
 ````
-After reading in the data, it's transformed in order to be able to create proper figures from it
+
+After reading in the data, it's transformed in order to be able to create proper figures from it. For this, the important data columns.
+
+RawData: Ammount of ofspring Celegans gave after 68 hours of exposure to the treatment
+
+compName: The compount to which the Celegans was exposed too
+
+compConcentration:
 
 ````{r tidying_Excel}
 #Dataset inspection and transformation
