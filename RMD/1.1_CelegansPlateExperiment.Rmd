@@ -20,6 +20,6 @@ In this RMD, a excel data sheet supplied by J. louter (INT/ILC), derrived from a
 
 First off, the data stored in an excel file shall be read
 ````{r reading_excelData}
-excel_location<-here("Celegans_1.1/CE.LIQ.FLOW.062_Tidydata.xlsx")
+excel_location<-here("data.raw/CE.LIQ.FLOW.062_Tidydata.xlsx")
 read_excel(excel_location, sheet = 1)
 ````
