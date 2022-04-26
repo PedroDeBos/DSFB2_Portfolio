@@ -65,9 +65,25 @@ Celegans_data
 After tidying the data from the excel file, exploritary graphs have been created to study the data more thouroughly
 
 ````{r dataplots}
-Celegans_data %>% ggplot(aes(x=log10(compConcentration), y=RawData))+
-  geom_jitter()+
-  geom_point(aes(colour = compName ,shape = expType))
+Celegans_data %>% ggplot(aes(x=log10(compConcentration+0.00005), y=RawData))+ #Added 0.0005 as otherwise, due to using log10, the S-medium values which are = 0, would be deleted.
+  geom_jitter(aes(colour=compName, shape=expType), width = 0.05)+
+  theme_bw()+
+  labs(
+    title="Effect of multiple treatments on offspring production by C.elegans",
+    x="log 10 treatment concentration (nM)",
+    y="Amount of offspring",
+    colour="Treatment",
+    shape="Experiment type"
+  )
   
 ````
 
+To properly be able to study the effect of the different treatments on C.elegans, the data will be normalised for the negative control S-medium.
+
+````{r normalisingDataForNegativeControl}
+Celegans_data_noNA<-Celegans_data %>% na.omit() #Removing NA's from the dataset so a summarise() works properly
+Celegans_data_noNA %>% group_by(compName) %>% summarise(
+  mean=mean(RawData),
+  normalise_factor=mean/85.9
+)
+````
