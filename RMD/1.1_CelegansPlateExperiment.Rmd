@@ -81,9 +81,47 @@ Celegans_data %>% ggplot(aes(x=log10(compConcentration+0.00005), y=RawData))+ #A
 To properly be able to study the effect of the different treatments on C.elegans, the data will be normalised for the negative control S-medium.
 
 ````{r normalisingDataForNegativeControl}
-Celegans_data_noNA<-Celegans_data %>% na.omit() #Removing NA's from the dataset so a summarise() works properly
-Celegans_data_noNA %>% group_by(compName) %>% summarise(
-  mean=mean(RawData),
-  normalise_factor=mean/85.9
+#Determine the mean of the negative control
+negctrl_mean<-Celegans_data_select$RawData[Celegans_data_select$expType=="controlNegative"] %>% mean()
+
+#Normalising the data
+Celegans_data_select_normalised<-Celegans_data_select %>% mutate(
+  normalised_RawData=RawData/negctrl_mean
 )
+
+#Plotting the normalised data
+Celegans_data_select_normalised %>% ggplot(aes(x=log10(compConcentration+0.00005), y=normalised_RawData))+
+  geom_jitter(aes(colour=compName, shape=expType), width = 0.05)+
+  theme_bw()+
+  labs(
+    title="Normalised effect of multiple treatments on offspring production by C.elegans",
+    x="log 10 treatment concentration (nM)",
+    y="Normalised amount of offspring",
+    colour="Treatment",
+    shape="Experiment type"
+  )
+
+````
+
+For a clearer picture of the correlations, a summarise version of the graph has also been made:
+````{r ClearerGraph}
+#Creating a summarised version of the data based on Treatment and concentration
+Celegans_data_normalised_sum<-Celegans_data_select_normalised %>% group_by(compConcentration, compName) %>% summarise(
+  mean_normalised=mean(normalised_RawData)
+)
+
+#Filtering out S-medium, as that is the negative control.
+Celegans_data_normalised_sum<-Celegans_data_normalised_sum %>% filter(!compName=="S-medium")
+
+#Plotting the summarised data.
+Celegans_data_normalised_sum %>% ggplot(aes(x=log10(compConcentration+0.00005), y=mean_normalised))+
+  geom_point(aes(colour=compName), size=3)+
+  geom_line(aes(colour=compName))
+  theme_bw()+
+  labs(
+    title="Normalised effect of multiple treatments on offspring production by C.elegans",
+    x="log 10 treatment concentration (nM)",
+    y="Normalised amount of offspring",
+    colour="Treatment"
+  )
 ````
