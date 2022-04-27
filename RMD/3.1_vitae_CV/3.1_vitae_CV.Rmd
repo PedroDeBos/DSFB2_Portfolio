@@ -1,30 +1,30 @@
 ---
-name: Marie
-surname: Curie
-position: "Professor"
-address: "School of Physics & Chemistry, École Normale Supérieure"
-phone: +1 22 3333 4444
-www: mariecurie.com
-email: "Marie.Curie@ens.fr"
-twitter: mariecurie
-github: mariecurie
-linkedin: mariecurie
+name: Pedro
+surname: de Bos
+position: "Student life sciences"
+address: "University of applied sciences, Utrecht, Netherlands"
+email: "pedrodebos@gmail.com"
+github: PedroDeBos
+linkedin: Pedro de Bos
 date: "`r format(Sys.time(), '%B %Y')`"
 output: 
   vitae::awesomecv:
     page_total: true
 ---
 
+````{r addingAnImage, out.width = "300px"}
+knitr::include_graphics(
+  path = "Dit_ben_ik_2.jpg"
+)
+````
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 library(vitae)
 ```
 
-# Some stuff about me
-
- * I poisoned myself doing research.
- * I was the first woman to win a Nobel prize
- * I was the first person and only woman to win a Nobel prize in two different sciences.
+# About me
+A driven 4th year life sciences student microbiology at the university of applied sciences of Utrecht, minoring in data sciences. Able too work in a ML1 microbiological laboratory working with bacteria, virusses and parasites. Have practical experience working sterile, performing PCR's and using equipment like the MALDI-TOF, BACTRON-6000. Also experienced in working with large data sets using bash, R, to order data, test for significance and create graphs.
 
 # Education
 
@@ -32,9 +32,8 @@ library(vitae)
 library(tibble)
 tribble(
   ~ Degree, ~ Year, ~ Institution, ~ Where,
-  "Informal studies", "1889-91", "Flying University", "Warsaw, Poland",
-  "Master of Physics", "1893", "Sorbonne Université", "Paris, France",
-  "Master of Mathematics", "1894", "Sorbonne Université", "Paris, France"
+  "Bachelor life sciences", "2019-present", "University of applied sciences", "Utrecht, Netherlands",
+  "High school diploma", "2014-2019", "Gerrit rietveld college", "Utrecht, Netherlands"
 ) %>% 
   detailed_entries(Degree, Year, Institution, Where)
 ```
