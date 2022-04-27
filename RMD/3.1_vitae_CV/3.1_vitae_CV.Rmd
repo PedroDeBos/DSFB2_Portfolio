@@ -12,7 +12,7 @@ output:
     page_total: true
 ---
 
-````{r addingAnImage, out.width = "300px"}
+````{r addingAnImage, out.width = "20%", fig.align='right', echo=FALSE}
 knitr::include_graphics(
   path = "Dit_ben_ik_2.jpg"
 )
