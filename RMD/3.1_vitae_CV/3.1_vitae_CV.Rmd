@@ -38,7 +38,20 @@ tribble(
   detailed_entries(Degree, Year, Institution, Where)
 ```
 
-# Nobel Prizes
+# Languages 
+```` {r}
+library(tibble)
+tribble(
+  ~ Desc, ~ Empty, ~ Language, ~ Empty2,
+  "Mother language, fluent in both speaking and writing","", "Dutch [x][x][x][x][x]", "",
+  "Learned language, fluent in writing, proficient in speaking", "", "English [x][x][x][x][.]", "",
+  "Comfortable with making figures, performing statistical tests, simple analysises (RNAseq, metagenomics)", "", "R [x][x][x][.][.]", "",
+  "Comfortable with writing small scripts, for-do-done loops, functions containing if/then statements", "", "bash [x][x][x][.][.]", ""
+) %>%
+  detailed_entries(Desc, Empty, Language, Empty2)
+````
+
+# Nobel prizes
 
 ```{r}
 tribble(
