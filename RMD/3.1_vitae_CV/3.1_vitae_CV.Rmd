@@ -5,18 +5,13 @@ position: "Student life sciences"
 address: "University of applied sciences, Utrecht, Netherlands"
 email: "pedrodebos@gmail.com"
 github: PedroDeBos
+profilepic: "./Alleen_pedro.jpg"
 linkedin: Pedro de Bos
 date: "`r format(Sys.time(), '%B %Y')`"
 output: 
   vitae::awesomecv:
     page_total: true
 ---
-
-````{r addingAnImage, out.width = "20%", fig.align='right', echo=FALSE}
-knitr::include_graphics(
-  path = "Dit_ben_ik_2.jpg"
-)
-````
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
@@ -45,7 +40,7 @@ tribble(
   ~ Desc, ~ Empty, ~ Language, ~ Empty2,
   "Mother language, fluent in both speaking and writing","", "Dutch [x][x][x][x][x]", "",
   "Learned language, fluent in writing, proficient in speaking", "", "English [x][x][x][x][.]", "",
-  "Comfortable with making figures, performing statistical tests, simple analysises (RNAseq, metagenomics)", "", "R [x][x][x][.][.]", "",
+  "Comfortable with making figures, performing statistical tests, simple analysises (RNAseq, metagenomics). Portfolio is available on github.com/PedroDeBos/DSFB2_Portfolio", "", "R [x][x][x][.][.]", "",
   "Comfortable with writing small scripts, for-do-done loops, functions containing if/then statements", "", "bash [x][x][x][.][.]", ""
 ) %>%
   detailed_entries(Desc, Empty, Language, Empty2)
