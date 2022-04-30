@@ -5,7 +5,7 @@ position: "Student life sciences"
 address: "University of applied sciences, Utrecht, Netherlands"
 email: "pedrodebos@gmail.com"
 github: PedroDeBos
-profilepic: "./Alleen_pedro.jpg"
+profilepic: "../../data/CV_Photo_2.jpg"
 linkedin: Pedro de Bos
 date: "`r format(Sys.time(), '%B %Y')`"
 output: 
@@ -27,7 +27,7 @@ A driven 4th year life sciences student microbiology at the university of applie
 library(tibble)
 tribble(
   ~ Degree, ~ Year, ~ Institution, ~ Where,
-  "Bachelor life sciences", "2019-present", "University of applied sciences", "Utrecht, Netherlands",
+  "Bachelor life sciences. Specialisation microbiology, minor data sciences", "2019-present", "University of applied sciences", "Utrecht, Netherlands",
   "High school diploma", "2014-2019", "Gerrit rietveld college", "Utrecht, Netherlands"
 ) %>% 
   detailed_entries(Degree, Year, Institution, Where)
@@ -37,37 +37,24 @@ tribble(
 ```` {r}
 library(tibble)
 tribble(
-  ~ Desc, ~ Empty, ~ Language, ~ Empty2,
-  "Mother language, fluent in both speaking and writing","", "Dutch [x][x][x][x][x]", "",
-  "Learned language, fluent in writing, proficient in speaking", "", "English [x][x][x][x][.]", "",
-  "Comfortable with making figures, performing statistical tests, simple analysises (RNAseq, metagenomics). Portfolio is available on github.com/PedroDeBos/DSFB2_Portfolio", "", "R [x][x][x][.][.]", "",
-  "Comfortable with writing small scripts, for-do-done loops, functions containing if/then statements", "", "bash [x][x][x][.][.]", ""
+  ~ Desc, ~ Language,
+  "Mother language, fluent in both speaking and writing", "Dutch [x][x][x][x][x]",
+  "Learned language, fluent in writing, proficient in speaking", "English [x][x][x][x][.]",
+  "Comfortable with making figures, performing statistical tests, simple analysises (RNAseq, metagenomics). Portfolio is available on github.com/PedroDeBos/DSFB2_Portfolio", "R [x][x][x][.][.]",
+  "Comfortable with writing small scripts, for-do-done loops, functions containing if/then statements", "bash [x][x][x][.][.]"
 ) %>%
-  detailed_entries(Desc, Empty, Language, Empty2)
+  detailed_entries(Desc, , Language, )
 ````
 
-# Nobel prizes
+# Skills
 
 ```{r}
 tribble(
-  ~Year, ~Type, ~Desc,
-  1903, "Physics", "Awarded for her work on radioactivity with Pierre Curie and Henri Becquerel",
-  1911, "Chemistry", "Awarded for the discovery of radium and polonium"
-) %>% 
-  brief_entries(
-    glue::glue("Nobel Prize in {Type}"),
-    Year, 
-    Desc
-  )
+  ~Skill, ~Explanation,
+  "Group projects", "8 Years of experience in 3-6 month long group projects",
+  "Team communication", "Comfortable using teams, github, messenger apps for communication."
+) %>%
+  detailed_entries(Explanation, , Skill, )
 ```
 
-# Publications
-
-```{r}
-library(dplyr)
-knitr::write_bib(c("vitae", "tibble"), "packages.bib")
-
-bibliography_entries("packages.bib") %>%
-  arrange(desc(author$family), issued)
-```
 
