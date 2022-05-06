@@ -5,3 +5,6 @@ install.packages("drc")
 
 #Instaling FS for RMD 2, creating directory trees
 install.packages("fs")
+
+#Installing vitae for RMD 3.1, creating a CV
+install.packages("vitae")

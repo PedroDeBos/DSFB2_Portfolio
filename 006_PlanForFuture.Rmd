@@ -1,11 +1,6 @@
----
-title: "PlanForFuture_3.2"
-author: "Pedro de Bos"
-date: '2022-04-25'
-output: html_document
----
+# Future plans
 
-```{r setup, include=FALSE}
+```{r setup_5, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 

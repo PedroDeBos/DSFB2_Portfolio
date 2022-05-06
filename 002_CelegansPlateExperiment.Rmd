@@ -1,12 +1,6 @@
----
-title: "L1 C.elegans plate experiment"
-author: "Pedro de Bos"
-date: '2022-04-19'
-output: html_document
----
+# C.elegans plate experiment
 
-
-```{r setup, include=FALSE}
+```{r setup_1, include=FALSE}
 #Basic functions
 library(tidyverse)
 #Library to create dose-response curves
@@ -104,7 +98,7 @@ Celegans_data_select_normalised %>% ggplot(aes(x=log10(compConcentration+0.00005
 ````
 
 For a clearer picture of the correlations, a summarise version of the graph has also been made:
-````{r ClearerGraph}
+````{r ClearerGraph, message=FALSE}
 #Creating a summarised version of the data based on Treatment and concentration
 Celegans_data_normalised_sum<-Celegans_data_select_normalised %>% group_by(compConcentration, compName) %>% summarise(
   mean_normalised=mean(normalised_RawData)
@@ -116,7 +110,7 @@ Celegans_data_normalised_sum<-Celegans_data_normalised_sum %>% filter(!compName=
 #Plotting the summarised data.
 Celegans_data_normalised_sum %>% ggplot(aes(x=log10(compConcentration+0.00005), y=mean_normalised))+
   geom_point(aes(colour=compName), size=3)+
-  geom_line(aes(colour=compName))
+  geom_line(aes(colour=compName))+
   theme_bw()+
   labs(
     title="Normalised effect of multiple treatments on offspring production by C.elegans",
