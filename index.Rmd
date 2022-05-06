@@ -1,0 +1,14 @@
+--- 
+title: "Data sciences portfolio Pedro de Bos"
+author: "Pedro de Bos"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+link-citations: yes
+---
+
+# Introduction
+
+
+Hi! I'm currently figuring out how bookdown works!

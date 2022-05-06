@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2 C.elegans plate experiment | Data sciences portfolio Pedro de Bos</title>
+  <meta name="description" content="2 C.elegans plate experiment | Data sciences portfolio Pedro de Bos" />
+  <meta name="generator" content="bookdown 0.26 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2 C.elegans plate experiment | Data sciences portfolio Pedro de Bos" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2 C.elegans plate experiment | Data sciences portfolio Pedro de Bos" />
+  
+  
+  
+
+<meta name="author" content="Pedro de Bos" />
+
+
+<meta name="date" content="2022-05-06" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="sorting-directories.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="c.elegans-plate-experiment.html"><a href="c.elegans-plate-experiment.html"><i class="fa fa-check"></i><b>2</b> C.elegans plate experiment</a></li>
+<li class="chapter" data-level="3" data-path="sorting-directories.html"><a href="sorting-directories.html"><i class="fa fa-check"></i><b>3</b> Sorting directories</a></li>
+<li class="chapter" data-level="4" data-path="future-plans.html"><a href="future-plans.html"><i class="fa fa-check"></i><b>4</b> Future plans</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Data sciences portfolio Pedro de Bos</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="c.elegans-plate-experiment" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">2</span> C.elegans plate experiment<a href="c.elegans-plate-experiment.html#c.elegans-plate-experiment" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>In this RMD, a excel data sheet supplied by J. louter (INT/ILC), derrived from a experiment in which adult C.elegans were exposed to varying concentrations of different compounds. In this RMD, a dose-response curve shall be created.</p>
+<p>First off, the data stored in an excel file shall be read</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="c.elegans-plate-experiment.html#cb1-1" aria-hidden="true" tabindex="-1"></a>excel_location<span class="ot">&lt;-</span><span class="fu">here</span>(<span class="st">&quot;data.raw/CE.LIQ.FLOW.062_Tidydata.xlsx&quot;</span>)</span>
+<span id="cb1-2"><a href="c.elegans-plate-experiment.html#cb1-2" aria-hidden="true" tabindex="-1"></a>Celegans_data_raw<span class="ot">&lt;-</span><span class="fu">read_excel</span>(excel_location, <span class="at">sheet =</span> <span class="dv">1</span>)</span></code></pre></div>
+<p>After reading in the data, it’s transformed in order to be able to create proper figures from it. For this, the important data columns.
+expType: The type of experiment (Experimental, control)</p>
+<p>RawData: Ammount of ofspring Celegans gave after 68 hours of exposure to the treatment</p>
+<p>compName: The compound to which the Celegans was exposed to.</p>
+<p>compConcentration: The concentration of the compound which the Celegans was exposed to.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="c.elegans-plate-experiment.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Dataset inspection and transformation</span></span>
+<span id="cb2-2"><a href="c.elegans-plate-experiment.html#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="c.elegans-plate-experiment.html#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Selecting data for this goal</span></span>
+<span id="cb2-4"><a href="c.elegans-plate-experiment.html#cb2-4" aria-hidden="true" tabindex="-1"></a>Celegans_data_select<span class="ot">&lt;-</span>Celegans_data_raw <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(expType, compName, RawData, compConcentration)</span>
+<span id="cb2-5"><a href="c.elegans-plate-experiment.html#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="c.elegans-plate-experiment.html#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Datapoint 259 has a comma instead of a point. Transforming value via str_replace</span></span>
+<span id="cb2-7"><a href="c.elegans-plate-experiment.html#cb2-7" aria-hidden="true" tabindex="-1"></a>Celegans_data_select<span class="sc">$</span>compConcentration<span class="ot">&lt;-</span>Celegans_data_select<span class="sc">$</span>compConcentration <span class="sc">%&gt;%</span> <span class="fu">str_replace</span>(<span class="st">&quot;,&quot;</span>, <span class="st">&quot;.&quot;</span>)</span>
+<span id="cb2-8"><a href="c.elegans-plate-experiment.html#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="c.elegans-plate-experiment.html#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Now properly transforming the compConcentration data into numeric</span></span>
+<span id="cb2-10"><a href="c.elegans-plate-experiment.html#cb2-10" aria-hidden="true" tabindex="-1"></a>Celegans_data_select<span class="sc">$</span>compConcentration<span class="ot">&lt;-</span>Celegans_data_select<span class="sc">$</span>compConcentration <span class="sc">%&gt;%</span> <span class="fu">as.numeric</span>()</span>
+<span id="cb2-11"><a href="c.elegans-plate-experiment.html#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="c.elegans-plate-experiment.html#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#Transforming expType and compName into a factor variable</span></span>
+<span id="cb2-13"><a href="c.elegans-plate-experiment.html#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="c.elegans-plate-experiment.html#cb2-14" aria-hidden="true" tabindex="-1"></a>levels_exptype<span class="ot">&lt;-</span><span class="fu">unique</span>(Celegans_data_select<span class="sc">$</span>expType) <span class="co">#storing all exptype levels</span></span>
+<span id="cb2-15"><a href="c.elegans-plate-experiment.html#cb2-15" aria-hidden="true" tabindex="-1"></a>Celegans_data_select<span class="sc">$</span>expType<span class="ot">&lt;-</span><span class="fu">factor</span>(Celegans_data_select<span class="sc">$</span>expType, <span class="at">levels =</span> levels_exptype) <span class="co">#Transforming exptype</span></span>
+<span id="cb2-16"><a href="c.elegans-plate-experiment.html#cb2-16" aria-hidden="true" tabindex="-1"></a>levels_compname<span class="ot">&lt;-</span><span class="fu">unique</span>(Celegans_data_select<span class="sc">$</span>compName) <span class="co">#Storing all compName levels</span></span>
+<span id="cb2-17"><a href="c.elegans-plate-experiment.html#cb2-17" aria-hidden="true" tabindex="-1"></a>Celegans_data_select<span class="sc">$</span>compName<span class="ot">&lt;-</span><span class="fu">factor</span>(Celegans_data_select<span class="sc">$</span>compName, <span class="at">levels =</span> levels_compname) <span class="co">#Transforming compName into factor</span></span>
+<span id="cb2-18"><a href="c.elegans-plate-experiment.html#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="c.elegans-plate-experiment.html#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">#Re-loading the</span></span>
+<span id="cb2-20"><a href="c.elegans-plate-experiment.html#cb2-20" aria-hidden="true" tabindex="-1"></a>Celegans_data<span class="ot">&lt;-</span>Celegans_data_select</span>
+<span id="cb2-21"><a href="c.elegans-plate-experiment.html#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="c.elegans-plate-experiment.html#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co">#Checking if transformation went properly</span></span>
+<span id="cb2-23"><a href="c.elegans-plate-experiment.html#cb2-23" aria-hidden="true" tabindex="-1"></a>Celegans_data</span></code></pre></div>
+<pre><code>## # A tibble: 360 x 4
+##    expType    compName                   RawData compConcentration
+##    &lt;fct&gt;      &lt;fct&gt;                        &lt;dbl&gt;             &lt;dbl&gt;
+##  1 experiment 2,6-diisopropylnaphthalene      44              4.99
+##  2 experiment 2,6-diisopropylnaphthalene      37              4.99
+##  3 experiment 2,6-diisopropylnaphthalene      45              4.99
+##  4 experiment 2,6-diisopropylnaphthalene      47              4.99
+##  5 experiment 2,6-diisopropylnaphthalene      41              4.99
+##  6 experiment 2,6-diisopropylnaphthalene      35              4.99
+##  7 experiment 2,6-diisopropylnaphthalene      41              4.99
+##  8 experiment 2,6-diisopropylnaphthalene      36              4.99
+##  9 experiment 2,6-diisopropylnaphthalene      40              4.99
+## 10 experiment 2,6-diisopropylnaphthalene      38              4.99
+## # ... with 350 more rows</code></pre>
+<p>After tidying the data from the excel file, exploritary graphs have been created to study the data more thouroughly</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="c.elegans-plate-experiment.html#cb4-1" aria-hidden="true" tabindex="-1"></a>Celegans_data <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fu">log10</span>(compConcentration<span class="fl">+0.00005</span>), <span class="at">y=</span>RawData))<span class="sc">+</span> <span class="co">#Added 0.0005 as otherwise, due to using log10, the S-medium values which are = 0, would be deleted.</span></span>
+<span id="cb4-2"><a href="c.elegans-plate-experiment.html#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">colour=</span>compName, <span class="at">shape=</span>expType), <span class="at">width =</span> <span class="fl">0.05</span>)<span class="sc">+</span></span>
+<span id="cb4-3"><a href="c.elegans-plate-experiment.html#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb4-4"><a href="c.elegans-plate-experiment.html#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-5"><a href="c.elegans-plate-experiment.html#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">&quot;Effect of multiple treatments on offspring production by C.elegans&quot;</span>,</span>
+<span id="cb4-6"><a href="c.elegans-plate-experiment.html#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">&quot;log 10 treatment concentration (nM)&quot;</span>,</span>
+<span id="cb4-7"><a href="c.elegans-plate-experiment.html#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">&quot;Amount of offspring&quot;</span>,</span>
+<span id="cb4-8"><a href="c.elegans-plate-experiment.html#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour=</span><span class="st">&quot;Treatment&quot;</span>,</span>
+<span id="cb4-9"><a href="c.elegans-plate-experiment.html#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">shape=</span><span class="st">&quot;Experiment type&quot;</span></span>
+<span id="cb4-10"><a href="c.elegans-plate-experiment.html#cb4-10" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code>## Warning: Removed 5 rows containing missing values (geom_point).</code></pre>
+<p><img src="_main_files/figure-html/dataplots-1.png" width="672" /></p>
+<p>To properly be able to study the effect of the different treatments on C.elegans, the data will be normalised for the negative control S-medium.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="c.elegans-plate-experiment.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Determine the mean of the negative control</span></span>
+<span id="cb6-2"><a href="c.elegans-plate-experiment.html#cb6-2" aria-hidden="true" tabindex="-1"></a>negctrl_mean<span class="ot">&lt;-</span>Celegans_data_select<span class="sc">$</span>RawData[Celegans_data_select<span class="sc">$</span>expType<span class="sc">==</span><span class="st">&quot;controlNegative&quot;</span>] <span class="sc">%&gt;%</span> <span class="fu">mean</span>()</span>
+<span id="cb6-3"><a href="c.elegans-plate-experiment.html#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="c.elegans-plate-experiment.html#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Normalising the data</span></span>
+<span id="cb6-5"><a href="c.elegans-plate-experiment.html#cb6-5" aria-hidden="true" tabindex="-1"></a>Celegans_data_select_normalised<span class="ot">&lt;-</span>Celegans_data_select <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(</span>
+<span id="cb6-6"><a href="c.elegans-plate-experiment.html#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">normalised_RawData=</span>RawData<span class="sc">/</span>negctrl_mean</span>
+<span id="cb6-7"><a href="c.elegans-plate-experiment.html#cb6-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-8"><a href="c.elegans-plate-experiment.html#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="c.elegans-plate-experiment.html#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Plotting the normalised data</span></span>
+<span id="cb6-10"><a href="c.elegans-plate-experiment.html#cb6-10" aria-hidden="true" tabindex="-1"></a>Celegans_data_select_normalised <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fu">log10</span>(compConcentration<span class="fl">+0.00005</span>), <span class="at">y=</span>normalised_RawData))<span class="sc">+</span></span>
+<span id="cb6-11"><a href="c.elegans-plate-experiment.html#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="fu">aes</span>(<span class="at">colour=</span>compName, <span class="at">shape=</span>expType), <span class="at">width =</span> <span class="fl">0.05</span>)<span class="sc">+</span></span>
+<span id="cb6-12"><a href="c.elegans-plate-experiment.html#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb6-13"><a href="c.elegans-plate-experiment.html#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb6-14"><a href="c.elegans-plate-experiment.html#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">&quot;Normalised effect of multiple treatments on offspring production by C.elegans&quot;</span>,</span>
+<span id="cb6-15"><a href="c.elegans-plate-experiment.html#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">&quot;log 10 treatment concentration (nM)&quot;</span>,</span>
+<span id="cb6-16"><a href="c.elegans-plate-experiment.html#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">&quot;Normalised amount of offspring&quot;</span>,</span>
+<span id="cb6-17"><a href="c.elegans-plate-experiment.html#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour=</span><span class="st">&quot;Treatment&quot;</span>,</span>
+<span id="cb6-18"><a href="c.elegans-plate-experiment.html#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">shape=</span><span class="st">&quot;Experiment type&quot;</span></span>
+<span id="cb6-19"><a href="c.elegans-plate-experiment.html#cb6-19" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code>## Warning: Removed 5 rows containing missing values (geom_point).</code></pre>
+<p><img src="_main_files/figure-html/normalisingDataForNegativeControl-1.png" width="672" /></p>
+<p>For a clearer picture of the correlations, a summarise version of the graph has also been made:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="c.elegans-plate-experiment.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Creating a summarised version of the data based on Treatment and concentration</span></span>
+<span id="cb8-2"><a href="c.elegans-plate-experiment.html#cb8-2" aria-hidden="true" tabindex="-1"></a>Celegans_data_normalised_sum<span class="ot">&lt;-</span>Celegans_data_select_normalised <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(compConcentration, compName) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(</span>
+<span id="cb8-3"><a href="c.elegans-plate-experiment.html#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">mean_normalised=</span><span class="fu">mean</span>(normalised_RawData)</span>
+<span id="cb8-4"><a href="c.elegans-plate-experiment.html#cb8-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-5"><a href="c.elegans-plate-experiment.html#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="c.elegans-plate-experiment.html#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Filtering out S-medium, as that is the negative control.</span></span>
+<span id="cb8-7"><a href="c.elegans-plate-experiment.html#cb8-7" aria-hidden="true" tabindex="-1"></a>Celegans_data_normalised_sum<span class="ot">&lt;-</span>Celegans_data_normalised_sum <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="sc">!</span>compName<span class="sc">==</span><span class="st">&quot;S-medium&quot;</span>)</span>
+<span id="cb8-8"><a href="c.elegans-plate-experiment.html#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="c.elegans-plate-experiment.html#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Plotting the summarised data.</span></span>
+<span id="cb8-10"><a href="c.elegans-plate-experiment.html#cb8-10" aria-hidden="true" tabindex="-1"></a>Celegans_data_normalised_sum <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fu">log10</span>(compConcentration<span class="fl">+0.00005</span>), <span class="at">y=</span>mean_normalised))<span class="sc">+</span></span>
+<span id="cb8-11"><a href="c.elegans-plate-experiment.html#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour=</span>compName), <span class="at">size=</span><span class="dv">3</span>)<span class="sc">+</span></span>
+<span id="cb8-12"><a href="c.elegans-plate-experiment.html#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">colour=</span>compName))<span class="sc">+</span></span>
+<span id="cb8-13"><a href="c.elegans-plate-experiment.html#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb8-14"><a href="c.elegans-plate-experiment.html#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb8-15"><a href="c.elegans-plate-experiment.html#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">&quot;Normalised effect of multiple treatments on offspring production by C.elegans&quot;</span>,</span>
+<span id="cb8-16"><a href="c.elegans-plate-experiment.html#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">&quot;log 10 treatment concentration (nM)&quot;</span>,</span>
+<span id="cb8-17"><a href="c.elegans-plate-experiment.html#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">&quot;Normalised amount of offspring&quot;</span>,</span>
+<span id="cb8-18"><a href="c.elegans-plate-experiment.html#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour=</span><span class="st">&quot;Treatment&quot;</span></span>
+<span id="cb8-19"><a href="c.elegans-plate-experiment.html#cb8-19" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 1 row(s) containing missing values (geom_path).</code></pre>
+<p><img src="_main_files/figure-html/ClearerGraph-1.png" width="672" /></p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="sorting-directories.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
