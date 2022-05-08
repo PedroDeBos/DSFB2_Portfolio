@@ -10,5 +10,6 @@ link-citations: yes
 
 # Introduction
 
+This is a portfolio set up by __Pedro de Bos__, life sciences student at the university of applied sciences at the hoge school utrecht. In this portfolio, his work, experiences and future plans will be presented. In this bookdown, the following topics will be presented:
 
-Hi! I'm currently figuring out how bookdown works!
+(Table of contents)
