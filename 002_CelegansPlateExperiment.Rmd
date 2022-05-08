@@ -11,6 +11,7 @@ library(readxl)
 library(here)
 #Library to create plots
 library(ggplot2)
+library(DT)
 ```
 
 In this RMD, a excel data sheet supplied by J. louter (INT/ILC), derrived from a experiment in which adult C.elegans were exposed to varying concentrations of different compounds. In this RMD, a dose-response curve shall be created.
@@ -59,6 +60,9 @@ Celegans_data_select<-Celegans_data_select %>% filter(!is.na(RawData))
 
 #Re-loading the data
 Celegans_data<-Celegans_data_select
+
+write.csv(Celegans_data_raw, here("raw_Celegans_data.csv"))
+write.csv(Celegans_data, here("Celegans_data.csv"))
 
 #Checking if transformation went properly
 datatable(Celegans_data, options = list(

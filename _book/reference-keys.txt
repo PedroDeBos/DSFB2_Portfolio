@@ -2,3 +2,7 @@ introduction
 c.elegans-plate-experiment
 sorting-directories
 future-plans
+languages
+about-me
+education
+skills
