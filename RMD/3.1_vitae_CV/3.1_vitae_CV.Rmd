@@ -52,7 +52,8 @@ tribble(
 tribble(
   ~Skill, ~Explanation,
   "Group projects", "8 Years of experience in 3-6 month long group projects",
-  "Team communication", "Comfortable using teams, github, messenger apps for communication."
+  "Team communication", "Comfortable using teams, github, messenger apps for communication.",
+  "Learning new programs", "Learned how to use the basics of bash, R within 10 weeks."
 ) %>%
   detailed_entries(Explanation, , Skill, )
 ```

@@ -1,0 +1,111 @@
+--- 
+title: "Data sciences portfolio Pedro de Bos"
+author: "Pedro de Bos"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+link-citations: yes
+---
+--- 
+title: "Data sciences portfolio Pedro de Bos"
+author: "Pedro de Bos"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+link-citations: yes
+---
+
+# Introduction
+
+This is a portfolio set up by __Pedro de Bos__, life sciences student at the university of applied sciences at the hoge school utrecht. In this portfolio, his work, experiences and future plans will be presented. In this bookdown, the following topics will be presented:
+
+(Table of contents)
+
+<!--chapter:end:index.Rmd-->
+
+
+
+
+<!--chapter:end:1.1_CelegansPlateExperiment.Rmd-->
+
+---
+title: "Folder Sorting"
+author: "Pedro de Bos"
+date: '2022-04-25'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(fs)
+library(here)
+```
+
+To prove skills in the field off Guerilla Analytics folder structure, a previously unstructured file (named Daur2) has been re-sorted according to the Guerilla analytics principles. To showcase the file structure, the fs package command dir_tree will be performed
+
+__Organised directory tree__
+````{r DirTree_Organized}
+fs::dir_tree(path = here("Daur2_Organisation_2.1/Daur2_Organized/"), type = "directory")
+
+````
+
+__Original directory tree__
+````{r DirTree_Original}
+fs::dir_tree(path = here("Daur2_Organisation_2.1/Daur2_Original/"), type = "directory")
+````
+
+<!--chapter:end:2_SortingDaur2.Rmd-->
+
+
+# uncomment this line to produce HTML and PDF in RStudio:
+
+Placeholder
+
+
+## Contact Info {#contact}
+## Skills {#skills}
+## Disclaimer {#disclaimer}
+## Lijia Yu {#title}
+### Currently searching for a PhD student position
+## Education {data-icon="graduation-cap" data-concise="true"}
+### Beijing University of Chemical Technology
+### University of Chinese Academy of Sciences
+## Research Experience {data-icon="laptop"}
+### Graduate Research Assistant
+### Bioinformatican
+### Visiting Scientist
+## Professional Experience {data-icon="suitcase"}
+### Data Scientist, intern
+### Bioinformatician
+## Teaching Experience {data-icon="chalkboard-teacher"}
+### Introduction to R Language for Beginners.
+### Computational Biology and Bioinformatics.
+## Selected Publications and Posters {data-icon="file"}
+### Genetic and epigenetic signals are found predictive to the distribution of intra-individual divergence of alternative splicing.
+### ESCRT-0 complex modulates Rbf mutant cell survival by regulating Rhomboid endosomal trafficking and EGFR signaling.
+
+<!--chapter:end:3.1_CV.Rmd-->
+
+---
+title: "PlanForFuture_3.2"
+author: "Pedro de Bos"
+date: '2022-04-25'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In this RMD file, my plans for the future skill I want to learn will be layed out. During DSFB2, 4 days (32 hours) have been given as free time, to perform our own research and practice into learning a new workflow/skill.
+
+As my goal is to go into data sciences within microbiology, one way to spend this time is to learn further workflows within bacterial research. For example, There is more depth to be found in the identification of bacterial colonies by computers: https://towardsdatascience.com/recognition-and-counting-of-microorganisms-on-petri-dishes-53a499283dc8
+
+Furthermore, I could also use this time to further study further workflows in microbiome research, and study what workflows are used when studying the microbiome.https://builtin.com/data-science/microbiome-research-data-science
+
+Lastly, I could also spent this time starting my learning journey in Python. With this, I could both study automisation and, perhaps more importantly, start on studying how machine learning works. https://automatetheboringstuff.com/2e/chapter13/
+
+<!--chapter:end:3.2_PlanForFuture.Rmd-->
+
