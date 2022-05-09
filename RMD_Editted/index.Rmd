@@ -1,0 +1,15 @@
+--- 
+title: "Data sciences portfolio Pedro de Bos"
+author: "Pedro de Bos"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+documentclass: book
+link-citations: yes
+---
+
+# Introduction
+
+This is a portfolio set up by __Pedro de Bos__, life sciences student at the university of applied sciences at the hoge school utrecht. In this portfolio, his work, experiences and future plans will be presented. In this bookdown, the following topics will be presented:
+
+(Table of contents)

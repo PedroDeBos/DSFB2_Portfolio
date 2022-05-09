@@ -8,3 +8,6 @@ install.packages("fs")
 
 #Installing vitae for RMD 3.1, creating a CV
 install.packages("vitae")
+
+#Installing pagedown for RMD 3.1, creating a cv
+install.packages("pagedown")
