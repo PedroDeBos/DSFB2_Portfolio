@@ -40,7 +40,7 @@ tribble(
   ~ Desc, ~ Language,
   "Mother language, fluent in both speaking and writing", "Dutch [x][x][x][x][x]",
   "Learned language, fluent in writing, proficient in speaking", "English [x][x][x][x][.]",
-  "Comfortable with making figures, performing statistical tests, simple analysises (RNAseq, metagenomics). Portfolio is available on github.com/PedroDeBos/DSFB2_Portfolio", "R [x][x][x][.][.]",
+  "Comfortable with making figures, performing statistical tests, simple analysises (RNAseq, metagenomics). Portfolio is available on pedrodebos.github.io", "R [x][x][x][.][.]",
   "Comfortable with writing small scripts, for-do-done loops, functions containing if/then statements", "bash [x][x][x][.][.]"
 ) %>%
   detailed_entries(Desc, , Language, )
