@@ -18,6 +18,8 @@ library(readxl)
 library(here)
 #Library to create plots
 library(ggplot2)
+#Library for datatables
+library(DT)
 ```
 
 In this RMD, a excel data sheet supplied by J. louter (INT/ILC), derrived from a experiment in which adult C.elegans were exposed to varying concentrations of different compounds. In this RMD, a dose-response curve shall be created.
