@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Portfolio Pedro de Bos" />
+<meta property="og:title" content="3 Sorting directories | Portfolio Pedro de Bos" />
 <meta property="og:type" content="book" />
 
 
@@ -16,9 +16,9 @@
 <meta name="date" content="2022-04-25" />
 
 
-<meta name="description" content="Portfolio Pedro de Bos">
+<meta name="description" content="3 Sorting directories | Portfolio Pedro de Bos">
 
-<title>Portfolio Pedro de Bos</title>
+<title>3 Sorting directories | Portfolio Pedro de Bos</title>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -181,19 +181,90 @@ details > summary {
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="header">
-<h1 class="title">Portfolio Pedro de Bos</h1>
-<h4 class="author"><em>Pedro de Bos</em></h4>
-<h4 class="date"><em>2022-04-25</em></h4>
-</div>
-<div id="introduction" class="section level1" number="1">
-<h1><span class="header-section-number">1</span> Introduction</h1>
-<p>This is a portfolio set up by <strong>Pedro de Bos</strong>, life sciences student at the university of applied sciences at the hoge school utrecht. In this portfolio, his work, experiences and future plans will be presented. In this bookdown, the following topics will be presented:</p>
-<p>(Table of contents)</p>
+<div id="sorting-directories" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Sorting directories</h1>
+<p>To prove skills in the field off Guerilla Analytics folder structure, a previously unstructured file (named Daur2) has been re-sorted according to the Guerilla analytics principles. To showcase the file structure, the fs package command dir_tree will be performed</p>
+<p><strong>Organised directory tree</strong></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="3-sorting-directories.html#cb8-1" aria-hidden="true" tabindex="-1"></a>fs<span class="sc">::</span><span class="fu">dir_tree</span>(<span class="at">path =</span> <span class="fu">here</span>(<span class="st">&quot;Daur2_Organisation_2.1/Daur2_Organized/&quot;</span>), <span class="at">type =</span> <span class="st">&quot;directory&quot;</span>)</span></code></pre></div>
+<pre><code>## C:/Users/pedro/Documents/R_DS2/DSFB2_Portfolio/Daur2_Organisation_2.1/Daur2_Organized
+## +-- Extra
+## +-- FinalAssesment
+## |   +-- afbeeldingen
+## |   +-- counts
+## |   +-- R
+## |   \-- RMD
+## |       \-- V1
+## +-- FormativeAssignment_Metagenomics
+## |   +-- fastqc
+## |   |   +-- HU2_MOCK2_L001_R1_001_fastqc
+## |   |   |   +-- Icons
+## |   |   |   \-- Images
+## |   |   \-- HU2_MOCK2_L001_R2_001_fastqc
+## |   |       +-- Icons
+## |   |       \-- Images
+## |   \-- mock2
+## +-- FormativeAssignment_RNAseq
+## |   +-- bam_dir
+## |   +-- counts_dir
+## |   +-- daur2_formativeassignment_2_files
+## |   |   \-- figure-html
+## |   +-- hg38_index
+## |   +-- R
+## |   \-- RMD
+## |       \-- V1
+## +-- MetaGenomics
+## |   +-- fastqc_waternet
+## |   |   +-- HU1_MOCK1_L001_R1_001_fastqc
+## |   |   |   +-- Icons
+## |   |   |   \-- Images
+## |   |   \-- HU1_MOCK1_L001_R2_001_fastqc
+## |   |       +-- Icons
+## |   |       \-- Images
+## |   \-- mock1
+## \-- RNAsequencing
+##     +-- bash
+##     +-- data
+##     \-- R</code></pre>
+<p><strong>Original directory tree</strong></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="3-sorting-directories.html#cb10-1" aria-hidden="true" tabindex="-1"></a>fs<span class="sc">::</span><span class="fu">dir_tree</span>(<span class="at">path =</span> <span class="fu">here</span>(<span class="st">&quot;Daur2_Organisation_2.1/Daur2_Original/&quot;</span>), <span class="at">type =</span> <span class="st">&quot;directory&quot;</span>)</span></code></pre></div>
+<pre><code>## C:/Users/pedro/Documents/R_DS2/DSFB2_Portfolio/Daur2_Organisation_2.1/Daur2_Original
+## +-- eindopdracht
+## |   +-- afbeeldingen
+## |   \-- counts
+## +-- formatieve_opdracht1
+## |   +-- bam_dir
+## |   +-- counts_dir
+## |   +-- daur2_formativeassignment_2_files
+## |   |   \-- figure-html
+## |   \-- hg38_index
+## +-- formatieve_opdracht2
+## |   +-- fastqc
+## |   |   +-- HU2_MOCK2_L001_R1_001_fastqc
+## |   |   |   +-- Icons
+## |   |   |   \-- Images
+## |   |   \-- HU2_MOCK2_L001_R2_001_fastqc
+## |   |       +-- Icons
+## |   |       \-- Images
+## |   \-- mock2
+## +-- lesson1
+## +-- lesson2
+## |   \-- counts
+## +-- lesson3
+## +-- lesson4
+## \-- lesson6
+##     +-- fastqc_waternet
+##     |   +-- HU1_MOCK1_L001_R1_001_fastqc
+##     |   |   +-- Icons
+##     |   |   \-- Images
+##     |   \-- HU1_MOCK1_L001_R2_001_fastqc
+##     |       +-- Icons
+##     |       \-- Images
+##     \-- mock1</code></pre>
 
 </div>
 <p style="text-align: center;">
-<a href="2-visualising-data.html"><button class="btn btn-default">Next</button></a>
+<a href="2-visualising-data.html"><button class="btn btn-default">Previous</button></a>
+<a href="4-cv.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>
