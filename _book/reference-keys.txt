@@ -1,5 +1,0 @@
-introduction
-visualising-data
-sorting-directories
-cv
-plan-for-future

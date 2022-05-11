@@ -1,10 +1,3 @@
----
-title: "Folder Sorting"
-author: "Pedro de Bos"
-date: '2022-04-25'
-output: html_document
----
-
 # Sorting directories
 <body id="further">
 ```{r setup_2, include=FALSE}

@@ -1,19 +1,22 @@
 --- 
-title: "Data sciences portfolio Pedro de Bos"
-author: "Pedro de Bos"
-date: "`r Sys.Date()`"
+title: ""
 site: bookdown::bookdown_site
 output: 
   bookdown::html_book:
-    toc: true
-    toc_float: true
+    toc: TRUE
+    number_sections: FALSE
 documentclass: book
 link-citations: yes
 css: style.css
 ---
-
-# Introduction
+# Frontpage
 <body id="start">
-This is a portfolio set up by __Pedro de Bos__, life sciences student at the university of applied sciences at the hoge school utrecht. In this portfolio, his work, experiences and future plans will be presented. In this bookdown, the following topics will be presented:
+<div class="header">
+  <h1>Pedro de Bos, at your service</h1>
+</div>   
 
-(Table of contents)
+&nbsp;
+
+<img src="./images/DonkereZonnePedro.png" class="center" style="width:494px;height:659px">
+
+The name's Pedro de Bos, life sciences student at the university of applied sciences Utrecht. Studied general laboratory skills for 2 years, specialised in     microbiology and minored in data sciences. Want to see what I'm capable off? Then you've come to the right place.

@@ -1,15 +1,3 @@
----
-title: "Pedro's Resume"
-author: Pedro de Bos
-date: "`r Sys.Date()`"
-output:
-  pagedown::html_resume:
-    # set it to true for a self-contained HTML page but it'll take longer to render
-    self_contained: false
-# uncomment this line to produce HTML and PDF in RStudio:
-#knit: pagedown::chrome_print
----
-
 # CV
 
 To create my CV, a package called "vitae", created by "Mitchello Harawild" has been used. This CV .Rmd file is, however, not compatable with bookdown (which was used to create this site). This .RMD generates a pdf, of which a .jpg file has been generated and is shown here. The original .Rmd file can be found in my [public repo](https://github.com/PedroDeBos/PedroDeBos.github.io).

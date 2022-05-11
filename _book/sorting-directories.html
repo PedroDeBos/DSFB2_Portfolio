@@ -5,20 +5,18 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="4 CV | Portfolio Pedro de Bos" />
+<meta property="og:title" content="Sorting directories | _main.knit" />
 <meta property="og:type" content="book" />
 
 
 
 
-<meta name="author" content="Pedro de Bos" />
-
-<meta name="date" content="2022-04-25" />
 
 
-<meta name="description" content="4 CV | Portfolio Pedro de Bos">
 
-<title>4 CV | Portfolio Pedro de Bos</title>
+<meta name="description" content="Sorting directories | _main.knit">
+
+<title>Sorting directories | _main.knit</title>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -35,9 +33,6 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
-<link href="libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="libs/navigation-1.1/tabsets.js"></script>
 <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
 <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
@@ -157,26 +152,102 @@ details > summary {
 <div class="col-sm-12">
 <div id="TOC">
 <ul>
-<li><a href="index.html#introduction"><span class="toc-section-number">1</span> Introduction</a></li>
-<li><a href="2-visualising-data.html#visualising-data"><span class="toc-section-number">2</span> Visualising data</a></li>
-<li><a href="3-sorting-directories.html#sorting-directories"><span class="toc-section-number">3</span> Sorting directories</a></li>
-<li><a href="4-cv.html#cv"><span class="toc-section-number">4</span> CV</a></li>
-<li><a href="5-plan-for-future.html#plan-for-future"><span class="toc-section-number">5</span> Plan for future</a></li>
+<li><a href="index.html#frontpage">Frontpage</a></li>
+<li><a href="visualising-data.html#visualising-data">Visualising data</a></li>
+<li><a href="sorting-directories.html#sorting-directories">Sorting directories</a></li>
+<li><a href="cv.html#cv">CV</a></li>
+<li><a href="plan-for-future.html#plan-for-future">Plan for future</a></li>
 </ul>
 </div>
 </div>
 </div>
 <div class="row">
 <div class="col-sm-12">
-<div id="cv" class="section level1" number="4">
-<h1><span class="header-section-number">4</span> CV</h1>
-<p>To create my CV, a package called “vitae”, created by “Mitchello Harawild” has been used. This CV .Rmd file is, however, not compatable with bookdown (which was used to create this site). This .RMD generates a pdf, of which a .jpg file has been generated and is shown here. The original .Rmd file can be found in my <a href="https://github.com/PedroDeBos/PedroDeBos.github.io">public repo</a>.</p>
-<p><img src="images/3.1_vitae_CV1024_1.jpg" /></p>
+<div id="sorting-directories" class="section level1">
+<h1>Sorting directories</h1>
+<body id="further">
+<p>To prove skills in the field off Guerilla Analytics folder structure, a previously unstructured file (named Daur2) has been re-sorted according to the Guerilla analytics principles. To showcase the file structure, the fs package command dir_tree will be performed</p>
+<p><strong>Organised directory tree</strong></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="sorting-directories.html#cb8-1" aria-hidden="true" tabindex="-1"></a>fs<span class="sc">::</span><span class="fu">dir_tree</span>(<span class="at">path =</span> <span class="fu">here</span>(<span class="st">&quot;Daur2_Organisation_2.1/Daur2_Organized/&quot;</span>), <span class="at">type =</span> <span class="st">&quot;directory&quot;</span>)</span></code></pre></div>
+<pre><code>## C:/Users/pedro/Documents/R_DS2/DSFB2_Portfolio/Daur2_Organisation_2.1/Daur2_Organized
+## +-- Extra
+## +-- FinalAssesment
+## |   +-- afbeeldingen
+## |   +-- counts
+## |   +-- R
+## |   \-- RMD
+## |       \-- V1
+## +-- FormativeAssignment_Metagenomics
+## |   +-- fastqc
+## |   |   +-- HU2_MOCK2_L001_R1_001_fastqc
+## |   |   |   +-- Icons
+## |   |   |   \-- Images
+## |   |   \-- HU2_MOCK2_L001_R2_001_fastqc
+## |   |       +-- Icons
+## |   |       \-- Images
+## |   \-- mock2
+## +-- FormativeAssignment_RNAseq
+## |   +-- bam_dir
+## |   +-- counts_dir
+## |   +-- daur2_formativeassignment_2_files
+## |   |   \-- figure-html
+## |   +-- hg38_index
+## |   +-- R
+## |   \-- RMD
+## |       \-- V1
+## +-- MetaGenomics
+## |   +-- fastqc_waternet
+## |   |   +-- HU1_MOCK1_L001_R1_001_fastqc
+## |   |   |   +-- Icons
+## |   |   |   \-- Images
+## |   |   \-- HU1_MOCK1_L001_R2_001_fastqc
+## |   |       +-- Icons
+## |   |       \-- Images
+## |   \-- mock1
+## \-- RNAsequencing
+##     +-- bash
+##     +-- data
+##     \-- R</code></pre>
+<p><strong>Original directory tree</strong></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="sorting-directories.html#cb10-1" aria-hidden="true" tabindex="-1"></a>fs<span class="sc">::</span><span class="fu">dir_tree</span>(<span class="at">path =</span> <span class="fu">here</span>(<span class="st">&quot;Daur2_Organisation_2.1/Daur2_Original/&quot;</span>), <span class="at">type =</span> <span class="st">&quot;directory&quot;</span>)</span></code></pre></div>
+<pre><code>## C:/Users/pedro/Documents/R_DS2/DSFB2_Portfolio/Daur2_Organisation_2.1/Daur2_Original
+## +-- eindopdracht
+## |   +-- afbeeldingen
+## |   \-- counts
+## +-- formatieve_opdracht1
+## |   +-- bam_dir
+## |   +-- counts_dir
+## |   +-- daur2_formativeassignment_2_files
+## |   |   \-- figure-html
+## |   \-- hg38_index
+## +-- formatieve_opdracht2
+## |   +-- fastqc
+## |   |   +-- HU2_MOCK2_L001_R1_001_fastqc
+## |   |   |   +-- Icons
+## |   |   |   \-- Images
+## |   |   \-- HU2_MOCK2_L001_R2_001_fastqc
+## |   |       +-- Icons
+## |   |       \-- Images
+## |   \-- mock2
+## +-- lesson1
+## +-- lesson2
+## |   \-- counts
+## +-- lesson3
+## +-- lesson4
+## \-- lesson6
+##     +-- fastqc_waternet
+##     |   +-- HU1_MOCK1_L001_R1_001_fastqc
+##     |   |   +-- Icons
+##     |   |   \-- Images
+##     |   \-- HU1_MOCK1_L001_R2_001_fastqc
+##     |       +-- Icons
+##     |       \-- Images
+##     \-- mock1</code></pre>
 
 </div>
 <p style="text-align: center;">
-<a href="3-sorting-directories.html"><button class="btn btn-default">Previous</button></a>
-<a href="5-plan-for-future.html"><button class="btn btn-default">Next</button></a>
+<a href="visualising-data.html"><button class="btn btn-default">Previous</button></a>
+<a href="cv.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>
