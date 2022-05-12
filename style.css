@@ -9,6 +9,23 @@
   color: white;
 }
 
+/*literally copied this code I'll make my own in a bit*/
+.topnav {
+  overflow: hidden;
+  background-color: #0f0f0f;
+  border: 1px solid white;
+}
+
+/* Style the topnav links */
+.topnav a {
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
 .center {
   display: block;
   margin-left: auto;
@@ -26,7 +43,6 @@
   background-color: #0f0f0f;
   color: white;
   font-size: 20px;
-  text-shadow: rgb(0, 0, 0) 1px 0px 0px, rgb(0, 0, 0) 0.540302px 0.841471px 0px, rgb(0, 0, 0) -0.416147px 0.909297px 0px, rgb(0, 0, 0) -0.989992px 0.14112px 0px, rgb(0, 0, 0) -0.653644px -0.756802px 0px, rgb(0, 0, 0) 0.283662px -0.958924px 0px, rgb(0, 0, 0) 0.96017px -0.279415px 0px;
   font-family:Garamond, Georgia, serif;
 }
 
