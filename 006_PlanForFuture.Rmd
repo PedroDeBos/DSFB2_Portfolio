@@ -9,6 +9,8 @@
   <a href='plan-for-future.html#plan-for-future'>The future</a>
 </div>
 
+&nbsp;
+
 ```{r setup_3, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```

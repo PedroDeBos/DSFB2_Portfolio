@@ -8,6 +8,9 @@
   <a href='cv.html#cv'>CV</a>
   <a href='plan-for-future.html#plan-for-future'>The future</a>
 </div>
+
+&nbsp;
+
 ```{r setup_2, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(fs)
