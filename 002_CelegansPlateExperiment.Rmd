@@ -1,4 +1,4 @@
-# Visualising data
+# Data visualisation
 <body id="start">
 <div class="topnav">
   <a href='index.html#frontpage'>Front page</a>
@@ -27,7 +27,6 @@ In this RMD, a excel data sheet supplied by J. louter (INT/ILC), derrived from a
 
 First off, the data stored in an excel file shall be read
 ````{r reading_excelData}
-# CREATE A PROPER TABLE TO SHOWCASE THIS DATA, AND THE FINAL TIDY DATA
 excel_location<-here("data.raw/CE.LIQ.FLOW.062_Tidydata.xlsx")
 Celegans_data_raw<-read_excel(excel_location, sheet = 1)
 datatable(Celegans_data_raw, options = list(
