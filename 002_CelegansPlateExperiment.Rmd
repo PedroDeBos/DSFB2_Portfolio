@@ -1,8 +1,8 @@
-# Visualising data
+# Data visualisation
 <body id="start">
 <div class="topnav">
   <a href='index.html#frontpage'>Front page</a>
-  <a href='visualising-data.html#visualising-data'>Data visualisation</a>
+  <a href='data-visualisation.html#data-visualisation'>Data visualisation</a>
   <a href='reproductibility.html#Reproductibility'>Reproductibility</a>
   <a href='sorting-directories.html#sorting-directories'>Directory structure</a>
   <a href='cv.html#cv'>CV</a>
@@ -22,12 +22,12 @@ library(ggplot2)
 #Library for datatables
 library(DT)
 ```
+&nbsp;
 
-In this RMD, a excel data sheet supplied by J. louter (INT/ILC), derrived from a experiment in which adult C.elegans were exposed to varying concentrations of different compounds. In this RMD, a dose-response curve shall be created.
+To prove my skills in handling and making initial visualisations of data, a mock dataset supplied by J. louter (INT/ILC) has been analysed. This dataset was derived from an experiment in which adult _C.elegans_ were exposed to varying concentrations of different compounds. Then, after an exposure time of 68 hours, these _C.elegans_ were tested for amount of offspring they gave.  
 
-First off, the data stored in an excel file shall be read
+Firstly, the data (which was stored in an Excel file) has been read using tidyverse's "readxl()". A datatable has been created to show this initial dataset
 ````{r reading_excelData}
-# CREATE A PROPER TABLE TO SHOWCASE THIS DATA, AND THE FINAL TIDY DATA
 excel_location<-here("data.raw/CE.LIQ.FLOW.062_Tidydata.xlsx")
 Celegans_data_raw<-read_excel(excel_location, sheet = 1)
 datatable(Celegans_data_raw, options = list(
@@ -35,14 +35,14 @@ datatable(Celegans_data_raw, options = list(
 ))
 ````
 
-After reading in the data, it's transformed in order to be able to create proper figures from it. For this, the important data columns.
+After reading in this data, it has been transformed in order to be able to create proper figures from it. For this, the important data columns have been selected:
 expType: The type of experiment (Experimental, control)
 
-RawData: Ammount of ofspring Celegans gave after 68 hours of exposure to the treatment
+RawData: Amount of offspring _C.elegans_ gave after 68 hours of exposure to the treatment
 
-compName: The compound to which the Celegans was exposed to.
+compName: The compound to which the _C.elegans_ was exposed to.
 
-compConcentration: The concentration of the compound which the Celegans was exposed to.
+compConcentration: The concentration of the compound which the _C.elegans_ was exposed to.
 
 ````{r tidying_Excel}
 #Dataset inspection and transformation
@@ -76,7 +76,7 @@ datatable(Celegans_data, options = list(
 ))
 ````
 
-After tidying the data from the excel file, exploritary graphs have been created to study the data more thouroughly
+After tidying the data from the excel file, exploratory graphs have been created to study the data more thoroughly
 
 ````{r dataplots}
 Celegans_data %>% ggplot(aes(x=log10(compConcentration+0.00005), y=RawData))+ #Added 0.0005 as otherwise, due to using log10, the S-medium values which are = 0, would be deleted.
@@ -92,7 +92,7 @@ Celegans_data %>% ggplot(aes(x=log10(compConcentration+0.00005), y=RawData))+ #A
   
 ````
 
-To properly be able to study the effect of the different treatments on C.elegans, the data will be normalised for the negative control S-medium.
+To properly be able to study the effect of the different treatments on _C.elegans_, the data will be normalized for the negative control S-medium.
 
 ````{r normalisingDataForNegativeControl}
 #Determine the mean of the negative control
@@ -117,7 +117,7 @@ Celegans_data_select_normalised %>% ggplot(aes(x=log10(compConcentration+0.00005
 
 ````
 
-For a clearer picture of the correlations, a summarise version of the graph has also been made:
+For a clearer picture of the correlations, a summarized version of the graph has also been made:
 ````{r ClearerGraph}
 #Creating a summarised version of the data based on Treatment and concentration
 Celegans_data_normalised_sum<-Celegans_data_select_normalised %>% filter(!is.na(normalised_RawData_percentage)) %>% group_by(compConcentration, compName) %>% summarise(
