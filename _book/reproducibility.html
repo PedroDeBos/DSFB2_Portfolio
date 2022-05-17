@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Reproducibility | _main.knit" />
+<meta property="og:type" content="book" />
+
+
+
+
+
+
+
+<meta name="description" content="Reproducibility | _main.knit">
+
+<title>Reproducibility | _main.knit</title>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.22/datatables.js"></script>
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+/* show arrow before summary tag as in bootstrap
+TODO: remove if boostrap in updated in html_document (rmarkdown#1485) */
+details > summary {
+  display: list-item;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid main-container">
+
+
+<div class="row">
+<div class="col-sm-12">
+<!--bookdown:toc:end-->
+<!--bookdown:toc:start-->
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<div id="reproducibility" class="section level2">
+<h2>Reproducibility</h2>
+<p>In the table below, the reproducibility of the study has been rated based on the previously given criteria:</p>
+<div id="htmlwidget-2eeb863872fc9df48dd6" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2eeb863872fc9df48dd6">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8"],["Study purpose","Data availability","Data location","Study location","Author review","Ethics statement","Funding statment","Code availability"],["TRUE","TRUE","https://data.mendeley.com/datasets/rcscvwcyx4/2","FALSE","1/4","FALSE","FALSE","TRUE"],["Purpose stated in introduction","Data stored in 'Mendely Data'","Data in given link","Not stated where the study was performed","1/4 authors had their mail/phone number available","There was no ethics statment","There was no funding statement","The code is available on 'Mendely Data'"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>criteria<\/th>\n      <th>result<\/th>\n      <th>explanation<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p>In order to further study if the study was truly done reproductible, the data and R code of the study have been downloaded, and will be tested. The full code has been showcased at the bottom of the page.</p>
+<p>The code first installs necessary packages, defines functions, and finally actually ultilises the code.</p>
+<p>Data is read -&gt; data gets wrangled using functions -&gt; visibly affected creatures are removed -&gt; citalopram/tramadol concentrations are updated to be the correct, final measurement -&gt; factors are ordered -&gt; data is wrangled for different graphs -&gt; AOV statistics are performed -&gt; figures are plotted</p>
+<div class="figure">
+<img src="images/Generated_graph.png" alt="" />
+<p class="caption">Generated figure</p>
+</div>
+<p>The code used in this project was very nicely tidied, using comments to clarify what different functions do, why certain (otherwise nonsensical) commands are used and are used to separate different kinds of code. There was only 1 error in the script, a function depending on an input of 43200 instead of the correct 86400, but this error was fixed relatively easy.</p>
+<p>In terms of readability, I would rate this code a 5/5</p>
+<p>In terms of amount of effort it took to fully use the code, I would rate this code a 4/5</p>
+<p>However, one point of note is that the code only generates 1 specific figure, while in the final paper, 3 different kinds of figures are used. Furthermore, while the graph displays the same data as the graphs in the paper, it does not look exactly the same: Thus, I expect the final code used for generating the paper is not the same as the code given in the dataset.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="reproducibility.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">#####################################</span></span>
+<span id="cb8-2"><a href="reproducibility.html#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="do">###    Behavior analysis script   </span><span class="al">###</span></span>
+<span id="cb8-3"><a href="reproducibility.html#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="do">###     Author: Johannes Pohl     </span><span class="al">###</span></span>
+<span id="cb8-4"><a href="reproducibility.html#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="do">### orcid.org/0000-0002-8120-8019 </span><span class="al">###</span></span>
+<span id="cb8-5"><a href="reproducibility.html#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="do">###              2019             </span><span class="al">###</span></span>
+<span id="cb8-6"><a href="reproducibility.html#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="do">#####################################</span></span>
+<span id="cb8-7"><a href="reproducibility.html#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="reproducibility.html#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="do">################</span></span>
+<span id="cb8-9"><a href="reproducibility.html#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="do">### Packages </span><span class="al">###</span></span>
+<span id="cb8-10"><a href="reproducibility.html#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="do">################</span></span>
+<span id="cb8-11"><a href="reproducibility.html#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="reproducibility.html#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(ggplot2)){<span class="fu">install.packages</span>(<span class="st">&quot;ggplot2&quot;</span>)}</span>
+<span id="cb8-13"><a href="reproducibility.html#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(multcomp)){<span class="fu">install.packages</span>(<span class="st">&quot;multcomp&quot;</span>)}</span>
+<span id="cb8-14"><a href="reproducibility.html#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(plyr)){<span class="fu">install.packages</span>(<span class="st">&quot;plyr&quot;</span>)}</span>
+<span id="cb8-15"><a href="reproducibility.html#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="reproducibility.html#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="do">#################</span></span>
+<span id="cb8-17"><a href="reproducibility.html#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="do">### Functions </span><span class="al">###</span></span>
+<span id="cb8-18"><a href="reproducibility.html#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="do">#################</span></span>
+<span id="cb8-19"><a href="reproducibility.html#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="reproducibility.html#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co"># SummarySE function from Cookbook for R (http://www.cookbook-r.com/Manipulating_data/Summarizing_data/)</span></span>
+<span id="cb8-21"><a href="reproducibility.html#cb8-21" aria-hidden="true" tabindex="-1"></a>summarySE <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">data=</span><span class="cn">NULL</span>, measurevar, <span class="at">groupvars=</span><span class="cn">NULL</span>, <span class="at">na.rm=</span><span class="cn">FALSE</span>,</span>
+<span id="cb8-22"><a href="reproducibility.html#cb8-22" aria-hidden="true" tabindex="-1"></a>                      <span class="at">conf.interval=</span>.<span class="dv">95</span>, <span class="at">.drop=</span><span class="cn">TRUE</span>) {</span>
+<span id="cb8-23"><a href="reproducibility.html#cb8-23" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-24"><a href="reproducibility.html#cb8-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(plyr)</span>
+<span id="cb8-25"><a href="reproducibility.html#cb8-25" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-26"><a href="reproducibility.html#cb8-26" aria-hidden="true" tabindex="-1"></a>  <span class="co"># New version of length which can handle NA&#39;s: if na.rm==T, don&#39;t count them</span></span>
+<span id="cb8-27"><a href="reproducibility.html#cb8-27" aria-hidden="true" tabindex="-1"></a>  length2 <span class="ot">&lt;-</span> <span class="cf">function</span> (x, <span class="at">na.rm=</span><span class="cn">FALSE</span>) {</span>
+<span id="cb8-28"><a href="reproducibility.html#cb8-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (na.rm) <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(x))</span>
+<span id="cb8-29"><a href="reproducibility.html#cb8-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>       <span class="fu">length</span>(x)</span>
+<span id="cb8-30"><a href="reproducibility.html#cb8-30" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-31"><a href="reproducibility.html#cb8-31" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-32"><a href="reproducibility.html#cb8-32" aria-hidden="true" tabindex="-1"></a>  <span class="co"># This does the summary. For each group&#39;s data frame, return a vector with</span></span>
+<span id="cb8-33"><a href="reproducibility.html#cb8-33" aria-hidden="true" tabindex="-1"></a>  <span class="co"># N, mean, and sd</span></span>
+<span id="cb8-34"><a href="reproducibility.html#cb8-34" aria-hidden="true" tabindex="-1"></a>  datac <span class="ot">&lt;-</span> <span class="fu">ddply</span>(data, groupvars, <span class="at">.drop=</span>.drop,</span>
+<span id="cb8-35"><a href="reproducibility.html#cb8-35" aria-hidden="true" tabindex="-1"></a>                 <span class="at">.fun =</span> <span class="cf">function</span>(xx, col) {</span>
+<span id="cb8-36"><a href="reproducibility.html#cb8-36" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">c</span>(<span class="at">N    =</span> <span class="fu">length2</span>(xx[[col]], <span class="at">na.rm=</span>na.rm),</span>
+<span id="cb8-37"><a href="reproducibility.html#cb8-37" aria-hidden="true" tabindex="-1"></a>                     <span class="at">mean =</span> <span class="fu">mean</span>   (xx[[col]], <span class="at">na.rm=</span>na.rm),</span>
+<span id="cb8-38"><a href="reproducibility.html#cb8-38" aria-hidden="true" tabindex="-1"></a>                     <span class="at">sd   =</span> <span class="fu">sd</span>     (xx[[col]], <span class="at">na.rm=</span>na.rm)</span>
+<span id="cb8-39"><a href="reproducibility.html#cb8-39" aria-hidden="true" tabindex="-1"></a>                   )</span>
+<span id="cb8-40"><a href="reproducibility.html#cb8-40" aria-hidden="true" tabindex="-1"></a>                 },</span>
+<span id="cb8-41"><a href="reproducibility.html#cb8-41" aria-hidden="true" tabindex="-1"></a>                 measurevar</span>
+<span id="cb8-42"><a href="reproducibility.html#cb8-42" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-43"><a href="reproducibility.html#cb8-43" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-44"><a href="reproducibility.html#cb8-44" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Rename the &quot;mean&quot; column    </span></span>
+<span id="cb8-45"><a href="reproducibility.html#cb8-45" aria-hidden="true" tabindex="-1"></a>  datac <span class="ot">&lt;-</span> <span class="fu">rename</span>(datac, <span class="fu">c</span>(<span class="st">&quot;mean&quot;</span> <span class="ot">=</span> measurevar))</span>
+<span id="cb8-46"><a href="reproducibility.html#cb8-46" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-47"><a href="reproducibility.html#cb8-47" aria-hidden="true" tabindex="-1"></a>  datac<span class="sc">$</span>se <span class="ot">&lt;-</span> datac<span class="sc">$</span>sd <span class="sc">/</span> <span class="fu">sqrt</span>(datac<span class="sc">$</span>N)  <span class="co"># Calculate standard error of the mean</span></span>
+<span id="cb8-48"><a href="reproducibility.html#cb8-48" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-49"><a href="reproducibility.html#cb8-49" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Confidence interval multiplier for standard error</span></span>
+<span id="cb8-50"><a href="reproducibility.html#cb8-50" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Calculate t-statistic for confidence interval: </span></span>
+<span id="cb8-51"><a href="reproducibility.html#cb8-51" aria-hidden="true" tabindex="-1"></a>  <span class="co"># e.g., if conf.interval is .95, use .975 (above/below), and use df=N-1</span></span>
+<span id="cb8-52"><a href="reproducibility.html#cb8-52" aria-hidden="true" tabindex="-1"></a>  ciMult <span class="ot">&lt;-</span> <span class="fu">qt</span>(conf.interval<span class="sc">/</span><span class="dv">2</span> <span class="sc">+</span> .<span class="dv">5</span>, datac<span class="sc">$</span>N<span class="dv">-1</span>)</span>
+<span id="cb8-53"><a href="reproducibility.html#cb8-53" aria-hidden="true" tabindex="-1"></a>  datac<span class="sc">$</span>ci <span class="ot">&lt;-</span> datac<span class="sc">$</span>se <span class="sc">*</span> ciMult</span>
+<span id="cb8-54"><a href="reproducibility.html#cb8-54" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-55"><a href="reproducibility.html#cb8-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(datac)</span>
+<span id="cb8-56"><a href="reproducibility.html#cb8-56" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-57"><a href="reproducibility.html#cb8-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-58"><a href="reproducibility.html#cb8-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiplot function from Cookbook for R http://www.cookbook-r.com/Graphs/Multiple_graphs_on_one_page_(ggplot2)/</span></span>
+<span id="cb8-59"><a href="reproducibility.html#cb8-59" aria-hidden="true" tabindex="-1"></a>multiplot <span class="ot">&lt;-</span> <span class="cf">function</span>(..., <span class="at">plotlist=</span><span class="cn">NULL</span>, file, <span class="at">cols=</span><span class="dv">1</span>, <span class="at">layout=</span><span class="cn">NULL</span>) {</span>
+<span id="cb8-60"><a href="reproducibility.html#cb8-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">library</span>(grid)</span>
+<span id="cb8-61"><a href="reproducibility.html#cb8-61" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-62"><a href="reproducibility.html#cb8-62" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Make a list from the ... arguments and plotlist</span></span>
+<span id="cb8-63"><a href="reproducibility.html#cb8-63" aria-hidden="true" tabindex="-1"></a>  plots <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">list</span>(...), plotlist)</span>
+<span id="cb8-64"><a href="reproducibility.html#cb8-64" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-65"><a href="reproducibility.html#cb8-65" aria-hidden="true" tabindex="-1"></a>  numPlots <span class="ot">=</span> <span class="fu">length</span>(plots)</span>
+<span id="cb8-66"><a href="reproducibility.html#cb8-66" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-67"><a href="reproducibility.html#cb8-67" aria-hidden="true" tabindex="-1"></a>  <span class="co"># If layout is NULL, then use &#39;cols&#39; to determine layout</span></span>
+<span id="cb8-68"><a href="reproducibility.html#cb8-68" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(layout)) {</span>
+<span id="cb8-69"><a href="reproducibility.html#cb8-69" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Make the panel</span></span>
+<span id="cb8-70"><a href="reproducibility.html#cb8-70" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ncol: Number of columns of plots</span></span>
+<span id="cb8-71"><a href="reproducibility.html#cb8-71" aria-hidden="true" tabindex="-1"></a>    <span class="co"># nrow: Number of rows needed, calculated from # of cols</span></span>
+<span id="cb8-72"><a href="reproducibility.html#cb8-72" aria-hidden="true" tabindex="-1"></a>    layout <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">seq</span>(<span class="dv">1</span>, cols <span class="sc">*</span> <span class="fu">ceiling</span>(numPlots<span class="sc">/</span>cols)),</span>
+<span id="cb8-73"><a href="reproducibility.html#cb8-73" aria-hidden="true" tabindex="-1"></a>                     <span class="at">ncol =</span> cols, <span class="at">nrow =</span> <span class="fu">ceiling</span>(numPlots<span class="sc">/</span>cols))</span>
+<span id="cb8-74"><a href="reproducibility.html#cb8-74" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-75"><a href="reproducibility.html#cb8-75" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-76"><a href="reproducibility.html#cb8-76" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (numPlots<span class="sc">==</span><span class="dv">1</span>) {</span>
+<span id="cb8-77"><a href="reproducibility.html#cb8-77" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(plots[[<span class="dv">1</span>]])</span>
+<span id="cb8-78"><a href="reproducibility.html#cb8-78" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-79"><a href="reproducibility.html#cb8-79" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb8-80"><a href="reproducibility.html#cb8-80" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Set up the page</span></span>
+<span id="cb8-81"><a href="reproducibility.html#cb8-81" aria-hidden="true" tabindex="-1"></a>    <span class="fu">grid.newpage</span>()</span>
+<span id="cb8-82"><a href="reproducibility.html#cb8-82" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pushViewport</span>(<span class="fu">viewport</span>(<span class="at">layout =</span> <span class="fu">grid.layout</span>(<span class="fu">nrow</span>(layout), <span class="fu">ncol</span>(layout))))</span>
+<span id="cb8-83"><a href="reproducibility.html#cb8-83" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-84"><a href="reproducibility.html#cb8-84" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Make each plot, in the correct location</span></span>
+<span id="cb8-85"><a href="reproducibility.html#cb8-85" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>numPlots) {</span>
+<span id="cb8-86"><a href="reproducibility.html#cb8-86" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Get the i,j matrix positions of the regions that contain this subplot</span></span>
+<span id="cb8-87"><a href="reproducibility.html#cb8-87" aria-hidden="true" tabindex="-1"></a>      matchidx <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">which</span>(layout <span class="sc">==</span> i, <span class="at">arr.ind =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb8-88"><a href="reproducibility.html#cb8-88" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb8-89"><a href="reproducibility.html#cb8-89" aria-hidden="true" tabindex="-1"></a>      <span class="fu">print</span>(plots[[i]], <span class="at">vp =</span> <span class="fu">viewport</span>(<span class="at">layout.pos.row =</span> matchidx<span class="sc">$</span>row,</span>
+<span id="cb8-90"><a href="reproducibility.html#cb8-90" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">layout.pos.col =</span> matchidx<span class="sc">$</span>col))</span>
+<span id="cb8-91"><a href="reproducibility.html#cb8-91" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb8-92"><a href="reproducibility.html#cb8-92" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-93"><a href="reproducibility.html#cb8-93" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-94"><a href="reproducibility.html#cb8-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-95"><a href="reproducibility.html#cb8-95" aria-hidden="true" tabindex="-1"></a>plot.linetype <span class="ot">&lt;-</span> <span class="fu">scale_linetype_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;solid&quot;</span>, <span class="st">&quot;solid&quot;</span>, <span class="st">&quot;solid&quot;</span>, <span class="st">&quot;solid&quot;</span>, <span class="st">&quot;solid&quot;</span>, <span class="st">&quot;solid&quot;</span>, <span class="st">&quot;solid&quot;</span>, <span class="st">&quot;solid&quot;</span>, <span class="st">&quot;solid&quot;</span>, <span class="st">&quot;solid&quot;</span>,<span class="st">&quot;solid&quot;</span>, <span class="st">&quot;solid&quot;</span>), </span>
+<span id="cb8-96"><a href="reproducibility.html#cb8-96" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">breaks=</span><span class="fu">c</span>(<span class="st">&quot;C&quot;</span>, <span class="st">&quot;SC&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;4&quot;</span>, <span class="st">&quot;5&quot;</span>, <span class="st">&quot;6&quot;</span>, <span class="st">&quot;7&quot;</span>,<span class="st">&quot;8&quot;</span>,<span class="st">&quot;9&quot;</span>,<span class="st">&quot;10&quot;</span>), </span>
+<span id="cb8-97"><a href="reproducibility.html#cb8-97" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;C&quot;</span>, <span class="st">&quot;SC&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;4&quot;</span>, <span class="st">&quot;5&quot;</span>, <span class="st">&quot;6&quot;</span>, <span class="st">&quot;7&quot;</span>,<span class="st">&quot;8&quot;</span>,<span class="st">&quot;9&quot;</span>,<span class="st">&quot;10&quot;</span>),</span>
+<span id="cb8-98"><a href="reproducibility.html#cb8-98" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">&quot;Treatment&quot;</span>) </span>
+<span id="cb8-99"><a href="reproducibility.html#cb8-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-100"><a href="reproducibility.html#cb8-100" aria-hidden="true" tabindex="-1"></a>plot.fill <span class="ot">&lt;-</span> <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#000000&quot;</span>, <span class="st">&quot;#000000&quot;</span>, <span class="st">&quot;#000000&quot;</span>, <span class="st">&quot;#000000&quot;</span>, <span class="st">&quot;#000000&quot;</span>, <span class="st">&quot;#000000&quot;</span>, <span class="st">&quot;#000000&quot;</span>, <span class="st">&quot;#000000&quot;</span>, <span class="st">&quot;#000000&quot;</span>, <span class="st">&quot;#000000&quot;</span>,<span class="st">&quot;#000000&quot;</span>, <span class="st">&quot;#000000&quot;</span>), </span>
+<span id="cb8-101"><a href="reproducibility.html#cb8-101" aria-hidden="true" tabindex="-1"></a>                               <span class="at">breaks=</span><span class="fu">c</span>(<span class="st">&quot;C&quot;</span>, <span class="st">&quot;SC&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;4&quot;</span>, <span class="st">&quot;5&quot;</span>, <span class="st">&quot;6&quot;</span>, <span class="st">&quot;7&quot;</span>,<span class="st">&quot;8&quot;</span>,<span class="st">&quot;9&quot;</span>,<span class="st">&quot;10&quot;</span>), </span>
+<span id="cb8-102"><a href="reproducibility.html#cb8-102" aria-hidden="true" tabindex="-1"></a>                               <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;C&quot;</span>, <span class="st">&quot;SC&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;4&quot;</span>, <span class="st">&quot;5&quot;</span>, <span class="st">&quot;6&quot;</span>, <span class="st">&quot;7&quot;</span>,<span class="st">&quot;8&quot;</span>,<span class="st">&quot;9&quot;</span>,<span class="st">&quot;10&quot;</span>),</span>
+<span id="cb8-103"><a href="reproducibility.html#cb8-103" aria-hidden="true" tabindex="-1"></a>                               <span class="st">&quot;Treatment&quot;</span>) </span>
+<span id="cb8-104"><a href="reproducibility.html#cb8-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-105"><a href="reproducibility.html#cb8-105" aria-hidden="true" tabindex="-1"></a>plot.color <span class="ot">&lt;-</span><span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#000000&quot;</span>, <span class="st">&quot;#000000&quot;</span>, <span class="st">&quot;#000000&quot;</span>, <span class="st">&quot;#000000&quot;</span>, <span class="st">&quot;#000000&quot;</span>, <span class="st">&quot;#000000&quot;</span>, <span class="st">&quot;#000000&quot;</span>, <span class="st">&quot;#000000&quot;</span>, <span class="st">&quot;#000000&quot;</span>, <span class="st">&quot;#000000&quot;</span>,<span class="st">&quot;#000000&quot;</span>, <span class="st">&quot;#000000&quot;</span>), </span>
+<span id="cb8-106"><a href="reproducibility.html#cb8-106" aria-hidden="true" tabindex="-1"></a>                                <span class="at">breaks=</span><span class="fu">c</span>(<span class="st">&quot;C&quot;</span>, <span class="st">&quot;SC&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;4&quot;</span>, <span class="st">&quot;5&quot;</span>, <span class="st">&quot;6&quot;</span>, <span class="st">&quot;7&quot;</span>,<span class="st">&quot;8&quot;</span>,<span class="st">&quot;9&quot;</span>,<span class="st">&quot;10&quot;</span>), </span>
+<span id="cb8-107"><a href="reproducibility.html#cb8-107" aria-hidden="true" tabindex="-1"></a>                                <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;C&quot;</span>, <span class="st">&quot;SC&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;4&quot;</span>, <span class="st">&quot;5&quot;</span>, <span class="st">&quot;6&quot;</span>, <span class="st">&quot;7&quot;</span>,<span class="st">&quot;8&quot;</span>,<span class="st">&quot;9&quot;</span>,<span class="st">&quot;10&quot;</span>),</span>
+<span id="cb8-108"><a href="reproducibility.html#cb8-108" aria-hidden="true" tabindex="-1"></a>                                <span class="st">&quot;Treatment&quot;</span>) </span>
+<span id="cb8-109"><a href="reproducibility.html#cb8-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-110"><a href="reproducibility.html#cb8-110" aria-hidden="true" tabindex="-1"></a>theme.legend <span class="ot">&lt;-</span> <span class="fu">theme</span>(<span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">colour=</span><span class="st">&quot;#000000&quot;</span>, <span class="at">size =</span> <span class="dv">7</span>),</span>
+<span id="cb8-111"><a href="reproducibility.html#cb8-111" aria-hidden="true" tabindex="-1"></a>                      <span class="at">axis.text.x  =</span> <span class="fu">element_text</span>(<span class="at">colour=</span><span class="st">&quot;#000000&quot;</span>, <span class="at">size =</span> <span class="dv">7</span>),</span>
+<span id="cb8-112"><a href="reproducibility.html#cb8-112" aria-hidden="true" tabindex="-1"></a>                      <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">colour=</span><span class="st">&quot;#000000&quot;</span>, <span class="at">size =</span> <span class="dv">7</span>),</span>
+<span id="cb8-113"><a href="reproducibility.html#cb8-113" aria-hidden="true" tabindex="-1"></a>                      <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">colour=</span><span class="st">&quot;#000000&quot;</span>, <span class="at">size =</span> <span class="dv">7</span>),</span>
+<span id="cb8-114"><a href="reproducibility.html#cb8-114" aria-hidden="true" tabindex="-1"></a>                      <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">colour=</span><span class="st">&quot;#000000&quot;</span>, <span class="at">size =</span> <span class="dv">11</span>, <span class="at">hjust =</span> <span class="dv">0</span>),</span>
+<span id="cb8-115"><a href="reproducibility.html#cb8-115" aria-hidden="true" tabindex="-1"></a>                      <span class="at">title =</span> <span class="fu">element_text</span>(<span class="at">colour=</span><span class="st">&quot;#000000&quot;</span>),</span>
+<span id="cb8-116"><a href="reproducibility.html#cb8-116" aria-hidden="true" tabindex="-1"></a>                      <span class="at">axis.line =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">&quot;#000000&quot;</span>),</span>
+<span id="cb8-117"><a href="reproducibility.html#cb8-117" aria-hidden="true" tabindex="-1"></a>                      <span class="at">panel.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb8-118"><a href="reproducibility.html#cb8-118" aria-hidden="true" tabindex="-1"></a>                      <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb8-119"><a href="reproducibility.html#cb8-119" aria-hidden="true" tabindex="-1"></a>                      <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb8-120"><a href="reproducibility.html#cb8-120" aria-hidden="true" tabindex="-1"></a>                      <span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;#FFFFFF&quot;</span>, </span>
+<span id="cb8-121"><a href="reproducibility.html#cb8-121" aria-hidden="true" tabindex="-1"></a>                                                       <span class="at">size=</span><span class="fl">0.5</span>, </span>
+<span id="cb8-122"><a href="reproducibility.html#cb8-122" aria-hidden="true" tabindex="-1"></a>                                                       <span class="at">linetype=</span><span class="st">&quot;solid&quot;</span>, </span>
+<span id="cb8-123"><a href="reproducibility.html#cb8-123" aria-hidden="true" tabindex="-1"></a>                                                       <span class="at">colour =</span><span class="st">&quot;#FFFFFF&quot;</span>),</span>
+<span id="cb8-124"><a href="reproducibility.html#cb8-124" aria-hidden="true" tabindex="-1"></a>                      <span class="at">legend.key =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;#FFFFFF&quot;</span>),</span>
+<span id="cb8-125"><a href="reproducibility.html#cb8-125" aria-hidden="true" tabindex="-1"></a>                      <span class="at">legend.position=</span><span class="st">&quot;right&quot;</span>,</span>
+<span id="cb8-126"><a href="reproducibility.html#cb8-126" aria-hidden="true" tabindex="-1"></a>                      <span class="at">legend.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">7</span>)) </span>
+<span id="cb8-127"><a href="reproducibility.html#cb8-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-128"><a href="reproducibility.html#cb8-128" aria-hidden="true" tabindex="-1"></a>theme.no.legend <span class="ot">&lt;-</span> <span class="fu">theme</span>(<span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">colour=</span><span class="st">&quot;#000000&quot;</span>, <span class="at">size =</span> <span class="dv">7</span>),</span>
+<span id="cb8-129"><a href="reproducibility.html#cb8-129" aria-hidden="true" tabindex="-1"></a>                         <span class="at">axis.text.x  =</span> <span class="fu">element_text</span>(<span class="at">colour=</span><span class="st">&quot;#000000&quot;</span>, <span class="at">size =</span> <span class="dv">7</span>),</span>
+<span id="cb8-130"><a href="reproducibility.html#cb8-130" aria-hidden="true" tabindex="-1"></a>                         <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">colour=</span><span class="st">&quot;#000000&quot;</span>, <span class="at">size =</span> <span class="dv">7</span>),</span>
+<span id="cb8-131"><a href="reproducibility.html#cb8-131" aria-hidden="true" tabindex="-1"></a>                         <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">colour=</span><span class="st">&quot;#000000&quot;</span>, <span class="at">size =</span> <span class="dv">7</span>),</span>
+<span id="cb8-132"><a href="reproducibility.html#cb8-132" aria-hidden="true" tabindex="-1"></a>                         <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">colour=</span><span class="st">&quot;#000000&quot;</span>, <span class="at">size =</span> <span class="dv">11</span>, <span class="at">hjust =</span> <span class="dv">0</span>),</span>
+<span id="cb8-133"><a href="reproducibility.html#cb8-133" aria-hidden="true" tabindex="-1"></a>                         <span class="at">title =</span> <span class="fu">element_text</span>(<span class="at">colour=</span><span class="st">&quot;#000000&quot;</span>),</span>
+<span id="cb8-134"><a href="reproducibility.html#cb8-134" aria-hidden="true" tabindex="-1"></a>                         <span class="at">axis.line =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">&quot;#000000&quot;</span>),</span>
+<span id="cb8-135"><a href="reproducibility.html#cb8-135" aria-hidden="true" tabindex="-1"></a>                         <span class="at">panel.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb8-136"><a href="reproducibility.html#cb8-136" aria-hidden="true" tabindex="-1"></a>                         <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb8-137"><a href="reproducibility.html#cb8-137" aria-hidden="true" tabindex="-1"></a>                         <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb8-138"><a href="reproducibility.html#cb8-138" aria-hidden="true" tabindex="-1"></a>                         <span class="at">legend.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;#FFFFFF&quot;</span>, </span>
+<span id="cb8-139"><a href="reproducibility.html#cb8-139" aria-hidden="true" tabindex="-1"></a>                                                          <span class="at">size=</span><span class="fl">0.5</span>, </span>
+<span id="cb8-140"><a href="reproducibility.html#cb8-140" aria-hidden="true" tabindex="-1"></a>                                                          <span class="at">linetype=</span><span class="st">&quot;solid&quot;</span>, </span>
+<span id="cb8-141"><a href="reproducibility.html#cb8-141" aria-hidden="true" tabindex="-1"></a>                                                          <span class="at">colour =</span><span class="st">&quot;#000000&quot;</span>),</span>
+<span id="cb8-142"><a href="reproducibility.html#cb8-142" aria-hidden="true" tabindex="-1"></a>                         <span class="at">legend.key =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;#FFFFFF&quot;</span>),</span>
+<span id="cb8-143"><a href="reproducibility.html#cb8-143" aria-hidden="true" tabindex="-1"></a>                         <span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>) </span>
+<span id="cb8-144"><a href="reproducibility.html#cb8-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-145"><a href="reproducibility.html#cb8-145" aria-hidden="true" tabindex="-1"></a>datawrangler1A <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb8-146"><a href="reproducibility.html#cb8-146" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span><span class="fu">subset</span>(x, an<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb8-147"><a href="reproducibility.html#cb8-147" aria-hidden="true" tabindex="-1"></a>  x<span class="sc">$</span>plate <span class="ot">&lt;-</span> <span class="fu">with</span>(x, <span class="fu">paste</span>(<span class="st">&quot;A&quot;</span>))</span>
+<span id="cb8-148"><a href="reproducibility.html#cb8-148" aria-hidden="true" tabindex="-1"></a>  x<span class="sc">$</span>id <span class="ot">&lt;-</span> <span class="fu">with</span>(x, <span class="fu">paste0</span>(location, plate)) </span>
+<span id="cb8-149"><a href="reproducibility.html#cb8-149" aria-hidden="true" tabindex="-1"></a>  x<span class="sc">$</span>totaldist <span class="ot">&lt;-</span> <span class="fu">with</span>(x, smldist <span class="sc">+</span> lardist)</span>
+<span id="cb8-150"><a href="reproducibility.html#cb8-150" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(x)</span>
+<span id="cb8-151"><a href="reproducibility.html#cb8-151" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-152"><a href="reproducibility.html#cb8-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-153"><a href="reproducibility.html#cb8-153" aria-hidden="true" tabindex="-1"></a>datawrangler1B <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb8-154"><a href="reproducibility.html#cb8-154" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span><span class="fu">subset</span>(x, an<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb8-155"><a href="reproducibility.html#cb8-155" aria-hidden="true" tabindex="-1"></a>  x<span class="sc">$</span>plate <span class="ot">&lt;-</span> <span class="fu">with</span>(x, <span class="fu">paste</span>(<span class="st">&quot;B&quot;</span>))</span>
+<span id="cb8-156"><a href="reproducibility.html#cb8-156" aria-hidden="true" tabindex="-1"></a>  x<span class="sc">$</span>id <span class="ot">&lt;-</span> <span class="fu">with</span>(x, <span class="fu">paste0</span>(location, plate)) </span>
+<span id="cb8-157"><a href="reproducibility.html#cb8-157" aria-hidden="true" tabindex="-1"></a>  x<span class="sc">$</span>totaldist <span class="ot">&lt;-</span> <span class="fu">with</span>(x, smldist <span class="sc">+</span> lardist)</span>
+<span id="cb8-158"><a href="reproducibility.html#cb8-158" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(x)</span>
+<span id="cb8-159"><a href="reproducibility.html#cb8-159" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-160"><a href="reproducibility.html#cb8-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-161"><a href="reproducibility.html#cb8-161" aria-hidden="true" tabindex="-1"></a>datawrangler2 <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb8-162"><a href="reproducibility.html#cb8-162" aria-hidden="true" tabindex="-1"></a>  x<span class="sc">$</span>epoch <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;A&quot;</span>, <span class="at">each=</span><span class="dv">17280</span>), <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Light&quot;</span>, <span class="st">&quot;Dark&quot;</span>, <span class="st">&quot;Light&quot;</span>, <span class="st">&quot;Dark&quot;</span>, <span class="st">&quot;Light&quot;</span>, <span class="st">&quot;Dark&quot;</span>), <span class="at">each=</span><span class="dv">11520</span>)))</span>
+<span id="cb8-163"><a href="reproducibility.html#cb8-163" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">subset</span>(x,<span class="sc">!</span>epoch <span class="sc">%in%</span> <span class="st">&quot;A&quot;</span>)</span>
+<span id="cb8-164"><a href="reproducibility.html#cb8-164" aria-hidden="true" tabindex="-1"></a>  x<span class="sc">$</span>minute <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">60</span>, <span class="at">each=</span><span class="dv">576</span>)</span>
+<span id="cb8-165"><a href="reproducibility.html#cb8-165" aria-hidden="true" tabindex="-1"></a>  x<span class="sc">$</span>minute2 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">2</span>,</span>
+<span id="cb8-166"><a href="reproducibility.html#cb8-166" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">4</span>,</span>
+<span id="cb8-167"><a href="reproducibility.html#cb8-167" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">6</span>,</span>
+<span id="cb8-168"><a href="reproducibility.html#cb8-168" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">8</span>,</span>
+<span id="cb8-169"><a href="reproducibility.html#cb8-169" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">10</span>,</span>
+<span id="cb8-170"><a href="reproducibility.html#cb8-170" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">12</span>,</span>
+<span id="cb8-171"><a href="reproducibility.html#cb8-171" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">14</span>,</span>
+<span id="cb8-172"><a href="reproducibility.html#cb8-172" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">16</span>,</span>
+<span id="cb8-173"><a href="reproducibility.html#cb8-173" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">18</span>,</span>
+<span id="cb8-174"><a href="reproducibility.html#cb8-174" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">20</span>,</span>
+<span id="cb8-175"><a href="reproducibility.html#cb8-175" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">22</span>,</span>
+<span id="cb8-176"><a href="reproducibility.html#cb8-176" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">24</span>,</span>
+<span id="cb8-177"><a href="reproducibility.html#cb8-177" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">26</span>,</span>
+<span id="cb8-178"><a href="reproducibility.html#cb8-178" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">28</span>,</span>
+<span id="cb8-179"><a href="reproducibility.html#cb8-179" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">30</span>,</span>
+<span id="cb8-180"><a href="reproducibility.html#cb8-180" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">32</span>,</span>
+<span id="cb8-181"><a href="reproducibility.html#cb8-181" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">34</span>,</span>
+<span id="cb8-182"><a href="reproducibility.html#cb8-182" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">36</span>,</span>
+<span id="cb8-183"><a href="reproducibility.html#cb8-183" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">38</span>,</span>
+<span id="cb8-184"><a href="reproducibility.html#cb8-184" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">40</span>,</span>
+<span id="cb8-185"><a href="reproducibility.html#cb8-185" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">42</span>,</span>
+<span id="cb8-186"><a href="reproducibility.html#cb8-186" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">44</span>,</span>
+<span id="cb8-187"><a href="reproducibility.html#cb8-187" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">46</span>,</span>
+<span id="cb8-188"><a href="reproducibility.html#cb8-188" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">48</span>,</span>
+<span id="cb8-189"><a href="reproducibility.html#cb8-189" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">50</span>,</span>
+<span id="cb8-190"><a href="reproducibility.html#cb8-190" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">52</span>,</span>
+<span id="cb8-191"><a href="reproducibility.html#cb8-191" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">54</span>,</span>
+<span id="cb8-192"><a href="reproducibility.html#cb8-192" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">56</span>,</span>
+<span id="cb8-193"><a href="reproducibility.html#cb8-193" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">58</span>,</span>
+<span id="cb8-194"><a href="reproducibility.html#cb8-194" aria-hidden="true" tabindex="-1"></a>                     <span class="dv">60</span></span>
+<span id="cb8-195"><a href="reproducibility.html#cb8-195" aria-hidden="true" tabindex="-1"></a>  ), <span class="at">each =</span> <span class="dv">1152</span>)</span>
+<span id="cb8-196"><a href="reproducibility.html#cb8-196" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(x)</span>
+<span id="cb8-197"><a href="reproducibility.html#cb8-197" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-198"><a href="reproducibility.html#cb8-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-199"><a href="reproducibility.html#cb8-199" aria-hidden="true" tabindex="-1"></a>datawrangler3 <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb8-200"><a href="reproducibility.html#cb8-200" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-201"><a href="reproducibility.html#cb8-201" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">as.data.frame</span>(<span class="fu">summarySE</span>(<span class="fu">summarySE</span>(<span class="fu">subset</span>(<span class="fu">setNames</span>(<span class="fu">aggregate</span>(x[,<span class="fu">c</span>(<span class="st">&quot;totaldist&quot;</span>)], <span class="at">by=</span><span class="fu">list</span>(x<span class="sc">$</span>id, x<span class="sc">$</span>treatment, x<span class="sc">$</span>epoch), <span class="st">&quot;sum&quot;</span>),</span>
+<span id="cb8-202"><a href="reproducibility.html#cb8-202" aria-hidden="true" tabindex="-1"></a>                                                               <span class="fu">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;treatment&quot;</span>, <span class="st">&quot;epoch&quot;</span>, <span class="st">&quot;totaldist&quot;</span>)), epoch <span class="sc">==</span> <span class="st">&quot;Dark&quot;</span>), <span class="at">measurevar =</span> <span class="st">&quot;totaldist&quot;</span>, <span class="at">groupvars =</span> <span class="fu">c</span>(<span class="st">&quot;epoch&quot;</span>,<span class="st">&quot;treatment&quot;</span>, <span class="st">&quot;id&quot;</span>)), <span class="at">measurevar =</span> <span class="st">&quot;totaldist&quot;</span>, <span class="at">groupvars =</span> <span class="fu">c</span>(<span class="st">&quot;epoch&quot;</span>, <span class="st">&quot;treatment&quot;</span>))),</span>
+<span id="cb8-203"><a href="reproducibility.html#cb8-203" aria-hidden="true" tabindex="-1"></a>             <span class="fu">as.data.frame</span>(<span class="fu">summarySE</span>(<span class="fu">summarySE</span>(<span class="fu">subset</span>(<span class="fu">setNames</span>(<span class="fu">aggregate</span>(x[,<span class="fu">c</span>(<span class="st">&quot;totaldist&quot;</span>)], </span>
+<span id="cb8-204"><a href="reproducibility.html#cb8-204" aria-hidden="true" tabindex="-1"></a>                                                                         <span class="at">by=</span><span class="fu">list</span>(x<span class="sc">$</span>id, x<span class="sc">$</span>treatment, x<span class="sc">$</span>epoch), <span class="st">&quot;sum&quot;</span>),</span>
+<span id="cb8-205"><a href="reproducibility.html#cb8-205" aria-hidden="true" tabindex="-1"></a>                                                               <span class="fu">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;treatment&quot;</span>, <span class="st">&quot;epoch&quot;</span>, <span class="st">&quot;totaldist&quot;</span>)), epoch <span class="sc">==</span> <span class="st">&quot;Light&quot;</span>), <span class="at">measurevar =</span> <span class="st">&quot;totaldist&quot;</span>, <span class="at">groupvars =</span> <span class="fu">c</span>(<span class="st">&quot;epoch&quot;</span>, <span class="st">&quot;treatment&quot;</span>, <span class="st">&quot;id&quot;</span>)), <span class="at">measurevar =</span> <span class="st">&quot;totaldist&quot;</span>, <span class="at">groupvars =</span> <span class="fu">c</span>(<span class="st">&quot;epoch&quot;</span>, <span class="st">&quot;treatment&quot;</span>))))</span>
+<span id="cb8-206"><a href="reproducibility.html#cb8-206" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(x)</span>
+<span id="cb8-207"><a href="reproducibility.html#cb8-207" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-208"><a href="reproducibility.html#cb8-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-209"><a href="reproducibility.html#cb8-209" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-210"><a href="reproducibility.html#cb8-210" aria-hidden="true" tabindex="-1"></a>datawrangler4 <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb8-211"><a href="reproducibility.html#cb8-211" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="fu">aggregate</span>(x[,<span class="fu">c</span>(<span class="st">&quot;totaldist&quot;</span>)], </span>
+<span id="cb8-212"><a href="reproducibility.html#cb8-212" aria-hidden="true" tabindex="-1"></a>                          <span class="at">by=</span><span class="fu">list</span>(x<span class="sc">$</span>id, x<span class="sc">$</span>treatment, x<span class="sc">$</span>minute), <span class="st">&quot;sum&quot;</span>),</span>
+<span id="cb8-213"><a href="reproducibility.html#cb8-213" aria-hidden="true" tabindex="-1"></a>                <span class="fu">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;treatment&quot;</span>, <span class="st">&quot;minute&quot;</span>, <span class="st">&quot;totaldist&quot;</span>))</span>
+<span id="cb8-214"><a href="reproducibility.html#cb8-214" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-215"><a href="reproducibility.html#cb8-215" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">summarySE</span>(x, <span class="at">measurevar =</span> <span class="st">&quot;totaldist&quot;</span>, <span class="at">groupvars =</span> <span class="fu">c</span>(<span class="st">&quot;minute&quot;</span>, <span class="st">&quot;treatment&quot;</span>, <span class="st">&quot;id&quot;</span>))</span>
+<span id="cb8-216"><a href="reproducibility.html#cb8-216" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">summarySE</span>(x, <span class="at">measurevar =</span> <span class="st">&quot;totaldist&quot;</span>, <span class="at">groupvars =</span> <span class="fu">c</span>(<span class="st">&quot;minute&quot;</span>, <span class="st">&quot;treatment&quot;</span>))</span>
+<span id="cb8-217"><a href="reproducibility.html#cb8-217" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(x)</span>
+<span id="cb8-218"><a href="reproducibility.html#cb8-218" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-219"><a href="reproducibility.html#cb8-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-220"><a href="reproducibility.html#cb8-220" aria-hidden="true" tabindex="-1"></a>darkstat <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb8-221"><a href="reproducibility.html#cb8-221" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">summarySE</span>(<span class="fu">subset</span>(<span class="fu">setNames</span>(<span class="fu">aggregate</span>(x[,<span class="fu">c</span>(<span class="st">&quot;totaldist&quot;</span>)], </span>
+<span id="cb8-222"><a href="reproducibility.html#cb8-222" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">by=</span><span class="fu">list</span>(x<span class="sc">$</span>id, x<span class="sc">$</span>treatment, x<span class="sc">$</span>epoch), <span class="st">&quot;sum&quot;</span>),</span>
+<span id="cb8-223"><a href="reproducibility.html#cb8-223" aria-hidden="true" tabindex="-1"></a>                                 <span class="fu">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;treatment&quot;</span>, <span class="st">&quot;epoch&quot;</span>, <span class="st">&quot;totaldist&quot;</span>)), epoch <span class="sc">==</span> <span class="st">&quot;Dark&quot;</span>), <span class="at">measurevar =</span> <span class="st">&quot;totaldist&quot;</span>, <span class="at">groupvars =</span> <span class="fu">c</span>(<span class="st">&quot;epoch&quot;</span>,<span class="st">&quot;treatment&quot;</span>, <span class="st">&quot;id&quot;</span>))</span>
+<span id="cb8-224"><a href="reproducibility.html#cb8-224" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(x)</span>
+<span id="cb8-225"><a href="reproducibility.html#cb8-225" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-226"><a href="reproducibility.html#cb8-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-227"><a href="reproducibility.html#cb8-227" aria-hidden="true" tabindex="-1"></a>minuteplotter <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb8-228"><a href="reproducibility.html#cb8-228" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> x, <span class="fu">aes</span>(<span class="at">x =</span> minute,</span>
+<span id="cb8-229"><a href="reproducibility.html#cb8-229" aria-hidden="true" tabindex="-1"></a>                            <span class="at">y =</span> totaldist, </span>
+<span id="cb8-230"><a href="reproducibility.html#cb8-230" aria-hidden="true" tabindex="-1"></a>                            <span class="at">group =</span> treatment, </span>
+<span id="cb8-231"><a href="reproducibility.html#cb8-231" aria-hidden="true" tabindex="-1"></a>                            <span class="at">fill =</span> treatment, </span>
+<span id="cb8-232"><a href="reproducibility.html#cb8-232" aria-hidden="true" tabindex="-1"></a>                            <span class="at">linetype =</span> treatment, </span>
+<span id="cb8-233"><a href="reproducibility.html#cb8-233" aria-hidden="true" tabindex="-1"></a>                            <span class="at">colour =</span> treatment)) <span class="sc">+</span> </span>
+<span id="cb8-234"><a href="reproducibility.html#cb8-234" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-235"><a href="reproducibility.html#cb8-235" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-236"><a href="reproducibility.html#cb8-236" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">&quot;rect&quot;</span>, <span class="at">xmin =</span> <span class="dv">10</span>, <span class="at">xmax =</span> <span class="dv">20</span>, <span class="at">ymin =</span> <span class="dv">0</span>, <span class="at">ymax =</span> <span class="cn">Inf</span>, <span class="at">alpha =</span> .<span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb8-237"><a href="reproducibility.html#cb8-237" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">&quot;rect&quot;</span>, <span class="at">xmin =</span> <span class="dv">30</span>, <span class="at">xmax =</span> <span class="dv">40</span>, <span class="at">ymin =</span> <span class="dv">0</span>, <span class="at">ymax =</span> <span class="cn">Inf</span>, <span class="at">alpha =</span> .<span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb8-238"><a href="reproducibility.html#cb8-238" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">&quot;rect&quot;</span>, <span class="at">xmin =</span> <span class="dv">50</span>, <span class="at">xmax =</span> <span class="dv">60</span>, <span class="at">ymin =</span> <span class="dv">0</span>, <span class="at">ymax =</span> <span class="cn">Inf</span>, <span class="at">alpha =</span> .<span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb8-239"><a href="reproducibility.html#cb8-239" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-240"><a href="reproducibility.html#cb8-240" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb8-241"><a href="reproducibility.html#cb8-241" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">pch =</span> <span class="dv">21</span>) <span class="sc">+</span></span>
+<span id="cb8-242"><a href="reproducibility.html#cb8-242" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-243"><a href="reproducibility.html#cb8-243" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">&quot;Time (minute)&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb8-244"><a href="reproducibility.html#cb8-244" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;Distance moved (mm)&quot;</span>) </span>
+<span id="cb8-245"><a href="reproducibility.html#cb8-245" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(x)</span>
+<span id="cb8-246"><a href="reproducibility.html#cb8-246" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-247"><a href="reproducibility.html#cb8-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-248"><a href="reproducibility.html#cb8-248" aria-hidden="true" tabindex="-1"></a>epochplotter <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb8-249"><a href="reproducibility.html#cb8-249" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(x, <span class="fu">aes</span>(<span class="at">x =</span> epoch, <span class="at">y =</span> totaldist, <span class="at">fill =</span> treatment)) <span class="sc">+</span></span>
+<span id="cb8-250"><a href="reproducibility.html#cb8-250" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(<span class="st">&quot;rect&quot;</span>, <span class="at">xmin =</span> <span class="fl">0.5</span>, <span class="at">xmax =</span> <span class="fl">1.5</span>, <span class="at">ymin =</span> <span class="dv">0</span>, <span class="at">ymax =</span> <span class="cn">Inf</span>, <span class="at">alpha =</span> .<span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb8-251"><a href="reproducibility.html#cb8-251" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">&quot;identity&quot;</span>, </span>
+<span id="cb8-252"><a href="reproducibility.html#cb8-252" aria-hidden="true" tabindex="-1"></a>             <span class="at">position=</span><span class="fu">position_dodge</span>(),</span>
+<span id="cb8-253"><a href="reproducibility.html#cb8-253" aria-hidden="true" tabindex="-1"></a>             <span class="at">colour=</span><span class="st">&quot;black&quot;</span>, </span>
+<span id="cb8-254"><a href="reproducibility.html#cb8-254" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> .<span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb8-255"><a href="reproducibility.html#cb8-255" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin=</span>totaldist<span class="sc">-</span>sd, </span>
+<span id="cb8-256"><a href="reproducibility.html#cb8-256" aria-hidden="true" tabindex="-1"></a>                      <span class="at">ymax=</span>totaldist<span class="sc">+</span>sd),</span>
+<span id="cb8-257"><a href="reproducibility.html#cb8-257" aria-hidden="true" tabindex="-1"></a>                  <span class="at">size =</span> .<span class="dv">3</span>,</span>
+<span id="cb8-258"><a href="reproducibility.html#cb8-258" aria-hidden="true" tabindex="-1"></a>                  <span class="at">width=</span> .<span class="dv">5</span>,                    </span>
+<span id="cb8-259"><a href="reproducibility.html#cb8-259" aria-hidden="true" tabindex="-1"></a>                  <span class="at">position=</span><span class="fu">position_dodge</span>(.<span class="dv">9</span>)) <span class="sc">+</span></span>
+<span id="cb8-260"><a href="reproducibility.html#cb8-260" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_x_discrete</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="st">&quot;Dark&quot;</span>, <span class="st">&quot;Light&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb8-261"><a href="reproducibility.html#cb8-261" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">&quot;&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb8-262"><a href="reproducibility.html#cb8-262" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;Distance moved (mm)&quot;</span>) </span>
+<span id="cb8-263"><a href="reproducibility.html#cb8-263" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(x)</span>
+<span id="cb8-264"><a href="reproducibility.html#cb8-264" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-265"><a href="reproducibility.html#cb8-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-266"><a href="reproducibility.html#cb8-266" aria-hidden="true" tabindex="-1"></a><span class="do">###################################</span></span>
+<span id="cb8-267"><a href="reproducibility.html#cb8-267" aria-hidden="true" tabindex="-1"></a><span class="do">### Data import and aggregating </span><span class="al">###</span></span>
+<span id="cb8-268"><a href="reproducibility.html#cb8-268" aria-hidden="true" tabindex="-1"></a><span class="do">###################################</span></span>
+<span id="cb8-269"><a href="reproducibility.html#cb8-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-270"><a href="reproducibility.html#cb8-270" aria-hidden="true" tabindex="-1"></a>dat_plateA <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;./data/citalopram_plateA.csv&quot;</span>, <span class="st">&quot;;&quot;</span>, <span class="at">header=</span><span class="cn">TRUE</span>) <span class="co">#had to change directory, to be expected</span></span>
+<span id="cb8-271"><a href="reproducibility.html#cb8-271" aria-hidden="true" tabindex="-1"></a>dat_plateB <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;./data/citalopram_plateB.csv&quot;</span>, <span class="st">&quot;;&quot;</span>, <span class="at">header=</span><span class="cn">TRUE</span>)</span>
+<span id="cb8-272"><a href="reproducibility.html#cb8-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-273"><a href="reproducibility.html#cb8-273" aria-hidden="true" tabindex="-1"></a>dat_plateA <span class="ot">&lt;-</span> <span class="fu">datawrangler1A</span>(dat_plateA)</span>
+<span id="cb8-274"><a href="reproducibility.html#cb8-274" aria-hidden="true" tabindex="-1"></a>dat_plateB <span class="ot">&lt;-</span> <span class="fu">datawrangler1B</span>(dat_plateB)</span>
+<span id="cb8-275"><a href="reproducibility.html#cb8-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-276"><a href="reproducibility.html#cb8-276" aria-hidden="true" tabindex="-1"></a><span class="co"># Needs to be 43200 observations!</span></span>
+<span id="cb8-277"><a href="reproducibility.html#cb8-277" aria-hidden="true" tabindex="-1"></a>dat_plateA <span class="ot">&lt;-</span> <span class="fu">head</span>(dat_plateA, <span class="sc">-</span><span class="dv">95</span>)</span>
+<span id="cb8-278"><a href="reproducibility.html#cb8-278" aria-hidden="true" tabindex="-1"></a>dat_plateB <span class="ot">&lt;-</span> <span class="fu">head</span>(dat_plateB, <span class="sc">-</span><span class="dv">95</span>) </span>
+<span id="cb8-279"><a href="reproducibility.html#cb8-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-280"><a href="reproducibility.html#cb8-280" aria-hidden="true" tabindex="-1"></a>citalopram.behavior <span class="ot">&lt;-</span> <span class="fu">rbind</span>(dat_plateA, dat_plateB)</span>
+<span id="cb8-281"><a href="reproducibility.html#cb8-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-282"><a href="reproducibility.html#cb8-282" aria-hidden="true" tabindex="-1"></a>citalopram.behavior <span class="ot">&lt;-</span> <span class="fu">datawrangler2</span>(citalopram.behavior) <span class="co">#Function datawrangler2 was not behaving properly</span></span>
+<span id="cb8-283"><a href="reproducibility.html#cb8-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-284"><a href="reproducibility.html#cb8-284" aria-hidden="true" tabindex="-1"></a><span class="co"># Visibly affected individuals (dead/malformed) removed from data analysis</span></span>
+<span id="cb8-285"><a href="reproducibility.html#cb8-285" aria-hidden="true" tabindex="-1"></a>citalopram.behavior <span class="ot">&lt;-</span> <span class="fu">subset</span>(citalopram.behavior,</span>
+<span id="cb8-286"><a href="reproducibility.html#cb8-286" aria-hidden="true" tabindex="-1"></a>              <span class="sc">!</span>(id <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&#39;c03A&#39;</span>,</span>
+<span id="cb8-287"><a href="reproducibility.html#cb8-287" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&#39;c09A&#39;</span>,</span>
+<span id="cb8-288"><a href="reproducibility.html#cb8-288" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&#39;c18A&#39;</span>,</span>
+<span id="cb8-289"><a href="reproducibility.html#cb8-289" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&#39;c29A&#39;</span>,</span>
+<span id="cb8-290"><a href="reproducibility.html#cb8-290" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&#39;c50A&#39;</span>,</span>
+<span id="cb8-291"><a href="reproducibility.html#cb8-291" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&#39;c60A&#39;</span>,</span>
+<span id="cb8-292"><a href="reproducibility.html#cb8-292" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&#39;c72A&#39;</span>,</span>
+<span id="cb8-293"><a href="reproducibility.html#cb8-293" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&#39;c79A&#39;</span>,</span>
+<span id="cb8-294"><a href="reproducibility.html#cb8-294" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&#39;c89A&#39;</span>,</span>
+<span id="cb8-295"><a href="reproducibility.html#cb8-295" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&#39;c90A&#39;</span>,</span>
+<span id="cb8-296"><a href="reproducibility.html#cb8-296" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&#39;c05B&#39;</span>,</span>
+<span id="cb8-297"><a href="reproducibility.html#cb8-297" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&#39;c07B&#39;</span>,</span>
+<span id="cb8-298"><a href="reproducibility.html#cb8-298" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&#39;c08B&#39;</span>,</span>
+<span id="cb8-299"><a href="reproducibility.html#cb8-299" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&#39;c11B&#39;</span>,</span>
+<span id="cb8-300"><a href="reproducibility.html#cb8-300" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&#39;c25B&#39;</span>,</span>
+<span id="cb8-301"><a href="reproducibility.html#cb8-301" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&#39;c37B&#39;</span>,</span>
+<span id="cb8-302"><a href="reproducibility.html#cb8-302" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&#39;c58B&#39;</span>,</span>
+<span id="cb8-303"><a href="reproducibility.html#cb8-303" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&#39;c63B&#39;</span>,</span>
+<span id="cb8-304"><a href="reproducibility.html#cb8-304" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&#39;c67B&#39;</span>,</span>
+<span id="cb8-305"><a href="reproducibility.html#cb8-305" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&#39;c71B&#39;</span>,</span>
+<span id="cb8-306"><a href="reproducibility.html#cb8-306" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&#39;c72B&#39;</span>,</span>
+<span id="cb8-307"><a href="reproducibility.html#cb8-307" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&#39;c84B&#39;</span>)))</span>
+<span id="cb8-308"><a href="reproducibility.html#cb8-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-309"><a href="reproducibility.html#cb8-309" aria-hidden="true" tabindex="-1"></a><span class="co"># Treatment measured concentrations added (information on chemical analysis at https://www.sciencedirect.com/science/article/pii/S0045653519318119).</span></span>
+<span id="cb8-310"><a href="reproducibility.html#cb8-310" aria-hidden="true" tabindex="-1"></a>citalopram.behavior<span class="sc">$</span>treatment <span class="ot">&lt;-</span> <span class="fu">as.character</span>(citalopram.behavior<span class="sc">$</span>treatment)</span>
+<span id="cb8-311"><a href="reproducibility.html#cb8-311" aria-hidden="true" tabindex="-1"></a>citalopram.behavior<span class="sc">$</span>treatment[citalopram.behavior<span class="sc">$</span>treatment <span class="sc">==</span> <span class="st">&quot;c0&quot;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;0&quot;</span></span>
+<span id="cb8-312"><a href="reproducibility.html#cb8-312" aria-hidden="true" tabindex="-1"></a>citalopram.behavior<span class="sc">$</span>treatment[citalopram.behavior<span class="sc">$</span>treatment <span class="sc">==</span> <span class="st">&quot;c1&quot;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;26&quot;</span></span>
+<span id="cb8-313"><a href="reproducibility.html#cb8-313" aria-hidden="true" tabindex="-1"></a>citalopram.behavior<span class="sc">$</span>treatment[citalopram.behavior<span class="sc">$</span>treatment <span class="sc">==</span> <span class="st">&quot;c2&quot;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;98&quot;</span></span>
+<span id="cb8-314"><a href="reproducibility.html#cb8-314" aria-hidden="true" tabindex="-1"></a>citalopram.behavior<span class="sc">$</span>treatment[citalopram.behavior<span class="sc">$</span>treatment <span class="sc">==</span> <span class="st">&quot;c3&quot;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;373&quot;</span></span>
+<span id="cb8-315"><a href="reproducibility.html#cb8-315" aria-hidden="true" tabindex="-1"></a>citalopram.behavior<span class="sc">$</span>treatment[citalopram.behavior<span class="sc">$</span>treatment <span class="sc">==</span> <span class="st">&quot;c4&quot;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;1567&quot;</span></span>
+<span id="cb8-316"><a href="reproducibility.html#cb8-316" aria-hidden="true" tabindex="-1"></a>citalopram.behavior<span class="sc">$</span>treatment[citalopram.behavior<span class="sc">$</span>treatment <span class="sc">==</span> <span class="st">&quot;c5&quot;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;5600&quot;</span></span>
+<span id="cb8-317"><a href="reproducibility.html#cb8-317" aria-hidden="true" tabindex="-1"></a>citalopram.behavior<span class="sc">$</span>treatment <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(citalopram.behavior<span class="sc">$</span>treatment)  <span class="co">#Seems like this could&#39;ve been done within a single command</span></span>
+<span id="cb8-318"><a href="reproducibility.html#cb8-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-319"><a href="reproducibility.html#cb8-319" aria-hidden="true" tabindex="-1"></a><span class="co"># Corrected the factor order</span></span>
+<span id="cb8-320"><a href="reproducibility.html#cb8-320" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">levels</span>(citalopram.behavior<span class="sc">$</span>treatment))</span>
+<span id="cb8-321"><a href="reproducibility.html#cb8-321" aria-hidden="true" tabindex="-1"></a>citalopram.behavior<span class="sc">$</span>treatment <span class="ot">&lt;-</span> <span class="fu">factor</span>(citalopram.behavior<span class="sc">$</span>treatment,<span class="fu">levels</span>(citalopram.behavior<span class="sc">$</span>treatment)[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">6</span>,<span class="dv">4</span>,<span class="dv">2</span>,<span class="dv">5</span>)])</span>
+<span id="cb8-322"><a href="reproducibility.html#cb8-322" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">levels</span>(citalopram.behavior<span class="sc">$</span>treatment))</span>
+<span id="cb8-323"><a href="reproducibility.html#cb8-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-324"><a href="reproducibility.html#cb8-324" aria-hidden="true" tabindex="-1"></a>citalopram.behavior.epoch <span class="ot">&lt;-</span> <span class="fu">datawrangler3</span>(citalopram.behavior)</span>
+<span id="cb8-325"><a href="reproducibility.html#cb8-325" aria-hidden="true" tabindex="-1"></a>citalopram.behavior.minute <span class="ot">&lt;-</span> <span class="fu">datawrangler4</span>(citalopram.behavior)</span>
+<span id="cb8-326"><a href="reproducibility.html#cb8-326" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-327"><a href="reproducibility.html#cb8-327" aria-hidden="true" tabindex="-1"></a><span class="do">##################</span></span>
+<span id="cb8-328"><a href="reproducibility.html#cb8-328" aria-hidden="true" tabindex="-1"></a><span class="do">### Statistics </span><span class="al">###</span></span>
+<span id="cb8-329"><a href="reproducibility.html#cb8-329" aria-hidden="true" tabindex="-1"></a><span class="do">##################</span></span>
+<span id="cb8-330"><a href="reproducibility.html#cb8-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-331"><a href="reproducibility.html#cb8-331" aria-hidden="true" tabindex="-1"></a>citalopram.stat <span class="ot">&lt;-</span> <span class="fu">aov</span>(totaldist <span class="sc">~</span> treatment, <span class="at">data =</span> <span class="fu">darkstat</span>(citalopram.behavior))</span>
+<span id="cb8-332"><a href="reproducibility.html#cb8-332" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(citalopram.stat)</span>
+<span id="cb8-333"><a href="reproducibility.html#cb8-333" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(citalopram.stat, <span class="dv">2</span>)</span>
+<span id="cb8-334"><a href="reproducibility.html#cb8-334" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">residuals</span>(citalopram.stat), <span class="at">col=</span><span class="st">&quot;darkgray&quot;</span>)</span>
+<span id="cb8-335"><a href="reproducibility.html#cb8-335" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">glht</span>(citalopram.stat, <span class="at">linfct=</span><span class="fu">mcp</span>(<span class="at">treatment=</span><span class="st">&quot;Dunnett&quot;</span>)))</span>
+<span id="cb8-336"><a href="reproducibility.html#cb8-336" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-337"><a href="reproducibility.html#cb8-337" aria-hidden="true" tabindex="-1"></a><span class="do">################</span></span>
+<span id="cb8-338"><a href="reproducibility.html#cb8-338" aria-hidden="true" tabindex="-1"></a><span class="do">### Plotting </span><span class="al">###</span></span>
+<span id="cb8-339"><a href="reproducibility.html#cb8-339" aria-hidden="true" tabindex="-1"></a><span class="do">################</span></span>
+<span id="cb8-340"><a href="reproducibility.html#cb8-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-341"><a href="reproducibility.html#cb8-341" aria-hidden="true" tabindex="-1"></a>citalopram.behavior.minute.plot <span class="ot">&lt;-</span> <span class="fu">minuteplotter</span>(citalopram.behavior.minute) <span class="sc">+</span> </span>
+<span id="cb8-342"><a href="reproducibility.html#cb8-342" aria-hidden="true" tabindex="-1"></a>  plot.linetype <span class="sc">+</span></span>
+<span id="cb8-343"><a href="reproducibility.html#cb8-343" aria-hidden="true" tabindex="-1"></a>  plot.color <span class="sc">+</span></span>
+<span id="cb8-344"><a href="reproducibility.html#cb8-344" aria-hidden="true" tabindex="-1"></a>  theme.no.legend <span class="sc">+</span></span>
+<span id="cb8-345"><a href="reproducibility.html#cb8-345" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Citalopram&quot;</span>) <span class="sc">+</span></span>
+<span id="cb8-346"><a href="reproducibility.html#cb8-346" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;#fef0d9&quot;</span>, <span class="st">&quot;#fdd49e&quot;</span>, <span class="st">&quot;#fdbb84&quot;</span>, <span class="st">&quot;#fc8d59&quot;</span>, <span class="st">&quot;#e34a33&quot;</span>, <span class="st">&quot;#b30000&quot;</span>))</span>
+<span id="cb8-347"><a href="reproducibility.html#cb8-347" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-348"><a href="reproducibility.html#cb8-348" aria-hidden="true" tabindex="-1"></a>citalopram.behavior.epoch.plot <span class="ot">&lt;-</span> <span class="fu">epochplotter</span>(citalopram.behavior.epoch) <span class="sc">+</span></span>
+<span id="cb8-349"><a href="reproducibility.html#cb8-349" aria-hidden="true" tabindex="-1"></a>  theme.legend <span class="sc">+</span></span>
+<span id="cb8-350"><a href="reproducibility.html#cb8-350" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="fl">1.1</span> , <span class="at">y =</span> <span class="dv">5800</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">angle =</span> <span class="dv">90</span>, <span class="at">label=</span><span class="st">&quot;**&quot;</span>) <span class="sc">+</span></span>
+<span id="cb8-351"><a href="reproducibility.html#cb8-351" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="fl">1.25</span> , <span class="at">y =</span> <span class="dv">4900</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">angle =</span> <span class="dv">90</span>, <span class="at">label=</span><span class="st">&quot;***&quot;</span>) <span class="sc">+</span></span>
+<span id="cb8-352"><a href="reproducibility.html#cb8-352" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="fl">1.4</span> , <span class="at">y =</span> <span class="dv">4200</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">angle =</span> <span class="dv">90</span>, <span class="at">label=</span><span class="st">&quot;***&quot;</span>) <span class="sc">+</span></span>
+<span id="cb8-353"><a href="reproducibility.html#cb8-353" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill=</span><span class="fu">guide_legend</span>(<span class="at">title=</span><span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">&quot;Measured</span><span class="sc">\n</span><span class="st">concentration (ug L&quot;</span><span class="sc">^</span><span class="st">&quot;-1&quot;</span>, <span class="st">&quot;)&quot;</span>)))) <span class="sc">+</span></span>
+<span id="cb8-354"><a href="reproducibility.html#cb8-354" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;#fef0d9&quot;</span>, <span class="st">&quot;#fdd49e&quot;</span>, <span class="st">&quot;#fdbb84&quot;</span>, <span class="st">&quot;#fc8d59&quot;</span>, <span class="st">&quot;#e34a33&quot;</span>, <span class="st">&quot;#b30000&quot;</span>))</span>
+<span id="cb8-355"><a href="reproducibility.html#cb8-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-356"><a href="reproducibility.html#cb8-356" aria-hidden="true" tabindex="-1"></a><span class="fu">multiplot</span>(citalopram.behavior.minute.plot, citalopram.behavior.epoch.plot, <span class="at">cols =</span> <span class="dv">2</span>) </span></code></pre></div>
+
+</div>
+<!-- </div> -->
+<p style="text-align: center;">
+<a href="overview-of-study.html"><button class="btn btn-default">Previous</button></a>
+<a href="sorting-directories.html"><button class="btn btn-default">Next</button></a>
+</p>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+</body>
+</html>
