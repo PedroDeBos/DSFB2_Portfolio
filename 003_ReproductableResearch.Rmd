@@ -16,22 +16,39 @@ To prove my ability in reviewing articles and identifying (issues in) reproducib
 
 For this assignment, the following study has been selected: [Behavioral effects of citalopram, tramadol, and binary mixture in zebrafish (Danio rerio) larvae](https://www.sciencedirect.com/science/article/pii/S0045653519318119?via%3Dihub), written by Raougina-Laouisa Bachoura, Oksana Golovkob, Martin Kellnerc, Johannes Pohl
 
-Study purpose: TRUE
+In this study, the effects of citalopram (an selective serotonin uptake inhibitor, SSRI) and tramadol (a synthetic opioid) were studied on zebrafish larvae. Citalopram and tramadol have a similair function, both causing serotonin reuptake inhibition, and are known for producing drug-drug interactions, leading to serotonin syndrome in humans. Serotonin syndrome is a potentially life-threatening but highly varied syndrome, created by the use of serotonergic drugs and overactivation of both peripheral and central postsynaptic receptors. [source](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3865832/). This study aims to identify behavioral and embryotxic effects in embryo-larval zebrafish exposed to citalopram, tramadol or both.
 
-In the final subheading of the introduction, the purpose of the study is stated clearly and consisely 
+To achieve this, adult zebrafish were allowed to spawn. Eggs produced by this spawn were placed in a 96-wells plate and exposed to test the test conditions (citalopram, tramadol or a combination in increasing concentrations). Incidences of lethal and sublethal effects were observed by stereo microscopy. The embryos were filmed at 24 HPF for 1 minute to determine spontaneous tail coilings per min. Heart rate (heartbeats per minute) were recorded at 48HPF and determined by visual counting. At 144 HPF, swimming activity in response to shifting dark and light conditions was recorded by putting each plate in the Zebrabox tracking system (Viewpoint, France) and filming them for 75 minutes with an inital 15 min of 0%, and then six alternating periods of 100% light to 0% light. Swimming activity was determined as the total swimming distance (mm) per larve per minute, as well as total swimming distance during dark/light periods.
 
+The study found no significant effects in any recorded embryotoxicity endpoint (e.g. heartrate, spontanious tail coiling, incidence of death/malformations) in zebra-larvae exposed to citalopram, tramadol or the mixture. However, at 144HPF, the study found that the compounds caused a decrease in the swimming response of the larvae in response to darkness. It is known that zebrafish larvae display higher activity during dark conditions, presumably due to a stress response triggered by the sudden shift in light. In the study, decreased swimming activity (hypoactivity) during dark conditions was recorded in larvae exposed to citalporam, tramadol and a 1:1 binary mixture of the two. This is shown in the figure below, taken directly from the study.
 
-Data availability statement: TRUE
+![Fig. 1. Distance moved (mean ± SD) over time of zebrafish embryos exposed to (A) citalopram, (B) tramadol and a (C) 1:1 binary mixture during light and dark conditions at 144 hpf. The left panel shows the total distance moved per min (mean) and to the right, the mean total distance moved per min (mean ± SD). One-way ANOVA and Dunnett's post hoc test was used for statistical analysis, where total distance moved for each larva was considered an individual replicate (**: p < 0.01, ***: p < 0.001).](./images/1-s2.0-S0045653519318119-gr1_lrg.jpg)
 
-At the very bottom of the article, just above references, a specific statement for the availability and location of the data is given.
+In the table below, the reproducibility of the study has been rated based on the previously given criteria:
 
+```{r, echo=FALSE}
+library(DT)
 
-Data location: https://data.mendeley.com/datasets/rcscvwcyx4/2
+data<-data.frame(
+  criteria=c("Study purpose",
+             "Data availability",
+             "Data location",
+             "Study location",
+             "Author review",
+             "Ethics statement",
+             "Funding statment",
+             "Code availability"),
+  result=c("TRUE", "TRUE", "https://data.mendeley.com/datasets/rcscvwcyx4/2", "FALSE", "1/4", "FALSE", "FALSE", "TRUE" ),
+  explanation=c("Purpose stated in introduction",
+                "Data stored in 'Mendely Data'",
+                "Data in given link",
+                "Not stated where the study was performed",
+                "1/4 authors had their mail/phone number available",
+                "There was no ethics statment",
+                "There was no funding statement",
+                "The code is available on 'Mendely Data'")
+)
 
+datatable(data)
+```
 
-Study location: FALSE
-
-It is _not_ stated where the study has been performed
-
-
-Author review:
