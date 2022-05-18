@@ -1,0 +1,91 @@
+# SQL
+
+<body id="start">
+<div class="topnav">
+  <a href='index.html#frontpage'>Front page</a>
+  <a href='data-visualisation.html#data-visualisation'>Data visualisation</a>
+  <a href='reproductibility.html#Reproductibility'>Reproductibility</a>
+  <a href='sorting-directories.html#sorting-directories'>Directory structure</a>
+  <a href='cv.html#cv'>CV</a>
+  <a href='plan-for-future.html#plan-for-future'>The future</a>
+  <a href='sql.html#SQL'>SQL</a>
+</div>
+
+In order to prove my skills in the field of data handling and SQL, this page will show me work with flu data, dengue data and the gapminder data from the {dslabs} package. The flu data and dengue data are both supplied by google, "www.google.org/flutrends AND www.google.org/denguetrends"
+
+First of all, all datasets will be read and inspected in R
+
+```{r dependencies_008, include=FALSE}
+library(dslabs)
+library(tidyverse)
+```
+
+
+```{r inspectingData}
+#The gapminder dataset
+gapminder %>% head()
+
+dengue<-read.csv("./data.raw/dengue_data.csv", skip = 10)
+#The dengue dataset
+dengue %>% head()
+
+flu<-read.csv("./data.raw/flu_data.csv", skip = 10)
+#The flu dataset
+flu %>% dplyr::select(Date:Japan) %>% head() #Selected till Japan for a cleaner table
+```
+
+Both the flu and the dengue datasets are not tidy: Each row contains the incidence rate (observation) of dengue/flu of multiple countries, while each row is only supposed to have 1 observation. The datasets will be wrangled to be tidy
+
+```{r wranglingDataSets, eval=FALSE}
+dengue_tidy<-dengue %>% pivot_longer(cols = Argentina:Venezuela,
+                        names_to = "country",
+                        values_to = "dengue_incidence")
+dengue_tidy %>% head()
+
+flu_tidy<-flu %>% pivot_longer(cols = Argentina:Uruguay,
+                     names_to = "country",
+                     values_to = "flu_incidence")
+flu_tidy %>% head()
+
+
+
+```
+
+Now the data is tidy, however, to make the dengue/flu data relational, the "date" data needs to be properly synchronized
+
+Gonna need to bash my head into the wall a bit more till this works
+
+```{r, eval=FALSE}
+rowMeans(flu)
+
+flu_tidy %>% group_by(country) %>% mean()
+
+flu_tidy %>% group_by(country) %>% summarise(
+  mean=mean(flu_incidence[flu_tidy$date2=='2002'], na.rm=TRUE)
+)
+
+flu_tidy %>% group_by(country) %>% rowMeans(flu_tidy$flu_incidence, na.rm=TRUE)
+
+rowMeans(flu_tidy$flu_incidence)
+
+
+mean(flu_tidy[flu_tidy$date2=='2003', 'flu_incidence'])
+
+date<-sub("-.*","",flu_tidy$Date)
+flu_tidy$date2<-date
+
+flu_tidy$date2 %>% unique()
+
+flu_tidy
+
+flu_tidy %>% group_by(country) %>% summarise(
+  year=unique(date2),
+  incidence=mean(flu_incidence, na.rm=TRUE)
+)
+
+flu_tidy
+
+mean(flu_tidy$flu_incidence, na.)
+```
+
+
