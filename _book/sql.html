@@ -179,8 +179,8 @@ details > summary {
 ## 4 Antigua and Barbuda 1960               NA           62.97      4.43      54681           NA  Americas       Caribbean
 ## 5           Argentina 1960            59.87           65.39      3.11   20619075 108322326649  Americas   South America
 ## 6             Armenia 1960               NA           66.86      4.55    1867396           NA      Asia    Western Asia</code></pre>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="sql.html#cb15-1" aria-hidden="true" tabindex="-1"></a>dengue<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">&quot;./data/dengue_data.csv&quot;</span>, <span class="at">skip =</span> <span class="dv">10</span>)</span>
-<span id="cb15-2"><a href="sql.html#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="sql.html#cb15-1" aria-hidden="true" tabindex="-1"></a>dengue<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">&quot;./data.raw/dengue_data.csv&quot;</span>, <span class="at">skip =</span> <span class="dv">10</span>)</span>
+<span id="cb15-2"><a href="sql.html#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co">#The dengue dataset</span></span>
 <span id="cb15-3"><a href="sql.html#cb15-3" aria-hidden="true" tabindex="-1"></a>dengue <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
 <pre><code>##         Date Argentina Bolivia Brazil India Indonesia Mexico Philippines Singapore Thailand Venezuela
 ## 1 2002-12-29        NA   0.101  0.073 0.062     0.101     NA          NA     0.059       NA        NA
@@ -189,9 +189,9 @@ details > summary {
 ## 4 2003-01-19        NA   0.173  0.170 0.032     0.039  0.052          NA     0.175       NA        NA
 ## 5 2003-01-26        NA   0.146  0.138 0.040     0.112  0.048          NA     0.164       NA        NA
 ## 6 2003-02-02        NA   0.160  0.202 0.038     0.049  0.041          NA     0.163       NA        NA</code></pre>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="sql.html#cb17-1" aria-hidden="true" tabindex="-1"></a>flu<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">&quot;./data/flu_data.csv&quot;</span>, <span class="at">skip =</span> <span class="dv">10</span>)</span>
-<span id="cb17-2"><a href="sql.html#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="sql.html#cb17-3" aria-hidden="true" tabindex="-1"></a>flu <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(Date<span class="sc">:</span>Japan) <span class="sc">%&gt;%</span> <span class="fu">head</span>() <span class="co">#Selected till Chile for a cleaner table</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="sql.html#cb17-1" aria-hidden="true" tabindex="-1"></a>flu<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">&quot;./data.raw/flu_data.csv&quot;</span>, <span class="at">skip =</span> <span class="dv">10</span>)</span>
+<span id="cb17-2"><a href="sql.html#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co">#The flu dataset</span></span>
+<span id="cb17-3"><a href="sql.html#cb17-3" aria-hidden="true" tabindex="-1"></a>flu <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(Date<span class="sc">:</span>Japan) <span class="sc">%&gt;%</span> <span class="fu">head</span>() <span class="co">#Selected till Japan for a cleaner table</span></span></code></pre></div>
 <pre><code>##         Date Argentina Australia Austria Belgium Bolivia Brazil Bulgaria Canada Chile France Germany Hungary Japan
 ## 1 2002-12-29        NA        NA      NA      NA      NA    174       NA     NA    NA     NA      NA      NA    NA
 ## 2 2003-01-05        NA        NA      NA      NA      NA    162       NA     NA    NA     NA      NA      NA    NA
@@ -199,6 +199,33 @@ details > summary {
 ## 4 2003-01-19        NA        NA      NA      NA      NA    162       NA     NA     0     NA      NA      NA    NA
 ## 5 2003-01-26        NA        NA      NA      NA      NA    131       NA     NA     0     NA      NA      NA    NA
 ## 6 2003-02-02       136        NA      NA      NA      NA    151       NA     NA     0     NA      NA      NA    NA</code></pre>
+<p>Both the flu and the dengue datasets are not tidy: Each row contains the incidence rate (observation) of dengue/flu of multiple countries, while each row is only supposed to have 1 observation. The datasets will be wrangled to be tidy</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="sql.html#cb19-1" aria-hidden="true" tabindex="-1"></a>dengue_tidy<span class="ot">&lt;-</span>dengue <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> Argentina<span class="sc">:</span>Venezuela,</span>
+<span id="cb19-2"><a href="sql.html#cb19-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">names_to =</span> <span class="st">&quot;country&quot;</span>,</span>
+<span id="cb19-3"><a href="sql.html#cb19-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">values_to =</span> <span class="st">&quot;dengue_incidence&quot;</span>)</span>
+<span id="cb19-4"><a href="sql.html#cb19-4" aria-hidden="true" tabindex="-1"></a>dengue_tidy <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 3
+##   Date       country   dengue_incidence
+##   &lt;chr&gt;      &lt;chr&gt;                &lt;dbl&gt;
+## 1 2002-12-29 Argentina           NA    
+## 2 2002-12-29 Bolivia              0.101
+## 3 2002-12-29 Brazil               0.073
+## 4 2002-12-29 India                0.062
+## 5 2002-12-29 Indonesia            0.101
+## 6 2002-12-29 Mexico              NA</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="sql.html#cb21-1" aria-hidden="true" tabindex="-1"></a>flu_tidy<span class="ot">&lt;-</span>flu <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> Argentina<span class="sc">:</span>Uruguay,</span>
+<span id="cb21-2"><a href="sql.html#cb21-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">names_to =</span> <span class="st">&quot;country&quot;</span>,</span>
+<span id="cb21-3"><a href="sql.html#cb21-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">values_to =</span> <span class="st">&quot;flu_incidence&quot;</span>)</span>
+<span id="cb21-4"><a href="sql.html#cb21-4" aria-hidden="true" tabindex="-1"></a>flu_tidy <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 3
+##   Date       country   flu_incidence
+##   &lt;chr&gt;      &lt;chr&gt;             &lt;int&gt;
+## 1 2002-12-29 Argentina            NA
+## 2 2002-12-29 Australia            NA
+## 3 2002-12-29 Austria              NA
+## 4 2002-12-29 Belgium              NA
+## 5 2002-12-29 Bolivia              NA
+## 6 2002-12-29 Brazil              174</code></pre>
 
 </div>
 <p style="text-align: center;">

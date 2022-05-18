@@ -25,12 +25,28 @@ library(tidyverse)
 #The gapminder dataset
 gapminder %>% head()
 
-dengue<-read.csv("./data/dengue_data.csv", skip = 10)
+dengue<-read.csv("./data.raw/dengue_data.csv", skip = 10)
 #The dengue dataset
 dengue %>% head()
 
-flu<-read.csv("./data/flu_data.csv", skip = 10)
+flu<-read.csv("./data.raw/flu_data.csv", skip = 10)
 #The flu dataset
 flu %>% dplyr::select(Date:Japan) %>% head() #Selected till Japan for a cleaner table
 ```
+
+Both the flu and the dengue datasets are not tidy: Each row contains the incidence rate (observation) of dengue/flu of multiple countries, while each row is only supposed to have 1 observation. The datasets will be wrangled to be tidy
+
+```{r wranglingDataSets}
+dengue_tidy<-dengue %>% pivot_longer(cols = Argentina:Venezuela,
+                        names_to = "country",
+                        values_to = "dengue_incidence")
+dengue_tidy %>% head()
+
+flu_tidy<-flu %>% pivot_longer(cols = Argentina:Uruguay,
+                     names_to = "country",
+                     values_to = "flu_incidence")
+flu_tidy %>% head()
+
+```
+
 
