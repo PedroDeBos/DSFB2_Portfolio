@@ -26,11 +26,11 @@ library(tidyverse)
 gapminder %>% head()
 
 dengue<-read.csv("./data/dengue_data.csv", skip = 10)
-
+#The dengue dataset
 dengue %>% head()
 
 flu<-read.csv("./data/flu_data.csv", skip = 10)
-
-flu %>% dplyr::select(Date:Chile) %>% head() #Selected till Chile for a cleaner table
+#The flu dataset
+flu %>% dplyr::select(Date:Japan) %>% head() #Selected till Japan for a cleaner table
 ```
 

@@ -191,14 +191,14 @@ details > summary {
 ## 6 2003-02-02        NA   0.160  0.202 0.038     0.049  0.041          NA     0.163       NA        NA</code></pre>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="sql.html#cb17-1" aria-hidden="true" tabindex="-1"></a>flu<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">&quot;./data/flu_data.csv&quot;</span>, <span class="at">skip =</span> <span class="dv">10</span>)</span>
 <span id="cb17-2"><a href="sql.html#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="sql.html#cb17-3" aria-hidden="true" tabindex="-1"></a>flu <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(Date<span class="sc">:</span>Chile) <span class="sc">%&gt;%</span> <span class="fu">head</span>() <span class="co">#Selected till Chile for a cleaner table</span></span></code></pre></div>
-<pre><code>##         Date Argentina Australia Austria Belgium Bolivia Brazil Bulgaria Canada Chile
-## 1 2002-12-29        NA        NA      NA      NA      NA    174       NA     NA    NA
-## 2 2003-01-05        NA        NA      NA      NA      NA    162       NA     NA    NA
-## 3 2003-01-12        NA        NA      NA      NA      NA    174       NA     NA     1
-## 4 2003-01-19        NA        NA      NA      NA      NA    162       NA     NA     0
-## 5 2003-01-26        NA        NA      NA      NA      NA    131       NA     NA     0
-## 6 2003-02-02       136        NA      NA      NA      NA    151       NA     NA     0</code></pre>
+<span id="cb17-3"><a href="sql.html#cb17-3" aria-hidden="true" tabindex="-1"></a>flu <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(Date<span class="sc">:</span>Japan) <span class="sc">%&gt;%</span> <span class="fu">head</span>() <span class="co">#Selected till Chile for a cleaner table</span></span></code></pre></div>
+<pre><code>##         Date Argentina Australia Austria Belgium Bolivia Brazil Bulgaria Canada Chile France Germany Hungary Japan
+## 1 2002-12-29        NA        NA      NA      NA      NA    174       NA     NA    NA     NA      NA      NA    NA
+## 2 2003-01-05        NA        NA      NA      NA      NA    162       NA     NA    NA     NA      NA      NA    NA
+## 3 2003-01-12        NA        NA      NA      NA      NA    174       NA     NA     1     NA      NA      NA    NA
+## 4 2003-01-19        NA        NA      NA      NA      NA    162       NA     NA     0     NA      NA      NA    NA
+## 5 2003-01-26        NA        NA      NA      NA      NA    131       NA     NA     0     NA      NA      NA    NA
+## 6 2003-02-02       136        NA      NA      NA      NA    151       NA     NA     0     NA      NA      NA    NA</code></pre>
 
 </div>
 <p style="text-align: center;">
