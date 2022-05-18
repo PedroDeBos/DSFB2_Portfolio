@@ -36,7 +36,7 @@ flu %>% dplyr::select(Date:Japan) %>% head() #Selected till Japan for a cleaner 
 
 Both the flu and the dengue datasets are not tidy: Each row contains the incidence rate (observation) of dengue/flu of multiple countries, while each row is only supposed to have 1 observation. The datasets will be wrangled to be tidy
 
-```{r wranglingDataSets}
+```{r wranglingDataSets, eval=FALSE}
 dengue_tidy<-dengue %>% pivot_longer(cols = Argentina:Venezuela,
                         names_to = "country",
                         values_to = "dengue_incidence")
@@ -55,7 +55,7 @@ Now the data is tidy, however, to make the dengue/flu data relational, the "date
 
 Gonna need to bash my head into the wall a bit more till this works
 
-```{r}
+```{r, eval=FALSE}
 rowMeans(flu)
 
 flu_tidy %>% group_by(country) %>% mean()
