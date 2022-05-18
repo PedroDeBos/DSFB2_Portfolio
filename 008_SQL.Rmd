@@ -47,11 +47,29 @@ flu_tidy<-flu %>% pivot_longer(cols = Argentina:Uruguay,
                      values_to = "flu_incidence")
 flu_tidy %>% head()
 
+
+
 ```
 
 Now the data is tidy, however, to make the dengue/flu data relational, the "date" data needs to be properly synchronized
 
+Gonna need to bash my head into the wall a bit more till this works
+
 ```{r}
+rowMeans(flu)
+
+flu_tidy %>% group_by(country) %>% mean()
+
+flu_tidy %>% group_by(country) %>% summarise(
+  mean=mean(flu_incidence[flu_tidy$date2=='2002'], na.rm=TRUE)
+)
+
+flu_tidy %>% group_by(country) %>% rowMeans(flu_tidy$flu_incidence, na.rm=TRUE)
+
+rowMeans(flu_tidy$flu_incidence)
+
+
+mean(flu_tidy[flu_tidy$date2=='2003', 'flu_incidence'])
 
 date<-sub("-.*","",flu_tidy$Date)
 flu_tidy$date2<-date
