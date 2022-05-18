@@ -49,4 +49,26 @@ flu_tidy %>% head()
 
 ```
 
+Now the data is tidy, however, to make the dengue/flu data relational, the "date" data needs to be properly synchronized
+
+```{r}
+
+date<-sub("-.*","",flu_tidy$Date)
+flu_tidy$date2<-date
+
+flu_tidy$date2 %>% unique()
+
+
+flu_tidy
+
+flu_tidy %>% group_by(country) %>% summarise(
+  year=unique(date2),
+  incidence=mean(flu_incidence, na.rm=TRUE)
+)
+
+flu_tidy
+
+mean(flu_tidy$flu_incidence, na.)
+```
+
 
