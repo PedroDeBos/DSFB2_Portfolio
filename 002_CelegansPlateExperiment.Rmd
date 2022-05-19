@@ -7,7 +7,6 @@
   <a href='sorting-directories.html#sorting-directories'>Directory structure</a>
   <a href='cv.html#cv'>CV</a>
   <a href='plan-for-future.html#plan-for-future'>The future</a>
-  <a href='sql.html#SQL'>SQL</a>
 </div>
 ```{r setup_1, include=FALSE}
 #Basic functions

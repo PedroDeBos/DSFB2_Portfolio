@@ -1,5 +1,16 @@
 # R Packages
 
+<body id="start">
+<div class="topnav">
+  <a href='index.html#frontpage'>Front page</a>
+  <a href='data-visualisation.html#data-visualisation'>Data visualisation</a>
+  <a href='reproductibility.html#Reproductibility'>Reproductibility</a>
+  <a href='sorting-directories.html#sorting-directories'>Directory structure</a>
+  <a href='cv.html#cv'>CV</a>
+  <a href='plan-for-future.html#plan-for-future'>The future</a>
+  <a href='sql.html#SQL'>SQL</a>
+</div>
+
 To prove my ability to create a package based on previous code, a set of functions will be created based on the "pokemon" dataset previously used will be created, and these functions will be transformed into a package.
 
 First of, the pokemon package, supplied from "Rounak Banik" on [kaggle](https://www.kaggle.com/datasets/rounakbanik/pokemon), will be loaded in
@@ -9,7 +20,7 @@ library(tidyverse)
 library(here)
 ```
 
-```{r}
+```{r, eval=FALSE}
 pokemon<-read_csv("data/pokemon.csv") %>% select(name,abilities:japanese_name,percentage_male:is_legendary)
 
 pokemon[1,] %>% select(name, type1, type2, abilities:is_legendary)
