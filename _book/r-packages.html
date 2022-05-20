@@ -176,28 +176,75 @@ details > summary {
 <span id="cb22-2"><a href="r-packages.html#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-3"><a href="r-packages.html#cb22-3" aria-hidden="true" tabindex="-1"></a>pokemon[<span class="dv">1</span>,] <span class="sc">%&gt;%</span> <span class="fu">select</span>(name, type1, type2, abilities<span class="sc">:</span>is_legendary)</span>
 <span id="cb22-4"><a href="r-packages.html#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="r-packages.html#cb22-5" aria-hidden="true" tabindex="-1"></a>pokemon_type<span class="ot">&lt;-</span><span class="cf">function</span>(x,y){</span>
-<span id="cb22-6"><a href="r-packages.html#cb22-6" aria-hidden="true" tabindex="-1"></a>  A<span class="ot">&lt;-</span>pokemon[pokemon<span class="sc">$</span>name<span class="sc">==</span>x,]</span>
-<span id="cb22-7"><a href="r-packages.html#cb22-7" aria-hidden="true" tabindex="-1"></a>  B<span class="ot">&lt;-</span>pokemon[pokemon<span class="sc">$</span>name<span class="sc">==</span>y,]</span>
-<span id="cb22-8"><a href="r-packages.html#cb22-8" aria-hidden="true" tabindex="-1"></a>  AB<span class="ot">&lt;-</span><span class="fu">full_join</span>(A, B)</span>
-<span id="cb22-9"><a href="r-packages.html#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="do">#########################</span></span>
-<span id="cb22-10"><a href="r-packages.html#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">is.na</span>(pokemon<span class="sc">$</span>type2[pokemon<span class="sc">$</span>name<span class="sc">==</span>x])){</span>
-<span id="cb22-11"><a href="r-packages.html#cb22-11" aria-hidden="true" tabindex="-1"></a>    mes1<span class="ot">&lt;-</span><span class="fu">paste0</span>(pokemon<span class="sc">$</span>name[pokemon<span class="sc">$</span>name<span class="sc">==</span>x], <span class="st">&quot; is a &quot;</span>, pokemon<span class="sc">$</span>type1[pokemon<span class="sc">$</span>name<span class="sc">==</span>x], <span class="st">&quot; type&quot;</span>)</span>
-<span id="cb22-12"><a href="r-packages.html#cb22-12" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
-<span id="cb22-13"><a href="r-packages.html#cb22-13" aria-hidden="true" tabindex="-1"></a>    mes1<span class="ot">&lt;-</span><span class="fu">paste0</span>(pokemon<span class="sc">$</span>name[pokemon<span class="sc">$</span>name<span class="sc">==</span>x], <span class="st">&quot; is a &quot;</span>, pokemon<span class="sc">$</span>type1[pokemon<span class="sc">$</span>name<span class="sc">==</span>x], <span class="st">&quot; and a &quot;</span>, pokemon<span class="sc">$</span>type2[pokemon<span class="sc">$</span>name<span class="sc">==</span>x], <span class="st">&quot; type&quot;</span>)</span>
-<span id="cb22-14"><a href="r-packages.html#cb22-14" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb22-15"><a href="r-packages.html#cb22-15" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb22-16"><a href="r-packages.html#cb22-16" aria-hidden="true" tabindex="-1"></a>  <span class="do">###########################3</span></span>
-<span id="cb22-17"><a href="r-packages.html#cb22-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">is.na</span>(pokemon<span class="sc">$</span>type2[pokemon<span class="sc">$</span>name<span class="sc">==</span>y])){</span>
-<span id="cb22-18"><a href="r-packages.html#cb22-18" aria-hidden="true" tabindex="-1"></a>    mes2<span class="ot">&lt;-</span><span class="fu">paste0</span>(pokemon<span class="sc">$</span>name[pokemon<span class="sc">$</span>name<span class="sc">==</span>y], <span class="st">&quot; is a &quot;</span>, pokemon<span class="sc">$</span>type1[pokemon<span class="sc">$</span>name<span class="sc">==</span>y], <span class="st">&quot; type&quot;</span>)</span>
-<span id="cb22-19"><a href="r-packages.html#cb22-19" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
-<span id="cb22-20"><a href="r-packages.html#cb22-20" aria-hidden="true" tabindex="-1"></a>    mes2<span class="ot">&lt;-</span><span class="fu">paste0</span>(pokemon<span class="sc">$</span>name[pokemon<span class="sc">$</span>name<span class="sc">==</span>y], <span class="st">&quot; is a &quot;</span>, pokemon<span class="sc">$</span>type1[pokemon<span class="sc">$</span>name<span class="sc">==</span>y], <span class="st">&quot; and a &quot;</span>, pokemon<span class="sc">$</span>type2[pokemon<span class="sc">$</span>name<span class="sc">==</span>y], <span class="st">&quot; type&quot;</span>)</span>
-<span id="cb22-21"><a href="r-packages.html#cb22-21" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb22-22"><a href="r-packages.html#cb22-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(mes1)</span>
-<span id="cb22-23"><a href="r-packages.html#cb22-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(mes2)</span>
-<span id="cb22-24"><a href="r-packages.html#cb22-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb22-5"><a href="r-packages.html#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="r-packages.html#cb22-6" aria-hidden="true" tabindex="-1"></a>pokemon_type3<span class="ot">&lt;-</span><span class="cf">function</span>(...){</span>
+<span id="cb22-7"><a href="r-packages.html#cb22-7" aria-hidden="true" tabindex="-1"></a>  arguments<span class="ot">&lt;-</span><span class="fu">list</span>(...)</span>
+<span id="cb22-8"><a href="r-packages.html#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste</span>(arguments)</span>
+<span id="cb22-9"><a href="r-packages.html#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (x <span class="cf">in</span> arguments)</span>
+<span id="cb22-10"><a href="r-packages.html#cb22-10" aria-hidden="true" tabindex="-1"></a>  { <span class="cf">if</span> (<span class="fu">is.na</span>(pokemon<span class="sc">$</span>type2[pokemon<span class="sc">$</span>name<span class="sc">==</span>x]))</span>
+<span id="cb22-11"><a href="r-packages.html#cb22-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">&quot;Test1&quot;</span>)</span>
+<span id="cb22-12"><a href="r-packages.html#cb22-12" aria-hidden="true" tabindex="-1"></a>      <span class="cf">else</span> {</span>
+<span id="cb22-13"><a href="r-packages.html#cb22-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">&quot;Test 2&quot;</span>)   </span>
+<span id="cb22-14"><a href="r-packages.html#cb22-14" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb22-15"><a href="r-packages.html#cb22-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb22-16"><a href="r-packages.html#cb22-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb22-17"><a href="r-packages.html#cb22-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-18"><a href="r-packages.html#cb22-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-19"><a href="r-packages.html#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="fu">pokemon_type3</span>(<span class="st">&quot;Chimchar&quot;</span>)</span>
+<span id="cb22-20"><a href="r-packages.html#cb22-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-21"><a href="r-packages.html#cb22-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-22"><a href="r-packages.html#cb22-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-23"><a href="r-packages.html#cb22-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-24"><a href="r-packages.html#cb22-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-25"><a href="r-packages.html#cb22-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-26"><a href="r-packages.html#cb22-26" aria-hidden="true" tabindex="-1"></a><span class="fu">type_matchup</span>(<span class="st">&quot;Drapion&quot;</span>, <span class="st">&quot;Chimchar&quot;</span>)</span></code></pre></div>
+<span id="cb22-26"><a href="r-packages.html#cb22-26" aria-hidden="true" tabindex="-1"></a>pokemon_type2<span class="ot">&lt;-</span><span class="cf">function</span>(...){</span>
+<span id="cb22-27"><a href="r-packages.html#cb22-27" aria-hidden="true" tabindex="-1"></a>  arguments<span class="ot">&lt;-</span><span class="fu">list</span>(...)</span>
+<span id="cb22-28"><a href="r-packages.html#cb22-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste</span>(arguments)</span>
+<span id="cb22-29"><a href="r-packages.html#cb22-29" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (pokemon <span class="cf">in</span> arguments)</span>
+<span id="cb22-30"><a href="r-packages.html#cb22-30" aria-hidden="true" tabindex="-1"></a>  {</span>
+<span id="cb22-31"><a href="r-packages.html#cb22-31" aria-hidden="true" tabindex="-1"></a>     <span class="cf">if</span>(<span class="fu">is.na</span>(pokemon<span class="sc">$</span>type2[pokemon<span class="sc">$</span>name<span class="sc">==</span>x])){</span>
+<span id="cb22-32"><a href="r-packages.html#cb22-32" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb22-33"><a href="r-packages.html#cb22-33" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb22-34"><a href="r-packages.html#cb22-34" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb22-35"><a href="r-packages.html#cb22-35" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb22-36"><a href="r-packages.html#cb22-36" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb22-37"><a href="r-packages.html#cb22-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-38"><a href="r-packages.html#cb22-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-39"><a href="r-packages.html#cb22-39" aria-hidden="true" tabindex="-1"></a><span class="fu">pokemon_type2</span>(<span class="st">&quot;chimchar&quot;</span>, <span class="st">&quot;drapion&quot;</span>, <span class="st">&quot;flygon&quot;</span>)</span>
+<span id="cb22-40"><a href="r-packages.html#cb22-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-41"><a href="r-packages.html#cb22-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-42"><a href="r-packages.html#cb22-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-43"><a href="r-packages.html#cb22-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-44"><a href="r-packages.html#cb22-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-45"><a href="r-packages.html#cb22-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-46"><a href="r-packages.html#cb22-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-47"><a href="r-packages.html#cb22-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-48"><a href="r-packages.html#cb22-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-49"><a href="r-packages.html#cb22-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-50"><a href="r-packages.html#cb22-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-51"><a href="r-packages.html#cb22-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-52"><a href="r-packages.html#cb22-52" aria-hidden="true" tabindex="-1"></a>pokemon_type<span class="ot">&lt;-</span><span class="cf">function</span>(x,y){</span>
+<span id="cb22-53"><a href="r-packages.html#cb22-53" aria-hidden="true" tabindex="-1"></a>  A<span class="ot">&lt;-</span>pokemon[pokemon<span class="sc">$</span>name<span class="sc">==</span>x,]</span>
+<span id="cb22-54"><a href="r-packages.html#cb22-54" aria-hidden="true" tabindex="-1"></a>  B<span class="ot">&lt;-</span>pokemon[pokemon<span class="sc">$</span>name<span class="sc">==</span>y,]</span>
+<span id="cb22-55"><a href="r-packages.html#cb22-55" aria-hidden="true" tabindex="-1"></a>  AB<span class="ot">&lt;-</span><span class="fu">full_join</span>(A, B)</span>
+<span id="cb22-56"><a href="r-packages.html#cb22-56" aria-hidden="true" tabindex="-1"></a>  <span class="do">#########################</span></span>
+<span id="cb22-57"><a href="r-packages.html#cb22-57" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">is.na</span>(pokemon<span class="sc">$</span>type2[pokemon<span class="sc">$</span>name<span class="sc">==</span>x])){</span>
+<span id="cb22-58"><a href="r-packages.html#cb22-58" aria-hidden="true" tabindex="-1"></a>    mes1<span class="ot">&lt;-</span><span class="fu">paste0</span>(pokemon<span class="sc">$</span>name[pokemon<span class="sc">$</span>name<span class="sc">==</span>x], <span class="st">&quot; is a &quot;</span>, pokemon<span class="sc">$</span>type1[pokemon<span class="sc">$</span>name<span class="sc">==</span>x], <span class="st">&quot; type&quot;</span>)</span>
+<span id="cb22-59"><a href="r-packages.html#cb22-59" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb22-60"><a href="r-packages.html#cb22-60" aria-hidden="true" tabindex="-1"></a>    mes1<span class="ot">&lt;-</span><span class="fu">paste0</span>(pokemon<span class="sc">$</span>name[pokemon<span class="sc">$</span>name<span class="sc">==</span>x], <span class="st">&quot; is a &quot;</span>, pokemon<span class="sc">$</span>type1[pokemon<span class="sc">$</span>name<span class="sc">==</span>x], <span class="st">&quot; and a &quot;</span>, pokemon<span class="sc">$</span>type2[pokemon<span class="sc">$</span>name<span class="sc">==</span>x], <span class="st">&quot; type&quot;</span>)</span>
+<span id="cb22-61"><a href="r-packages.html#cb22-61" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb22-62"><a href="r-packages.html#cb22-62" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb22-63"><a href="r-packages.html#cb22-63" aria-hidden="true" tabindex="-1"></a>  <span class="do">###########################3</span></span>
+<span id="cb22-64"><a href="r-packages.html#cb22-64" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">is.na</span>(pokemon<span class="sc">$</span>type2[pokemon<span class="sc">$</span>name<span class="sc">==</span>y])){</span>
+<span id="cb22-65"><a href="r-packages.html#cb22-65" aria-hidden="true" tabindex="-1"></a>    mes2<span class="ot">&lt;-</span><span class="fu">paste0</span>(pokemon<span class="sc">$</span>name[pokemon<span class="sc">$</span>name<span class="sc">==</span>y], <span class="st">&quot; is a &quot;</span>, pokemon<span class="sc">$</span>type1[pokemon<span class="sc">$</span>name<span class="sc">==</span>y], <span class="st">&quot; type&quot;</span>)</span>
+<span id="cb22-66"><a href="r-packages.html#cb22-66" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb22-67"><a href="r-packages.html#cb22-67" aria-hidden="true" tabindex="-1"></a>    mes2<span class="ot">&lt;-</span><span class="fu">paste0</span>(pokemon<span class="sc">$</span>name[pokemon<span class="sc">$</span>name<span class="sc">==</span>y], <span class="st">&quot; is a &quot;</span>, pokemon<span class="sc">$</span>type1[pokemon<span class="sc">$</span>name<span class="sc">==</span>y], <span class="st">&quot; and a &quot;</span>, pokemon<span class="sc">$</span>type2[pokemon<span class="sc">$</span>name<span class="sc">==</span>y], <span class="st">&quot; type&quot;</span>)</span>
+<span id="cb22-68"><a href="r-packages.html#cb22-68" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb22-69"><a href="r-packages.html#cb22-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(mes1)</span>
+<span id="cb22-70"><a href="r-packages.html#cb22-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(mes2)</span>
+<span id="cb22-71"><a href="r-packages.html#cb22-71" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb22-72"><a href="r-packages.html#cb22-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-73"><a href="r-packages.html#cb22-73" aria-hidden="true" tabindex="-1"></a><span class="fu">pokemon_type</span>(<span class="st">&quot;Drapion&quot;</span>, <span class="st">&quot;Chimchar&quot;</span>)</span></code></pre></div>
 
 </div>
 <p style="text-align: center;">
