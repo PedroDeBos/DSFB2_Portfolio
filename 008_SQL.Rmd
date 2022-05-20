@@ -71,9 +71,15 @@ dengue_tidy
 
 #Now, the question: we have multiple instances of the year per country in each file. I want to calculate the mean incidence per year per country. How?
 #Solution: Just dont! Make a new file for year and just left join based on that!
+```
 
-
-
+```{r}
+flu_tidy %>% write.csv(file = "./data/flu.csv")
+flu_tidy %>% write_rds(file = "./data/flu.rds")
+dengue_tidy %>% write.csv(file = "./data/dengue.csv")
+dengue_tidy %>% write_rds(file = "./data/dengue.rds")
+gapminder %>% write.csv(file = "./data/gapminder.csv")
+gapminder %>% write_rds(file = "./data/gapminder.rds")
 ```
 
 
