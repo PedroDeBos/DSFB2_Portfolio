@@ -73,7 +73,7 @@ dengue_tidy
 #Solution: Just dont! Make a new file for year and just left join based on that!
 ```
 
-```{r}
+```{r, eval=FALSE}
 flu_tidy %>% write.csv(file = "./data/flu.csv")
 flu_tidy %>% write_rds(file = "./data/flu.rds")
 dengue_tidy %>% write.csv(file = "./data/dengue.csv")
