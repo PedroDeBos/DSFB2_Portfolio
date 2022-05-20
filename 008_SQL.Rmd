@@ -55,6 +55,29 @@ Now the data is tidy, however, to make the dengue/flu data relational, the "date
 
 Gonna need to bash my head into the wall a bit more till this works
 
+```{r}
+#So, we have our datasets: flu_tidy and dengue_tidy. We want to join them with gapminder by country AND year
+#Problem: Year here is given as a exact date, not a year.
+#Solution: Transform the date into a year
+date_flu<-sub("-.*","",flu_tidy$Date)
+flu_tidy$year<-date_flu
+flu_tidy$year<-flu_tidy$year %>% as.integer()
+flu_tidy
+
+date_dengue<-sub("-.*", "", dengue_tidy$Date)
+dengue_tidy$year<-date_dengue
+dengue_tidy$year<-dengue_tidy$year %>% as.integer()
+dengue_tidy
+
+#Now, the question: we have multiple instances of the year per country in each file. I want to calculate the mean incidence per year per country. How?
+#Solution: Just dont! Make a new file for year and just left join based on that!
+
+
+
+```
+
+
+
 ```{r, eval=FALSE}
 rowMeans(flu)
 
