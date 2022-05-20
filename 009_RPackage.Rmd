@@ -19,6 +19,7 @@ First of, the pokemon package, supplied from "Rounak Banik" on [kaggle](https://
 library(tidyverse)
 library(here)
 library(ggplot2)
+library(available)
 ```
 
 ```{r, eval=FALSE}
@@ -29,7 +30,8 @@ pokemon[1,] %>% select(name, type1, type2, abilities:is_legendary)
 
 ########## A Function which takes a list of pokemons, and gives you their type ######################################
 
-pokemon_type<-function(...){
+pokemon_type<-function(pokemon_data, ...){
+  pokemon<-pokemon_data
   arguments<-list(...) #Storing all arguments as a list
   for (x in arguments) #Making a command which repeats for all arguments in the list
   { if (is.na(pokemon$type2[pokemon$name==x])) #Determening whether the pokemon has 1 or 2 types, giving the appropriate message based on this
@@ -40,13 +42,15 @@ pokemon_type<-function(...){
   }
 }
 
-pokemon_type("Chimchar", "Drapion")
+is.na(pokemon$type2[pokemon$name=="Chimchar"])
+
+pokemon_type(pokemon, "Chimchar", "Drapion")
 
 ########## A Function which takes a name of 1 pokemon, and gives you a graph of their stat sheet. ######################
 
 
 pokemon_stats<-function(x){
-  graph_data<-pokemon[pokemon$name==x,] %>% #Separating the stats from the database
+  graph_data<-pokemon[pokemon$name==pokemon_name,] %>% #Separating the stats from the database
   select(hp, attack, defense, sp_attack, sp_defense, speed) %>% 
   pivot_longer(cols=hp:speed, names_to = "stat", values_to = "value")
   
@@ -61,20 +65,41 @@ pokemon_stats<-function(x){
   theme_bw()
 }
 
-pokemon_stats("Drapion")
+pokemon_stats<-function(pokemon_data, pokemon_name){
+  pokemon<-pokemon_data
+  graph_data<-pivot_longer(
+    select(
+      pokemon[pokemon$name==pokemon_name,],
+      hp, attack, defense, sp_attack, sp_defense, speed),
+    cols=hp:speed, names_to = "stat", values_to = "value")
+  
+  graph_data$stat<-factor(graph_data$stat, levels = c("hp", "attack", "defense", "sp_attack", "sp_defense", "speed")) #Putting the stats in the proper porder
+  
+  ggplot(graph_data, aes(x=stat, y=value, fill=stat))+ #Visualising the separated stats
+  geom_col(colour="black")+
+  labs(title = paste0(pokemon_name,"'s stat breakdown"),
+       x="",
+       y="Stat value",
+       fill="Stat")+
+  theme_bw()
+}
+
+pokemon_stats(pokemon, "Drapion")
 
 ########## A function which takes a pokemon name, and states whether they're considered a legendary or not #################
 
-pokemon_legendary<-function(x){
-  if (pokemon$is_legendary[pokemon$name==x]==0){
-    print(paste0(x, " is not a legendary pokemon"))
+pokemon_legendary<-function(pokemon_data, pokemon_name){
+  if (pokemon$is_legendary[pokemon$name==pokemon_name]==0){
+    print(paste0(pokemon_name, " is not a legendary pokemon"))
   } else
   {
-    print(paste0(x, " is a legendary pokemon"))
+    print(paste0(pokemon_name, " is a legendary pokemon"))
   }
 }
 
-pokemon_legendary("Chimchar")
+pokemon_legendary(pokemon, "Chimchar")
+
+available(name = "PokemonAnalyse")
 
 ```
 
