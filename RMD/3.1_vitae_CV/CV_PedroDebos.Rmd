@@ -28,10 +28,21 @@ library(tibble)
 tribble(
   ~ Degree, ~ Year, ~ Institution, ~ Where,
   "Bachelor life sciences. Specialisation microbiology, minor data sciences", "2019-present", "University of applied sciences", "Utrecht, Netherlands",
-  "High school diploma", "2014-2019", "Gerrit rietveld college", "Utrecht, Netherlands"
+  "High school diploma NT&NG", "2014-2019", "Gerrit rietveld college", "Utrecht, Netherlands"
 ) %>% 
   detailed_entries(Degree, Year, Institution, Where)
 ```
+
+# Practical experience
+```{r}
+tribble(
+  ~ Project, ~ Skills, ~ Time, ~ Time2,
+  "Microbiology: Periodontal disease", "Used BACTRON600 to grow anaerobic bacteria, analysed MALDI-TOF spectra of bacteria in different ratios, analysed direct periodontal samples", "6 months", "2021-2022",
+  "Data sciences: Liquid biopsies", "Using R to automise the comparison of cell-free(cf)- and tumor DNA in neuroblastoma", "Ongoing", "2022"
+) %>%
+  detailed_entries(Skills,Time2,Project,Time)
+```
+
 
 # Languages 
 ```` {r}
