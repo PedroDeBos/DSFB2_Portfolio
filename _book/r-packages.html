@@ -164,87 +164,35 @@ details > summary {
 <a href='data-visualisation.html#data-visualisation'>Data visualisation</a>
 <a href='reproductibility.html#Reproductibility'>Reproductibility</a>
 <a href='sorting-directories.html#sorting-directories'>Directory structure</a>
+<a href='r-packages.html#R-packages'>R-package</a>
 <a href='cv.html#cv'>CV</a>
-<a href='plan-for-future.html#plan-for-future'>The future</a>
-<a href='sql.html#SQL'>SQL</a></p>
+<a href='plan-for-future.html#plan-for-future'>The future</a></p>
 </div>
-<p>To prove my ability to create a package based on previous code, a set of functions will be created based on the “pokemon” dataset previously used will be created, and these functions will be transformed into a package.</p>
-<p>First of, the pokemon package, supplied from “Rounak Banik” on <a href="https://www.kaggle.com/datasets/rounakbanik/pokemon">kaggle</a>, will be loaded in</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="r-packages.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb21-2"><a href="r-packages.html#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span></code></pre></div>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="r-packages.html#cb22-1" aria-hidden="true" tabindex="-1"></a>pokemon<span class="ot">&lt;-</span><span class="fu">read_csv</span>(<span class="st">&quot;data/pokemon.csv&quot;</span>) <span class="sc">%&gt;%</span> <span class="fu">select</span>(name,abilities<span class="sc">:</span>japanese_name,percentage_male<span class="sc">:</span>is_legendary)</span>
-<span id="cb22-2"><a href="r-packages.html#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="r-packages.html#cb22-3" aria-hidden="true" tabindex="-1"></a>pokemon[<span class="dv">1</span>,] <span class="sc">%&gt;%</span> <span class="fu">select</span>(name, type1, type2, abilities<span class="sc">:</span>is_legendary)</span>
-<span id="cb22-4"><a href="r-packages.html#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="r-packages.html#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-6"><a href="r-packages.html#cb22-6" aria-hidden="true" tabindex="-1"></a>pokemon_type3<span class="ot">&lt;-</span><span class="cf">function</span>(...){</span>
-<span id="cb22-7"><a href="r-packages.html#cb22-7" aria-hidden="true" tabindex="-1"></a>  arguments<span class="ot">&lt;-</span><span class="fu">list</span>(...)</span>
-<span id="cb22-8"><a href="r-packages.html#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste</span>(arguments)</span>
-<span id="cb22-9"><a href="r-packages.html#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (x <span class="cf">in</span> arguments)</span>
-<span id="cb22-10"><a href="r-packages.html#cb22-10" aria-hidden="true" tabindex="-1"></a>  { <span class="cf">if</span> (<span class="fu">is.na</span>(pokemon<span class="sc">$</span>type2[pokemon<span class="sc">$</span>name<span class="sc">==</span>x]))</span>
-<span id="cb22-11"><a href="r-packages.html#cb22-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">&quot;Test1&quot;</span>)</span>
-<span id="cb22-12"><a href="r-packages.html#cb22-12" aria-hidden="true" tabindex="-1"></a>      <span class="cf">else</span> {</span>
-<span id="cb22-13"><a href="r-packages.html#cb22-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">&quot;Test 2&quot;</span>)   </span>
-<span id="cb22-14"><a href="r-packages.html#cb22-14" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb22-15"><a href="r-packages.html#cb22-15" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb22-16"><a href="r-packages.html#cb22-16" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb22-17"><a href="r-packages.html#cb22-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-18"><a href="r-packages.html#cb22-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-19"><a href="r-packages.html#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="fu">pokemon_type3</span>(<span class="st">&quot;Chimchar&quot;</span>)</span>
-<span id="cb22-20"><a href="r-packages.html#cb22-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-21"><a href="r-packages.html#cb22-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-22"><a href="r-packages.html#cb22-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-23"><a href="r-packages.html#cb22-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-24"><a href="r-packages.html#cb22-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-25"><a href="r-packages.html#cb22-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-26"><a href="r-packages.html#cb22-26" aria-hidden="true" tabindex="-1"></a>pokemon_type2<span class="ot">&lt;-</span><span class="cf">function</span>(...){</span>
-<span id="cb22-27"><a href="r-packages.html#cb22-27" aria-hidden="true" tabindex="-1"></a>  arguments<span class="ot">&lt;-</span><span class="fu">list</span>(...)</span>
-<span id="cb22-28"><a href="r-packages.html#cb22-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste</span>(arguments)</span>
-<span id="cb22-29"><a href="r-packages.html#cb22-29" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (pokemon <span class="cf">in</span> arguments)</span>
-<span id="cb22-30"><a href="r-packages.html#cb22-30" aria-hidden="true" tabindex="-1"></a>  {</span>
-<span id="cb22-31"><a href="r-packages.html#cb22-31" aria-hidden="true" tabindex="-1"></a>     <span class="cf">if</span>(<span class="fu">is.na</span>(pokemon<span class="sc">$</span>type2[pokemon<span class="sc">$</span>name<span class="sc">==</span>x])){</span>
-<span id="cb22-32"><a href="r-packages.html#cb22-32" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb22-33"><a href="r-packages.html#cb22-33" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb22-34"><a href="r-packages.html#cb22-34" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb22-35"><a href="r-packages.html#cb22-35" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb22-36"><a href="r-packages.html#cb22-36" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb22-37"><a href="r-packages.html#cb22-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-38"><a href="r-packages.html#cb22-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-39"><a href="r-packages.html#cb22-39" aria-hidden="true" tabindex="-1"></a><span class="fu">pokemon_type2</span>(<span class="st">&quot;chimchar&quot;</span>, <span class="st">&quot;drapion&quot;</span>, <span class="st">&quot;flygon&quot;</span>)</span>
-<span id="cb22-40"><a href="r-packages.html#cb22-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-41"><a href="r-packages.html#cb22-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-42"><a href="r-packages.html#cb22-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-43"><a href="r-packages.html#cb22-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-44"><a href="r-packages.html#cb22-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-45"><a href="r-packages.html#cb22-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-46"><a href="r-packages.html#cb22-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-47"><a href="r-packages.html#cb22-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-48"><a href="r-packages.html#cb22-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-49"><a href="r-packages.html#cb22-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-50"><a href="r-packages.html#cb22-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-51"><a href="r-packages.html#cb22-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-52"><a href="r-packages.html#cb22-52" aria-hidden="true" tabindex="-1"></a>pokemon_type<span class="ot">&lt;-</span><span class="cf">function</span>(x,y){</span>
-<span id="cb22-53"><a href="r-packages.html#cb22-53" aria-hidden="true" tabindex="-1"></a>  A<span class="ot">&lt;-</span>pokemon[pokemon<span class="sc">$</span>name<span class="sc">==</span>x,]</span>
-<span id="cb22-54"><a href="r-packages.html#cb22-54" aria-hidden="true" tabindex="-1"></a>  B<span class="ot">&lt;-</span>pokemon[pokemon<span class="sc">$</span>name<span class="sc">==</span>y,]</span>
-<span id="cb22-55"><a href="r-packages.html#cb22-55" aria-hidden="true" tabindex="-1"></a>  AB<span class="ot">&lt;-</span><span class="fu">full_join</span>(A, B)</span>
-<span id="cb22-56"><a href="r-packages.html#cb22-56" aria-hidden="true" tabindex="-1"></a>  <span class="do">#########################</span></span>
-<span id="cb22-57"><a href="r-packages.html#cb22-57" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">is.na</span>(pokemon<span class="sc">$</span>type2[pokemon<span class="sc">$</span>name<span class="sc">==</span>x])){</span>
-<span id="cb22-58"><a href="r-packages.html#cb22-58" aria-hidden="true" tabindex="-1"></a>    mes1<span class="ot">&lt;-</span><span class="fu">paste0</span>(pokemon<span class="sc">$</span>name[pokemon<span class="sc">$</span>name<span class="sc">==</span>x], <span class="st">&quot; is a &quot;</span>, pokemon<span class="sc">$</span>type1[pokemon<span class="sc">$</span>name<span class="sc">==</span>x], <span class="st">&quot; type&quot;</span>)</span>
-<span id="cb22-59"><a href="r-packages.html#cb22-59" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
-<span id="cb22-60"><a href="r-packages.html#cb22-60" aria-hidden="true" tabindex="-1"></a>    mes1<span class="ot">&lt;-</span><span class="fu">paste0</span>(pokemon<span class="sc">$</span>name[pokemon<span class="sc">$</span>name<span class="sc">==</span>x], <span class="st">&quot; is a &quot;</span>, pokemon<span class="sc">$</span>type1[pokemon<span class="sc">$</span>name<span class="sc">==</span>x], <span class="st">&quot; and a &quot;</span>, pokemon<span class="sc">$</span>type2[pokemon<span class="sc">$</span>name<span class="sc">==</span>x], <span class="st">&quot; type&quot;</span>)</span>
-<span id="cb22-61"><a href="r-packages.html#cb22-61" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb22-62"><a href="r-packages.html#cb22-62" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb22-63"><a href="r-packages.html#cb22-63" aria-hidden="true" tabindex="-1"></a>  <span class="do">###########################3</span></span>
-<span id="cb22-64"><a href="r-packages.html#cb22-64" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">is.na</span>(pokemon<span class="sc">$</span>type2[pokemon<span class="sc">$</span>name<span class="sc">==</span>y])){</span>
-<span id="cb22-65"><a href="r-packages.html#cb22-65" aria-hidden="true" tabindex="-1"></a>    mes2<span class="ot">&lt;-</span><span class="fu">paste0</span>(pokemon<span class="sc">$</span>name[pokemon<span class="sc">$</span>name<span class="sc">==</span>y], <span class="st">&quot; is a &quot;</span>, pokemon<span class="sc">$</span>type1[pokemon<span class="sc">$</span>name<span class="sc">==</span>y], <span class="st">&quot; type&quot;</span>)</span>
-<span id="cb22-66"><a href="r-packages.html#cb22-66" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
-<span id="cb22-67"><a href="r-packages.html#cb22-67" aria-hidden="true" tabindex="-1"></a>    mes2<span class="ot">&lt;-</span><span class="fu">paste0</span>(pokemon<span class="sc">$</span>name[pokemon<span class="sc">$</span>name<span class="sc">==</span>y], <span class="st">&quot; is a &quot;</span>, pokemon<span class="sc">$</span>type1[pokemon<span class="sc">$</span>name<span class="sc">==</span>y], <span class="st">&quot; and a &quot;</span>, pokemon<span class="sc">$</span>type2[pokemon<span class="sc">$</span>name<span class="sc">==</span>y], <span class="st">&quot; type&quot;</span>)</span>
-<span id="cb22-68"><a href="r-packages.html#cb22-68" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb22-69"><a href="r-packages.html#cb22-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(mes1)</span>
-<span id="cb22-70"><a href="r-packages.html#cb22-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(mes2)</span>
-<span id="cb22-71"><a href="r-packages.html#cb22-71" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb22-72"><a href="r-packages.html#cb22-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-73"><a href="r-packages.html#cb22-73" aria-hidden="true" tabindex="-1"></a><span class="fu">pokemon_type</span>(<span class="st">&quot;Drapion&quot;</span>, <span class="st">&quot;Chimchar&quot;</span>)</span></code></pre></div>
+<p> </p>
+<p>To prove my ability to create a package based on previous code, I have created the “PokemonAnalyse” package, a package created to analyse a pokemon dataset. This package is available on the public repository <a href="https://github.com/PedroDeBos/PokemonAnalyse">linked here</a>. The package can be installed using the following command:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="r-packages.html#cb21-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;PedroDeBos/PokemonAnalyse&quot;</span>)</span></code></pre></div>
+<p>The package has been created to incorporate 4 commands: pokemon_legendary, type, stats and weakness</p>
+<p><strong>pokemon_legendary</strong> states whether the selected pokemon is a legendary or not</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="r-packages.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PokemonAnalyse)</span>
+<span id="cb22-2"><a href="r-packages.html#cb22-2" aria-hidden="true" tabindex="-1"></a>pokemon<span class="ot">&lt;-</span>pokemon</span>
+<span id="cb22-3"><a href="r-packages.html#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pokemon_legendary</span>(<span class="st">&quot;Aggron&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;Aggron is not a legendary pokemon&quot;</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="r-packages.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pokemon_legendary</span>(<span class="st">&quot;Arceus&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;Arceus is a legendary pokemon&quot;</code></pre>
+<p><strong>pokemon_type</strong> determines the types of the selected pokemon</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="r-packages.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pokemon_type</span>(<span class="st">&quot;Aggron&quot;</span>)</span></code></pre></div>
+<pre><code>## $Aggron
+## [1] &quot;Aggron is a steel and a rock type&quot;</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="r-packages.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pokemon_type</span>(<span class="st">&quot;Arceus&quot;</span>)</span></code></pre></div>
+<pre><code>## $Arceus
+## [1] &quot;Arceus is a normal type&quot;</code></pre>
+<p><strong>pokemon_stats</strong> gives the stats of the selected pokemon in the form of a plot</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="r-packages.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pokemon_stats</span>(<span class="st">&quot;Aggron&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>and finally, <strong>pokemon_weakness</strong> gives a spread of the weaknesses of the selected pokemon, also in the form of a plot</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="r-packages.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pokemon_weakness</span>(<span class="st">&quot;Aggron&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>each of these commands include a help page when using “?pokemon_stats”. Furthermore, the package also contains the “pokemon” dataset, provided by Rounak Banik on <a href="https://www.kaggle.com/datasets/rounakbanik/pokemon">kaggle</a> under a CC0 license. And finally, the package also contains a “vignette” page, which can be accessed by vignette(“PokemonAnalyse”).</p>
 
 </div>
 <p style="text-align: center;">

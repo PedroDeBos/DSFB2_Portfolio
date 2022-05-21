@@ -6,96 +6,52 @@
   <a href='data-visualisation.html#data-visualisation'>Data visualisation</a>
   <a href='reproductibility.html#Reproductibility'>Reproductibility</a>
   <a href='sorting-directories.html#sorting-directories'>Directory structure</a>
+  <a href='r-packages.html#R-packages'>R-package</a>
   <a href='cv.html#cv'>CV</a>
   <a href='plan-for-future.html#plan-for-future'>The future</a>
-  <a href='sql.html#SQL'>SQL</a>
 </div>
 
-To prove my ability to create a package based on previous code, a set of functions will be created based on the "pokemon" dataset previously used will be created, and these functions will be transformed into a package.
-
-First of, the pokemon package, supplied from "Rounak Banik" on [kaggle](https://www.kaggle.com/datasets/rounakbanik/pokemon), will be loaded in
-
-```{r 009_dependancies}
+```{r, include=FALSE}
 library(tidyverse)
 library(here)
+library(devtools)
 ```
+&nbsp;
+
+To prove my ability to create a package based on previous code, I have created the "PokemonAnalyse" package, a package created to analyse a pokemon dataset. This package is available on the public repository [linked here](https://github.com/PedroDeBos/PokemonAnalyse). The package can be installed using the following command:
 
 ```{r, eval=FALSE}
-pokemon<-read_csv("data/pokemon.csv") %>% select(name,abilities:japanese_name,percentage_male:is_legendary)
-
-pokemon[1,] %>% select(name, type1, type2, abilities:is_legendary)
-
-
-pokemon_type3<-function(...){
-  arguments<-list(...)
-  paste(arguments)
-  for (x in arguments)
-  { if (is.na(pokemon$type2[pokemon$name==x]))
-    print("Test1")
-      else {
-    print("Test 2")   
-      }
-  }
-}
-
-
-pokemon_type3("Chimchar")
-
-
-
-
-
-
-pokemon_type2<-function(...){
-  arguments<-list(...)
-  paste(arguments)
-  for (pokemon in arguments)
-  {
-     if(is.na(pokemon$type2[pokemon$name==x])){
-  }
-  }
-  
-  
-  
-
-
-pokemon_type2("chimchar", "drapion", "flygon")
-
-
-
-
-
-
-
-
-
-
-
-
-pokemon_type<-function(x,y){
-  A<-pokemon[pokemon$name==x,]
-  B<-pokemon[pokemon$name==y,]
-  AB<-full_join(A, B)
-  #########################
-  if(is.na(pokemon$type2[pokemon$name==x])){
-    mes1<-paste0(pokemon$name[pokemon$name==x], " is a ", pokemon$type1[pokemon$name==x], " type")
-  } else {
-    mes1<-paste0(pokemon$name[pokemon$name==x], " is a ", pokemon$type1[pokemon$name==x], " and a ", pokemon$type2[pokemon$name==x], " type")
-  }
-  
-  ###########################3
-  if(is.na(pokemon$type2[pokemon$name==y])){
-    mes2<-paste0(pokemon$name[pokemon$name==y], " is a ", pokemon$type1[pokemon$name==y], " type")
-  } else {
-    mes2<-paste0(pokemon$name[pokemon$name==y], " is a ", pokemon$type1[pokemon$name==y], " and a ", pokemon$type2[pokemon$name==y], " type")
-  }
-  print(mes1)
-  print(mes2)
-}
-
-pokemon_type("Drapion", "Chimchar")
-
-
-
+devtools::install_github("PedroDeBos/PokemonAnalyse")
 ```
 
+The package has been created to incorporate 4 commands: pokemon_legendary, type, stats and weakness
+
+__pokemon_legendary__ states whether the selected pokemon is a legendary or not
+
+```{r}
+library(PokemonAnalyse)
+pokemon<-pokemon
+pokemon_legendary("Aggron")
+pokemon_legendary("Arceus")
+```
+
+__pokemon_type__ determines the types of the selected pokemon
+
+```{r}
+pokemon_type("Aggron")
+pokemon_type("Arceus")
+```
+
+__pokemon_stats__ gives the stats of the selected pokemon in the form of a plot
+
+```{r}
+pokemon_stats("Aggron")
+```
+
+and finally, __pokemon_weakness__ gives a spread of the weaknesses of the selected pokemon, also in the form of a plot
+
+```{r}
+pokemon_weakness("Aggron")
+```
+
+each of these commands include a help page when using "?pokemon_stats". Furthermore, the package also contains the "pokemon" dataset, provided by Rounak Banik on [kaggle](https://www.kaggle.com/datasets/rounakbanik/pokemon) under a CC0 license. And finally, the package also contains a "vignette" page, which can be accessed by vignette("PokemonAnalyse").
