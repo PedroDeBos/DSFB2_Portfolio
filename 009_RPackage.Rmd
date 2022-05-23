@@ -21,7 +21,7 @@ library(devtools)
 To prove my ability to create a package based on previous code, I have created the "PokemonAnalyse" package, a package created to analyse a pokemon dataset. This package is available on the public repository [linked here](https://github.com/PedroDeBos/PokemonAnalyse). The package can be installed using the following command:
 
 ```{r, eval=FALSE}
-devtools::install_github("PedroDeBos/PokemonAnalyse")
+devtools::install_github("PedroDeBos/PokemonAnalyse", build_vignettes = TRUE)
 ```
 
 The package has been created to incorporate 4 commands: pokemon_legendary, type, stats and weakness
@@ -54,4 +54,4 @@ and finally, __pokemon_weakness__ gives a spread of the weaknesses of the select
 pokemon_weakness("Aggron")
 ```
 
-each of these commands include a help page when using "?pokemon_stats". Furthermore, the package also contains the "pokemon" dataset, provided by Rounak Banik on [kaggle](https://www.kaggle.com/datasets/rounakbanik/pokemon) under a CC0 license. And finally, the package also contains a "vignette" page, which can be accessed by vignette("PokemonAnalyse").
+each of these commands include a help page when using "?pokemon_stats". Furthermore, the package also contains the "pokemon" dataset, provided by Rounak Banik on [kaggle](https://www.kaggle.com/datasets/rounakbanik/pokemon) under a CC0 license. And finally, the package also contains a "vignette" page, which can be accessed by the command vignette("pokemonAnalyse") or the command browseVignettes("PokemonAnalyse")
