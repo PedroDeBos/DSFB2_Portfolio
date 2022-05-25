@@ -18,6 +18,10 @@ First of all, all datasets will be read and inspected in R
 ```{r dependencies_008, include=FALSE}
 library(dslabs)
 library(tidyverse)
+library(RPostgreSQL)
+library(RPostgres)
+library(DBI)
+library(here)
 ```
 
 
@@ -74,12 +78,25 @@ gapminder %>% write_rds(file = "./data/gapminder.rds")
 ```
 
 
-Using the SQL script shown in the screenshot below, a SQL database has been created called "workflowsdb". Now, using RPostgreSQL, the created datasets will be inserted into this database
+Using the SQL script shown in the screenshot below, a SQL database has been created called "workflowsdb". Now, using RPostgreSQL, the created datasets will be inserted into this database using the command "dbWriteTable
 
 ```{r}
+source(here("R/login_credentials.R"))
+con <- dbConnect(RPostgres::Postgres(),
+                 dbname = "workflowsdb",
+                 host = "localhost", 
+                 port = 5432,
+                 user= "postgres",
+                 password = rawToChar(pwd))
 
+dbListTables(con)
+
+dbWriteTable(con, "gapminder", gapminder)
+dbWriteTable(con, "dengue", dengue_separate)
+dbWriteTable(con, "flu", flu_separate)
 ```
 
+To inspect the database, another SQL script has been used. Once again, a screenshot of this script has been added underneath
 
 
 
