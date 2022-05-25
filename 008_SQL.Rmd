@@ -6,9 +6,10 @@
   <a href='data-visualisation.html#data-visualisation'>Data visualisation</a>
   <a href='reproductibility.html#Reproductibility'>Reproductibility</a>
   <a href='sorting-directories.html#sorting-directories'>Directory structure</a>
+  <a href='r-packages.html#R-packages'>R-package</a>
+  <a href='sql.html#SQL'>SQL</a>
   <a href='cv.html#cv'>CV</a>
   <a href='plan-for-future.html#plan-for-future'>The future</a>
-  <a href='sql.html#SQL'>SQL</a>
 </div>
 
 In order to prove my skills in the field of data handling and SQL, this page will show me work with flu data, dengue data and the gapminder data from the {dslabs} package. The flu data and dengue data are both supplied by google, "www.google.org/flutrends AND www.google.org/denguetrends"
@@ -22,6 +23,7 @@ library(RPostgreSQL)
 library(RPostgres)
 library(DBI)
 library(here)
+library(DT)
 ```
 
 
@@ -98,8 +100,6 @@ con <- dbConnect(RPostgres::Postgres(),
                  user= "postgres",
                  password = rawToChar(pwd))
 
-dbListTables(con)
-
 dbWriteTable(con, "gapminder", gapminder)
 dbWriteTable(con, "dengue", dengue_separate)
 dbWriteTable(con, "flu", flu_separate)
@@ -112,10 +112,14 @@ To inspect the database in order to check if all data has been transfered correc
 <img src="./images/SQL_3.png">
 
 For further insurance, the data will also be inspected via R
-```{r, warning=FALSE}
-
-#########################################################################################
-# HAVE TO DO THIS PART AGAIN, USE STR COMMANDS INSTEAD OF USING ==, == IS DEPENDANT ON THE ORDER OF THE COUNTRIES
+```{r, warning=FALSE, message=FALSE}
+source(here("R/login_credentials.R"))
+con <- dbConnect(RPostgres::Postgres(),
+                 dbname = "workflowsdb",
+                 host = "localhost", 
+                 port = 5432,
+                 user= "postgres",
+                 password = rawToChar(pwd))
 
 gapminder<-dbReadTable(con, "gapminder")
 gapminderyear_unique<-gapminder$year %>% unique()
@@ -127,16 +131,20 @@ flu<-dbReadTable(con, "flu")
 fluyear_unique<-flu$year %>% unique
 
 flu_dengue_year<-fluyear_unique == dengueyear_unique
-table(flu_dengue_year) # TRUE means that the years between flu and dengue are the same, FALSE means that there's a year that's not the same
+table(flu_dengue_year) # TRUE means that the years between flu and dengue are the same, FALSE means 
+                        #that there's a year that's not the same
 gapminder_dengue_year<-gapminderyear_unique == dengueyear_unique
-table(gapminder_dengue_year) # TRUE means that the years between flu/dengue and gapminder are the same, FALSE means that there's a year that's not the same
+table(gapminder_dengue_year) # TRUE means that the years between flu/dengue and gapminder are the 
+                              #same, FALSE means that there's a year that's not the same
 
 flu_dengue_countries<-flu$country %>% unique() == dengue$country %>% unique()
-table(flu_dengue_countries) # TRUE means that the countries between flu and dengue are the same, FALSE means that there's a country in 1 dataset that isn't in the other
+table(flu_dengue_countries) # TRUE means that the countries between flu and dengue are the same, 
+                             #FALSE means that there's a country in 1 dataset that isn't in the other
 flu_dengue_gapminder_countries<-dengue$country %>% unique() == gapminder$country %>% unique()
-table(flu_dengue_gapminder_countries) # TRUE means that the countries between flu/dengue and gapminder are the same, FALSE means that there's a country in 1 dataset that isn't in the other
+table(flu_dengue_gapminder_countries) # TRUE means that the countries between flu/dengue and gapminder 
+                                      # are the same, FALSE means that there's a country in 1 dataset 
+                                      # that isn't in the other
 
-##############################################################################################
 ```
 
 Based on these inspections, we have seen that:
@@ -149,11 +157,12 @@ Based on these inspections, we have seen that:
 
 Since the year/country columns are (partly) the same between gapminder and dengue/flu, we can join these datasets. However, in order to create a _full_ dataset, we must filter for years and countries which are present in _all_ datasets
 
-```{r, eval=FALSE}
+```{r, warning=FALSE}
 dengue_countries<-dengue$country %>% unique()
 dengue_flu_countries<-flu$country %>% str_extract(pattern = dengue_countries) %>% unique()
 dengue_flu_countries<-dengue_flu_countries[!is.na(dengue_flu_countries)] #Filtering for NA's
 
+flu_year<-flu$year
 
 gapminder$country %>% str_subset(pattern = dengue_flu_countries) %>% unique 
 #The 4 countries present in every data set: Argentina, Brazil, Mexico, Bolivia
@@ -164,14 +173,13 @@ gapminder_join<-gapminder %>% filter(year <= max(flu_year) & year >=min(flu_year
 data_full<-left_join(gapminder_join, dengue, by = c("country", "year")) %>% left_join(flu, by = c("country", "year", "month", "day"))
 
 data_full %>% head()
-
 ```
 
 Now, with this fully joined dataset, we'll perform some data visualisations. 
 
 Firstly, dengue incidence in 4 countries over 15 years
 
-```{r}
+```{r, warning=FALSE}
 data_sum_dengue<-data_full %>% group_by(country, year) %>%
   summarise(mean=mean(dengue_incidence, na.rm=TRUE),
             stdev=sd(dengue_incidence))
@@ -190,7 +198,7 @@ data_sum_dengue %>% ggplot(aes(x=year, y=mean))+
 
 Secondly, the incidence of flue through the months in the 4 different countries
 
-```{r}
+```{r, warning=FALSE}
 month_data<-data.frame(
   month=seq(1:12),
   MONTH=c("January", "Februari", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
@@ -213,7 +221,7 @@ data_month %>% ggplot(aes(x=MONTH, y=flu_incidence))+
 
 And finally, a correlation between dengue incidence and flu incidence? (Spoiler: no. Not at all.)
 
-```{r}
+```{r, warning=FALSE}
 correlation<-cor.test(data_full$dengue_incidence, data_full$flu_incidence, method=c("pearson"))$estimate %>% round(digits = 3)
 
 data_full %>% ggplot(aes(x=flu_incidence, y=dengue_incidence))+
