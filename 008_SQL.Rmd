@@ -82,7 +82,7 @@ Using the SQL script shown in the screenshot below, a SQL database has been crea
 
 <img src="./images/SQL_1.png">
 
-Now, using RPostgreSQL, the created datasets will be inserted into this database
+Using RPostgreSQL, the created datasets will be inserted into this database
 
 
 
@@ -102,12 +102,43 @@ dbWriteTable(con, "dengue", dengue_separate)
 dbWriteTable(con, "flu", flu_separate)
 ```
 
-To inspect the database, another SQL script has been used. Once again, a screenshot of this script has been added underneath
+To inspect the database in order to check if all data has been transfered correctly, another SQL script has been used. Once again, screenshots of this script have been added underneath.
 
+<img src="./images/SQL_2.png">
 
+<img src="./images/SQL_3.png">
 
+For further insurance, the data will also be inspected via R
+```{r, warning=FALSE}
+gapminder<-dbReadTable(con, "gapminder")
+gapminderyear_unique<-gapminder$year %>% unique()
 
+dengue<-dbReadTable(con, "dengue")
+dengueyear_unique<-dengue$year %>% unique()
 
+flu<-dbReadTable(con, "dengue")
+fluyear_unique<-flu$year %>% unique
+
+flu_dengue_year<-fluyear_unique == dengueyear_unique
+table(flu_dengue_year) # TRUE means that the years between flu and dengue are the same, FALSE means that there's a year that's not the same
+gapminder_dengue_year<-gapminderyear_unique == dengueyear_unique
+table(gapminder_dengue_year) # TRUE means that the years between flu/dengue and gapminder are the same, FALSE means that there's a year that's not the same
+
+flu_dengue_countries<-flu$country %>% unique() == dengue$country %>% unique()
+table(flu_dengue_countries) # TRUE means that the countries between flu and dengue are the same, FALSE means that there's a country in 1 dataset that isn't in the other
+flu_dengue_gapminder_countries<-dengue$country %>% unique() == gapminder$country %>% unique()
+table(flu_dengue_gapminder_countries) # TRUE means that the countries between flu/dengue and gapminder are the same, FALSE means that there's a country in 1 dataset that isn't in the other
+```
+
+Based on these inspections, we have seen that:
+
+- Gapminder contains a bigger range of years than flu/dengue
+
+- Gapminder contains a bigger range of countries than flu/dengue
+
+- Flu/dengue both contain the exact same countries and years
+
+Since the year/country columns are (partly) the same between gapminder and dengue/flu, we can join these datasets.
 
 ```{r, eval=FALSE}
 #So, we have our datasets: flu_tidy and dengue_tidy. We want to join them with gapminder by country AND year
