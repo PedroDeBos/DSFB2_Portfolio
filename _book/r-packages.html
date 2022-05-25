@@ -170,29 +170,29 @@ details > summary {
 </div>
 <p> </p>
 <p>To prove my ability to create a package based on previous code, I have created the “PokemonAnalyse” package, a package created to analyse a pokemon dataset. This package is available on the public repository <a href="https://github.com/PedroDeBos/PokemonAnalyse">linked here</a>. The package can be installed using the following command:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="r-packages.html#cb21-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;PedroDeBos/PokemonAnalyse&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="r-packages.html#cb45-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;PedroDeBos/PokemonAnalyse&quot;</span>, <span class="at">build_vignettes =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>The package has been created to incorporate 4 commands: pokemon_legendary, type, stats and weakness</p>
 <p><strong>pokemon_legendary</strong> states whether the selected pokemon is a legendary or not</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="r-packages.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PokemonAnalyse)</span>
-<span id="cb22-2"><a href="r-packages.html#cb22-2" aria-hidden="true" tabindex="-1"></a>pokemon<span class="ot">&lt;-</span>pokemon</span>
-<span id="cb22-3"><a href="r-packages.html#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pokemon_legendary</span>(<span class="st">&quot;Aggron&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="r-packages.html#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PokemonAnalyse)</span>
+<span id="cb46-2"><a href="r-packages.html#cb46-2" aria-hidden="true" tabindex="-1"></a>pokemon<span class="ot">&lt;-</span>pokemon</span>
+<span id="cb46-3"><a href="r-packages.html#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pokemon_legendary</span>(<span class="st">&quot;Aggron&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;Aggron is not a legendary pokemon&quot;</code></pre>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="r-packages.html#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pokemon_legendary</span>(<span class="st">&quot;Arceus&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="r-packages.html#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pokemon_legendary</span>(<span class="st">&quot;Arceus&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;Arceus is a legendary pokemon&quot;</code></pre>
 <p><strong>pokemon_type</strong> determines the types of the selected pokemon</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="r-packages.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pokemon_type</span>(<span class="st">&quot;Aggron&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="r-packages.html#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pokemon_type</span>(<span class="st">&quot;Aggron&quot;</span>)</span></code></pre></div>
 <pre><code>## $Aggron
 ## [1] &quot;Aggron is a steel and a rock type&quot;</code></pre>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="r-packages.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pokemon_type</span>(<span class="st">&quot;Arceus&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="r-packages.html#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pokemon_type</span>(<span class="st">&quot;Arceus&quot;</span>)</span></code></pre></div>
 <pre><code>## $Arceus
 ## [1] &quot;Arceus is a normal type&quot;</code></pre>
 <p><strong>pokemon_stats</strong> gives the stats of the selected pokemon in the form of a plot</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="r-packages.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pokemon_stats</span>(<span class="st">&quot;Aggron&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="r-packages.html#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pokemon_stats</span>(<span class="st">&quot;Aggron&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <p>and finally, <strong>pokemon_weakness</strong> gives a spread of the weaknesses of the selected pokemon, also in the form of a plot</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="r-packages.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pokemon_weakness</span>(<span class="st">&quot;Aggron&quot;</span>)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
-<p>each of these commands include a help page when using “?pokemon_stats”. Furthermore, the package also contains the “pokemon” dataset, provided by Rounak Banik on <a href="https://www.kaggle.com/datasets/rounakbanik/pokemon">kaggle</a> under a CC0 license. And finally, the package also contains a “vignette” page, which can be accessed by vignette(“PokemonAnalyse”).</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="r-packages.html#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pokemon_weakness</span>(<span class="st">&quot;Aggron&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>each of these commands include a help page when using “?pokemon_stats”. Furthermore, the package also contains the “pokemon” dataset, provided by Rounak Banik on <a href="https://www.kaggle.com/datasets/rounakbanik/pokemon">kaggle</a> under a CC0 license. And finally, the package also contains a “vignette” page, which can be accessed by the command vignette(“pokemonAnalyse”) or the command browseVignettes(“PokemonAnalyse”)</p>
 
 </div>
 <p style="text-align: center;">
