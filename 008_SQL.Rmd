@@ -40,7 +40,7 @@ flu %>% dplyr::select(Date:Japan) %>% head() #Selected till Japan for a cleaner 
 
 Both the flu and the dengue datasets are not tidy: Each row contains the incidence rate (observation) of dengue/flu of multiple countries, while each row is only supposed to have 1 observation. The datasets will be wrangled to be tidy
 
-```{r wranglingDataSets, eval=FALSE}
+```{r wranglingDataSets}
 dengue_tidy<-dengue %>% pivot_longer(cols = Argentina:Venezuela,
                         names_to = "country",
                         values_to = "dengue_incidence")
@@ -78,9 +78,15 @@ gapminder %>% write_rds(file = "./data/gapminder.rds")
 ```
 
 
-Using the SQL script shown in the screenshot below, a SQL database has been created called "workflowsdb". Now, using RPostgreSQL, the created datasets will be inserted into this database using the command "dbWriteTable
+Using the SQL script shown in the screenshot below, a SQL database has been created called "workflowsdb".
 
-```{r}
+<img src="./images/SQL_1.png">
+
+Now, using RPostgreSQL, the created datasets will be inserted into this database
+
+
+
+```{r, eval=FALSE}
 source(here("R/login_credentials.R"))
 con <- dbConnect(RPostgres::Postgres(),
                  dbname = "workflowsdb",
@@ -103,7 +109,7 @@ To inspect the database, another SQL script has been used. Once again, a screens
 
 
 
-```{r}
+```{r, eval=FALSE}
 #So, we have our datasets: flu_tidy and dengue_tidy. We want to join them with gapminder by country AND year
 #Problem: Year here is given as a exact date, not a year.
 #Solution: Transform the date into a year
