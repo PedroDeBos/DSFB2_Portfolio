@@ -65,13 +65,26 @@ dengue_separate<-dengue_tidy %>% separate(col = Date, into = c("year", "month", 
 Now, with the data properly relational, it'll be written into .csv's and .rds'
 
 ```{r, eval=FALSE}
-flu_tidy %>% write.csv(file = "./data/flu.csv")
-flu_tidy %>% write_rds(file = "./data/flu.rds")
-dengue_tidy %>% write.csv(file = "./data/dengue.csv")
-dengue_tidy %>% write_rds(file = "./data/dengue.rds")
+flu_separate %>% write.csv(file = "./data/flu.csv")
+flu_separate %>% write_rds(file = "./data/flu.rds")
+dengue_separate %>% write.csv(file = "./data/dengue.csv")
+dengue_separate %>% write_rds(file = "./data/dengue.rds")
 gapminder %>% write.csv(file = "./data/gapminder.csv")
 gapminder %>% write_rds(file = "./data/gapminder.rds")
 ```
+
+
+Using the SQL script shown in the screenshot below, a SQL database has been created called "workflowsdb". Now, using RPostgreSQL, the created datasets will be inserted into this database
+
+```{r}
+
+```
+
+
+
+
+
+
 
 ```{r}
 #So, we have our datasets: flu_tidy and dengue_tidy. We want to join them with gapminder by country AND year
