@@ -535,26 +535,12 @@ gapminder and dengue/flu, we can join these datasets. However, in order
 to create a <em>full</em> dataset, we must filter for years and
 countries which are present in <em>all</em> datasets</p>
 <pre class="r"><code>dengue_countries&lt;-dengue$country %&gt;% unique()
-dengue_flu_countries&lt;-flu$country %&gt;% str_extract(pattern = dengue_countries) %&gt;% unique() x
+dengue_flu_countries&lt;-flu$country %&gt;% str_extract(pattern = dengue_countries) %&gt;% unique()
 dengue_flu_countries&lt;-dengue_flu_countries[!is.na(dengue_flu_countries)] #Filtering for NA&#39;s
 
 
 gapminder$country %&gt;% str_subset(pattern = dengue_flu_countries) %&gt;% unique 
 #The 4 countries present in every data set: Argentina, Brazil, Mexico, Bolivia
-
-dengue_year&lt;-dengue$year %&gt;% unique()
-flu_year&lt;-flu$year %&gt;% unique()
-dengue_year == flu_year
-# Dengue_year and flu_year are the exact same, thus we can just take those years: 2002:2015
-
-gap_filter1&lt;-gapminder %&gt;% filter(year &lt;= max(flu_year) &amp; year &gt;=min(flu_year)) #Filtering for the years
-
-test&lt;-data.frame()
-for (x in dengue_flu_countries){
-    data&lt;-filter(gap_filter1, country == x)
-    print(data)
-  }
-filter(paste(&quot;country == &quot;, dengue_flu_countries))
 
 gapminder_join&lt;-gapminder %&gt;% filter(year &lt;= max(flu_year) &amp; year &gt;=min(flu_year)) %&gt;% 
   filter(country %in% dengue_flu_countries)
