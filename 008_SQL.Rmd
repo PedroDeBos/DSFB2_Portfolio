@@ -181,12 +181,85 @@ data_full %>% head()
 
 ```
 
-Now, with this fully joined dataset, we'll perform some data visualisations. For this, we'll be focussing on the 2002-2015 area, since this contains data for gapminder, flu AND dengue data.
+Now, with this fully joined dataset, we'll perform some data visualisations. 
+
+Firstly, dengue incidence in 4 countries over 15 years
 
 ```{r}
-data_relevant<-data_full %>% filter(year >=2002 & year <=2015)
+data_sum_dengue<-data_full %>% group_by(country, year) %>%
+  summarise(mean=mean(dengue_incidence, na.rm=TRUE),
+            stdev=sd(dengue_incidence))
+
+data_sum_dengue %>% ggplot(aes(x=year, y=mean))+
+  geom_point(aes(color = country))+
+  geom_line(aes(color = country))+
+  labs(
+    title="Dengue incidence over 12 years in 4 countries",
+    x="Time in years",
+    y="incidence (unit not mentioned)"
+  )+
+  theme_bw()
+
 ```
 
+Secondly, the incidence of flue through the months in the 4 different countries
+
+```{r}
+month_data<-data.frame(
+  month=seq(1:12),
+  MONTH=c("January", "Februari", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
+)
+
+month_data$MONTH<-factor(month_data$MONTH, levels =c("January", "Februari", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"))
+
+data_month<-left_join(data_full, month_data, by="month")
+
+data_month %>% ggplot(aes(x=MONTH, y=flu_incidence))+
+  geom_col(aes(fill=country), position = position_dodge())+
+  labs(
+    title="Flu incidence by month in 4 countries",
+    x="Month",
+    y="Incidence (unit not mentioned)"
+  )+
+  theme_bw()+
+  theme(axis.text.x = element_text(angle=45, hjust=1))
+```
+
+And finally, a correlation between dengue incidence and flu incidence? (Answer: no. Not at all.)
+
+```{r}
+data_brazil<-data_full %>% filter(country=="Brazil") %>% group_by(year) %>% summarise(
+  mean=mean(gdp),
+  sd=sd(infant_mortality)
+)
+
+data_brazil %>% ggplot(aes(x=as.factor(year), y=mean))+
+  geom_col(color="black")+
+  theme_bw()
+
+data_brazil<-data_full %>% filter(country=="Brazil") %>% group_by(year) %>% summarise(
+  infant_mortality=mean(infant_mortality),
+  flu_incidence=mean(flu_incidence)
+)
+
+data_brazil %>% ggplot(aes(x=infant_mortality, y=flu_incidence))+
+  geom_point()+
+  geom_line()
+
+
+correlation<-cor.test(data_full$dengue_incidence, data_full$flu_incidence, method=c("pearson"))$estimate %>% round(digits = 3)
+
+data_full %>% ggplot(aes(x=flu_incidence, y=dengue_incidence))+
+  geom_point(aes(color=country), alpha = 0.8)+
+  labs(
+    title="Correlation between flu incidence and dengue incidence",
+    y="Flu incidence (unit not mentioned)",
+    y="Dengue incidence (unit not mentioned"
+  )+
+  annotate("text", x=2600, y=0.95, label = paste0("Pearson's correlation: \n", correlation))+
+  theme_bw()
+
+```
 
 
 ```{r, eval=FALSE}
