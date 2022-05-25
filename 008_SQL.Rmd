@@ -51,9 +51,27 @@ flu_tidy %>% head()
 
 ```
 
-Now the data is tidy, however, to make the dengue/flu data relational, the "date" data needs to be properly synchronized
+Now the data is tidy, however, to make the dengue/flu data relational, the "date" data needs to be properly synchronized. To do this, the "date" will be split into "year", "month" and "day".
 
-Gonna need to bash my head into the wall a bit more till this works
+```{r}
+#Think separating would be better instead of just removing that information, never suffer information loss!!!
+
+flu_separate<-flu_tidy %>% separate(col = Date, into = c("year", "month", "day"))
+
+dengue_separate<-dengue_tidy %>% separate(col = Date, into = c("year", "month", "day"))
+
+```
+
+Now, with the data properly relational, it'll be written into .csv's and .rds'
+
+```{r, eval=FALSE}
+flu_tidy %>% write.csv(file = "./data/flu.csv")
+flu_tidy %>% write_rds(file = "./data/flu.rds")
+dengue_tidy %>% write.csv(file = "./data/dengue.csv")
+dengue_tidy %>% write_rds(file = "./data/dengue.rds")
+gapminder %>% write.csv(file = "./data/gapminder.csv")
+gapminder %>% write_rds(file = "./data/gapminder.rds")
+```
 
 ```{r}
 #So, we have our datasets: flu_tidy and dengue_tidy. We want to join them with gapminder by country AND year
@@ -71,16 +89,11 @@ dengue_tidy
 
 #Now, the question: we have multiple instances of the year per country in each file. I want to calculate the mean incidence per year per country. How?
 #Solution: Just dont! Make a new file for year and just left join based on that!
+
+
 ```
 
-```{r, eval=FALSE}
-flu_tidy %>% write.csv(file = "./data/flu.csv")
-flu_tidy %>% write_rds(file = "./data/flu.rds")
-dengue_tidy %>% write.csv(file = "./data/dengue.csv")
-dengue_tidy %>% write_rds(file = "./data/dengue.rds")
-gapminder %>% write.csv(file = "./data/gapminder.csv")
-gapminder %>% write_rds(file = "./data/gapminder.rds")
-```
+
 
 
 
