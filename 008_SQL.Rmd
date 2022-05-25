@@ -55,15 +55,18 @@ flu_tidy %>% head()
 
 ```
 
-Now the data is tidy, however, to make the dengue/flu data relational, the "date" data needs to be properly synchronized. To do this, the "date" will be split into "year", "month" and "day".
+Now the data is tidy, however, to make the dengue/flu data relational, the "date" data needs to be properly synchronized. To do this, the "date" will be split into "year", "month" and "day". These will be changed from character vectors to integers
 
 ```{r}
-#Think separating would be better instead of just removing that information, never suffer information loss!!!
-
 flu_separate<-flu_tidy %>% separate(col = Date, into = c("year", "month", "day"))
+flu_separate$year<-flu_separate$year %>% as.integer()
+flu_separate$month<-flu_separate$month %>% as.integer()
+flu_separate$day<-flu_separate$day %>% as.integer()
 
 dengue_separate<-dengue_tidy %>% separate(col = Date, into = c("year", "month", "day"))
-
+dengue_separate$year<-dengue_separate$year %>% as.integer()
+dengue_separate$month<-dengue_separate$month %>% as.integer()
+dengue_separate$day<-dengue_separate$day %>% as.integer()
 ```
 
 Now, with the data properly relational, it'll be written into .csv's and .rds'
@@ -116,7 +119,7 @@ gapminderyear_unique<-gapminder$year %>% unique()
 dengue<-dbReadTable(con, "dengue")
 dengueyear_unique<-dengue$year %>% unique()
 
-flu<-dbReadTable(con, "dengue")
+flu<-dbReadTable(con, "flu")
 fluyear_unique<-flu$year %>% unique
 
 flu_dengue_year<-fluyear_unique == dengueyear_unique
@@ -139,6 +142,15 @@ Based on these inspections, we have seen that:
 - Flu/dengue both contain the exact same countries and years
 
 Since the year/country columns are (partly) the same between gapminder and dengue/flu, we can join these datasets.
+
+```{r}
+data_full<-left_join(gapminder, dengue, by = c("country", "year")) %>% left_join(flu, by = c("country", "year", "month", "day"))
+
+data_full %>% head()
+
+
+```
+
 
 ```{r, eval=FALSE}
 #So, we have our datasets: flu_tidy and dengue_tidy. We want to join them with gapminder by country AND year
