@@ -1,0 +1,73 @@
+---
+name: Pedro
+surname: de Bos
+position: "Student life sciences"
+address: "University of applied sciences, Utrecht, Netherlands"
+email: "pedrodebos@gmail.com"
+github: PedroDeBos
+profilepic: "../../data/CV_Photo_2.jpg"
+linkedin: Pedro de Bos
+date: "`r format(Sys.time(), '%B %Y')`"
+output: 
+  vitae::awesomecv:
+    page_total: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(vitae)
+```
+
+# About me
+A driven 4th year life sciences student microbiology at the university of applied sciences of Utrecht, minoring in data sciences. Able too work in a ML1 microbiological laboratory working with bacteria, virusses and parasites. Have practical experience working sterile, performing PCR's and using equipment like the MALDI-TOF, BACTRON-6000. Also experienced in working with large data sets using bash, R, to visualise data, work with high-troughput data, perform (sequencing) workflows
+
+# Education
+
+```{r}
+library(tibble)
+tribble(
+  ~ Degree, ~ Year, ~ Institution, ~ Where,
+  "Bachelor life sciences. Specialisation microbiology, minor data sciences", "2019-present", "University of applied sciences", "Utrecht, Netherlands",
+  "High school diploma NT&NG", "2014-2019", "Gerrit rietveld college", "Utrecht, Netherlands"
+) %>% 
+  detailed_entries(Degree, Year, Institution, Where)
+```
+
+# Practical experience
+```{r}
+tribble(
+  ~ Project, ~ Skills, ~ Time, ~ Time2,
+  "Microbiology: Diagnostics", "Performed bacterial diagnosis on sputum, urine, pus, liqour, blood using VITEK/MALDI-TOF, measured reisstance using disk diffusion/VITEK", "6 months", "2021-2022",
+  "Microbiology: Periodontal disease", "Used BACTRON600 to grow anaerobic bacteria, analysed MALDI-TOF spectra of bacteria in different ratios, analysed direct periodontal samples", "6 months", "2021-2022",
+  "Data sciences: Liquid biopsies", "Using R to automise the comparison of cell-free(cf)- and tumor DNA in neuroblastoma", "Ongoing", "2022"
+) %>%
+  detailed_entries(Skills,Time2,Project,Time)
+```
+
+
+# Languages 
+```` {r}
+library(tibble)
+tribble(
+  ~ Desc, ~ Language,
+  "Mother language, fluent in both speaking and writing", "Dutch [x][x][x][x][x]",
+  "Learned language, fluent in writing, proficient in speaking", "English [x][x][x][x][.]",
+  "Comfortable with visualising data, performing statistics, writing functions, simple workflows (RNAseq, metagenomics). Portfolio is available on pedrodebos.github.io", "R [x][x][x][x][.]",
+  "Comfortable with writing small scripts for importing data, for-do-done loops, functions containing if/then statements", "bash [x][x][x][.][.]"
+) %>%
+  detailed_entries(Desc, , Language, )
+````
+
+# Skills
+
+```{r}
+tribble(
+  ~Skill, ~Explanation,
+  "Group projects", "8 Years of experience in 3-6 month long group projects",
+  "Team communication", "Comfortable using teams, github, messenger apps for communication.",
+  "Learning new programs", "Learned how to use the basics of bash, R within 10 weeks."
+) %>%
+  detailed_entries(Explanation, , Skill, )
+```
+
+
