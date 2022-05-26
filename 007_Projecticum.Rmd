@@ -6,6 +6,10 @@ To prove I'm able to use bibliography applications like "Zotero", a small introd
 
 Projecticum "Liquid biopsies sequencing analysis project"
 
+&nbsp;
+
+For projecticum "Liquid biospies", a collaboration between the Princes Maxima Centre for childoncology and the unniversity of applied sciences Utrecht, the data analysis of Neuroblastomia and the comparisson of tumor-biopsy sequencing data and cell-free sequencing data was central.
+
 Neuroblastomia is a form of cancer formed by cells derived from the neural crest, tumors can be generated in any part of the sympathetic neural system. Because of their origin in developing tissues, neuroblastomas mostly occur in young children, the median age being 17 months old (1).
 
 
