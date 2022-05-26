@@ -10,7 +10,17 @@ Projecticum "Liquid biopsies sequencing analysis project"
 
 For projecticum "Liquid biospies", a collaboration between the Princes Maxima Centre for childoncology and the unniversity of applied sciences Utrecht, the data analysis of Neuroblastomia and the comparisson of tumor-biopsy sequencing data and cell-free sequencing data was central.
 
-Neuroblastomia is a form of cancer formed by cells derived from the neural crest, tumors can be generated in any part of the sympathetic neural system. Because of their origin in developing tissues, neuroblastomas mostly occur in young children, the median age being 17 months old (1).
+Neuroblastomia is a form of cancer formed by cells derived from the neural crest, tumors can be generated in any part of the sympathetic neural system. Because of their origin in developing tissues, neuroblastomas mostly occur in young children, the median age being 17 months old. Symptoms vary based on location of the tumor: they usually appear upon adrenal medulla or the paraspinal ganglia, but they can also appear upon the liver or in bone marrow (1). Neuroblastoma is distinct from other tumor due to their range of clinical behaviour. In some patiënts the disease can spontaneously regress, in others the disease is metastatic and highly-aggressive (2). Patiënts with neuroblastoma can be assigned a pre-treatment risk classification: either low, intermediate, or high-risk (3). These risk levels are based on histological data (3), but also on specific genomic mutations found during tumor biopsy sequencing (2).
+
 
 
 (1) https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3306838/
+(2) https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4418018/
+(3) https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2650389/
+
+PLAN:
+ - Intro
+ - Part about neuroblastoma
+ - Part about tumor biopsies
+ - Part about cell-free DNA
+ - Part about CNV's
