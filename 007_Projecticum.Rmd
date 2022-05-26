@@ -1,0 +1,12 @@
+# Projecticum
+
+To prove I'm able to use bibliography applications like "Zotero", a small introduction to my current projecticum will be written, and a bibliography will be automaticall generated using Zotero.
+
+&nbsp;
+
+Projecticum "Liquid biopsies sequencing analysis project"
+
+Neuroblastomia is a form of cancer formed by cells derived from the neural crest, tumors can be generated in any part of the sympathetic neural system. Because of their origin in developing tissues, neuroblastomas mostly occur in young children, the median age being 17 months old (1).
+
+
+(1) https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3306838/
