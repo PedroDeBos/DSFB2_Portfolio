@@ -12,14 +12,22 @@ For projecticum "Liquid biospies", a collaboration between the Princes Maxima Ce
 
 Neuroblastomia is a form of cancer formed by cells derived from the neural crest, tumors can be generated in any part of the sympathetic neural system. Because of their origin in developing tissues, neuroblastomas mostly occur in young children, the median age being 17 months old. Symptoms vary based on location of the tumor: they usually appear upon adrenal medulla or the paraspinal ganglia, but they can also appear upon the liver or in bone marrow (1). Neuroblastoma is distinct from other tumor due to their range of clinical behaviour. In some patiënts the disease can spontaneously regress, in others the disease is metastatic and highly-aggressive (2). Patiënts with neuroblastoma can be assigned a pre-treatment risk classification: either low, intermediate, or high-risk (3). These risk levels are based on histological data (3), but also on specific genomic mutations found during tumor biopsy sequencing (2).
 
-The use of genomic information in the prognosis of neuroblastoma risk classification looks at multiple factors: the _MYCN_ proto-oncogene, loss-of-function of Chromosomes 1p36 and 11q and gain of function in 17q (4), though other genes like the family-transmissable ana-plastic lymphoma kinase ( _ALK_ ) oncogene / the _PHOX2B_, or
+The use of genomic information in the prognosis of neuroblastoma risk classification looks at multiple factors: upregulation of the _MYCN_ proto-oncogene (defined as more than 10 copies of the gene) can be found in 20% of overall cases and generally carries a poor prognosis (2). Furthermore, loss-of-function in chromosomes 1p36 (4) and 11q (5) or gain of function at chromosome 17q (6) is also frequently seen in aggressive cases of neuroblastoma. Using these genomic markers can thus be used to predict the severity of the disease in patiënts. However, currently, in order to perform an genomic analysis a tumor biopsy needs to be performed. These biopsies risk complications for the patiënts due to the general young nature of the patiënt, risking problems with anesthesia, excess bleeding, infections or other cimplications (8).
+
+Liquid biopsies, the subject of this project, might be able to alievate some of the pressure off of tumor biospies. (9)
 
 
 
 (1) https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3306838/
 (2) https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4418018/
 (3) https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2650389/
-(4) https://pubmed.ncbi.nlm.nih.gov/28142287/
+(4) https://www.ncbi.nlm.nih.gov/pmc/articles/PMC41727/
+(5) https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5492892/
+(6) https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2362984/
+(7) https://pubmed.ncbi.nlm.nih.gov/28142287/
+(8) https://www.cancer.org/cancer/neuroblastoma/detection-diagnosis-staging/how-diagnosed.html
+(9) https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5299732/
+
 
 PLAN:
  - Intro
