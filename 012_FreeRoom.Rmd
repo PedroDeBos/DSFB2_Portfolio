@@ -1,0 +1,9 @@
+# Free space
+
+For my free Space, I will study [this site](https://towardsdatascience.com/recognition-and-counting-of-microorganisms-on-petri-dishes-53a499283dc8). in order to find information about using bacterial identification using machine learning. 
+
+In this article, there is a link too the site [agar.neurosys.com](https://agar.neurosys.com/) which contains a dataset containing picture of agarplates in different conditions
+
+Conclusion based on the site: this is _way_ too complicated to start out with. Trying to find a simpler introduction to machine learning, specifically in R
+
+Trying [this link](https://www.datacamp.com/tutorial/machine-learning-in-r), mayhaps this'll give a better introduction.
