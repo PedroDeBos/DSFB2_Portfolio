@@ -14,3 +14,6 @@ install.packages("pagedown")
 
 #Installing available too check for package names
 install.packages("available")
+
+#Installing class for machine learning
+install.packages("class")

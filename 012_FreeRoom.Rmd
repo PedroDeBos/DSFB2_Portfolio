@@ -1,0 +1,63 @@
+# Free space
+
+```{r}
+library(ggplot2)
+library(tidyverse)
+
+```
+
+
+For my free Space, I will study [this site](https://towardsdatascience.com/recognition-and-counting-of-microorganisms-on-petri-dishes-53a499283dc8). in order to find information about using bacterial identification using machine learning. 
+
+In this article, there is a link too the site [agar.neurosys.com](https://agar.neurosys.com/) which contains a dataset containing picture of agarplates in different conditions
+
+Conclusion based on the site: this is _way_ too complicated to start out with. Trying to find a simpler introduction to machine learning, specifically in R
+
+Trying [this link](https://www.datacamp.com/tutorial/machine-learning-in-r), mayhaps this'll give a better introduction.
+
+Would appear that a technique called "KNN" might be a good algorythm to start with. Gonna follow the tutorial the previous link gives, using the "iris" dataset
+
+First steps are too really undersand your data, and too visualise your data. So:
+
+- Sepals are modified leaves which encase and protect the flower before it blooms
+
+- Petals are modified leaves that surround the reproductive parts of the flower.
+
+```{r}
+iris %>% ggplot(aes(x=Sepal.Length, y=Sepal.Width, colour=Species))+
+  geom_point()
+
+iris %>% ggplot(aes(x=Petal.Length, y=Petal.Width, colour=Species))+
+  geom_point()
+
+str(iris)
+
+table(iris$Species)
+```
+
+Apparently, normalising is very important in machine learning. Using summary, we can check if datasets are too far appart
+
+```{r}
+summary(iris)
+```
+
+Ranges appear to be within 0.1-7.9, a factor 10 difference. Seems reasonable enough.
+
+Just in case though, you usually have to create normalising functions yourself, so here's one anyway, created by the site and broken down for me to understand it
+
+```{r}
+}
+
+normalize(iris[1:4])
+
+#Generating a set where the the data is compensated for the lowest datapoint
+num<-iris$Sepal.Length-min(iris$Sepal.Length)
+
+#Generating the biggest difference in the dataset
+denom<-max(iris$Sepal.Length)-min(iris$Sepal.Length)
+
+#Generating the size of a datapoint relative to the maximum size of a datapoint.
+num/denom 
+```
+
+In order to properly train the algorythm, we must separate our data into 2 groups: a "training" group and a "test" group. Apparently, usually the "training group" is 2/3rds of the dataset, while the "test group" is one third of the dataset. Important is to give the algorythm equal amounts of each test condition, if we'd split the iris set into 2/3rds and 1/3rds it'd give 50 setosa, 50 versicolor and 0 virginica which would make the algorythm not recognize virginica at all. Thus, we use setseed and sample to generate a sample.
