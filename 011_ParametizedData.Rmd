@@ -1,0 +1,15 @@
+# Parametized Data
+
+To prove my skills in the producing parametized .Rmd's, I've used an online COVID-19 dataset and parametized the visualisation of this data file.
+
+```{r}
+library(here)
+library(tidyverse)
+library(ggplot2)
+```
+
+```{r}
+covid_data<-read.csv("./data.raw/data.csv")
+```
+
+
