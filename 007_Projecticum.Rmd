@@ -31,11 +31,3 @@ Herein lies the question for project liquid biopsies. The princess maxima centre
 (8) https://www.cancer.org/cancer/neuroblastoma/detection-diagnosis-staging/how-diagnosed.html
 (9) https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5299732/
 (10) https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4567134/
-
-
-PLAN:
- - Intro
- - Part about neuroblastoma
- - Part about tumor biopsies
- - Part about cell-free DNA
- - Part about CNV's
