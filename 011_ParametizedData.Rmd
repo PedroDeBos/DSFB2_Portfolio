@@ -3,14 +3,22 @@ Title: "Test parameter"
 output: html_document
 params:
   country: "Netherlands"
-  year: "2022"
+  year: "2021"
 
 ---
 
 
 # Parametized Data
 
-To prove my skills in the producing parametized .Rmd's, I've used an online COVID-19 dataset and parametized the visualisation of this data file.
+To prove my skills in the producing parametized .Rmd's, I've used an online COVID-19 dataset and parametized the visualisation of this data file. For this parameterization, the country of the data, the year of the data and the months which the data covers have been added as variables. 
+
+In order to prove this, three parametized pages have been made: 
+
+Click here for COVID data in the Netherlands for the entire year of 2021
+
+Click here for COVID data in Norway during january till june of 2020
+
+Click here for COVID data in Germany From March till May in 2022
 
 ```{r}
 library(here)
@@ -58,9 +66,9 @@ covid_data_vis %>% filter(countriesAndTerritories==params$country,
 
 ############################################################# Creating visualisation: Deaths per month
 covid_data_vis %>% filter(countriesAndTerritories==params$country,
-                          year==params$year) %>% group_by(MONTH, year) %>% summarise(
+                          year==params$year) %>% group_by(month, year) %>% summarise(
   deaths=mean(deaths, na.rm=TRUE)
-) %>% ggplot(aes(x=MONTH, y=deaths))+
+) %>% ggplot(aes(x=month, y=deaths))+
   geom_point(aes(color=year))+
   geom_line(aes(group=year, color=year))+
   theme_bw()+
@@ -71,7 +79,8 @@ covid_data_vis %>% filter(countriesAndTerritories==params$country,
     x="Month",
     y="COVID-19 deaths",
     color="Year"
-  )
+  )+
+  scale_x_continuous(breaks=(seq(1:12)), labels = months)
 ```
 
 
