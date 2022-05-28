@@ -3,8 +3,8 @@ Title: "Test parameter"
 output: html_document
 params:
   country: "Netherlands"
-  year: "2021"
-
+  year: 2021
+  month: 1
 ---
 
 
