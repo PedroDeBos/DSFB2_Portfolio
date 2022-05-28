@@ -1,3 +1,13 @@
+---
+Title: "Test parameter"
+output: html_document
+params:
+  country: "Netherlands"
+  year: "2022"
+
+---
+
+
 # Parametized Data
 
 To prove my skills in the producing parametized .Rmd's, I've used an online COVID-19 dataset and parametized the visualisation of this data file.
@@ -7,6 +17,12 @@ library(here)
 library(tidyverse)
 library(ggplot2)
 ```
+
+Parameter test 
+```{r}
+
+```
+
 
 ```{r}
 ############################################################### Reading data
@@ -24,7 +40,8 @@ months_dataframe$MONTH<-factor(months_dataframe$MONTH, levels = months)
 covid_data_vis<-left_join(covid_data_vis, months_dataframe, by = "month")
 
 ############################################################### Creating visualisation: Cases per month
-covid_data_vis %>% filter(countriesAndTerritories=="Netherlands") %>% group_by(MONTH, year) %>% summarise(
+covid_data_vis %>% filter(countriesAndTerritories==params$country,
+                          year==params$year) %>% group_by(MONTH, year) %>% summarise(
   cases=mean(cases, na.rm=TRUE)
 ) %>% ggplot(aes(x=MONTH, y=cases))+
   geom_point(aes(color=year))+
@@ -32,7 +49,7 @@ covid_data_vis %>% filter(countriesAndTerritories=="Netherlands") %>% group_by(M
   theme_bw()+
   theme(axis.text.x = element_text(angle=45, hjust=1))+
   labs(
-    title="SARS-COV 2 cases in the Netherlands per month",
+    title=paste0("SARS-COV 2 cases in ",params$country, " per month in ", params$year),
     subtitle = "Data from ECDC",
     x="Month",
     y="COVID-19 cases",
@@ -40,7 +57,8 @@ covid_data_vis %>% filter(countriesAndTerritories=="Netherlands") %>% group_by(M
   )
 
 ############################################################# Creating visualisation: Deaths per month
-covid_data_vis %>% filter(countriesAndTerritories=="Netherlands") %>% group_by(MONTH, year) %>% summarise(
+covid_data_vis %>% filter(countriesAndTerritories==params$country,
+                          year==params$year) %>% group_by(MONTH, year) %>% summarise(
   deaths=mean(deaths, na.rm=TRUE)
 ) %>% ggplot(aes(x=MONTH, y=deaths))+
   geom_point(aes(color=year))+
@@ -48,7 +66,7 @@ covid_data_vis %>% filter(countriesAndTerritories=="Netherlands") %>% group_by(M
   theme_bw()+
   theme(axis.text.x = element_text(angle=45, hjust=1))+
   labs(
-    title="SARS-COV 2 deaths in the Netherlands per month",
+    title=paste0("SARS-COV 2 deaths in ",params$country, " per month in ", params$year),
     subtitle = "Data from ECDC",
     x="Month",
     y="COVID-19 deaths",
