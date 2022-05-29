@@ -1,5 +1,5 @@
 
-# Reproductibility
+# Open reproductibility analysis
 <body id="start">
 <div class="topnav">
   <a href='index.html#frontpage'>Front page</a>

@@ -1,4 +1,4 @@
-# Plan for future
+# Future endeavours
 <body id="start">
 <div class="topnav">
   <a href='index.html#frontpage'>Front page</a>
