@@ -1,0 +1,34 @@
+# Plan for future
+<body id="start">
+<div class="topnav">
+  <a href='index.html#frontpage'>Front page</a>
+  <a href='data-visualisation.html#data-visualisation'>Data visualisation</a>
+  <a href='sorting-directories.html#sorting-directories'>Directory structure</a>
+  <a href='sql.html#SQL'>SQL</a>
+  <a href='r-packages.html#R-packages'>R-package</a>
+  <a href='bibliography-using-zotero.html#Bibliography using Zotero'>Zotero</a>
+  <a href='reproductibility.html#Reproductibility'>Reproductibility</a>
+  <a href='cv.html#cv'>CV</a>
+  <a href='plan-for-future.html#plan-for-future'>The future</a>
+</div>
+
+&nbsp;
+
+```{r setup_3, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+So, you might know who I am and what my skills are, but the question remains: What do I want? In which direction do I want to carve my future? Let me put my cards on the table for you.
+
+__My main goal is to work within the field of microbiology__, specifically bacteriology. Ever since my specialisation in microbiology, bacteria have always been my passion, and although I enjoy working with parasites and virus' too (have yet to work with fungi), bacteria do have a special place in my heart.
+
+However, I also do enjoy data sciences quite a bit. Thus, my best-case scenario would be to work in a microbiological lab, performing experiments on bacteria while also being able to __handle and visualise the data from my (or coworkers') experiments__.
+
+As my goal is to go into data sciences within microbiology, one I could continue my acquisition of skills is to learn further workflows within bacterial research. For example, There is more depth to be found in the [identification of bacterial colonies by computers](https://towardsdatascience.com/recognition-and-counting-of-microorganisms-on-petri-dishes-53a499283dc8). 
+
+Furthermore, I could also use this time to further study further workflows in microbiome research, and study what workflows are used [when studying the microbiome](https://builtin.com/data-science/microbiome-research-data-science).
+
+As both of these subjects require machine-learning in order to truly unlock their potential, [learning python](https://automatetheboringstuff.com/) in the context of either of these analyses would most certainly be worth the effort.
+
+To prove that I'm able to learn new skills without any guidance, __I took the time of 4 days (32 hours) to try and learn the identification of bacterial colonies by computers.__ Here's what I managed to learn: 
+
