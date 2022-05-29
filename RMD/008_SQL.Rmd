@@ -115,15 +115,7 @@ To inspect the database in order to check if all data has been transfered correc
 <img src="./images/SQL_3.png">
 
 For further insurance, the data will also be inspected via R
-
-```{r include=FALSE}
-gapminder<-readRDS(here("./data/gapminder.rds"))
-dengue<-readRDS(here("./data/dengue.rds"))
-flu<-readRDS(here("./data/flu.rds"))
-```
-
-
-```{r, warning=FALSE, message=FALSE, eval=FALSE}
+```{r, warning=FALSE, message=FALSE}
 source(here("R/login_credentials.R"))
 con <- dbConnect(RPostgres::Postgres(),
                  dbname = "workflowsdb",
@@ -133,13 +125,28 @@ con <- dbConnect(RPostgres::Postgres(),
                  password = rawToChar(pwd))
 
 gapminder<-dbReadTable(con, "gapminder")
+gapminderyear_unique<-gapminder$year %>% unique()
+
 dengue<-dbReadTable(con, "dengue")
+dengueyear_unique<-dengue$year %>% unique()
+
 flu<-dbReadTable(con, "flu")
+fluyear_unique<-flu$year %>% unique
 
-list(gapminder_years=gapminder$year %>% unique(),
-     dengue_years=dengue$year %>% unique(),
-     flu_years=flu$year %>% unique())
+flu_dengue_year<-fluyear_unique == dengueyear_unique
+table(flu_dengue_year) # TRUE means that the years between flu and dengue are the same, FALSE means 
+                        #that there's a year that's not the same
+gapminder_dengue_year<-gapminderyear_unique == dengueyear_unique
+table(gapminder_dengue_year) # TRUE means that the years between flu/dengue and gapminder are the 
+                              #same, FALSE means that there's a year that's not the same
 
+flu_dengue_countries<-flu$country %>% unique() == dengue$country %>% unique()
+table(flu_dengue_countries) # TRUE means that the countries between flu and dengue are the same, 
+                             #FALSE means that there's a country in 1 dataset that isn't in the other
+flu_dengue_gapminder_countries<-dengue$country %>% unique() == gapminder$country %>% unique()
+table(flu_dengue_gapminder_countries) # TRUE means that the countries between flu/dengue and gapminder 
+                                      # are the same, FALSE means that there's a country in 1 dataset 
+                                      # that isn't in the other
 
 ```
 
