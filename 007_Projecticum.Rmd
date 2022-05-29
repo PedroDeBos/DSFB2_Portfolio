@@ -1,8 +1,3 @@
----
-output: html_document
-bibliography: references.bib
----
-
 # Projecticum
 
 To prove I'm able to use bibliography applications like "Zotero", a small introduction to my current projecticum will be written, and a bibliography will be automaticall generated using Zotero.

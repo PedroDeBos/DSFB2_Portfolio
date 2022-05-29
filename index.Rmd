@@ -8,6 +8,7 @@ output:
 documentclass: book
 link-citations: yes
 css: style.css
+bibliography: references.bib
 ---
 # Frontpage
 <body id="start">
