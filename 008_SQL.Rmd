@@ -13,6 +13,8 @@
   <a href='plan-for-future.html#plan-for-future'>The future</a>
 </div>
 
+&nbsp;
+
 In order to prove my skills in the field of data handling and SQL, this page will show me work with flu data, dengue data and the gapminder data from the {dslabs} package. The flu data and dengue data are both supplied by google, "www.google.org/flutrends AND www.google.org/denguetrends"
 
 First of all, all datasets will be read and inspected in R
@@ -90,7 +92,7 @@ Using the SQL script shown in the screenshot below, a SQL database has been crea
 
 Using RPostgreSQL, the created datasets will be inserted into this database
 
-(Creating a connection with SQL requires a password: in order to prevent the leakage of my password, local datafiles have been used instead of using the datafiles from an SQL database. The code which would be used _if_ I were to use my password will still be shown)
+(Creating a connection with SQL requires a password: in order to prevent the leakage of my password, the local RDS datafiles created above have been used instead of using the datafiles from an SQL database. The code which would be used _if_ I were to use my password will still be shown)
 
 
 

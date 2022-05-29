@@ -270,6 +270,7 @@ details > summary {
 <p>Using the SQL script shown in the screenshot below, a SQL database has been created called “workflowsdb”.</p>
 <p><img src="images/SQL_1.png"></p>
 <p>Using RPostgreSQL, the created datasets will be inserted into this database</p>
+<p>(Creating a connection with SQL requires a password: in order to prevent the leakage of my password, the local RDS datafiles created above have been used instead of using the datafiles from an SQL database. The code which would be used <em>if</em> I were to use my password will still be shown)</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="sql.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="fu">here</span>(<span class="st">&quot;R/login_credentials.R&quot;</span>))</span>
 <span id="cb25-2"><a href="sql.html#cb25-2" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(RPostgres<span class="sc">::</span><span class="fu">Postgres</span>(),</span>
 <span id="cb25-3"><a href="sql.html#cb25-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">dbname =</span> <span class="st">&quot;workflowsdb&quot;</span>,</span>
@@ -285,130 +286,116 @@ details > summary {
 <p><img src="images/SQL_2.png"></p>
 <p><img src="images/SQL_3.png"></p>
 <p>For further insurance, the data will also be inspected via R</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="sql.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="fu">here</span>(<span class="st">&quot;R/login_credentials.R&quot;</span>))</span></code></pre></div>
-<pre><code>## as.raw(c(0x40, 0x53, 0x74, 0x75, 0x6e, 0x5f, 0x4c, 0x34, 0x6e, 
-## 0x63, 0x33, 0x72, 0x40))</code></pre>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="sql.html#cb28-1" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(RPostgres<span class="sc">::</span><span class="fu">Postgres</span>(),</span>
-<span id="cb28-2"><a href="sql.html#cb28-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">dbname =</span> <span class="st">&quot;workflowsdb&quot;</span>,</span>
-<span id="cb28-3"><a href="sql.html#cb28-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">host =</span> <span class="st">&quot;localhost&quot;</span>, </span>
-<span id="cb28-4"><a href="sql.html#cb28-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">port =</span> <span class="dv">5432</span>,</span>
-<span id="cb28-5"><a href="sql.html#cb28-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">user=</span> <span class="st">&quot;postgres&quot;</span>,</span>
-<span id="cb28-6"><a href="sql.html#cb28-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">password =</span> <span class="fu">rawToChar</span>(pwd))</span>
-<span id="cb28-7"><a href="sql.html#cb28-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-8"><a href="sql.html#cb28-8" aria-hidden="true" tabindex="-1"></a>gapminder<span class="ot">&lt;-</span><span class="fu">dbReadTable</span>(con, <span class="st">&quot;gapminder&quot;</span>)</span>
-<span id="cb28-9"><a href="sql.html#cb28-9" aria-hidden="true" tabindex="-1"></a>gapminderyear_unique<span class="ot">&lt;-</span>gapminder<span class="sc">$</span>year <span class="sc">%&gt;%</span> <span class="fu">unique</span>()</span>
-<span id="cb28-10"><a href="sql.html#cb28-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-11"><a href="sql.html#cb28-11" aria-hidden="true" tabindex="-1"></a>dengue<span class="ot">&lt;-</span><span class="fu">dbReadTable</span>(con, <span class="st">&quot;dengue&quot;</span>)</span>
-<span id="cb28-12"><a href="sql.html#cb28-12" aria-hidden="true" tabindex="-1"></a>dengueyear_unique<span class="ot">&lt;-</span>dengue<span class="sc">$</span>year <span class="sc">%&gt;%</span> <span class="fu">unique</span>()</span>
-<span id="cb28-13"><a href="sql.html#cb28-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-14"><a href="sql.html#cb28-14" aria-hidden="true" tabindex="-1"></a>flu<span class="ot">&lt;-</span><span class="fu">dbReadTable</span>(con, <span class="st">&quot;flu&quot;</span>)</span>
-<span id="cb28-15"><a href="sql.html#cb28-15" aria-hidden="true" tabindex="-1"></a>fluyear_unique<span class="ot">&lt;-</span>flu<span class="sc">$</span>year <span class="sc">%&gt;%</span> unique</span>
-<span id="cb28-16"><a href="sql.html#cb28-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-17"><a href="sql.html#cb28-17" aria-hidden="true" tabindex="-1"></a>flu_dengue_year<span class="ot">&lt;-</span>fluyear_unique <span class="sc">==</span> dengueyear_unique</span>
-<span id="cb28-18"><a href="sql.html#cb28-18" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(flu_dengue_year) <span class="co"># TRUE means that the years between flu and dengue are the same, FALSE means </span></span></code></pre></div>
-<pre><code>## flu_dengue_year
-## TRUE 
-##   14</code></pre>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="sql.html#cb30-1" aria-hidden="true" tabindex="-1"></a>                        <span class="co">#that there&#39;s a year that&#39;s not the same</span></span>
-<span id="cb30-2"><a href="sql.html#cb30-2" aria-hidden="true" tabindex="-1"></a>gapminder_dengue_year<span class="ot">&lt;-</span>gapminderyear_unique <span class="sc">==</span> dengueyear_unique</span>
-<span id="cb30-3"><a href="sql.html#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(gapminder_dengue_year) <span class="co"># TRUE means that the years between flu/dengue and gapminder are the </span></span></code></pre></div>
-<pre><code>## gapminder_dengue_year
-## FALSE  TRUE 
-##    43    14</code></pre>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="sql.html#cb32-1" aria-hidden="true" tabindex="-1"></a>                              <span class="co">#same, FALSE means that there&#39;s a year that&#39;s not the same</span></span>
-<span id="cb32-2"><a href="sql.html#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-3"><a href="sql.html#cb32-3" aria-hidden="true" tabindex="-1"></a>flu_dengue_countries<span class="ot">&lt;-</span>flu<span class="sc">$</span>country <span class="sc">%&gt;%</span> <span class="fu">unique</span>() <span class="sc">==</span> dengue<span class="sc">$</span>country <span class="sc">%&gt;%</span> <span class="fu">unique</span>()</span>
-<span id="cb32-4"><a href="sql.html#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(flu_dengue_countries) <span class="co"># TRUE means that the countries between flu and dengue are the same, </span></span></code></pre></div>
-<pre><code>## flu_dengue_countries
-## FALSE  TRUE 
-##    28     1</code></pre>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="sql.html#cb34-1" aria-hidden="true" tabindex="-1"></a>                             <span class="co">#FALSE means that there&#39;s a country in 1 dataset that isn&#39;t in the other</span></span>
-<span id="cb34-2"><a href="sql.html#cb34-2" aria-hidden="true" tabindex="-1"></a>flu_dengue_gapminder_countries<span class="ot">&lt;-</span>dengue<span class="sc">$</span>country <span class="sc">%&gt;%</span> <span class="fu">unique</span>() <span class="sc">==</span> gapminder<span class="sc">$</span>country <span class="sc">%&gt;%</span> <span class="fu">unique</span>()</span>
-<span id="cb34-3"><a href="sql.html#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(flu_dengue_gapminder_countries) <span class="co"># TRUE means that the countries between flu/dengue and gapminder </span></span></code></pre></div>
-<pre><code>## flu_dengue_gapminder_countries
-## FALSE  TRUE 
-##   183     2</code></pre>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="sql.html#cb36-1" aria-hidden="true" tabindex="-1"></a>                                      <span class="co"># are the same, FALSE means that there&#39;s a country in 1 dataset </span></span>
-<span id="cb36-2"><a href="sql.html#cb36-2" aria-hidden="true" tabindex="-1"></a>                                      <span class="co"># that isn&#39;t in the other</span></span></code></pre></div>
-<p>Based on these inspections, we have seen that:</p>
-<ul>
-<li><p>Gapminder contains a bigger range of years than flu/dengue</p></li>
-<li><p>Gapminder contains a bigger range of countries than flu/dengue</p></li>
-<li><p>Flu/dengue both contain the exact same countries and years</p></li>
-</ul>
-<p>Since the year/country columns are (partly) the same between gapminder and dengue/flu, we can join these datasets. However, in order to create a <em>full</em> dataset, we must filter for years and countries which are present in <em>all</em> datasets</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="sql.html#cb37-1" aria-hidden="true" tabindex="-1"></a>dengue_countries<span class="ot">&lt;-</span>dengue<span class="sc">$</span>country <span class="sc">%&gt;%</span> <span class="fu">unique</span>()</span>
-<span id="cb37-2"><a href="sql.html#cb37-2" aria-hidden="true" tabindex="-1"></a>dengue_flu_countries<span class="ot">&lt;-</span>flu<span class="sc">$</span>country <span class="sc">%&gt;%</span> <span class="fu">str_extract</span>(<span class="at">pattern =</span> dengue_countries) <span class="sc">%&gt;%</span> <span class="fu">unique</span>()</span>
-<span id="cb37-3"><a href="sql.html#cb37-3" aria-hidden="true" tabindex="-1"></a>dengue_flu_countries<span class="ot">&lt;-</span>dengue_flu_countries[<span class="sc">!</span><span class="fu">is.na</span>(dengue_flu_countries)] <span class="co">#Filtering for NA&#39;s</span></span>
-<span id="cb37-4"><a href="sql.html#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-5"><a href="sql.html#cb37-5" aria-hidden="true" tabindex="-1"></a>flu_year<span class="ot">&lt;-</span>flu<span class="sc">$</span>year</span>
-<span id="cb37-6"><a href="sql.html#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-7"><a href="sql.html#cb37-7" aria-hidden="true" tabindex="-1"></a>gapminder<span class="sc">$</span>country <span class="sc">%&gt;%</span> <span class="fu">str_subset</span>(<span class="at">pattern =</span> dengue_flu_countries) <span class="sc">%&gt;%</span> unique </span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="sql.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="fu">here</span>(<span class="st">&quot;R/login_credentials.R&quot;</span>))</span>
+<span id="cb26-2"><a href="sql.html#cb26-2" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(RPostgres<span class="sc">::</span><span class="fu">Postgres</span>(),</span>
+<span id="cb26-3"><a href="sql.html#cb26-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">dbname =</span> <span class="st">&quot;workflowsdb&quot;</span>,</span>
+<span id="cb26-4"><a href="sql.html#cb26-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">host =</span> <span class="st">&quot;localhost&quot;</span>, </span>
+<span id="cb26-5"><a href="sql.html#cb26-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">port =</span> <span class="dv">5432</span>,</span>
+<span id="cb26-6"><a href="sql.html#cb26-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">user=</span> <span class="st">&quot;postgres&quot;</span>,</span>
+<span id="cb26-7"><a href="sql.html#cb26-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">password =</span> <span class="fu">rawToChar</span>(pwd))</span>
+<span id="cb26-8"><a href="sql.html#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-9"><a href="sql.html#cb26-9" aria-hidden="true" tabindex="-1"></a>gapminder<span class="ot">&lt;-</span><span class="fu">dbReadTable</span>(con, <span class="st">&quot;gapminder&quot;</span>)</span>
+<span id="cb26-10"><a href="sql.html#cb26-10" aria-hidden="true" tabindex="-1"></a>dengue<span class="ot">&lt;-</span><span class="fu">dbReadTable</span>(con, <span class="st">&quot;dengue&quot;</span>)</span>
+<span id="cb26-11"><a href="sql.html#cb26-11" aria-hidden="true" tabindex="-1"></a>flu<span class="ot">&lt;-</span><span class="fu">dbReadTable</span>(con, <span class="st">&quot;flu&quot;</span>)</span></code></pre></div>
+<p>We want to join the datasets based on “year” and on “countries”, thus we shall inspect those character vectors in partciular</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="sql.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">gapminder_years=</span>gapminder<span class="sc">$</span>year <span class="sc">%&gt;%</span> <span class="fu">unique</span>(),</span>
+<span id="cb27-2"><a href="sql.html#cb27-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">dengue_years=</span>dengue<span class="sc">$</span>year <span class="sc">%&gt;%</span> <span class="fu">unique</span>(),</span>
+<span id="cb27-3"><a href="sql.html#cb27-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">flu_years=</span>flu<span class="sc">$</span>year <span class="sc">%&gt;%</span> <span class="fu">unique</span>())</span></code></pre></div>
+<pre><code>## $gapminder_years
+##  [1] 1960 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990
+## [32] 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016
+## 
+## $dengue_years
+##  [1] 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015
+## 
+## $flu_years
+##  [1] 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015</code></pre>
+<p>Based on the years, we can state that dengue and flu share the same range of years, while gapminder has a way bigger range of years it covers</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="sql.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="at">gapminder_countries=</span>gapminder<span class="sc">$</span>country <span class="sc">%&gt;%</span> unique <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">50</span>),</span>
+<span id="cb29-2"><a href="sql.html#cb29-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">dengue_countries=</span>dengue<span class="sc">$</span>country <span class="sc">%&gt;%</span> unique,</span>
+<span id="cb29-3"><a href="sql.html#cb29-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">flu_countries=</span>flu<span class="sc">$</span>country <span class="sc">%&gt;%</span> unique)</span></code></pre></div>
+<pre><code>## $gapminder_countries
+##  [1] &quot;Albania&quot;                  &quot;Algeria&quot;                  &quot;Angola&quot;                   &quot;Antigua and Barbuda&quot;      &quot;Argentina&quot;               
+##  [6] &quot;Armenia&quot;                  &quot;Aruba&quot;                    &quot;Australia&quot;                &quot;Austria&quot;                  &quot;Azerbaijan&quot;              
+## [11] &quot;Bahamas&quot;                  &quot;Bahrain&quot;                  &quot;Bangladesh&quot;               &quot;Barbados&quot;                 &quot;Belarus&quot;                 
+## [16] &quot;Belgium&quot;                  &quot;Belize&quot;                   &quot;Benin&quot;                    &quot;Bhutan&quot;                   &quot;Bolivia&quot;                 
+## [21] &quot;Bosnia and Herzegovina&quot;   &quot;Botswana&quot;                 &quot;Brazil&quot;                   &quot;Brunei&quot;                   &quot;Bulgaria&quot;                
+## [26] &quot;Burkina Faso&quot;             &quot;Burundi&quot;                  &quot;Cambodia&quot;                 &quot;Cameroon&quot;                 &quot;Canada&quot;                  
+## [31] &quot;Cape Verde&quot;               &quot;Central African Republic&quot; &quot;Chad&quot;                     &quot;Chile&quot;                    &quot;China&quot;                   
+## [36] &quot;Colombia&quot;                 &quot;Comoros&quot;                  &quot;Congo, Dem. Rep.&quot;         &quot;Congo, Rep.&quot;              &quot;Costa Rica&quot;              
+## [41] &quot;Cote d&#39;Ivoire&quot;            &quot;Croatia&quot;                  &quot;Cuba&quot;                     &quot;Cyprus&quot;                   &quot;Czech Republic&quot;          
+## [46] &quot;Denmark&quot;                  &quot;Djibouti&quot;                 &quot;Dominican Republic&quot;       &quot;Ecuador&quot;                  &quot;Egypt&quot;                   
+## 
+## $dengue_countries
+##  [1] &quot;Argentina&quot;   &quot;Bolivia&quot;     &quot;Brazil&quot;      &quot;India&quot;       &quot;Indonesia&quot;   &quot;Mexico&quot;      &quot;Philippines&quot; &quot;Singapore&quot;   &quot;Thailand&quot;    &quot;Venezuela&quot;  
+## 
+## $flu_countries
+##  [1] &quot;Argentina&quot;     &quot;Australia&quot;     &quot;Austria&quot;       &quot;Belgium&quot;       &quot;Bolivia&quot;       &quot;Brazil&quot;        &quot;Bulgaria&quot;      &quot;Canada&quot;        &quot;Chile&quot;        
+## [10] &quot;France&quot;        &quot;Germany&quot;       &quot;Hungary&quot;       &quot;Japan&quot;         &quot;Mexico&quot;        &quot;Netherlands&quot;   &quot;New.Zealand&quot;   &quot;Norway&quot;        &quot;Paraguay&quot;     
+## [19] &quot;Peru&quot;          &quot;Poland&quot;        &quot;Romania&quot;       &quot;Russia&quot;        &quot;South.Africa&quot;  &quot;Spain&quot;         &quot;Sweden&quot;        &quot;Switzerland&quot;   &quot;Ukraine&quot;      
+## [28] &quot;United.States&quot; &quot;Uruguay&quot;</code></pre>
+<p>In the countries, we can see a way wider spread of countries. Gapminder contains data of over 180 countries (only the top 50 are shown), while flu has 30 and dengue has 10. In order to create a full, properly joined dataset we will filter all 3 datasets to only contain shared years and shared countries</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="sql.html#cb31-1" aria-hidden="true" tabindex="-1"></a>dengue_countries<span class="ot">&lt;-</span>dengue<span class="sc">$</span>country <span class="sc">%&gt;%</span> <span class="fu">unique</span>()</span>
+<span id="cb31-2"><a href="sql.html#cb31-2" aria-hidden="true" tabindex="-1"></a>dengue_flu_countries<span class="ot">&lt;-</span>flu<span class="sc">$</span>country <span class="sc">%&gt;%</span> <span class="fu">str_extract</span>(<span class="at">pattern =</span> dengue_countries) <span class="sc">%&gt;%</span> <span class="fu">unique</span>() <span class="co">#Filtering for countries which are present in both dengue and flu</span></span>
+<span id="cb31-3"><a href="sql.html#cb31-3" aria-hidden="true" tabindex="-1"></a>dengue_flu_countries<span class="ot">&lt;-</span>dengue_flu_countries[<span class="sc">!</span><span class="fu">is.na</span>(dengue_flu_countries)] <span class="co">#Filtering for NA&#39;s</span></span>
+<span id="cb31-4"><a href="sql.html#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="sql.html#cb31-5" aria-hidden="true" tabindex="-1"></a>gapminder<span class="sc">$</span>country <span class="sc">%&gt;%</span> <span class="fu">str_subset</span>(<span class="at">pattern =</span> dengue_flu_countries) <span class="sc">%&gt;%</span> unique </span></code></pre></div>
 <pre><code>## [1] &quot;Argentina&quot; &quot;Brazil&quot;    &quot;Mexico&quot;    &quot;Bolivia&quot;</code></pre>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="sql.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co">#The 4 countries present in every data set: Argentina, Brazil, Mexico, Bolivia</span></span>
-<span id="cb39-2"><a href="sql.html#cb39-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-3"><a href="sql.html#cb39-3" aria-hidden="true" tabindex="-1"></a>gapminder_join<span class="ot">&lt;-</span>gapminder <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year <span class="sc">&lt;=</span> <span class="fu">max</span>(flu_year) <span class="sc">&amp;</span> year <span class="sc">&gt;=</span><span class="fu">min</span>(flu_year)) <span class="sc">%&gt;%</span> </span>
-<span id="cb39-4"><a href="sql.html#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> dengue_flu_countries)</span>
-<span id="cb39-5"><a href="sql.html#cb39-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-6"><a href="sql.html#cb39-6" aria-hidden="true" tabindex="-1"></a>data_full<span class="ot">&lt;-</span><span class="fu">left_join</span>(gapminder_join, dengue, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;country&quot;</span>, <span class="st">&quot;year&quot;</span>)) <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(flu, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;country&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;month&quot;</span>, <span class="st">&quot;day&quot;</span>))</span>
-<span id="cb39-7"><a href="sql.html#cb39-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-8"><a href="sql.html#cb39-8" aria-hidden="true" tabindex="-1"></a>data_full <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
-<pre><code>##     country year infant_mortality life_expectancy fertility population          gdp continent          region month day dengue_incidence flu_incidence
-## 1 Argentina 2002             17.1            74.3      2.38   37889443 242076212334  Americas   South America    12  29               NA            NA
-## 2   Bolivia 2002             53.7            68.7      3.98    8653343   8751510220  Americas   South America    12  29            0.101            NA
-## 3    Brazil 2002             24.3            71.4      2.26  181045592 670512665737  Americas   South America    12  29            0.073           174
-## 4    Mexico 2002             19.3            74.9      2.57  105578297 585312691416  Americas Central America    12  29               NA            NA
-## 5 Argentina 2003             16.6            74.5      2.34   38309475 263468585945  Americas   South America     1   5               NA            NA
-## 6 Argentina 2003             16.6            74.5      2.34   38309475 263468585945  Americas   South America     1  12               NA            NA</code></pre>
-<p>Now, with this fully joined dataset, we’ll perform some data visualisations.</p>
+<p>Based on these filters, the for countries available in every dataset are: Argentina, Brazil, Mexico, Bolivia</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="sql.html#cb33-1" aria-hidden="true" tabindex="-1"></a>flu_year<span class="ot">&lt;-</span>flu<span class="sc">$</span>year</span>
+<span id="cb33-2"><a href="sql.html#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="sql.html#cb33-3" aria-hidden="true" tabindex="-1"></a>gapminder_join<span class="ot">&lt;-</span>gapminder <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year <span class="sc">&lt;=</span> <span class="fu">max</span>(flu_year) <span class="sc">&amp;</span> year <span class="sc">&gt;=</span><span class="fu">min</span>(flu_year)) <span class="sc">%&gt;%</span> </span>
+<span id="cb33-4"><a href="sql.html#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> dengue_flu_countries)</span>
+<span id="cb33-5"><a href="sql.html#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="sql.html#cb33-6" aria-hidden="true" tabindex="-1"></a>data_full<span class="ot">&lt;-</span><span class="fu">left_join</span>(gapminder_join, dengue, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;country&quot;</span>, <span class="st">&quot;year&quot;</span>)) <span class="sc">%&gt;%</span> <span class="fu">left_join</span>(flu, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;country&quot;</span>, <span class="st">&quot;year&quot;</span>, <span class="st">&quot;month&quot;</span>, <span class="st">&quot;day&quot;</span>))</span></code></pre></div>
+<p>Now, with this fully joined dataset filtered for both mutual countries and years, some visualisations will be performed</p>
 <p>Firstly, dengue incidence in 4 countries over 15 years</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="sql.html#cb41-1" aria-hidden="true" tabindex="-1"></a>data_sum_dengue<span class="ot">&lt;-</span>data_full <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(country, year) <span class="sc">%&gt;%</span></span>
-<span id="cb41-2"><a href="sql.html#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean=</span><span class="fu">mean</span>(dengue_incidence, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
-<span id="cb41-3"><a href="sql.html#cb41-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">stdev=</span><span class="fu">sd</span>(dengue_incidence))</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="sql.html#cb34-1" aria-hidden="true" tabindex="-1"></a>data_sum_dengue<span class="ot">&lt;-</span>data_full <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(country, year) <span class="sc">%&gt;%</span></span>
+<span id="cb34-2"><a href="sql.html#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean=</span><span class="fu">mean</span>(dengue_incidence, <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;country&#39;. You can override using the `.groups` argument.</code></pre>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="sql.html#cb43-1" aria-hidden="true" tabindex="-1"></a>data_sum_dengue <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>year, <span class="at">y=</span>mean))<span class="sc">+</span></span>
-<span id="cb43-2"><a href="sql.html#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> country))<span class="sc">+</span></span>
-<span id="cb43-3"><a href="sql.html#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> country))<span class="sc">+</span></span>
-<span id="cb43-4"><a href="sql.html#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb43-5"><a href="sql.html#cb43-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">&quot;Dengue incidence over 12 years in 4 countries&quot;</span>,</span>
-<span id="cb43-6"><a href="sql.html#cb43-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">&quot;Time in years&quot;</span>,</span>
-<span id="cb43-7"><a href="sql.html#cb43-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">&quot;incidence (unit not mentioned)&quot;</span></span>
-<span id="cb43-8"><a href="sql.html#cb43-8" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
-<span id="cb43-9"><a href="sql.html#cb43-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="sql.html#cb36-1" aria-hidden="true" tabindex="-1"></a>data_sum_dengue <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>year, <span class="at">y=</span>mean))<span class="sc">+</span></span>
+<span id="cb36-2"><a href="sql.html#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> country))<span class="sc">+</span></span>
+<span id="cb36-3"><a href="sql.html#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">color =</span> country))<span class="sc">+</span></span>
+<span id="cb36-4"><a href="sql.html#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb36-5"><a href="sql.html#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">&quot;Dengue incidence over 12 years in 4 countries&quot;</span>,</span>
+<span id="cb36-6"><a href="sql.html#cb36-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">&quot;Time in years&quot;</span>,</span>
+<span id="cb36-7"><a href="sql.html#cb36-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">&quot;incidence (unit not mentioned)&quot;</span></span>
+<span id="cb36-8"><a href="sql.html#cb36-8" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
+<span id="cb36-9"><a href="sql.html#cb36-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>Secondly, the incidence of flue through the months in the 4 different countries</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="sql.html#cb44-1" aria-hidden="true" tabindex="-1"></a>month_data<span class="ot">&lt;-</span><span class="fu">data.frame</span>(</span>
-<span id="cb44-2"><a href="sql.html#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">month=</span><span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>),</span>
-<span id="cb44-3"><a href="sql.html#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">MONTH=</span><span class="fu">c</span>(<span class="st">&quot;January&quot;</span>, <span class="st">&quot;Februari&quot;</span>, <span class="st">&quot;March&quot;</span>, <span class="st">&quot;April&quot;</span>, <span class="st">&quot;May&quot;</span>, <span class="st">&quot;June&quot;</span>, <span class="st">&quot;July&quot;</span>, <span class="st">&quot;August&quot;</span>, <span class="st">&quot;September&quot;</span>, <span class="st">&quot;October&quot;</span>, <span class="st">&quot;November&quot;</span>, <span class="st">&quot;December&quot;</span>)</span>
-<span id="cb44-4"><a href="sql.html#cb44-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb44-5"><a href="sql.html#cb44-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-6"><a href="sql.html#cb44-6" aria-hidden="true" tabindex="-1"></a>month_data<span class="sc">$</span>MONTH<span class="ot">&lt;-</span><span class="fu">factor</span>(month_data<span class="sc">$</span>MONTH, <span class="at">levels =</span><span class="fu">c</span>(<span class="st">&quot;January&quot;</span>, <span class="st">&quot;Februari&quot;</span>, <span class="st">&quot;March&quot;</span>, <span class="st">&quot;April&quot;</span>, <span class="st">&quot;May&quot;</span>, <span class="st">&quot;June&quot;</span>, <span class="st">&quot;July&quot;</span>, <span class="st">&quot;August&quot;</span>, <span class="st">&quot;September&quot;</span>, <span class="st">&quot;October&quot;</span>, <span class="st">&quot;November&quot;</span>, <span class="st">&quot;December&quot;</span>))</span>
-<span id="cb44-7"><a href="sql.html#cb44-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-8"><a href="sql.html#cb44-8" aria-hidden="true" tabindex="-1"></a>data_month<span class="ot">&lt;-</span><span class="fu">left_join</span>(data_full, month_data, <span class="at">by=</span><span class="st">&quot;month&quot;</span>)</span>
-<span id="cb44-9"><a href="sql.html#cb44-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-10"><a href="sql.html#cb44-10" aria-hidden="true" tabindex="-1"></a>data_month <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>MONTH, <span class="at">y=</span>flu_incidence))<span class="sc">+</span></span>
-<span id="cb44-11"><a href="sql.html#cb44-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">fill=</span>country), <span class="at">position =</span> <span class="fu">position_dodge</span>())<span class="sc">+</span></span>
-<span id="cb44-12"><a href="sql.html#cb44-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb44-13"><a href="sql.html#cb44-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">&quot;Flu incidence by month in 4 countries&quot;</span>,</span>
-<span id="cb44-14"><a href="sql.html#cb44-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">&quot;Month&quot;</span>,</span>
-<span id="cb44-15"><a href="sql.html#cb44-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">&quot;Incidence (unit not mentioned)&quot;</span></span>
-<span id="cb44-16"><a href="sql.html#cb44-16" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
-<span id="cb44-17"><a href="sql.html#cb44-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
-<span id="cb44-18"><a href="sql.html#cb44-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">45</span>, <span class="at">hjust=</span><span class="dv">1</span>))</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="sql.html#cb37-1" aria-hidden="true" tabindex="-1"></a>month_data<span class="ot">&lt;-</span><span class="fu">data.frame</span>(</span>
+<span id="cb37-2"><a href="sql.html#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">month=</span><span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>),</span>
+<span id="cb37-3"><a href="sql.html#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">MONTH=</span><span class="fu">c</span>(<span class="st">&quot;January&quot;</span>, <span class="st">&quot;Februari&quot;</span>, <span class="st">&quot;March&quot;</span>, <span class="st">&quot;April&quot;</span>, <span class="st">&quot;May&quot;</span>, <span class="st">&quot;June&quot;</span>, <span class="st">&quot;July&quot;</span>, <span class="st">&quot;August&quot;</span>, <span class="st">&quot;September&quot;</span>, <span class="st">&quot;October&quot;</span>, <span class="st">&quot;November&quot;</span>, <span class="st">&quot;December&quot;</span>)</span>
+<span id="cb37-4"><a href="sql.html#cb37-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb37-5"><a href="sql.html#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-6"><a href="sql.html#cb37-6" aria-hidden="true" tabindex="-1"></a>month_data<span class="sc">$</span>MONTH<span class="ot">&lt;-</span><span class="fu">factor</span>(month_data<span class="sc">$</span>MONTH, <span class="at">levels =</span><span class="fu">c</span>(<span class="st">&quot;January&quot;</span>, <span class="st">&quot;Februari&quot;</span>, <span class="st">&quot;March&quot;</span>, <span class="st">&quot;April&quot;</span>, <span class="st">&quot;May&quot;</span>, <span class="st">&quot;June&quot;</span>, <span class="st">&quot;July&quot;</span>, <span class="st">&quot;August&quot;</span>, <span class="st">&quot;September&quot;</span>, <span class="st">&quot;October&quot;</span>, <span class="st">&quot;November&quot;</span>, <span class="st">&quot;December&quot;</span>))</span>
+<span id="cb37-7"><a href="sql.html#cb37-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-8"><a href="sql.html#cb37-8" aria-hidden="true" tabindex="-1"></a>data_month<span class="ot">&lt;-</span><span class="fu">left_join</span>(data_full, month_data, <span class="at">by=</span><span class="st">&quot;month&quot;</span>)</span>
+<span id="cb37-9"><a href="sql.html#cb37-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-10"><a href="sql.html#cb37-10" aria-hidden="true" tabindex="-1"></a>data_month <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>MONTH, <span class="at">y=</span>flu_incidence))<span class="sc">+</span></span>
+<span id="cb37-11"><a href="sql.html#cb37-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">fill=</span>country), <span class="at">position =</span> <span class="fu">position_dodge</span>())<span class="sc">+</span></span>
+<span id="cb37-12"><a href="sql.html#cb37-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb37-13"><a href="sql.html#cb37-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">&quot;Flu incidence by month in 4 countries&quot;</span>,</span>
+<span id="cb37-14"><a href="sql.html#cb37-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">&quot;Month&quot;</span>,</span>
+<span id="cb37-15"><a href="sql.html#cb37-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">&quot;Incidence (unit not mentioned)&quot;</span></span>
+<span id="cb37-16"><a href="sql.html#cb37-16" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
+<span id="cb37-17"><a href="sql.html#cb37-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb37-18"><a href="sql.html#cb37-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">45</span>, <span class="at">hjust=</span><span class="dv">1</span>))</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <p>And finally, a correlation between dengue incidence and flu incidence? (Spoiler: no. Not at all.)</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="sql.html#cb45-1" aria-hidden="true" tabindex="-1"></a>correlation<span class="ot">&lt;-</span><span class="fu">cor.test</span>(data_full<span class="sc">$</span>dengue_incidence, data_full<span class="sc">$</span>flu_incidence, <span class="at">method=</span><span class="fu">c</span>(<span class="st">&quot;pearson&quot;</span>))<span class="sc">$</span>estimate <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span>
-<span id="cb45-2"><a href="sql.html#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-3"><a href="sql.html#cb45-3" aria-hidden="true" tabindex="-1"></a>data_full <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>flu_incidence, <span class="at">y=</span>dengue_incidence))<span class="sc">+</span></span>
-<span id="cb45-4"><a href="sql.html#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>country), <span class="at">alpha =</span> <span class="fl">0.8</span>)<span class="sc">+</span></span>
-<span id="cb45-5"><a href="sql.html#cb45-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb45-6"><a href="sql.html#cb45-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">&quot;Correlation between flu incidence and dengue incidence&quot;</span>,</span>
-<span id="cb45-7"><a href="sql.html#cb45-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">&quot;Flu incidence (unit not mentioned)&quot;</span>,</span>
-<span id="cb45-8"><a href="sql.html#cb45-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">&quot;Dengue incidence (unit not mentioned&quot;</span></span>
-<span id="cb45-9"><a href="sql.html#cb45-9" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
-<span id="cb45-10"><a href="sql.html#cb45-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="dv">2600</span>, <span class="at">y=</span><span class="fl">0.95</span>, <span class="at">label =</span> <span class="fu">paste0</span>(<span class="st">&quot;Pearson&#39;s correlation: </span><span class="sc">\n</span><span class="st">&quot;</span>, correlation))<span class="sc">+</span></span>
-<span id="cb45-11"><a href="sql.html#cb45-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="sql.html#cb38-1" aria-hidden="true" tabindex="-1"></a>correlation<span class="ot">&lt;-</span><span class="fu">cor.test</span>(data_full<span class="sc">$</span>dengue_incidence, data_full<span class="sc">$</span>flu_incidence, <span class="at">method=</span><span class="fu">c</span>(<span class="st">&quot;pearson&quot;</span>))<span class="sc">$</span>estimate <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span>
+<span id="cb38-2"><a href="sql.html#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="sql.html#cb38-3" aria-hidden="true" tabindex="-1"></a>data_full <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>flu_incidence, <span class="at">y=</span>dengue_incidence))<span class="sc">+</span></span>
+<span id="cb38-4"><a href="sql.html#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>country), <span class="at">alpha =</span> <span class="fl">0.8</span>)<span class="sc">+</span></span>
+<span id="cb38-5"><a href="sql.html#cb38-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb38-6"><a href="sql.html#cb38-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="st">&quot;Correlation between flu incidence and dengue incidence&quot;</span>,</span>
+<span id="cb38-7"><a href="sql.html#cb38-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">&quot;Flu incidence (unit not mentioned)&quot;</span>,</span>
+<span id="cb38-8"><a href="sql.html#cb38-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">&quot;Dengue incidence (unit not mentioned&quot;</span></span>
+<span id="cb38-9"><a href="sql.html#cb38-9" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
+<span id="cb38-10"><a href="sql.html#cb38-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="dv">2600</span>, <span class="at">y=</span><span class="fl">0.95</span>, <span class="at">label =</span> <span class="fu">paste0</span>(<span class="st">&quot;Pearson&#39;s correlation: </span><span class="sc">\n</span><span class="st">&quot;</span>, correlation))<span class="sc">+</span></span>
+<span id="cb38-11"><a href="sql.html#cb38-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 
 </div>
 <p style="text-align: center;">
