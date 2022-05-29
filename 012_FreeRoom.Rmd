@@ -46,7 +46,6 @@ Ranges appear to be within 0.1-7.9, a factor 10 difference. Seems reasonable eno
 Just in case though, you usually have to create normalising functions yourself, so here's one anyway, created by the site and broken down for me to understand it
 
 ```{r}
-}
 
 normalize(iris[1:4])
 
