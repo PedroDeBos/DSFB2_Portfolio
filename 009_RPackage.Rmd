@@ -27,6 +27,8 @@ To prove my ability to create a package based on previous code, I have created t
 devtools::install_github("PedroDeBos/PokemonAnalyse", build_vignettes = TRUE)
 ```
 
+For the creation of this package, the pokemon database created by @banikCompletePokemonDataset has been ultilised under the "public domain" license.
+
 The package has been created to incorporate 4 commands: pokemon_legendary, type, stats and weakness
 
 __pokemon_legendary__ states whether the selected pokemon is a legendary or not

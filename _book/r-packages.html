@@ -195,6 +195,7 @@ details > summary {
 <p> </p>
 <p>To prove my ability to create a package based on previous code, I have created the “PokemonAnalyse” package, a package created to analyse a pokemon dataset. This package is available on the public repository <a href="https://github.com/PedroDeBos/PokemonAnalyse">linked here</a>. The package can be installed using the following command:</p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="r-packages.html#cb39-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;PedroDeBos/PokemonAnalyse&quot;</span>, <span class="at">build_vignettes =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p>For the creation of this package, the pokemon database created by <span class="citation">Banik (<a href="#ref-banikCompletePokemonDataset" role="doc-biblioref">n.d.</a>)</span> has been ultilised under the “public domain” license.</p>
 <p>The package has been created to incorporate 4 commands: pokemon_legendary, type, stats and weakness</p>
 <p><strong>pokemon_legendary</strong> states whether the selected pokemon is a legendary or not</p>
 <div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="r-packages.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PokemonAnalyse)</span>
@@ -218,6 +219,12 @@ details > summary {
 <p><img src="_main_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 <p>each of these commands include a help page when using “?pokemon_stats”. Furthermore, the package also contains the “pokemon” dataset, provided by Rounak Banik on <a href="https://www.kaggle.com/datasets/rounakbanik/pokemon">kaggle</a> under a CC0 license. And finally, the package also contains a “vignette” page, which can be accessed by the command vignette(“pokemonAnalyse”) or the command browseVignettes(“PokemonAnalyse”)</p>
 
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-banikCompletePokemonDataset" class="csl-entry">
+Banik, Rounak. n.d. <span>“The <span>Complete Pokemon Dataset</span>.”</span> https://www.kaggle.com/rounakbanik/pokemon.
+</div>
 </div>
 <p style="text-align: center;">
 <a href="sql.html"><button class="btn btn-default">Previous</button></a>
