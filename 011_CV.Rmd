@@ -1,21 +1,4 @@
---- 
-title: "Portfolio Pedro de Bos"
-site: bookdown::bookdown_site
-output: 
-  bookdown::html_book:
-    toc: FALSE
-    number_sections: FALSE
-documentclass: book
-link-citations: yes
-css: style.css
-bibliography: references.bib
----
-# Frontpage
-<body id="start">
-<div class="header">
-  <h1>Pedro de Bos, at your service</h1>
-</div>   
-
+# CV
 <body id="start">
 <div class="topnav">
   <a href='index.html#Frontpage'>Frontpage</a>
@@ -34,8 +17,7 @@ bibliography: references.bib
 
 &nbsp;
 
-<img src="./images/DonkereZonnePedro.png" class="center" style="width:494px;height:659px">
+To create my CV, a package called "vitae", created by "Mitchello Harawild" has been used. This CV .Rmd file is, however, not compatable with bookdown (which was used to create this site). This .RMD generates a pdf, of which a .jpg file has been generated and is shown here. The original .Rmd file can be found in my [public repo](https://github.com/PedroDeBos/PedroDeBos.github.io).
 
-The name's Pedro de Bos, life sciences student at the university of applied sciences Utrecht. Studied general laboratory skills for 2 years, specialised in     microbiology and minored in data sciences. Want to see what I'm capable off? Then you've come to the right place.
+<img src="./images/CV_PedroDeBos1024_1.jpg" style="width:724px;height:1024px" class="center">
 
-</body>

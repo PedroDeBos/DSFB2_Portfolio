@@ -1,0 +1,1 @@
+Belongs to the directory "images"

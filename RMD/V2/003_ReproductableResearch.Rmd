@@ -15,9 +15,9 @@
 
 &nbsp;
 
-To prove my ability in reviewing articles and identifying (issues in) reproducibility, a random article from the internet has been selected to be analysed based on the reproducibility criteria [found here](https://www.researchgate.net/publication/340244621_Reproducibility_and_reporting_practices_in_COVID-19_preprint_manuscripts).
+To prove my ability in reviewing articles and identifying (issues in) reproducibility, a random article from the internet has been selected to be analysed based on the reproducibility criteria [found here](https://www.researchgate.net/publication/340244621_Reproducibility_and_reporting_practices_in_COVID-19_preprint_manuscripts) [@sumnerReproducibilityReportingPractices2020].
 
-For this assignment, the following study has been selected: [Behavioral effects of citalopram, tramadol, and binary mixture in zebrafish (Danio rerio) larvae](https://www.sciencedirect.com/science/article/pii/S0045653519318119?via%3Dihub), written by Raougina-Laouisa Bachoura, Oksana Golovkob, Martin Kellnerc, Johannes Pohl
+For this assignment, the following study has been selected: [Behavioral effects of citalopram, tramadol, and binary mixture in zebrafish (Danio rerio) larvae](https://www.sciencedirect.com/science/article/pii/S0045653519318119?via%3Dihub) [@bachourBehavioralEffectsCitalopram2020].
 
 <font size="+2"> __Overview of study__ </font>
 

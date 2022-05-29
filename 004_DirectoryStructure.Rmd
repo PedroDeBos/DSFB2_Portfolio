@@ -1,21 +1,4 @@
---- 
-title: "Portfolio Pedro de Bos"
-site: bookdown::bookdown_site
-output: 
-  bookdown::html_book:
-    toc: FALSE
-    number_sections: FALSE
-documentclass: book
-link-citations: yes
-css: style.css
-bibliography: references.bib
----
-# Frontpage
-<body id="start">
-<div class="header">
-  <h1>Pedro de Bos, at your service</h1>
-</div>   
-
+# Directory structure
 <body id="start">
 <div class="topnav">
   <a href='index.html#Frontpage'>Frontpage</a>
@@ -30,12 +13,26 @@ bibliography: references.bib
   <a href='new-skills.html#New-skills'>New skills (Machine learning)<a/>
   <a href='cv.html#cv'>CV</a>
   <a href='bibliography.html#bibliography'>Bibliography</a>
-</div>
+</div>>
+
 
 &nbsp;
 
-<img src="./images/DonkereZonnePedro.png" class="center" style="width:494px;height:659px">
+```{r setup_2, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(fs)
+library(here)
+```
 
-The name's Pedro de Bos, life sciences student at the university of applied sciences Utrecht. Studied general laboratory skills for 2 years, specialised in     microbiology and minored in data sciences. Want to see what I'm capable off? Then you've come to the right place.
+To prove skills in the field off Guerilla Analytics folder structure, a previously unstructured file (named Daur2) has been re-sorted according to the Guerilla analytics principles. To showcase the file structure, the fs package command dir_tree will be performed
 
-</body>
+__Organised directory tree__
+````{r DirTree_Organized}
+fs::dir_tree(path = here("Daur2_Organisation_2.1/Daur2_Organized/"), type = "directory")
+
+````
+
+__Original directory tree__
+````{r DirTree_Original}
+fs::dir_tree(path = here("Daur2_Organisation_2.1/Daur2_Original/"), type = "directory")
+````
