@@ -149,40 +149,40 @@ list(gapminder_years=gapminder$year %>% unique(),
 Based on the years, we can state that dengue and flu share the same range of years, while gapminder has a way bigger range of years it covers
 
 ```{r}
-list(gapminder_countries=gapminder$country %>% unique,
+list(gapminder_countries=gapminder$country %>% unique %>% head(50),
      dengue_countries=dengue$country %>% unique,
      flu_countries=flu$country %>% unique)
 ```
 
-In the countries, we can see a way wider spread of countries. Gapminder contains data of over 180 countries, while flu has 30 and dengue has 10. In order to create a full, properly joined dataset we will filter all 3 datasets to only contain shared years and shared countries
+In the countries, we can see a way wider spread of countries. Gapminder contains data of over 180 countries (only the top 50 are shown), while flu has 30 and dengue has 10. In order to create a full, properly joined dataset we will filter all 3 datasets to only contain shared years and shared countries
 
 
 ```{r, warning=FALSE}
 dengue_countries<-dengue$country %>% unique()
-dengue_flu_countries<-flu$country %>% str_extract(pattern = dengue_countries) %>% unique()
+dengue_flu_countries<-flu$country %>% str_extract(pattern = dengue_countries) %>% unique() #Filtering for countries which are present in both dengue and flu
 dengue_flu_countries<-dengue_flu_countries[!is.na(dengue_flu_countries)] #Filtering for NA's
 
-flu_year<-flu$year
-
 gapminder$country %>% str_subset(pattern = dengue_flu_countries) %>% unique 
-#The 4 countries present in every data set: Argentina, Brazil, Mexico, Bolivia
+```
+
+Based on these filters, the for countries available in every dataset are: `r gapminder$country %>% str_subset(pattern = dengue_flu_countries) %>% unique`
+
+```{r, warning=FALSE}
+flu_year<-flu$year
 
 gapminder_join<-gapminder %>% filter(year <= max(flu_year) & year >=min(flu_year)) %>% 
   filter(country %in% dengue_flu_countries)
 
 data_full<-left_join(gapminder_join, dengue, by = c("country", "year")) %>% left_join(flu, by = c("country", "year", "month", "day"))
-
-data_full %>% head()
 ```
 
-Now, with this fully joined dataset, we'll perform some data visualisations. 
+Now, with this fully joined dataset filtered for both mutual countries and years, some visualisations will be performed
 
 Firstly, dengue incidence in 4 countries over 15 years
 
 ```{r, warning=FALSE}
 data_sum_dengue<-data_full %>% group_by(country, year) %>%
-  summarise(mean=mean(dengue_incidence, na.rm=TRUE),
-            stdev=sd(dengue_incidence))
+  summarise(mean=mean(dengue_incidence, na.rm=TRUE))
 
 data_sum_dengue %>% ggplot(aes(x=year, y=mean))+
   geom_point(aes(color = country))+
@@ -198,7 +198,7 @@ data_sum_dengue %>% ggplot(aes(x=year, y=mean))+
 
 Secondly, the incidence of flue through the months in the 4 different countries
 
-```{r, warning=FALSE}
+```{r, warning=FALSE, comment=FALSE}
 month_data<-data.frame(
   month=seq(1:12),
   MONTH=c("January", "Februari", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
