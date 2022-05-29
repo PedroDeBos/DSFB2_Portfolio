@@ -7,14 +7,11 @@
   <a href='sorting-directories.html#sorting-directories'>Directory structure</a>
   <a href='sql.html#SQL'>SQL</a>
   <a href='r-packages.html#R-packages'>R-package</a>
-  <a href='bibliography-using-zotero.html#Bibliography using Zotero'>Zotero</a>
+  <a href='bibliography-using-zotero.html#Bibliography using Zotero'>Bibliography</a>
   <a href='reproductibility.html#Reproductibility'>Reproductibility</a>
   <a href='cv.html#cv'>CV</a>
   <a href='plan-for-future.html#plan-for-future'>The future</a>
 </div>
-
-
-&nbsp;
 
 In order to prove my skills in the field of data handling and SQL, this page will show me work with flu data, dengue data and the gapminder data from the {dslabs} package. The flu data and dengue data are both supplied by google, "www.google.org/flutrends AND www.google.org/denguetrends"
 
@@ -93,7 +90,7 @@ Using the SQL script shown in the screenshot below, a SQL database has been crea
 
 Using RPostgreSQL, the created datasets will be inserted into this database
 
-(Creating a connection with SQL requires a password: in order to prevent the leakage of my password, the local RDS datafiles created above have been used instead of using the datafiles from an SQL database. The code which would be used _if_ I were to use my password will still be shown)
+(Creating a connection with SQL requires a password: in order to prevent the leakage of my password, local datafiles have been used instead of using the datafiles from an SQL database. The code which would be used _if_ I were to use my password will still be shown)
 
 
 
@@ -118,15 +115,7 @@ To inspect the database in order to check if all data has been transfered correc
 <img src="./images/SQL_3.png">
 
 For further insurance, the data will also be inspected via R
-
-```{r include=FALSE}
-gapminder<-readRDS(here("./data/gapminder.rds"))
-dengue<-readRDS(here("./data/dengue.rds"))
-flu<-readRDS(here("./data/flu.rds"))
-```
-
-
-```{r, warning=FALSE, message=FALSE, eval=FALSE}
+```{r, warning=FALSE, message=FALSE}
 source(here("R/login_credentials.R"))
 con <- dbConnect(RPostgres::Postgres(),
                  dbname = "workflowsdb",
@@ -136,56 +125,67 @@ con <- dbConnect(RPostgres::Postgres(),
                  password = rawToChar(pwd))
 
 gapminder<-dbReadTable(con, "gapminder")
+gapminderyear_unique<-gapminder$year %>% unique()
+
 dengue<-dbReadTable(con, "dengue")
+dengueyear_unique<-dengue$year %>% unique()
+
 flu<-dbReadTable(con, "flu")
+fluyear_unique<-flu$year %>% unique
+
+flu_dengue_year<-fluyear_unique == dengueyear_unique
+table(flu_dengue_year) # TRUE means that the years between flu and dengue are the same, FALSE means 
+                        #that there's a year that's not the same
+gapminder_dengue_year<-gapminderyear_unique == dengueyear_unique
+table(gapminder_dengue_year) # TRUE means that the years between flu/dengue and gapminder are the 
+                              #same, FALSE means that there's a year that's not the same
+
+flu_dengue_countries<-flu$country %>% unique() == dengue$country %>% unique()
+table(flu_dengue_countries) # TRUE means that the countries between flu and dengue are the same, 
+                             #FALSE means that there's a country in 1 dataset that isn't in the other
+flu_dengue_gapminder_countries<-dengue$country %>% unique() == gapminder$country %>% unique()
+table(flu_dengue_gapminder_countries) # TRUE means that the countries between flu/dengue and gapminder 
+                                      # are the same, FALSE means that there's a country in 1 dataset 
+                                      # that isn't in the other
 
 ```
 
-We want to join the datasets based on "year" and on "countries", thus we shall inspect those character vectors in partciular
+Based on these inspections, we have seen that:
 
-```{r}
-list(gapminder_years=gapminder$year %>% unique(),
-     dengue_years=dengue$year %>% unique(),
-     flu_years=flu$year %>% unique())
-```
+- Gapminder contains a bigger range of years than flu/dengue
 
-Based on the years, we can state that dengue and flu share the same range of years, while gapminder has a way bigger range of years it covers
+- Gapminder contains a bigger range of countries than flu/dengue
 
-```{r}
-list(gapminder_countries=gapminder$country %>% unique %>% head(50),
-     dengue_countries=dengue$country %>% unique,
-     flu_countries=flu$country %>% unique)
-```
+- Flu/dengue both contain the exact same countries and years
 
-In the countries, we can see a way wider spread of countries. Gapminder contains data of over 180 countries (only the top 50 are shown), while flu has 30 and dengue has 10. In order to create a full, properly joined dataset we will filter all 3 datasets to only contain shared years and shared countries
-
+Since the year/country columns are (partly) the same between gapminder and dengue/flu, we can join these datasets. However, in order to create a _full_ dataset, we must filter for years and countries which are present in _all_ datasets
 
 ```{r, warning=FALSE}
 dengue_countries<-dengue$country %>% unique()
-dengue_flu_countries<-flu$country %>% str_extract(pattern = dengue_countries) %>% unique() #Filtering for countries which are present in both dengue and flu
+dengue_flu_countries<-flu$country %>% str_extract(pattern = dengue_countries) %>% unique()
 dengue_flu_countries<-dengue_flu_countries[!is.na(dengue_flu_countries)] #Filtering for NA's
 
-gapminder$country %>% str_subset(pattern = dengue_flu_countries) %>% unique 
-```
-
-Based on these filters, the for countries available in every dataset are: `r gapminder$country %>% str_subset(pattern = dengue_flu_countries) %>% unique`
-
-```{r, warning=FALSE}
 flu_year<-flu$year
+
+gapminder$country %>% str_subset(pattern = dengue_flu_countries) %>% unique 
+#The 4 countries present in every data set: Argentina, Brazil, Mexico, Bolivia
 
 gapminder_join<-gapminder %>% filter(year <= max(flu_year) & year >=min(flu_year)) %>% 
   filter(country %in% dengue_flu_countries)
 
 data_full<-left_join(gapminder_join, dengue, by = c("country", "year")) %>% left_join(flu, by = c("country", "year", "month", "day"))
+
+data_full %>% head()
 ```
 
-Now, with this fully joined dataset filtered for both mutual countries and years, some visualisations will be performed
+Now, with this fully joined dataset, we'll perform some data visualisations. 
 
 Firstly, dengue incidence in 4 countries over 15 years
 
 ```{r, warning=FALSE}
 data_sum_dengue<-data_full %>% group_by(country, year) %>%
-  summarise(mean=mean(dengue_incidence, na.rm=TRUE))
+  summarise(mean=mean(dengue_incidence, na.rm=TRUE),
+            stdev=sd(dengue_incidence))
 
 data_sum_dengue %>% ggplot(aes(x=year, y=mean))+
   geom_point(aes(color = country))+
@@ -201,7 +201,7 @@ data_sum_dengue %>% ggplot(aes(x=year, y=mean))+
 
 Secondly, the incidence of flue through the months in the 4 different countries
 
-```{r, warning=FALSE, comment=FALSE}
+```{r, warning=FALSE}
 month_data<-data.frame(
   month=seq(1:12),
   MONTH=c("January", "Februari", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
