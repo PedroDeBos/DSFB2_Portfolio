@@ -1,0 +1,65 @@
+# Creating a R package
+
+<body id="start">
+<div class="topnav">
+  <a href='index.html#Frontpage'>Frontpage</a>
+  <a href='data-visualisation.html#data-visualisation'>Data visualisation</a>
+  <a href='parametized-data.html#parametized-data'>Parametizing data</a>
+  <a href='directory-structure.html#directory-structure'>Directory structure</a>
+  <a href='creating-a-r-package.html#creating-a-r-package'>R-package</a>
+  <a href='sql.html#SQL'>SQL</a>
+  <a href='bibliography-using-zotero.html#Bibliography using Zotero'>Zotero</a>
+  <a href='open-reproductibility-analysis.html#open-reproductibility-analysis'>Reproductibility</a>
+  <a href='future-endeavours.html#future-endeavours'>Future endeavours</a>
+  <a href='new-skills.html#New-skills'>New skills (Machine learning)<a/>
+  <a href='cv.html#cv'>CV</a>
+  <a href='bibliography.html#bibliography'>Bibliography</a>
+</div>
+
+
+```{r, include=FALSE}
+library(tidyverse)
+library(here)
+library(devtools)
+```
+&nbsp;
+
+To prove my ability to create a package based on previous code, I have created the "PokemonAnalyse" package, a package created to analyse a pokemon dataset. This package is available on the public repository [linked here](https://github.com/PedroDeBos/PokemonAnalyse). The package can be installed using the following command:
+
+```{r, eval=FALSE}
+devtools::install_github("PedroDeBos/PokemonAnalyse", build_vignettes = TRUE)
+```
+
+For the creation of this package, the pokemon database created by @banikCompletePokemonDataset has been ultilised under the "public domain" license.
+
+The package has been created to incorporate 4 commands: pokemon_legendary, type, stats and weakness
+
+__pokemon_legendary__ states whether the selected pokemon is a legendary or not
+
+```{r}
+library(PokemonAnalyse)
+pokemon<-pokemon
+pokemon_legendary("Aggron")
+pokemon_legendary("Arceus")
+```
+
+__pokemon_type__ determines the types of the selected pokemon
+
+```{r}
+pokemon_type("Aggron")
+pokemon_type("Arceus")
+```
+
+__pokemon_stats__ gives the stats of the selected pokemon in the form of a plot
+
+```{r}
+pokemon_stats("Aggron")
+```
+
+and finally, __pokemon_weakness__ gives a spread of the weaknesses of the selected pokemon, also in the form of a plot
+
+```{r}
+pokemon_weakness("Aggron")
+```
+
+each of these commands include a help page when using "?pokemon_stats". Furthermore, the package also contains the "pokemon" dataset, provided by Rounak Banik on [kaggle](https://www.kaggle.com/datasets/rounakbanik/pokemon) under a CC0 license. And finally, the package also contains a "vignette" page, which can be accessed by the command vignette("pokemonAnalyse") or the command browseVignettes("PokemonAnalyse")

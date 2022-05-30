@@ -1,0 +1,151 @@
+# Data visualisation
+<body id="start">
+<div class="topnav">
+  <a href='index.html#frontpage'>Front page</a>
+  <a href='data-visualisation.html#data-visualisation'>Data visualisation</a>
+  <a href='sorting-directories.html#sorting-directories'>Directory structure</a>
+  <a href='sql.html#SQL'>SQL</a>
+  <a href='r-packages.html#R-packages'>R-package</a>
+  <a href='bibliography-using-zotero.html#Bibliography using Zotero'>Zotero</a>
+  <a href='reproductibility.html#Reproductibility'>Reproductibility</a>
+  <a href='cv.html#cv'>CV</a>
+  <a href='plan-for-future.html#plan-for-future'>The future</a>
+</div>
+
+```{r setup_1, include=FALSE}
+#Basic functions
+library(tidyverse)
+#Library to create dose-response curves
+library(drc)
+#Library to read excel documents
+library(readxl)
+#Library to use relative paths in coding instead of absolute paths
+library(here)
+#Library to create plots
+library(ggplot2)
+#Library for datatables
+library(DT)
+```
+&nbsp;
+
+To prove my skills in handling and making initial visualisations of data, a mock dataset supplied by J. louter (INT/ILC) has been analysed. This dataset was derived from an experiment in which adult _C.elegans_ were exposed to varying concentrations of different compounds. Then, after an exposure time of 68 hours, these _C.elegans_ were tested for amount of offspring they gave.  
+
+Firstly, the data (which was stored in an Excel file) has been read using tidyverse's "readxl()". A datatable has been created to show this initial dataset
+````{r reading_excelData}
+excel_location<-here("data.raw/CE.LIQ.FLOW.062_Tidydata.xlsx")
+Celegans_data_raw<-read_excel(excel_location, sheet = 1)
+datatable(Celegans_data_raw, options = list(
+  scrollX=TRUE
+))
+````
+
+After reading in this data, it has been transformed in order to be able to create proper figures from it. For this, the important data columns have been selected:
+expType: The type of experiment (Experimental, control)
+
+RawData: Amount of offspring _C.elegans_ gave after 68 hours of exposure to the treatment
+
+compName: The compound to which the _C.elegans_ was exposed to.
+
+compConcentration: The concentration of the compound which the _C.elegans_ was exposed to.
+
+````{r tidying_Excel}
+#Dataset inspection and transformation
+
+#Selecting data for this goal
+Celegans_data_select<-Celegans_data_raw %>% dplyr::select(expType, compName, RawData, compConcentration)
+
+#Datapoint 259 has a comma instead of a point. Transforming value via str_replace
+Celegans_data_select$compConcentration<-Celegans_data_select$compConcentration %>% str_replace(",", ".")
+
+#Now properly transforming the compConcentration data into numeric
+Celegans_data_select$compConcentration<-Celegans_data_select$compConcentration %>% as.numeric()
+
+#Transforming expType and compName into a factor variable
+
+levels_exptype<-unique(Celegans_data_select$expType) #storing all exptype levels
+Celegans_data_select$expType<-factor(Celegans_data_select$expType, levels = levels_exptype) #Transforming exptype
+levels_compname<-unique(Celegans_data_select$compName) #Storing all compName levels
+Celegans_data_select$compName<-factor(Celegans_data_select$compName, levels = levels_compname) #Transforming compName into factor
+
+#Filtering NA's from RawData
+Celegans_data_select<-Celegans_data_select %>% filter(!is.na(RawData))
+
+
+#Re-loading the data
+Celegans_data<-Celegans_data_select
+
+#Checking if transformation went properly
+datatable(Celegans_data, options = list(
+  scrollX=TRUE
+))
+````
+
+After tidying the data from the excel file, exploratory graphs have been created to study the data more thoroughly
+
+````{r dataplots}
+Celegans_data %>% ggplot(aes(x=log10(compConcentration+0.00005), y=RawData))+ #Added 0.0005 as otherwise, due to using log10, the S-medium values which are = 0, would be deleted.
+  geom_jitter(aes(colour=compName, shape=expType), width = 0.05)+
+  theme_bw()+
+  labs(
+    title="Effect of multiple treatments on offspring production by C.elegans",
+    x="log 10 treatment concentration (nM)",
+    y="Amount of offspring",
+    colour="Treatment",
+    shape="Experiment type"
+  )
+  
+````
+
+To properly be able to study the effect of the different treatments on _C.elegans_, the data will be normalized for the negative control S-medium.
+
+````{r normalisingDataForNegativeControl}
+#Determine the mean of the negative control
+negctrl_mean<-Celegans_data_select$RawData[Celegans_data_select$expType=="controlNegative"] %>% mean()
+
+#Normalising the data
+Celegans_data_select_normalised<-Celegans_data_select %>% mutate(
+  normalised_RawData_percentage=RawData/negctrl_mean*100
+)
+
+#Plotting the normalised data
+Celegans_data_select_normalised %>% ggplot(aes(x=log10(compConcentration+0.00005), y=normalised_RawData_percentage))+
+  geom_jitter(aes(colour=compName, shape=expType), width = 0.05)+
+  theme_bw()+
+  labs(
+    title="Normalised effect of multiple treatments on offspring production by C.elegans",
+    x="log 10 treatment concentration (nM)",
+    y="Normalised amount of offspring (%)",
+    colour="Treatment",
+    shape="Experiment type"
+  )
+
+````
+
+For a clearer picture of the correlations, a summarized version of the graph has also been made:
+````{r ClearerGraph}
+#Creating a summarised version of the data based on Treatment and concentration
+Celegans_data_normalised_sum<-Celegans_data_select_normalised %>% filter(!is.na(normalised_RawData_percentage)) %>% group_by(compConcentration, compName) %>% summarise(
+  mean_normalised=mean(normalised_RawData_percentage)
+)
+
+#Filtering out S-medium, as that is the negative control.
+Celegans_data_normalised_sum<-Celegans_data_normalised_sum %>% filter(!compName=="S-medium")
+
+#Plotting the summarised data.
+Celegans_data_normalised_sum %>% ggplot(aes(x=log10(compConcentration+0.00005), y=mean_normalised))+
+  geom_point(aes(colour=compName), size=3)+
+  geom_line(aes(colour=compName))+
+  theme_bw()+
+  labs(
+    title="Normalised effect of multiple treatments on offspring production by C.elegans",
+    x="log 10 treatment concentration (nM)",
+    y="Normalised amount of offspring (%)",
+    colour="Treatment"
+  )
+````
+
+Based on these exploratory graphs, we can conclude that 2,6-diisopropylnaphthalene, decane and nephthalene all cause a decrease in the ammount of offspring generated by C.elegans. Decane only appears to decrease offspring at higher concentrations, 2,6-diisopropylnaphthalene seems to cause a relatively constant decrease in offspring at increasing concentrations, and nephthalene seems to stagnate untill extremely high concentrations are used.
+
+Based on this data, a LC-50 analysis could be performed.
+
+</body>
