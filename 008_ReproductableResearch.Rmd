@@ -349,8 +349,8 @@ epochplotter <- function(x){
 ### Data import and aggregating ###
 ###################################
 
-dat_plateA <- read.csv("./data/citalopram_plateA.csv", ";", header=TRUE) #had to change directory, to be expected
-dat_plateB <- read.csv("./data/citalopram_plateB.csv", ";", header=TRUE)
+dat_plateA <- read.csv("./data.raw/citalopram_plateA.csv", ";", header=TRUE) #had to change directory, to be expected
+dat_plateB <- read.csv("./data.raw/citalopram_plateB.csv", ";", header=TRUE)
 
 dat_plateA <- datawrangler1A(dat_plateA)
 dat_plateB <- datawrangler1B(dat_plateB)
