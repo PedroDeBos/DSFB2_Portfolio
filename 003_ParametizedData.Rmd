@@ -6,7 +6,15 @@ params:
   month_end: FALSE
 ---
 
-# Parametized Data
+```{r}
+params$country<-Germany
+params$year<-2020
+params$month<-12
+params$month_end<-FALSE
+```
+
+
+# Parametized Data Germany
 
 <body id="start">
 <div class="topnav">
@@ -30,13 +38,21 @@ To prove my skills in the producing parametized .Rmd's, I've used an online COVI
 
 For this page, the params have been set too:
 
-- Country: "Germany" (Only shows data from the Germany)
+- Country: `r params$country` (Only shows data from the `r params$country`)
 
-- Year: 2020 (Only shows data from 2020)
+- Year: `r params$year` (Only shows data from `r params$year`)
 
-- Month: 12 (Shows data from all 12 months of the year)
+- Month: `r params$month` (Shows data from `r params$month` months of the year)
 
-- Month_end: FALSE (Starts counting months from the start of the year (januari), if TRUE starts counting months from the end (december))
+- Month_end: `r params$month_end ` (Starts counting months from the start of the year (januari), if TRUE starts counting months from the end (december))
+
+In order to showcase this, this process has been repeated for 3 sets of parameters
+
+<div>
+  <a href='parametized-data-belgium.html#parametized-data-belgium'>click here for a page of data about Belgium<a/>
+  
+  <a href='parametized-data-norway.html#parametized-data-norway'>click here for a page about data in Norway<a/>
+</div>
 
 ```{r}
 library(here)
