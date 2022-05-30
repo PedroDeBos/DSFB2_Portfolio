@@ -1,15 +1,12 @@
 ---
 params:
-  country: "Germany"
-  year: 2020
-  month: 12
+  country: "Norway"
+  year: 2021
+  month: 9
   month_end: FALSE
 ---
 
-
-
-
-# Parametized Data Germany
+# Parametized Data Norway
 
 <body id="start">
 <div class="topnav">
@@ -46,7 +43,7 @@ In order to showcase this, this process has been repeated for 3 sets of paramete
 <div>
   <a href='parametized-data-belgium.html#parametized-data-belgium'>click here for a page of data about Belgium<a/>
   
-  <a href='parametized-data-norway.html#parametized-data-norway'>click here for a page about data in Norway<a/>
+  <a href='parametized-data-germany.html#parametized-data-germany'>click here for a page about data in Germany<a/>
 </div>
 
 ```{r, include=FALSE}
@@ -55,13 +52,11 @@ library(tidyverse)
 library(ggplot2)
 ```
 
-
-
 ```{r}
 # Parameters have been manually set for the purpose of this site, as bookdown does not support stating parameters in YAML
-params$country<-"Germany"
-params$year<-2020
-params$month<-12
+params$country<-"Norway"
+params$year<-2021
+params$month<-9
 params$month_end<-FALSE
 ```
 

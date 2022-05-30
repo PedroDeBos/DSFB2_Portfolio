@@ -195,8 +195,8 @@ details > summary {
 <a href='cv.html#cv'>CV</a>
 <a href='bibliography.html#bibliography'>Bibliography</a></p>
 </div>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="new-skills.html#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb55-2"><a href="new-skills.html#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="new-skills.html#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb65-2"><a href="new-skills.html#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 <p>For my free Space, I will study <a href="https://towardsdatascience.com/recognition-and-counting-of-microorganisms-on-petri-dishes-53a499283dc8">this site</a>. in order to find information about using bacterial identification using machine learning.</p>
 <p>In this article, there is a link too the site <a href="https://agar.neurosys.com/">agar.neurosys.com</a> which contains a dataset containing picture of agarplates in different conditions</p>
 <p>Conclusion based on the site: this is <em>way</em> too complicated to start out with. Trying to find a simpler introduction to machine learning, specifically in R</p>
@@ -207,25 +207,25 @@ details > summary {
 <li><p>Sepals are modified leaves which encase and protect the flower before it blooms</p></li>
 <li><p>Petals are modified leaves that surround the reproductive parts of the flower.</p></li>
 </ul>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="new-skills.html#cb56-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Sepal.Length, <span class="at">y=</span>Sepal.Width, <span class="at">colour=</span>Species))<span class="sc">+</span></span>
-<span id="cb56-2"><a href="new-skills.html#cb56-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="new-skills.html#cb57-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Petal.Length, <span class="at">y=</span>Petal.Width, <span class="at">colour=</span>Species))<span class="sc">+</span></span>
-<span id="cb57-2"><a href="new-skills.html#cb57-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-23-2.png" width="672" /></p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="new-skills.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(iris)</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="new-skills.html#cb66-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Sepal.Length, <span class="at">y=</span>Sepal.Width, <span class="at">colour=</span>Species))<span class="sc">+</span></span>
+<span id="cb66-2"><a href="new-skills.html#cb66-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="new-skills.html#cb67-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Petal.Length, <span class="at">y=</span>Petal.Width, <span class="at">colour=</span>Species))<span class="sc">+</span></span>
+<span id="cb67-2"><a href="new-skills.html#cb67-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-30-2.png" width="672" /></p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="new-skills.html#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(iris)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    150 obs. of  5 variables:
 ##  $ Sepal.Length: num  5.1 4.9 4.7 4.6 5 5.4 4.6 5 4.4 4.9 ...
 ##  $ Sepal.Width : num  3.5 3 3.2 3.1 3.6 3.9 3.4 3.4 2.9 3.1 ...
 ##  $ Petal.Length: num  1.4 1.4 1.3 1.5 1.4 1.7 1.4 1.5 1.4 1.5 ...
 ##  $ Petal.Width : num  0.2 0.2 0.2 0.2 0.2 0.4 0.3 0.2 0.2 0.1 ...
 ##  $ Species     : Factor w/ 3 levels &quot;setosa&quot;,&quot;versicolor&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="new-skills.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(iris<span class="sc">$</span>Species)</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="new-skills.html#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(iris<span class="sc">$</span>Species)</span></code></pre></div>
 <pre><code>## 
 ##     setosa versicolor  virginica 
 ##         50         50         50</code></pre>
 <p>Apparently, normalising is very important in machine learning. Using summary, we can check if datasets are too far appart</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="new-skills.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(iris)</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="new-skills.html#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(iris)</span></code></pre></div>
 <pre><code>##   Sepal.Length    Sepal.Width     Petal.Length    Petal.Width          Species  
 ##  Min.   :4.300   Min.   :2.000   Min.   :1.000   Min.   :0.100   setosa    :50  
 ##  1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300   versicolor:50  
@@ -235,7 +235,7 @@ details > summary {
 ##  Max.   :7.900   Max.   :4.400   Max.   :6.900   Max.   :2.500</code></pre>
 <p>Ranges appear to be within 0.1-7.9, a factor 10 difference. Seems reasonable enough.</p>
 <p>Just in case though, you usually have to create normalising functions yourself, so here’s one anyway, created by the site and broken down for me to understand it</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="new-skills.html#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">normalize</span>(iris[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="new-skills.html#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">normalize</span>(iris[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span></code></pre></div>
 <pre><code>##     Sepal.Length Sepal.Width Petal.Length Petal.Width
 ## 1      0.6410256   0.4358974    0.1666667  0.01282051
 ## 2      0.6153846   0.3717949    0.1666667  0.01282051
@@ -387,14 +387,14 @@ details > summary {
 ## 148    0.8205128   0.3717949    0.6538462  0.24358974
 ## 149    0.7820513   0.4230769    0.6794872  0.28205128
 ## 150    0.7435897   0.3717949    0.6410256  0.21794872</code></pre>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="new-skills.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Generating a set where the the data is compensated for the lowest datapoint</span></span>
-<span id="cb66-2"><a href="new-skills.html#cb66-2" aria-hidden="true" tabindex="-1"></a>num<span class="ot">&lt;-</span>iris<span class="sc">$</span>Sepal.Length<span class="sc">-</span><span class="fu">min</span>(iris<span class="sc">$</span>Sepal.Length)</span>
-<span id="cb66-3"><a href="new-skills.html#cb66-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb66-4"><a href="new-skills.html#cb66-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Generating the biggest difference in the dataset</span></span>
-<span id="cb66-5"><a href="new-skills.html#cb66-5" aria-hidden="true" tabindex="-1"></a>denom<span class="ot">&lt;-</span><span class="fu">max</span>(iris<span class="sc">$</span>Sepal.Length)<span class="sc">-</span><span class="fu">min</span>(iris<span class="sc">$</span>Sepal.Length)</span>
-<span id="cb66-6"><a href="new-skills.html#cb66-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb66-7"><a href="new-skills.html#cb66-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Generating the size of a datapoint relative to the maximum size of a datapoint.</span></span>
-<span id="cb66-8"><a href="new-skills.html#cb66-8" aria-hidden="true" tabindex="-1"></a>num<span class="sc">/</span>denom </span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="new-skills.html#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Generating a set where the the data is compensated for the lowest datapoint</span></span>
+<span id="cb76-2"><a href="new-skills.html#cb76-2" aria-hidden="true" tabindex="-1"></a>num<span class="ot">&lt;-</span>iris<span class="sc">$</span>Sepal.Length<span class="sc">-</span><span class="fu">min</span>(iris<span class="sc">$</span>Sepal.Length)</span>
+<span id="cb76-3"><a href="new-skills.html#cb76-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-4"><a href="new-skills.html#cb76-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Generating the biggest difference in the dataset</span></span>
+<span id="cb76-5"><a href="new-skills.html#cb76-5" aria-hidden="true" tabindex="-1"></a>denom<span class="ot">&lt;-</span><span class="fu">max</span>(iris<span class="sc">$</span>Sepal.Length)<span class="sc">-</span><span class="fu">min</span>(iris<span class="sc">$</span>Sepal.Length)</span>
+<span id="cb76-6"><a href="new-skills.html#cb76-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-7"><a href="new-skills.html#cb76-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Generating the size of a datapoint relative to the maximum size of a datapoint.</span></span>
+<span id="cb76-8"><a href="new-skills.html#cb76-8" aria-hidden="true" tabindex="-1"></a>num<span class="sc">/</span>denom </span></code></pre></div>
 <pre><code>##   [1] 0.22222222 0.16666667 0.11111111 0.08333333 0.19444444 0.30555556 0.08333333 0.19444444 0.02777778 0.16666667 0.30555556 0.13888889 0.13888889 0.00000000
 ##  [15] 0.41666667 0.38888889 0.30555556 0.22222222 0.38888889 0.22222222 0.30555556 0.22222222 0.08333333 0.22222222 0.13888889 0.19444444 0.19444444 0.25000000
 ##  [29] 0.25000000 0.11111111 0.13888889 0.30555556 0.25000000 0.33333333 0.16666667 0.19444444 0.33333333 0.16666667 0.02777778 0.22222222 0.19444444 0.05555556
