@@ -1,3 +1,5 @@
+Backup in case the original blows up
+
 ---
 Title: "Test parameter"
 output: html_document
@@ -101,5 +103,91 @@ covid_data_vis_filter2 %>% group_by(month, year) %>% summarise(
 ```
 
 
+```{r}
+#True/false statement
+params$month_end
+
+if (params$month_end) {
+  covid_data_vis_test<-covid_data_vis %>% filter(month>=params$month)
+} else {
+  covid_data_vis_test<-covid_data_vis %>% filter(month<=params$month)
+}
+```
+
+```{r}
+#Current definition for params$month: the ammount of months you want the graph to showcase
+params$month
+
+covid_data_vis %>% filter(month<=params$month)
+
+covid_data_vis %>% filter(countriesAndTerritories==params$country,
+                          year==params$year,
+                          month<=params$month) %>% group_by(MONTH, year) %>% summarise(
+  cases=mean(cases, na.rm=TRUE)
+) %>% ggplot(aes(x=MONTH, y=cases))+
+  geom_point(aes(color=year))+
+  geom_line(aes(group=year, color=year))+
+  theme_bw()+
+  theme(axis.text.x = element_text(angle=45, hjust=1))+
+  labs(
+    title=paste0("SARS-COV 2 cases in ",params$country, " per month in ", params$year),
+    subtitle = "Data from ECDC",
+    x="Month",
+    y="COVID-19 cases",
+    color="Year"
+  )
+```
+
+
+```{r}
+############################################################### Reading data
+covid_data<-read.csv("./data.raw/data.csv")
+covid_data_vis<-covid_data
+
+############################################################### Mangling data
+covid_years<-covid_data$year %>% unique()
+covid_data_vis$year<-factor(as.character(covid_data$year), levels = as.character(covid_years))
+
+months<-c("January", "Februari", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
+months_dataframe<-data.frame(MONTH=months,
+                             month=seq(1:12))
+months_dataframe$MONTH<-factor(months_dataframe$MONTH, levels = months)
+covid_data_vis<-left_join(covid_data_vis, months_dataframe, by = "month")
+
+############################################################### Creating visualisation: Cases per month
+covid_data_vis %>% filter(countriesAndTerritories==params$country,
+                          year==params$year) %>% group_by(MONTH, year) %>% summarise(
+  cases=mean(cases, na.rm=TRUE)
+) %>% ggplot(aes(x=MONTH, y=cases))+
+  geom_point(aes(color=year))+
+  geom_line(aes(group=year, color=year))+
+  theme_bw()+
+  theme(axis.text.x = element_text(angle=45, hjust=1))+
+  labs(
+    title=paste0("SARS-COV 2 cases in ",params$country, " per month in ", params$year),
+    subtitle = "Data from ECDC",
+    x="Month",
+    y="COVID-19 cases",
+    color="Year"
+  )
+
+############################################################# Creating visualisation: Deaths per month
+covid_data_vis %>% filter(countriesAndTerritories==params$country,
+                          year==params$year) %>% group_by(month, year) %>% summarise(
+  deaths=mean(deaths, na.rm=TRUE)
+) %>% ggplot(aes(x=month, y=deaths))+
+  geom_point(aes(color=year))+
+  geom_line(aes(group=year, color=year))+
+  theme_bw()+
+  theme(axis.text.x = element_text(angle=45, hjust=1))+
+  labs(
+    title=paste0("SARS-COV 2 deaths in ",params$country, " per month in ", params$year),
+    subtitle = "Data from ECDC",
+    x="Month",
+    y="COVID-19 deaths",
+    color="Year"
+  )+
+  scale_x_continuous(breaks=(seq(1:12)), labels = months)
+```
 
 
