@@ -1,9 +1,8 @@
 ---
 params:
   country: "Belgium"
-  year: 2020
-  month: 6
-  month_end: TRUE
+  year: !r c(2020:2021)
+  month: !r c(6:12)
 ---
 
 ```{r, include=FALSE}
