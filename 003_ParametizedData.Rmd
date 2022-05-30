@@ -26,15 +26,17 @@ params:
 
 # Parametized Data
 
-To prove my skills in the producing parametized .Rmd's, I've used an online COVID-19 dataset and parametized the visualisation of this data file. For this parameterization, the country of the data, the year of the data and the months which the data covers have been added as variables. 
+To prove my skills in the producing parametized .Rmd's, I've used an online COVID-19 dataset and parametized the visualisation of this data file. For this parameterization, the country of the data, the year of the data and the months which the data covers have been added as variables.
 
-In order to prove this, three parametized pages have been made: 
+For this page, the params have been set too:
 
-Click here for COVID data in the Netherlands for the entire year of 2021
+- Country: "Germany" (Only shows data from the Germany)
 
-Click here for COVID data in Norway during january till june of 2020
+- Year: 2020 (Only shows data from 2020)
 
-Click here for COVID data in Germany From March till May in 2022
+- Month: 12 (Shows data from all 12 months of the year)
+
+- Month_end: FALSE (Starts counting months from the start of the year (januari), if TRUE starts counting months from the end (december))
 
 ```{r}
 library(here)
