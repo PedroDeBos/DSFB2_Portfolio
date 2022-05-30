@@ -2,6 +2,10 @@
     display: none;
 }
 
+.btn{
+  display:none;
+}
+
 .header{
   background-color: black;
   text-align: center;
