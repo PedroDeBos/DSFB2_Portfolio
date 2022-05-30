@@ -12,11 +12,5 @@ install.packages("vitae")
 #Installing pagedown for RMD 3.1, creating a cv
 install.packages("pagedown")
 
-#Installing rbbt for citation
-devtools::install_github("paleolimbot/rbbt")
-
 #Installing available too check for package names
 install.packages("available")
-
-#Installing class for machine learning
-install.packages("class")
