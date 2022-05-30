@@ -5,6 +5,7 @@ params:
   country: "Netherlands"
   year: 2021
   month: 12
+  month_end: FALSE
 ---
 
 <body id="start">
@@ -42,6 +43,19 @@ library(ggplot2)
 ```
 
 Parameter test 
+
+
+```{r}
+#True/false statement
+params$month_end
+
+if (params$month_end) {
+  covid_data_vis_test<-covid_data_vis %>% filter(month>=params$month)
+} else {
+  covid_data_vis_test<-covid_data_vis %>% filter(month<=params$month)
+}
+```
+
 ```{r}
 #Current definition for params$month: the ammount of months you want the graph to showcase
 params$month
