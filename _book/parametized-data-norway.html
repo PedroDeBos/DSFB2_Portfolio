@@ -199,9 +199,9 @@ details > summary {
 <p>To prove my skills in the producing parametized .Rmd’s, I’ve used an online COVID-19 dataset and parametized the visualisation of this data file. For this parameterization, the country of the data, the year of the data and the months which the data covers have been added as variables.</p>
 <p>For this page, the params have been set too:</p>
 <ul>
-<li><p>Country: Norway (Only shows data from the Norway)</p></li>
-<li><p>Year: 2021 (Only shows data from 2021)</p></li>
-<li><p>Month: 9 (Shows data from 9 months of the year)</p></li>
+<li><p>Country: Germany (Only shows data from the Germany)</p></li>
+<li><p>Year: 2020 (Only shows data from 2020)</p></li>
+<li><p>Month: 12 (Shows data from 12 months of the year)</p></li>
 <li><p>Month_end: FALSE (Starts counting months from the start of the year (januari), if TRUE starts counting months from the end (december))</p></li>
 </ul>
 <p>In order to showcase this, this process has been repeated for 3 sets of parameters</p>
@@ -209,9 +209,11 @@ details > summary {
 <p><a href='parametized-data-belgium.html#parametized-data-belgium'>click here for a page of data about Belgium<a/></p>
 <p><a href='parametized-data-germany.html#parametized-data-germany'>click here for a page about data in Germany<a/></p>
 </div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="parametized-data-norway.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
-<span id="cb8-2"><a href="parametized-data-norway.html#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb8-3"><a href="parametized-data-norway.html#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="parametized-data-norway.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters have been manually set for the purpose of this site, as bookdown does not support stating parameters in YAML</span></span>
+<span id="cb8-2"><a href="parametized-data-norway.html#cb8-2" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>country<span class="ot">&lt;-</span><span class="st">&quot;Norway&quot;</span></span>
+<span id="cb8-3"><a href="parametized-data-norway.html#cb8-3" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>year<span class="ot">&lt;-</span><span class="dv">2021</span></span>
+<span id="cb8-4"><a href="parametized-data-norway.html#cb8-4" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>month<span class="ot">&lt;-</span><span class="dv">9</span></span>
+<span id="cb8-5"><a href="parametized-data-norway.html#cb8-5" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>month_end<span class="ot">&lt;-</span><span class="cn">FALSE</span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="parametized-data-norway.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">############################################################### Reading data</span></span>
 <span id="cb9-2"><a href="parametized-data-norway.html#cb9-2" aria-hidden="true" tabindex="-1"></a>covid_data<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">&quot;./data.raw/data.csv&quot;</span>)</span>
 <span id="cb9-3"><a href="parametized-data-norway.html#cb9-3" aria-hidden="true" tabindex="-1"></a>covid_data_vis<span class="ot">&lt;-</span>covid_data</span>
@@ -248,7 +250,7 @@ details > summary {
 <span id="cb9-34"><a href="parametized-data-norway.html#cb9-34" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
 <span id="cb9-35"><a href="parametized-data-norway.html#cb9-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span>(<span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>)), <span class="at">labels =</span> months)</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;month&#39;. You can override using the `.groups` argument.</code></pre>
-<p><img src="_main_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="parametized-data-norway.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">############################################################# Creating visualisation: Deaths per month</span></span>
 <span id="cb11-2"><a href="parametized-data-norway.html#cb11-2" aria-hidden="true" tabindex="-1"></a>covid_data_vis_filter2 <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(month, year) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(</span>
 <span id="cb11-3"><a href="parametized-data-norway.html#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">deaths=</span><span class="fu">mean</span>(deaths, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
@@ -266,7 +268,7 @@ details > summary {
 <span id="cb11-15"><a href="parametized-data-norway.html#cb11-15" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
 <span id="cb11-16"><a href="parametized-data-norway.html#cb11-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span>(<span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>)), <span class="at">labels =</span> months)</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;month&#39;. You can override using the `.groups` argument.</code></pre>
-<p><img src="_main_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
 
 </div>
 <p style="text-align: center;">

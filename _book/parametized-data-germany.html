@@ -199,19 +199,21 @@ details > summary {
 <p>To prove my skills in the producing parametized .Rmd’s, I’ve used an online COVID-19 dataset and parametized the visualisation of this data file. For this parameterization, the country of the data, the year of the data and the months which the data covers have been added as variables.</p>
 <p>For this page, the params have been set too:</p>
 <ul>
-<li><p>Country: Norway (Only shows data from the Norway)</p></li>
-<li><p>Year: 2021 (Only shows data from 2021)</p></li>
-<li><p>Month: 9 (Shows data from 9 months of the year)</p></li>
-<li><p>Month_end: FALSE (Starts counting months from the start of the year (januari), if TRUE starts counting months from the end (december))</p></li>
+<li><p>Country: Belgium (Only shows data from the Belgium)</p></li>
+<li><p>Year: 2020 (Only shows data from 2020)</p></li>
+<li><p>Month: 6 (Shows data from 6 months of the year)</p></li>
+<li><p>Month_end: TRUE (Starts counting months from the start of the year (januari), if TRUE starts counting months from the end (december))</p></li>
 </ul>
 <p>In order to showcase this, this process has been repeated for 3 sets of parameters</p>
 <div>
 <p><a href='parametized-data-belgium.html#parametized-data-belgium'>click here for a page of data about Belgium<a/></p>
 <p><a href='parametized-data-norway.html#parametized-data-norway'>click here for a page about data in Norway<a/></p>
 </div>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="parametized-data-germany.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span>
-<span id="cb18-2"><a href="parametized-data-germany.html#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb18-3"><a href="parametized-data-germany.html#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="parametized-data-germany.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters have been manually set for the purpose of this site, as bookdown does not support stating parameters in YAML</span></span>
+<span id="cb18-2"><a href="parametized-data-germany.html#cb18-2" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>country<span class="ot">&lt;-</span><span class="st">&quot;Germany&quot;</span></span>
+<span id="cb18-3"><a href="parametized-data-germany.html#cb18-3" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>year<span class="ot">&lt;-</span><span class="dv">2020</span></span>
+<span id="cb18-4"><a href="parametized-data-germany.html#cb18-4" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>month<span class="ot">&lt;-</span><span class="dv">12</span></span>
+<span id="cb18-5"><a href="parametized-data-germany.html#cb18-5" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>month_end<span class="ot">&lt;-</span><span class="cn">FALSE</span></span></code></pre></div>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="parametized-data-germany.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="do">############################################################### Reading data</span></span>
 <span id="cb19-2"><a href="parametized-data-germany.html#cb19-2" aria-hidden="true" tabindex="-1"></a>covid_data<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">&quot;./data.raw/data.csv&quot;</span>)</span>
 <span id="cb19-3"><a href="parametized-data-germany.html#cb19-3" aria-hidden="true" tabindex="-1"></a>covid_data_vis<span class="ot">&lt;-</span>covid_data</span>
@@ -248,7 +250,7 @@ details > summary {
 <span id="cb19-34"><a href="parametized-data-germany.html#cb19-34" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
 <span id="cb19-35"><a href="parametized-data-germany.html#cb19-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span>(<span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>)), <span class="at">labels =</span> months)</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;month&#39;. You can override using the `.groups` argument.</code></pre>
-<p><img src="_main_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="parametized-data-germany.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="do">############################################################# Creating visualisation: Deaths per month</span></span>
 <span id="cb21-2"><a href="parametized-data-germany.html#cb21-2" aria-hidden="true" tabindex="-1"></a>covid_data_vis_filter2 <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(month, year) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(</span>
 <span id="cb21-3"><a href="parametized-data-germany.html#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">deaths=</span><span class="fu">mean</span>(deaths, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
@@ -266,7 +268,7 @@ details > summary {
 <span id="cb21-15"><a href="parametized-data-germany.html#cb21-15" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
 <span id="cb21-16"><a href="parametized-data-germany.html#cb21-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span>(<span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>)), <span class="at">labels =</span> months)</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;month&#39;. You can override using the `.groups` argument.</code></pre>
-<p><img src="_main_files/figure-html/unnamed-chunk-6-2.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-9-2.png" width="672" /></p>
 
 </div>
 <p style="text-align: center;">

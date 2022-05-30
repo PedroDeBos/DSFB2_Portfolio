@@ -6,7 +6,6 @@ params:
   month_end: FALSE
 ---
 
-
 # Parametized Data Norway
 
 <body id="start">
@@ -47,10 +46,18 @@ In order to showcase this, this process has been repeated for 3 sets of paramete
   <a href='parametized-data-germany.html#parametized-data-germany'>click here for a page about data in Germany<a/>
 </div>
 
-```{r}
+```{r, include=FALSE}
 library(here)
 library(tidyverse)
 library(ggplot2)
+```
+
+```{r}
+# Parameters have been manually set for the purpose of this site, as bookdown does not support stating parameters in YAML
+params$country<-"Norway"
+params$year<-2021
+params$month<-9
+params$month_end<-FALSE
 ```
 
 ```{r, comments=FALSE}

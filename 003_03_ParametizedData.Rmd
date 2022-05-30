@@ -46,10 +46,22 @@ In order to showcase this, this process has been repeated for 3 sets of paramete
   <a href='parametized-data-germany.html#parametized-data-germany'>click here for a page about data in Germany<a/>
 </div>
 
-```{r}
+<body id="start">
+
+```{r, include=FALSE}
 library(here)
 library(tidyverse)
 library(ggplot2)
+```
+
+
+
+```{r}
+# Parameters have been manually set for the purpose of this site, as bookdown does not support stating parameters in YAML
+params$country<-"Belgium"
+params$year<-2020
+params$month<-6
+params$month_end<-TRUE
 ```
 
 ```{r, comments=FALSE}
