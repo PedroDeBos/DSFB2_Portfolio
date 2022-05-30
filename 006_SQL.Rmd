@@ -124,9 +124,9 @@ To inspect the database in order to check if all data has been transfered correc
 For further insurance, the data will also be inspected via R
 
 ```{r include=FALSE}
-gapminder<-readRDS(here("./data/gapminder.rds"))
-dengue<-readRDS(here("./data/dengue.rds"))
-flu<-readRDS(here("./data/flu.rds"))
+gapminder<-readRDS(here::here("./data/gapminder.rds"))
+dengue<-readRDS(here::here("./data/dengue.rds"))
+flu<-readRDS(here::here("./data/flu.rds"))
 ```
 
 
@@ -189,7 +189,7 @@ Firstly, dengue incidence in 4 countries over 15 years
 
 ```{r, warning=FALSE}
 data_sum_dengue<-data_full %>% group_by(country, year) %>%
-  summarise(mean=mean(dengue_incidence, na.rm=TRUE))
+  dplyr::summarise(mean=mean(dengue_incidence, na.rm=TRUE))
 
 data_sum_dengue %>% ggplot(aes(x=year, y=mean))+
   geom_point(aes(color = country))+

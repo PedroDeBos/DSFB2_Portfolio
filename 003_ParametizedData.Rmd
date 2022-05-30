@@ -81,7 +81,7 @@ covid_data_vis_filter1<-covid_data_vis %>% filter(year %in% params$year,
                           countriesAndTerritories %in% params$country)
 
 ############################################################### Creating visualisation: Cases per month
-covid_data_vis_filter1 %>% group_by(month, year) %>% summarise(
+covid_data_vis_filter1 %>% group_by(month, year) %>% dplyr::summarise(
   cases=mean(cases, na.rm=TRUE)
 ) %>% ggplot(aes(x=month, y=cases))+
   geom_point(aes(color=year))+
@@ -98,7 +98,7 @@ covid_data_vis_filter1 %>% group_by(month, year) %>% summarise(
   scale_x_continuous(breaks=(seq(1:12)), labels = months)
 
 ############################################################# Creating visualisation: Deaths per month
-covid_data_vis_filter1 %>% group_by(month, year) %>% summarise(
+covid_data_vis_filter1 %>% group_by(month, year) %>% dplyr::summarise(
   deaths=mean(deaths, na.rm=TRUE)
 ) %>% ggplot(aes(x=month, y=deaths))+
   geom_point(aes(color=year))+
