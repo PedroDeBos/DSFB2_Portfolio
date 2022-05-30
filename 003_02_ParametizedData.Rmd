@@ -19,9 +19,11 @@ params:
   <a href='bibliography-using-zotero.html#Bibliography using Zotero'>Zotero</a>
   <a href='open-reproductibility-analysis.html#open-reproductibility-analysis'>Reproductibility</a>
   <a href='future-endeavours.html#future-endeavours'>Future endeavours</a>
+  <a href='new-skills.html#new-skills'> New skills (Machine learning)</a>
   <a href='cv.html#cv'>CV</a>
   <a href='bibliography.html#bibliography'>Bibliography</a>
 </div>
+
 
 &nbsp;
 
