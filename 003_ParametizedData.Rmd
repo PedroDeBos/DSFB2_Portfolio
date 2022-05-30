@@ -1,6 +1,4 @@
 ---
-Title: "Test parameter"
-output: html_document
 params:
   country: "Netherlands"
   year: 2020
@@ -44,10 +42,7 @@ library(tidyverse)
 library(ggplot2)
 ```
 
-Parameter test 
-
 ```{r}
-# Now integrating this into clean data
 ############################################################### Reading data
 covid_data<-read.csv("./data.raw/data.csv")
 covid_data_vis<-covid_data
