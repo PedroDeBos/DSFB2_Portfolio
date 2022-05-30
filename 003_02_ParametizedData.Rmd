@@ -6,6 +6,13 @@ params:
   month_end: FALSE
 ---
 
+```{r, include=FALSE}
+# Parameters have been manually set for the purpose of this site, as bookdown does not support stating parameters in YAML
+params$country<-"Norway"
+params$year<-c(2020:2021)
+params$month<-c(1:9)
+```
+
 # Parametized Data Norway
 
 <body id="start">
@@ -37,8 +44,6 @@ For this page, the params have been set too:
 
 - Month: `r params$month` (Shows data from `r params$month` months of the year)
 
-- Month_end: `r params$month_end ` (Starts counting months from the start of the year (januari), if TRUE starts counting months from the end (december))
-
 In order to showcase this, this process has been repeated for 3 sets of parameters
 
 <div>
@@ -53,15 +58,14 @@ library(tidyverse)
 library(ggplot2)
 ```
 
-```{r}
+```{r, eval=FALSE}
 # Parameters have been manually set for the purpose of this site, as bookdown does not support stating parameters in YAML
 params$country<-"Norway"
-params$year<-2021
-params$month<-9
-params$month_end<-FALSE
+params$year<-c(2020:2021)
+params$month<-c(1:9)
 ```
 
-```{r, comments=FALSE}
+```{r}
 ############################################################### Reading data
 covid_data<-read.csv("./data.raw/data.csv")
 covid_data_vis<-covid_data
@@ -72,17 +76,12 @@ covid_data_vis$year<-factor(as.character(covid_data$year), levels = as.character
 
 months<-c("January", "Februari", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December") #Storing months to plaster on x-axis
 
-covid_data_filter1<-covid_data_vis %>% filter(countriesAndTerritories==params$country, #Filtering for countries and year
-                                              year==params$year)
-
-if (params$month_end) {
-  covid_data_vis_filter2<-covid_data_filter1 %>% filter(month>=params$month)           #Filter for month based on if month_end is TRUE or FALSE
-} else {
-  covid_data_vis_filter2<-covid_data_filter1 %>% filter(month<=params$month)
-}
+covid_data_vis_filter1<-covid_data_vis %>% filter(year %in% params$year,
+                          month %in% params$month,
+                          countriesAndTerritories %in% params$country)
 
 ############################################################### Creating visualisation: Cases per month
-covid_data_vis_filter2 %>% group_by(month, year) %>% summarise(
+covid_data_vis_filter1 %>% group_by(month, year) %>% summarise(
   cases=mean(cases, na.rm=TRUE)
 ) %>% ggplot(aes(x=month, y=cases))+
   geom_point(aes(color=year))+
@@ -90,7 +89,7 @@ covid_data_vis_filter2 %>% group_by(month, year) %>% summarise(
   theme_bw()+
   theme(axis.text.x = element_text(angle=45, hjust=1))+
   labs(
-    title=paste0("SARS-COV 2 cases in ",params$country, " per month in ", params$year),
+    title=paste0("SARS-COV 2 cases in ",params$country, " per month"),
     subtitle = "Data from ECDC",
     x="Month",
     y="COVID-19 cases",
@@ -99,7 +98,7 @@ covid_data_vis_filter2 %>% group_by(month, year) %>% summarise(
   scale_x_continuous(breaks=(seq(1:12)), labels = months)
 
 ############################################################# Creating visualisation: Deaths per month
-covid_data_vis_filter2 %>% group_by(month, year) %>% summarise(
+covid_data_vis_filter1 %>% group_by(month, year) %>% summarise(
   deaths=mean(deaths, na.rm=TRUE)
 ) %>% ggplot(aes(x=month, y=deaths))+
   geom_point(aes(color=year))+
@@ -115,7 +114,3 @@ covid_data_vis_filter2 %>% group_by(month, year) %>% summarise(
   )+
   scale_x_continuous(breaks=(seq(1:12)), labels = months)
 ```
-
-
-
-

@@ -199,10 +199,9 @@ details > summary {
 <p>To prove my skills in the producing parametized .Rmd’s, I’ve used an online COVID-19 dataset and parametized the visualisation of this data file. For this parameterization, the country of the data, the year of the data and the months which the data covers have been added as variables.</p>
 <p>For this page, the params have been set too:</p>
 <ul>
-<li><p>Country: Germany (Only shows data from the Germany)</p></li>
-<li><p>Year: 2020 (Only shows data from 2020)</p></li>
-<li><p>Month: 12 (Shows data from 12 months of the year)</p></li>
-<li><p>Month_end: FALSE (Starts counting months from the start of the year (januari), if TRUE starts counting months from the end (december))</p></li>
+<li><p>Country: Norway (Only shows data from the Norway)</p></li>
+<li><p>Year: 2020, 2021 (Only shows data from 2020, 2021)</p></li>
+<li><p>Month: 1, 2, 3, 4, 5, 6, 7, 8, 9 (Shows data from 1, 2, 3, 4, 5, 6, 7, 8, 9 months of the year)</p></li>
 </ul>
 <p>In order to showcase this, this process has been repeated for 3 sets of parameters</p>
 <div>
@@ -211,9 +210,8 @@ details > summary {
 </div>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="parametized-data-norway.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters have been manually set for the purpose of this site, as bookdown does not support stating parameters in YAML</span></span>
 <span id="cb8-2"><a href="parametized-data-norway.html#cb8-2" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>country<span class="ot">&lt;-</span><span class="st">&quot;Norway&quot;</span></span>
-<span id="cb8-3"><a href="parametized-data-norway.html#cb8-3" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>year<span class="ot">&lt;-</span><span class="dv">2021</span></span>
-<span id="cb8-4"><a href="parametized-data-norway.html#cb8-4" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>month<span class="ot">&lt;-</span><span class="dv">9</span></span>
-<span id="cb8-5"><a href="parametized-data-norway.html#cb8-5" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>month_end<span class="ot">&lt;-</span><span class="cn">FALSE</span></span></code></pre></div>
+<span id="cb8-3"><a href="parametized-data-norway.html#cb8-3" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>year<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">2020</span><span class="sc">:</span><span class="dv">2021</span>)</span>
+<span id="cb8-4"><a href="parametized-data-norway.html#cb8-4" aria-hidden="true" tabindex="-1"></a>params<span class="sc">$</span>month<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="parametized-data-norway.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">############################################################### Reading data</span></span>
 <span id="cb9-2"><a href="parametized-data-norway.html#cb9-2" aria-hidden="true" tabindex="-1"></a>covid_data<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">&quot;./data.raw/data.csv&quot;</span>)</span>
 <span id="cb9-3"><a href="parametized-data-norway.html#cb9-3" aria-hidden="true" tabindex="-1"></a>covid_data_vis<span class="ot">&lt;-</span>covid_data</span>
@@ -224,35 +222,30 @@ details > summary {
 <span id="cb9-8"><a href="parametized-data-norway.html#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-9"><a href="parametized-data-norway.html#cb9-9" aria-hidden="true" tabindex="-1"></a>months<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;January&quot;</span>, <span class="st">&quot;Februari&quot;</span>, <span class="st">&quot;March&quot;</span>, <span class="st">&quot;April&quot;</span>, <span class="st">&quot;May&quot;</span>, <span class="st">&quot;June&quot;</span>, <span class="st">&quot;July&quot;</span>, <span class="st">&quot;August&quot;</span>, <span class="st">&quot;September&quot;</span>, <span class="st">&quot;October&quot;</span>, <span class="st">&quot;November&quot;</span>, <span class="st">&quot;December&quot;</span>) <span class="co">#Storing months to plaster on x-axis</span></span>
 <span id="cb9-10"><a href="parametized-data-norway.html#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="parametized-data-norway.html#cb9-11" aria-hidden="true" tabindex="-1"></a>covid_data_filter1<span class="ot">&lt;-</span>covid_data_vis <span class="sc">%&gt;%</span> <span class="fu">filter</span>(countriesAndTerritories<span class="sc">==</span>params<span class="sc">$</span>country, <span class="co">#Filtering for countries and year</span></span>
-<span id="cb9-12"><a href="parametized-data-norway.html#cb9-12" aria-hidden="true" tabindex="-1"></a>                                              year<span class="sc">==</span>params<span class="sc">$</span>year)</span>
-<span id="cb9-13"><a href="parametized-data-norway.html#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-14"><a href="parametized-data-norway.html#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (params<span class="sc">$</span>month_end) {</span>
-<span id="cb9-15"><a href="parametized-data-norway.html#cb9-15" aria-hidden="true" tabindex="-1"></a>  covid_data_vis_filter2<span class="ot">&lt;-</span>covid_data_filter1 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(month<span class="sc">&gt;=</span>params<span class="sc">$</span>month)           <span class="co">#Filter for month based on if month_end is TRUE or FALSE</span></span>
-<span id="cb9-16"><a href="parametized-data-norway.html#cb9-16" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb9-17"><a href="parametized-data-norway.html#cb9-17" aria-hidden="true" tabindex="-1"></a>  covid_data_vis_filter2<span class="ot">&lt;-</span>covid_data_filter1 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(month<span class="sc">&lt;=</span>params<span class="sc">$</span>month)</span>
-<span id="cb9-18"><a href="parametized-data-norway.html#cb9-18" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb9-19"><a href="parametized-data-norway.html#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-20"><a href="parametized-data-norway.html#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="do">############################################################### Creating visualisation: Cases per month</span></span>
-<span id="cb9-21"><a href="parametized-data-norway.html#cb9-21" aria-hidden="true" tabindex="-1"></a>covid_data_vis_filter2 <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(month, year) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(</span>
-<span id="cb9-22"><a href="parametized-data-norway.html#cb9-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">cases=</span><span class="fu">mean</span>(cases, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
-<span id="cb9-23"><a href="parametized-data-norway.html#cb9-23" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>month, <span class="at">y=</span>cases))<span class="sc">+</span></span>
-<span id="cb9-24"><a href="parametized-data-norway.html#cb9-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>year))<span class="sc">+</span></span>
-<span id="cb9-25"><a href="parametized-data-norway.html#cb9-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group=</span>year, <span class="at">color=</span>year))<span class="sc">+</span></span>
-<span id="cb9-26"><a href="parametized-data-norway.html#cb9-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
-<span id="cb9-27"><a href="parametized-data-norway.html#cb9-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">45</span>, <span class="at">hjust=</span><span class="dv">1</span>))<span class="sc">+</span></span>
-<span id="cb9-28"><a href="parametized-data-norway.html#cb9-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb9-29"><a href="parametized-data-norway.html#cb9-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="fu">paste0</span>(<span class="st">&quot;SARS-COV 2 cases in &quot;</span>,params<span class="sc">$</span>country, <span class="st">&quot; per month in &quot;</span>, params<span class="sc">$</span>year),</span>
-<span id="cb9-30"><a href="parametized-data-norway.html#cb9-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Data from ECDC&quot;</span>,</span>
-<span id="cb9-31"><a href="parametized-data-norway.html#cb9-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">&quot;Month&quot;</span>,</span>
-<span id="cb9-32"><a href="parametized-data-norway.html#cb9-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">&quot;COVID-19 cases&quot;</span>,</span>
-<span id="cb9-33"><a href="parametized-data-norway.html#cb9-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;Year&quot;</span></span>
-<span id="cb9-34"><a href="parametized-data-norway.html#cb9-34" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
-<span id="cb9-35"><a href="parametized-data-norway.html#cb9-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span>(<span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>)), <span class="at">labels =</span> months)</span></code></pre></div>
+<span id="cb9-11"><a href="parametized-data-norway.html#cb9-11" aria-hidden="true" tabindex="-1"></a>covid_data_vis_filter1<span class="ot">&lt;-</span>covid_data_vis <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year <span class="sc">%in%</span> params<span class="sc">$</span>year,</span>
+<span id="cb9-12"><a href="parametized-data-norway.html#cb9-12" aria-hidden="true" tabindex="-1"></a>                          month <span class="sc">%in%</span> params<span class="sc">$</span>month,</span>
+<span id="cb9-13"><a href="parametized-data-norway.html#cb9-13" aria-hidden="true" tabindex="-1"></a>                          countriesAndTerritories <span class="sc">%in%</span> params<span class="sc">$</span>country)</span>
+<span id="cb9-14"><a href="parametized-data-norway.html#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="parametized-data-norway.html#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="do">############################################################### Creating visualisation: Cases per month</span></span>
+<span id="cb9-16"><a href="parametized-data-norway.html#cb9-16" aria-hidden="true" tabindex="-1"></a>covid_data_vis_filter1 <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(month, year) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(</span>
+<span id="cb9-17"><a href="parametized-data-norway.html#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">cases=</span><span class="fu">mean</span>(cases, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
+<span id="cb9-18"><a href="parametized-data-norway.html#cb9-18" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>month, <span class="at">y=</span>cases))<span class="sc">+</span></span>
+<span id="cb9-19"><a href="parametized-data-norway.html#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>year))<span class="sc">+</span></span>
+<span id="cb9-20"><a href="parametized-data-norway.html#cb9-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">group=</span>year, <span class="at">color=</span>year))<span class="sc">+</span></span>
+<span id="cb9-21"><a href="parametized-data-norway.html#cb9-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb9-22"><a href="parametized-data-norway.html#cb9-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">45</span>, <span class="at">hjust=</span><span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb9-23"><a href="parametized-data-norway.html#cb9-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb9-24"><a href="parametized-data-norway.html#cb9-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span><span class="fu">paste0</span>(<span class="st">&quot;SARS-COV 2 cases in &quot;</span>,params<span class="sc">$</span>country, <span class="st">&quot; per month&quot;</span>),</span>
+<span id="cb9-25"><a href="parametized-data-norway.html#cb9-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Data from ECDC&quot;</span>,</span>
+<span id="cb9-26"><a href="parametized-data-norway.html#cb9-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">&quot;Month&quot;</span>,</span>
+<span id="cb9-27"><a href="parametized-data-norway.html#cb9-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">&quot;COVID-19 cases&quot;</span>,</span>
+<span id="cb9-28"><a href="parametized-data-norway.html#cb9-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">color=</span><span class="st">&quot;Year&quot;</span></span>
+<span id="cb9-29"><a href="parametized-data-norway.html#cb9-29" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
+<span id="cb9-30"><a href="parametized-data-norway.html#cb9-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span>(<span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>)), <span class="at">labels =</span> months)</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;month&#39;. You can override using the `.groups` argument.</code></pre>
-<p><img src="_main_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="parametized-data-norway.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">############################################################# Creating visualisation: Deaths per month</span></span>
-<span id="cb11-2"><a href="parametized-data-norway.html#cb11-2" aria-hidden="true" tabindex="-1"></a>covid_data_vis_filter2 <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(month, year) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(</span>
+<span id="cb11-2"><a href="parametized-data-norway.html#cb11-2" aria-hidden="true" tabindex="-1"></a>covid_data_vis_filter1 <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(month, year) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(</span>
 <span id="cb11-3"><a href="parametized-data-norway.html#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">deaths=</span><span class="fu">mean</span>(deaths, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
 <span id="cb11-4"><a href="parametized-data-norway.html#cb11-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>month, <span class="at">y=</span>deaths))<span class="sc">+</span></span>
 <span id="cb11-5"><a href="parametized-data-norway.html#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>year))<span class="sc">+</span></span>
@@ -268,7 +261,9 @@ details > summary {
 <span id="cb11-15"><a href="parametized-data-norway.html#cb11-15" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
 <span id="cb11-16"><a href="parametized-data-norway.html#cb11-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span>(<span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>)), <span class="at">labels =</span> months)</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;month&#39;. You can override using the `.groups` argument.</code></pre>
-<p><img src="_main_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+<pre><code>## Warning: Removed 1 rows containing missing values (geom_point).</code></pre>
+<pre><code>## Warning: Removed 1 row(s) containing missing values (geom_path).</code></pre>
+<p><img src="_main_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
 
 </div>
 <p style="text-align: center;">

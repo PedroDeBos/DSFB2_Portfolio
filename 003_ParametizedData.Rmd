@@ -5,6 +5,13 @@ params:
   month: !r c(1:12)
 ---
 
+```{r, include=FALSE}
+# Parameters have been manually set for the purpose of this site, as bookdown does not support stating parameters in YAML
+params$country<-"Germany"
+params$year<-c(2020:2022)
+params$month<-c(1:12)
+```
+
 # Parametized Data Germany
 
 <body id="start">
