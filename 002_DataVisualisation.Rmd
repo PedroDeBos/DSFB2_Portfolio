@@ -37,7 +37,7 @@ To prove my skills in handling and making initial visualisations of data, a mock
 
 Firstly, the data (which was stored in an Excel file) has been read using tidyverse's "readxl()". A datatable has been created to show this initial dataset
 ````{r reading_excelData}
-excel_location<-here("data.raw/CE.LIQ.FLOW.062_Tidydata.xlsx")
+excel_location<-here::here("data.raw/CE.LIQ.FLOW.062_Tidydata.xlsx")
 Celegans_data_raw<-read_excel(excel_location, sheet = 1)
 datatable(Celegans_data_raw, options = list(
   scrollX=TRUE
@@ -129,7 +129,7 @@ Celegans_data_select_normalised %>% ggplot(aes(x=log10(compConcentration+0.00005
 For a clearer picture of the correlations, a summarized version of the graph has also been made:
 ````{r ClearerGraph}
 #Creating a summarised version of the data based on Treatment and concentration
-Celegans_data_normalised_sum<-Celegans_data_select_normalised %>% filter(!is.na(normalised_RawData_percentage)) %>% group_by(compConcentration, compName) %>% summarise(
+Celegans_data_normalised_sum<-Celegans_data_select_normalised %>% dplyr::filter(!is.na(normalised_RawData_percentage)) %>% dplyr::group_by(compConcentration, compName) %>% dplyr::summarise(
   mean_normalised=mean(normalised_RawData_percentage)
 )
 

@@ -30,11 +30,11 @@ To prove skills in the field off Guerilla Analytics folder structure, a previous
 
 __Organised directory tree__
 ````{r DirTree_Organized}
-fs::dir_tree(path = here("Daur2_Organisation_2.1/Daur2_Organized/"), type = "directory")
+fs::dir_tree(path = here::here("Daur2_Organisation_2.1/Daur2_Organized/"), type = "directory")
 
 ````
 
 __Original directory tree__
 ````{r DirTree_Original}
-fs::dir_tree(path = here("Daur2_Organisation_2.1/Daur2_Original/"), type = "directory")
+fs::dir_tree(path = here::here("Daur2_Organisation_2.1/Daur2_Original/"), type = "directory")
 ````

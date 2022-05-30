@@ -319,16 +319,16 @@ details > summary {
 <span id="cb56-2"><a href="sql.html#cb56-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">dengue_countries=</span>dengue<span class="sc">$</span>country <span class="sc">%&gt;%</span> unique,</span>
 <span id="cb56-3"><a href="sql.html#cb56-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">flu_countries=</span>flu<span class="sc">$</span>country <span class="sc">%&gt;%</span> unique)</span></code></pre></div>
 <pre><code>## $gapminder_countries
-##  [1] &quot;Albania&quot;                  &quot;Algeria&quot;                  &quot;Angola&quot;                   &quot;Antigua and Barbuda&quot;      &quot;Argentina&quot;               
-##  [6] &quot;Armenia&quot;                  &quot;Aruba&quot;                    &quot;Australia&quot;                &quot;Austria&quot;                  &quot;Azerbaijan&quot;              
-## [11] &quot;Bahamas&quot;                  &quot;Bahrain&quot;                  &quot;Bangladesh&quot;               &quot;Barbados&quot;                 &quot;Belarus&quot;                 
-## [16] &quot;Belgium&quot;                  &quot;Belize&quot;                   &quot;Benin&quot;                    &quot;Bhutan&quot;                   &quot;Bolivia&quot;                 
-## [21] &quot;Bosnia and Herzegovina&quot;   &quot;Botswana&quot;                 &quot;Brazil&quot;                   &quot;Brunei&quot;                   &quot;Bulgaria&quot;                
-## [26] &quot;Burkina Faso&quot;             &quot;Burundi&quot;                  &quot;Cambodia&quot;                 &quot;Cameroon&quot;                 &quot;Canada&quot;                  
-## [31] &quot;Cape Verde&quot;               &quot;Central African Republic&quot; &quot;Chad&quot;                     &quot;Chile&quot;                    &quot;China&quot;                   
-## [36] &quot;Colombia&quot;                 &quot;Comoros&quot;                  &quot;Congo, Dem. Rep.&quot;         &quot;Congo, Rep.&quot;              &quot;Costa Rica&quot;              
-## [41] &quot;Cote d&#39;Ivoire&quot;            &quot;Croatia&quot;                  &quot;Cuba&quot;                     &quot;Cyprus&quot;                   &quot;Czech Republic&quot;          
-## [46] &quot;Denmark&quot;                  &quot;Djibouti&quot;                 &quot;Dominican Republic&quot;       &quot;Ecuador&quot;                  &quot;Egypt&quot;                   
+##  [1] Albania                  Algeria                  Angola                   Antigua and Barbuda      Argentina                Armenia                 
+##  [7] Aruba                    Australia                Austria                  Azerbaijan               Bahamas                  Bahrain                 
+## [13] Bangladesh               Barbados                 Belarus                  Belgium                  Belize                   Benin                   
+## [19] Bhutan                   Bolivia                  Bosnia and Herzegovina   Botswana                 Brazil                   Brunei                  
+## [25] Bulgaria                 Burkina Faso             Burundi                  Cambodia                 Cameroon                 Canada                  
+## [31] Cape Verde               Central African Republic Chad                     Chile                    China                    Colombia                
+## [37] Comoros                  Congo, Dem. Rep.         Congo, Rep.              Costa Rica               Cote d&#39;Ivoire            Croatia                 
+## [43] Cuba                     Cyprus                   Czech Republic           Denmark                  Djibouti                 Dominican Republic      
+## [49] Ecuador                  Egypt                   
+## 185 Levels: Albania Algeria Angola Antigua and Barbuda Argentina Armenia Aruba Australia Austria Azerbaijan Bahamas Bahrain Bangladesh Barbados ... Zimbabwe
 ## 
 ## $dengue_countries
 ##  [1] &quot;Argentina&quot;   &quot;Bolivia&quot;     &quot;Brazil&quot;      &quot;India&quot;       &quot;Indonesia&quot;   &quot;Mexico&quot;      &quot;Philippines&quot; &quot;Singapore&quot;   &quot;Thailand&quot;    &quot;Venezuela&quot;  
@@ -355,7 +355,7 @@ details > summary {
 <p>Now, with this fully joined dataset filtered for both mutual countries and years, some visualisations will be performed</p>
 <p>Firstly, dengue incidence in 4 countries over 15 years</p>
 <div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="sql.html#cb61-1" aria-hidden="true" tabindex="-1"></a>data_sum_dengue<span class="ot">&lt;-</span>data_full <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(country, year) <span class="sc">%&gt;%</span></span>
-<span id="cb61-2"><a href="sql.html#cb61-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean=</span><span class="fu">mean</span>(dengue_incidence, <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span></code></pre></div>
+<span id="cb61-2"><a href="sql.html#cb61-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(<span class="at">mean=</span><span class="fu">mean</span>(dengue_incidence, <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;country&#39;. You can override using the `.groups` argument.</code></pre>
 <div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="sql.html#cb63-1" aria-hidden="true" tabindex="-1"></a>data_sum_dengue <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>year, <span class="at">y=</span>mean))<span class="sc">+</span></span>
 <span id="cb63-2"><a href="sql.html#cb63-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> country))<span class="sc">+</span></span>
