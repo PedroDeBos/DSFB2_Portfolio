@@ -1,6 +1,6 @@
 ---
 params:
-  country: !r c("Germany")
+  country: "Germany"
   year: !r c(2020, 2021, 2022)
   month: !r c(1:12)
 ---
