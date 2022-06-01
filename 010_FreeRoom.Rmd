@@ -114,3 +114,19 @@ data.frame(Predicted = iris_pred,
            Observed = iris_testlabels)
 ```
 
+In order to further study the model's performance, we'll install the package gmodels
+
+```{r, eval=FALSE}
+install.packages("gmodels")
+```
+
+```{r}
+library(gmodels)
+
+CrossTable(x = iris_testlabels, y=iris_pred)
+```
+There were 14 setosa's, 11 versicolors and 20 virginica in the training set (See the rows). The program identified 14 setosa's 10 versicolors and 21 virginica's (see the columns). 1 versicolor was thus incorrectly identified as a virginica. This is unfortunate, but significant enough to discredit this method.
+
+
+
+
