@@ -20,7 +20,6 @@
 ```{r}
 library(ggplot2)
 library(tidyverse)
-
 ```
 
 
@@ -64,8 +63,8 @@ Just in case though, you usually have to create normalising functions yourself, 
 
 ```{r}
 normalize<-function(x){
-  num<-iris$Sepal.Length-min(iris$Sepal.Length)
-  denom<-max(iris$Sepal.Length)-min(iris$Sepal.Length)
+  num<-x-min(x)
+  denom<-max(x)-min(x)
   return(num/denom)
 }
 
@@ -79,6 +78,122 @@ denom<-max(iris$Sepal.Length)-min(iris$Sepal.Length)
 
 #Generating the size of a datapoint relative to the maximum size of a datapoint.
 num/denom 
+
+as.data.frame(lapply(iris[1:4], normalize)) %>% mutate(Species=iris$Species)
 ```
 
 In order to properly train the algorythm, we must separate our data into 2 groups: a "training" group and a "test" group. Apparently, usually the "training group" is 2/3rds of the dataset, while the "test group" is one third of the dataset. Important is to give the algorythm equal amounts of each test condition, if we'd split the iris set into 2/3rds and 1/3rds it'd give 50 setosa, 50 versicolor and 0 virginica which would make the algorythm not recognize virginica at all. Thus, we use setseed and sample to generate a sample.
+
+```{r}
+set.seed(1234) #Set seed to "determine" the randomness"
+
+ind<-sample(2, nrow(iris), replace=TRUE, prob=c(0.67, 0.33))
+
+iris_training<-iris[ind==1,1:4] #Storing the training dataset
+iris_testing<-iris[ind==2,1:4] #Storing the testing dataset
+
+# We have the training and testing dataset, but we don't have the labels associated to those datasets. We have to store these seperately:
+
+iris_trainlabels<-iris[ind==1,5]
+iris_testlabels<-iris[ind==2,5]
+
+```
+
+With this, everything is set up to use knn: k-nearest neighbour classification.
+
+```{r}
+iris_pred<-class::knn(train = iris_training, test = iris_testing, cl = iris_trainlabels)
+iris_testlabels
+
+store<-iris_pred == iris_testlabels
+
+table(store)
+#Knn predicted 44 correct, 1 wrong
+
+data.frame(Predicted = iris_pred,
+           Observed = iris_testlabels)
+```
+
+In order to further study the model's performance, we'll install the package gmodels
+
+```{r, eval=FALSE}
+install.packages("gmodels")
+```
+
+```{r}
+library(gmodels)
+
+CrossTable(x = iris_testlabels, y=iris_pred)
+```
+There were 14 setosa's, 11 versicolors and 20 virginica in the training set (See the rows). The program identified 14 setosa's 10 versicolors and 21 virginica's (see the columns). 1 versicolor was thus incorrectly identified as a virginica. This is unfortunate, but significant enough to discredit this method.
+
+In order to test if I've truly understood these past lessons, I will now perform them on a dataset of my own. For this, I'll be using the "Glass" dataset from mlbench. This dataset contains 213 observations of a chemical analysis of 7 different types of glass.
+
+```{r}
+install.packages("mlbench")
+```
+
+```{r}
+library(mlbench)
+data(Glass)
+```
+Firstly, we'll take a look at the data to determine whether it needs to be normalized or not.
+
+```{r}
+summary(Glass)
+```
+Based on the summary data, we can tell that the biggest scale of difference between data is 0.1-75. This is a factor 100 difference, which seems pretty big. For now, we'll just accept this and continue on with the machine learning.
+
+We'll now split out data into a train-group and a test group using the same technique as before
+
+```{r}
+set.seed(4321)
+ind_glass<-sample(2, nrow(Glass), replace=TRUE, prob=c(0.67,0.33)) #Creating a random selection of datapoints
+
+
+glass_training<-Glass[ind_glass==1,1:9] # Separating the training the training and the testing datasets
+glass_test<-Glass[ind_glass==2,1:9]
+
+glass_training_labels<-Glass[ind_glass==1,10] # Storing the labels seperately
+glass_test_labels<-Glass[ind_glass==2,10]
+```
+
+Now, with all datasets ready, we'll perform the learning
+
+```{r}
+glass_pred<-class::knn(glass_training, glass_test, glass_training_labels) #Performing the machine learning test.
+
+glass_result<-glass_pred == glass_test_labels
+table(glass_result)
+
+CrossTable(x = glass_test_labels, y=glass_pred)
+```
+For this dataset, KNN was less accurate: from the 70 test subjects, it managed to identify 55 correctly, but miss-identified 15 of them. As such, we can immidiately see that KNN is not perfect. However, this _does_ prove that I can now use a basic machine learning algorythm in R.
+
+Just to sate my curiousity, we'll now look at the results which we would've gotten if we'd normalised the data.
+
+```{r}
+set.seed(4321)
+ind_glass<-sample(2, nrow(Glass), replace=TRUE, prob=c(0.67,0.33)) #Creating a random selection of datapoints
+
+Glass_norm<-normalize(Glass[1:9]) %>% mutate(Type=Glass$Type)
+
+glass_training<-Glass_norm[ind_glass==1,1:9] # Separating the training the training and the testing datasets
+glass_test<-Glass_norm[ind_glass==2,1:9]
+
+glass_training_labels<-Glass_norm[ind_glass==1,10] # Storing the labels seperately
+glass_test_labels<-Glass_norm[ind_glass==2,10]
+
+glass_pred<-class::knn(glass_training, glass_test, glass_training_labels) #Performing the machine learning test.
+
+glass_result<-glass_pred == glass_test_labels
+table(glass_result)
+
+CrossTable(x = glass_test_labels, y=glass_pred)
+```
+
+The normalised test gives the exact same result as  the non-normalised test.
+
+Now, as a small sidetrack, we'll practice with the "karet" package, "classification and regression training". 
+
+
