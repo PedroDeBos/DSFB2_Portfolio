@@ -194,6 +194,29 @@ CrossTable(x = glass_test_labels, y=glass_pred)
 
 The normalised test gives the exact same result as  the non-normalised test.
 
-Now, as a small sidetrack, we'll practice with the "karet" package, "classification and regression training". 
+Now, as a small sidetrack, we'll practice with the "karet" package, "classification and regression training". This is a more generalised way to do different kinds of machine learning
+
+```{r, eval=FALSE}
+install.packages("caret")
+```
+
+This time, the data will be split with a 75-25 ratio
+
+```{r}
+library(caret)
+index<-createDataPartition(iris$Species, p=0.75, list=FALSE)
+
+iris_training2<-iris[index,]
+
+iris_test2<-iris[-index,]
+```
+
+There's a _lot_ of algorythms in Caret, so we'll use getModelInfo() to get info about these models
+
+```{r}
+names(getModelInfo()) %>% head(50)
+#We'll once again just use knn. But now
+```
+
 
 
