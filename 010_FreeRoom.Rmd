@@ -216,6 +216,19 @@ There's a _lot_ of algorythms in Caret, so we'll use getModelInfo() to get info 
 ```{r}
 names(getModelInfo()) %>% head(50)
 #We'll once again just use knn. But now
+
+#First, we create and train the algorythm
+model_knn<-train(iris_training2[,1:4], iris_training2[,5], method='knn')
+
+#Then, we use the model to make a prediction
+prediction<-predict(object=model_knn, iris_test2[,1:4])
+
+#We check if the predicitons are true
+pred<-prediction == iris_test2[,5]
+table(pred)
+
+#And we create a confusion matrix for the results
+
 ```
 
 
