@@ -228,8 +228,49 @@ pred<-prediction == iris_test2[,5]
 table(pred)
 
 #And we create a confusion matrix for the results
-
+confusionMatrix(prediction,iris_test2[,5])
 ```
 
+In the caret package, there's also built-in pre-processing options, as shown below
 
+```{r}
+model_knn<-train(iris_training2[,1:4],iris_training2[,5],method='knn',preProcess = c("center", "scale"))
 
+prediction<-predict(object=model_knn, iris_test2[,1:4], type='raw')
+
+confusionMatrix(prediction, iris_test2[,5])
+```
+
+Using these forms of pr-processing give us 1 less mistake, and thus a more accurate system.
+
+Once again, to properly demonstrate my ability in now using the carets package, I'll be using it on the glass dataset once again
+
+```{r}
+Glass_part<-createDataPartition(Glass$Type, p=0.75, list=FALSE)
+Glass_training2<-Glass[Glass_part,]
+Glass_test2<-Glass[-Glass_part,]
+
+model_knn2<-train(Glass_training2[,1:9], Glass_training2[,10], method = "knn")
+
+Prediction<-predict(object=model_knn2, Glass_test2)
+
+confusionMatrix(Prediction, Glass_test2[,10])
+```
+
+Without pre-processing nor setting the data raw, the prediction comes down to a accuracy of .69
+
+```{r}
+Glass_part<-createDataPartition(Glass$Type, p=0.75, list=FALSE)
+Glass_training2<-Glass[Glass_part,]
+Glass_test2<-Glass[-Glass_part,]
+
+model_knn3<-train(Glass_training2[,1:9], Glass_training2[,10], method = "knn", preProcess = c("center", "scale"))
+
+Prediction<-predict(object=model_knn3, Glass_test2, type = "raw")
+
+confusionMatrix(Prediction, Glass_test2[,10])
+```
+
+Using pre-processing, the accuracy _decreased_ by 0.04, to a accuracy of .65
+
+Thus, we can conclude: pre-processing is _not_ always beneficial if done without knowledge of what the pre-processing does. Does, this will be the next thing we focus on: What kinds of pre-processing exist?
