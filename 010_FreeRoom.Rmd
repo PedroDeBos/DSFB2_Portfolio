@@ -192,6 +192,8 @@ table(glass_result)
 CrossTable(x = glass_test_labels, y=glass_pred)
 ```
 
+The normalised test gives the exact same result as  the non-normalised test.
+
 Now, as a small sidetrack, we'll practice with the "karet" package, "classification and regression training". 
 
 
