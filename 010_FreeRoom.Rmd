@@ -170,6 +170,28 @@ CrossTable(x = glass_test_labels, y=glass_pred)
 ```
 For this dataset, KNN was less accurate: from the 70 test subjects, it managed to identify 55 correctly, but miss-identified 15 of them. As such, we can immidiately see that KNN is not perfect. However, this _does_ prove that I can now use a basic machine learning algorythm in R.
 
+Just to sate my curiousity, we'll now look at the results which we would've gotten if we'd normalised the data.
+
+```{r}
+set.seed(4321)
+ind_glass<-sample(2, nrow(Glass), replace=TRUE, prob=c(0.67,0.33)) #Creating a random selection of datapoints
+
+Glass_norm<-normalize(Glass[1:9]) %>% mutate(Type=Glass$Type)
+
+glass_training<-Glass_norm[ind_glass==1,1:9] # Separating the training the training and the testing datasets
+glass_test<-Glass_norm[ind_glass==2,1:9]
+
+glass_training_labels<-Glass_norm[ind_glass==1,10] # Storing the labels seperately
+glass_test_labels<-Glass_norm[ind_glass==2,10]
+
+glass_pred<-class::knn(glass_training, glass_test, glass_training_labels) #Performing the machine learning test.
+
+glass_result<-glass_pred == glass_test_labels
+table(glass_result)
+
+CrossTable(x = glass_test_labels, y=glass_pred)
+```
+
 Now, as a small sidetrack, we'll practice with the "karet" package, "classification and regression training". 
 
 
