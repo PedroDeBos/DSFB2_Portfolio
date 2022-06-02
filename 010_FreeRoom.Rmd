@@ -289,6 +289,13 @@ Now that we understand the _basics_ of machine learning, we'll try to go a littl
 
 - Finally, machine learning can also be used to look at interactions between micro-organisms and microbiome-disease associations.
 
-Now, to apply all this knowledge gained from reading the article, we'll look for a referenced article which has their data and code open sourced, and then use that to further figure out how to apply machine learning in practical applications. For this, we'll use the MARVEL dataset [from this article](https://www.frontiersin.org/articles/10.3389/fgene.2018.00304/full)
+Now, to apply all this knowledge gained from reading the article, we'll look for a referenced article which has their data and code open sourced, and then use that to further figure out how to apply machine learning in practical applications. For this, we'll use the IDTAXA function [from this article](https://www.frontiersin.org/articles/10.3389/fgene.2018.00304/full)
 
+```{r}
+library(BiocManager)
+BiocManager::install("DECIPHER")
+
+LearnTaxa
+data("TrainingSet_16S")
+```
 
