@@ -68,7 +68,7 @@ normalize<-function(x){
   return(num/denom)
 }
 
-normalize(iris[1:4])
+normalize(iris[1:4]) %>% head()
 
 #Generating a set where the the data is compensated for the lowest datapoint
 num<-iris$Sepal.Length-min(iris$Sepal.Length)
@@ -77,9 +77,9 @@ num<-iris$Sepal.Length-min(iris$Sepal.Length)
 denom<-max(iris$Sepal.Length)-min(iris$Sepal.Length)
 
 #Generating the size of a datapoint relative to the maximum size of a datapoint.
-num/denom 
+num/denom %>% head()
 
-as.data.frame(lapply(iris[1:4], normalize)) %>% mutate(Species=iris$Species)
+as.data.frame(lapply(iris[1:4], normalize)) %>% mutate(Species=iris$Species) %>% head()
 ```
 
 In order to properly train the algorythm, we must separate our data into 2 groups: a "training" group and a "test" group. Apparently, usually the "training group" is 2/3rds of the dataset, while the "test group" is one third of the dataset. Important is to give the algorythm equal amounts of each test condition, if we'd split the iris set into 2/3rds and 1/3rds it'd give 50 setosa, 50 versicolor and 0 virginica which would make the algorythm not recognize virginica at all. Thus, we use setseed and sample to generate a sample.
@@ -110,8 +110,6 @@ store<-iris_pred == iris_testlabels
 table(store)
 #Knn predicted 44 correct, 1 wrong
 
-data.frame(Predicted = iris_pred,
-           Observed = iris_testlabels)
 ```
 
 In order to further study the model's performance, we'll install the package gmodels
@@ -129,7 +127,7 @@ There were 14 setosa's, 11 versicolors and 20 virginica in the training set (See
 
 In order to test if I've truly understood these past lessons, I will now perform them on a dataset of my own. For this, I'll be using the "Glass" dataset from mlbench. This dataset contains 213 observations of a chemical analysis of 7 different types of glass.
 
-```{r}
+```{r, eval=FALSE}
 install.packages("mlbench")
 ```
 
@@ -211,7 +209,7 @@ iris_training2<-iris[index,]
 iris_test2<-iris[-index,]
 ```
 
-There's a _lot_ of algorythms in Caret, so we'll use getModelInfo() to get info about these models
+There's a _lot_ of algorythms in Caret, so we'll use getModelInfo() to get info about these models. There's over 230 models, so only the top 50 will be shown
 
 ```{r}
 names(getModelInfo()) %>% head(50)
@@ -273,4 +271,22 @@ confusionMatrix(Prediction, Glass_test2[,10])
 
 Using pre-processing, the accuracy _decreased_ by 0.04, to a accuracy of .65
 
-Thus, we can conclude: pre-processing is _not_ always beneficial if done without knowledge of what the pre-processing does. Does, this will be the next thing we focus on: What kinds of pre-processing exist?
+Thus, we can conclude: pre-processing is _not_ always beneficial if done without knowledge of what the pre-processing does.
+
+Now that we understand the _basics_ of machine learning, we'll try to go a little deeper in the specific subject I want: machine learning in microbiology. For this, we'll study [this article](https://www.frontiersin.org/articles/10.3389/fmicb.2019.00827/full). Underneath are the notes I've taken while reading through this article:
+
+- Machine learning has two forms: supervised and unsupervised learning. Supervised requires a specific training package, unsupervised uses clustering, adapts k-means to reduce erorr through iteration.
+
+- Machine learning in microbiology has 4 steps: Extraction of features, Operational classifaction units (OTU) by clustering, important features selection to improve accuracy, training dataset to train the model -> testing dataset to test the model. 
+
+- Raw microbe data has high data dimensions: the data is too complex. Thus, the data's complexity needs to be reduced. For this, usually a PCA / PCoA analysis is usually performed.
+
+- In microbial study, supervised studying is usually used: using support vector machine (SVM), Naïve Bayes (NB), random forest (RF) or K nearest neighbour (KNN) methods.
+
+- In machine learning, there's  two different types of identification: determining whether an organism belongs to a species or not (is it streptococcus pneumoniae or is it _something else_), or classification based on domain: which kingdom, phylum, class, etc. does the micro-organism belong too?
+
+- Next too identification of microbes, machine learning can also be used to predict of enviromental and host phenotypes or too predict disease using microbial communities.
+
+- Finally, machine learning can also be used to look at interactions between micro-organisms and microbiome-disease associations.
+
+
