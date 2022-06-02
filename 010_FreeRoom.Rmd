@@ -294,8 +294,15 @@ Now, to apply all this knowledge gained from reading the article, we'll look for
 ```{r}
 library(BiocManager)
 BiocManager::install("DECIPHER")
+library(DECIPHER)
 
 LearnTaxa
 data("TrainingSet_16S")
+
+TrainingSet_16S
+
+readAAStringSet()
 ```
+
+
 
