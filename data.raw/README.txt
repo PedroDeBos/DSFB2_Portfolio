@@ -13,3 +13,5 @@ Belongs to directory "data.raw"
 "CE.LIQ.FLOW.062_Tidydata.xlsx" is a dataset containing the toxicity data used to visualise data for assignment 1.1 (002_DataVisualisation)
 
 "CV_Photo_V1" is a directory which contains an old version of the CV photo.
+
+"Sequence.fasta" are sequence files containing the FASTA data from 3 different bacteria, salmonella enteritica, staphylococcus aureus, en streptococcus pyogenes

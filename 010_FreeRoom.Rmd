@@ -291,18 +291,22 @@ Now that we understand the _basics_ of machine learning, we'll try to go a littl
 
 Now, to apply all this knowledge gained from reading the article, we'll look for a referenced article which has their data and code open sourced, and then use that to further figure out how to apply machine learning in practical applications. For this, we'll use the IDTAXA function [from this article](https://www.frontiersin.org/articles/10.3389/fgene.2018.00304/full)
 
+```{r, eval=FALSE}
+BiocManager::install("DECIPHER")
+```
+
+
 ```{r}
 library(BiocManager)
-BiocManager::install("DECIPHER")
 library(DECIPHER)
 
-LearnTaxa
 data("TrainingSet_16S")
-
 TrainingSet_16S
-
-readAAStringSet()
 ```
+
+By looking around at some of the data a functions. Under the [DECIPHER site](http://www2.decipher.codes/Gallery.html) we can find a tutorial on how "DECIPHER" can be used. To test the functions out, I've taken 3 random bacterial DNA sequences: One from [streptococcus pyogenes](https://www.ncbi.nlm.nih.gov/genome/175?genome_assembly_id=383877), one from [staphylococcus aureus](https://www.ncbi.nlm.nih.gov/genome/154?genome_assembly_id=360991) and finally, one from [Salmonella enterica typhi](https://www.ncbi.nlm.nih.gov/genome/152?genome_assembly_id=299225).
+
+
 
 
 
