@@ -304,9 +304,55 @@ data("TrainingSet_16S")
 TrainingSet_16S
 ```
 
-By looking around at some of the data a functions. Under the [DECIPHER site](http://www2.decipher.codes/Gallery.html) we can find a tutorial on how "DECIPHER" can be used. To test the functions out, I've taken 3 random bacterial DNA sequences: One from [streptococcus pyogenes](https://www.ncbi.nlm.nih.gov/genome/175?genome_assembly_id=383877), one from [staphylococcus aureus](https://www.ncbi.nlm.nih.gov/genome/154?genome_assembly_id=360991) and finally, one from [Salmonella enterica typhi](https://www.ncbi.nlm.nih.gov/genome/152?genome_assembly_id=299225).
+By looking around at some of the data a functions. Under the [DECIPHER site](http://www2.decipher.codes/Gallery.html) we can find a tutorial on how "DECIPHER" can be used. To test the functions out, I've taken 3 random bacterial DNA sequences: One from [streptococcus pyogenes](https://www.ncbi.nlm.nih.gov/genome/175?genome_assembly_id=383877), one from [staphylococcus aureus](https://www.ncbi.nlm.nih.gov/genome/154?genome_assembly_id=360991) and finally, one from [Salmonella enterica typhi](https://www.ncbi.nlm.nih.gov/genome/152?genome_assembly_id=299225). Before that, however, we'll use the built-in example given by DECIPHER to truly study how decipher works.
 
+```{r}
 
+#Loading sequences into database
+fas<-system.file("extdata", "50S_ribosomal_protein_L2.fas", package="DECIPHER") #First we take a built-in data set
 
+dbConn<-dbConnect(SQLite(),":memory:") #Then we set up a connection to a database
 
+Seqs2DB(fas, type="FASTA", dbFile = dbConn, identifier="") #Now we're adding out fasta data to a database from the file
+
+#Identifiying sequences based on genus
+x<-dbGetQuery(dbConn, "Select description from Seqs")$description #Getting the description values out of the database
+
+ns<-unlist(lapply(strsplit(x, split=" "), #I have no idea _how_ it works, but this extracts the genus names from all bacteria
+                  FUN=`[`,1L))
+
+Add2DB(myData = data.frame(identifier=ns, stringsAsFactors = FALSE), dbFile = dbConn) #Add
+
+# Align the translated sequences
+
+dna<-SearchDB(dbConn, nameBy = "identifier")
+AA<-AlignTranslation(dna, type="AAStringSet")
+
+Seqs2DB(AA, type = "AAStringSet",
+        dbFile = dbConn,
+        identifier = "",
+        tblName = "Aligned")
+
+Add2DB(myData = data.frame(identifier=ns, stringsAsFactors = FALSE),
+       dbFile = dbConn,
+       tblName = "Aligned")
+
+# Form a concensus sequence for each genus
+
+cons<-IdConsensus(dbConn, 
+            tblName = "Aligned",
+            type="AAStringSet",
+            threshold=0.5,
+            minInformation=0.5)
+
+Seqs2DB(cons, type = "DNAStringSet", dbFile = dbConn, identifier = "", tblName = "Consensus")
+
+aa<-SearchDB(dbConn, "Consensus",type = "AAStringSet", nameBy = "description", limit="40,20", removeGaps = "common")
+
+# Now see the sequences fully
+
+BrowseSeqs(aa, threshold=0.5,minInformation=0.5,colWidth = 60)
+```
+
+Only after performing these steps, do I realise they have nothing to do with machine learning. oops.
 
