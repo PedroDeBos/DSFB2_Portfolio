@@ -356,3 +356,51 @@ BrowseSeqs(aa, threshold=0.5,minInformation=0.5,colWidth = 60)
 
 Only after performing these steps, do I realise they have nothing to do with machine learning. oops.
 
+Now, with this new knowledge, we'll focus on the ACTUAL machine learning part of DECIPHER: IDTAXA
+
+```{r}
+library(DECIPHER)
+fas<-"./data.raw/sequence_salmonella.fasta"
+
+seqs<-readDNAStringSet(fas)
+
+seqs<-RemoveGaps(seqs)
+```
+
+As the data set used for the training of the algorythm is larger than 1GB, it cannot be stored on github. Thus, you'll have to manually install it from [the DECIPHER downloads page](http://www2.decipher.codes/Downloads.html), under code "KEGG ALL"
+
+```{r}
+load("../KEGG_AllLineage_r95.RData")
+
+ids<-IdTaxa(seqs,
+            trainingSet,
+            strand = "both",
+            threshold = 60,
+            processors = NULL)
+
+print(ids)
+plot(ids)
+```
+Using this training set, the machine learning algorythm could _not_ figure out what salmonella was. Instead, we'll try it using another training data set, specifically that of proteobacteria (which salmonella is). If this algorythm cannot identify salmonella using this secondd dataset, we'll look into the FASTA input we're using
+
+```{r}
+fas<-"./data.raw/sequence_salmonella.fasta"
+
+seqs<-readDNAStringSet(fas)
+
+seqs<-RemoveGaps(seqs)
+
+load("../KEGG_Proteobacteria_r95.RData")
+
+ids<-IdTaxa(seqs,
+            trainingSet,
+            strand = "both",
+            threshold = 60,
+            processors = NULL)
+
+plot(ids)
+```
+ids once again does not give any classification: We'll try a standard dataset this time in order to see if the program is working at all.
+
+
+
