@@ -196,6 +196,7 @@ Now, as a small sidetrack, we'll practice with the "karet" package, "classificat
 
 ```{r, eval=FALSE}
 install.packages("caret")
+install.packages("ipred") #Requirement of caret
 ```
 
 This time, the data will be split with a 75-25 ratio
@@ -292,6 +293,7 @@ Now that we understand the _basics_ of machine learning, we'll try to go a littl
 Now, to apply all this knowledge gained from reading the article, we'll look for a referenced article which has their data and code open sourced, and then use that to further figure out how to apply machine learning in practical applications. For this, we'll use the IDTAXA function [from this article](https://www.frontiersin.org/articles/10.3389/fgene.2018.00304/full)
 
 ```{r, eval=FALSE}
+install.packages("BiocManager")
 BiocManager::install("DECIPHER")
 ```
 
@@ -307,7 +309,6 @@ TrainingSet_16S
 By looking around at some of the data a functions. Under the [DECIPHER site](http://www2.decipher.codes/Gallery.html) we can find a tutorial on how "DECIPHER" can be used. To test the functions out, I've taken 3 random bacterial DNA sequences: One from [streptococcus pyogenes](https://www.ncbi.nlm.nih.gov/genome/175?genome_assembly_id=383877), one from [staphylococcus aureus](https://www.ncbi.nlm.nih.gov/genome/154?genome_assembly_id=360991) and finally, one from [Salmonella enterica typhi](https://www.ncbi.nlm.nih.gov/genome/152?genome_assembly_id=299225). Before that, however, we'll use the built-in example given by DECIPHER to truly study how decipher works.
 
 ```{r}
-
 #Loading sequences into database
 fas<-system.file("extdata", "50S_ribosomal_protein_L2.fas", package="DECIPHER") #First we take a built-in data set
 
@@ -401,6 +402,51 @@ ids<-IdTaxa(seqs,
 plot(ids)
 ```
 ids once again does not give any classification: We'll try a standard dataset this time in order to see if the program is working at all.
+
+```{r}
+fas<-"./data.raw/HMP_16S.fas.txt"
+
+seqs<-readDNAStringSet(fas)
+
+seqs<-RemoveGaps(seqs)
+
+load("../KEGG_AllLineage_r95.RData")
+
+ids<-IdTaxa(seqs,
+            trainingSet,
+            strand = "both",
+            threshold = 60,
+            processors = NULL)
+
+print(ids)
+plot(ids)
+```
+
+Even the test dataset is not working, and gives "unclassified root". I think, however, I've discovered the issue: I'm using a "functional classifciation training set", while I should've been using a "organismal classification training set". Shoot. 
+
+Once again, trying it again: this time using a organismal classification training set.
+
+```{r}
+fas<-"./data.raw/HMP_16S.fas.txt"
+
+seqs<-readDNAStringSet(fas)
+
+seqs<-RemoveGaps(seqs)
+
+load("../Contax_v1_March2018.RData")
+
+ids<-IdTaxa(seqs,
+            trainingSet,
+            strand = "both",
+            threshold = 60,
+            processors = NULL)
+
+print(ids)
+plot(ids)
+```
+
+Yup, that was the problem. Now, using a proper training set, the algorythm _does_ give correct input.
+
 
 
 
