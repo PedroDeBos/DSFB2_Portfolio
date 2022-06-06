@@ -1,0 +1,3 @@
+rmarkdown, bookdown, tidyverse, drc, readxl, here, ggplot2, DT, fs, devtools, dslabs, RPostgreSQL, Rpostgres, DBI, multcomp, plyr, gmodels, mlbench, caret, Biocmanager
+PokemonAnalyse
+DECIPHER
