@@ -1,35 +1,10 @@
 ---
+output: html_document
 params:
   country: "Belgium"
   year: !r c(2020:2021)
   month: !r c(6:12)
 ---
-
-```{r, include=FALSE, eval=FALSE}
-# Parameters have been manually set for the purpose of this site, as bookdown does not support stating parameters in YAML
-params$country<-"Belgium"
-params$year<-c(2020:2021)
-params$month<-c(6:12)
-```
-
-# Parametized Data Belgium
-
-<body id="start">
-<div class="topnav">
-  <a href='index.html#Frontpage'>Frontpage</a>
-  <a href='data-visualisation.html#data-visualisation'>Data visualisation</a>
-  <a href='parametized-data-germany.html#parametized-data'>Parametizing data</a>
-  <a href='directory-structure.html#directory-structure'>Directory structure</a>
-  <a href='creating-a-r-package.html#creating-a-r-package'>R-package</a>
-  <a href='sql.html#SQL'>SQL</a>
-  <a href='bibliography-using-zotero.html#Bibliography using Zotero'>Zotero</a>
-  <a href='open-reproductibility-analysis.html#open-reproductibility-analysis'>Reproductibility</a>
-  <a href='future-endeavours.html#future-endeavours'>Future endeavours</a>
-  <a href='new-skills.html#new-skills'> New skills (Machine learning)</a>
-  <a href='cv.html#cv'>CV</a>
-  <a href='bibliography.html#bibliography'>Bibliography</a>
-</div>
-
 
 &nbsp;
 
@@ -60,15 +35,8 @@ library(ggplot2)
 ```
 
 ```{r}
-# Parameters have been manually set for the purpose of this site, as bookdown does not support stating parameters in YAML
-params$country<-"Belgium"
-params$year<-c(2020:2021)
-params$month<-c(6:12)
-```
-
-```{r}
 ############################################################### Reading data
-covid_data<-read.csv("./data.raw/data.csv")
+covid_data<-read.csv("data.csv")
 covid_data_vis<-covid_data
 
 ############################################################### Mangling data
@@ -107,7 +75,7 @@ covid_data_vis_filter1 %>% group_by(month, year) %>% dplyr::summarise(
   theme_bw()+
   theme(axis.text.x = element_text(angle=45, hjust=1))+
   labs(
-    title=paste0("SARS-COV 2 deaths in ",params$country, " per month in ", params$year),
+    title=paste0("SARS-COV 2 deaths in ",params$country, " per month in"),
     subtitle = "Data from ECDC",
     x="Month",
     y="COVID-19 deaths",
