@@ -7,9 +7,10 @@ params:
 
 ```{r, include=FALSE}
 # Parameters have been manually set for the purpose of this site, as bookdown does not support stating parameters in YAML
-params$country<-"Germany"
-params$year<-c(2020:2022)
-params$month<-c(1:12)
+parameter<-list()
+parameter$country<-"Germany"
+parameter$year<-c(2020:2022)
+parameter$month<-c(1:12)
 ```
 
 # Parametized Data Germany
@@ -35,13 +36,13 @@ params$month<-c(1:12)
 
 To prove my skills in the producing parametized .Rmd's, I've used an online COVID-19 dataset and parametized the visualisation of this data file. For this parameterization, the country of the data, the year of the data and the months which the data covers have been added as variables.
 
-For this page, the params have been set too:
+For this page, the parameter have been set too:
 
-- Country: `r params$country` (Only shows data from the `r params$country`)
+- Country: `r parameter$country` (Only shows data from the `r parameter$country`)
 
-- Year: `r params$year` (Shows data from `r params$year`)
+- Year: `r parameter$year` (Shows data from `r parameter$year`)
 
-- Month: `r params$month` (Shows data from months number `r params$month`)
+- Month: `r parameter$month` (Shows data from months number `r parameter$month`)
 
 In order to showcase this, this process has been repeated for 3 sets of parameters
 
@@ -60,9 +61,9 @@ library(ggplot2)
 
 ```{r, eval=FALSE}
 # Parameters have been manually set for the purpose of this site, as bookdown does not support stating parameters in YAML
-params$country<-"Germany"
-params$year<-c(2020:2022)
-params$month<-c(1:12)
+parameter$country<-"Germany"
+parameter$year<-c(2020:2022)
+parameter$month<-c(1:12)
 ```
 
 ```{r}
@@ -76,9 +77,9 @@ covid_data_vis$year<-factor(as.character(covid_data$year), levels = as.character
 
 months<-c("January", "Februari", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December") #Storing months to plaster on x-axis
 
-covid_data_vis_filter1<-covid_data_vis %>% filter(year %in% params$year,
-                          month %in% params$month,
-                          countriesAndTerritories %in% params$country)
+covid_data_vis_filter1<-covid_data_vis %>% filter(year %in% parameter$year,
+                          month %in% parameter$month,
+                          countriesAndTerritories %in% parameter$country)
 
 ############################################################### Creating visualisation: Cases per month
 covid_data_vis_filter1 %>% group_by(month, year) %>% dplyr::summarise(
@@ -89,7 +90,7 @@ covid_data_vis_filter1 %>% group_by(month, year) %>% dplyr::summarise(
   theme_bw()+
   theme(axis.text.x = element_text(angle=45, hjust=1))+
   labs(
-    title=paste0("SARS-COV 2 cases in ",params$country, " per month"),
+    title=paste0("SARS-COV 2 cases in ",parameter$country, " per month"),
     subtitle = "Data from ECDC",
     x="Month",
     y="COVID-19 cases",
@@ -106,7 +107,7 @@ covid_data_vis_filter1 %>% group_by(month, year) %>% dplyr::summarise(
   theme_bw()+
   theme(axis.text.x = element_text(angle=45, hjust=1))+
   labs(
-    title=paste0("SARS-COV 2 deaths in ",params$country, " per month in ", params$year),
+    title=paste0("SARS-COV 2 deaths in ",parameter$country, " per month in ", parameter$year),
     subtitle = "Data from ECDC",
     x="Month",
     y="COVID-19 deaths",

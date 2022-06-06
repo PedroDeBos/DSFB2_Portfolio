@@ -1,18 +1,18 @@
 ---
 params:
-  country: "Belgium"
+  country: "Norway"
   year: !r c(2020:2021)
-  month: !r c(6:12)
+  month: !r c(1:9)
 ---
 
-```{r, include=FALSE, eval=FALSE}
+```{r, include=FALSE}
 # Parameters have been manually set for the purpose of this site, as bookdown does not support stating parameters in YAML
-parameter$country<-"Belgium"
-parameter$year<-c(2020:2021)
-parameter$month<-c(6:12)
+params$country<-"Norway"
+params$year<-c(2020:2021)
+params$month<-c(1:9)
 ```
 
-# Parametized Data Belgium
+# Parametized Data Norway
 
 <body id="start">
 <div class="topnav">
@@ -35,23 +35,21 @@ parameter$month<-c(6:12)
 
 To prove my skills in the producing parametized .Rmd's, I've used an online COVID-19 dataset and parametized the visualisation of this data file. For this parameterization, the country of the data, the year of the data and the months which the data covers have been added as variables.
 
-For this page, the parameter have been set too:
+For this page, the params have been set too:
 
-- Country: `r parameter$country` (Only shows data from the `r parameter$country`)
+- Country: `r params$country` (Only shows data from the `r params$country`)
 
-- Year: `r parameter$year` (Only shows data from `r parameter$year`)
+- Year: `r params$year` (Only shows data from `r params$year`)
 
-- Month: `r parameter$month` (Shows data from `r parameter$month` months of the year)
+- Month: `r params$month` (Shows data from `r params$month` months of the year)
 
 In order to showcase this, this process has been repeated for 3 sets of parameters
 
 <div>
-  <a href='parametized-data-norway.html#parametized-data-norway'>click here for a page of data about Norway<a/>
+  <a href='parametized-data-belgium.html#parametized-data-belgium'>click here for a page of data about Belgium<a/>
   
   <a href='parametized-data-germany.html#parametized-data-germany'>click here for a page about data in Germany<a/>
 </div>
-
-<body id="start">
 
 ```{r, include=FALSE}
 library(here)
@@ -59,11 +57,11 @@ library(tidyverse)
 library(ggplot2)
 ```
 
-```{r}
+```{r, eval=FALSE}
 # Parameters have been manually set for the purpose of this site, as bookdown does not support stating parameters in YAML
-parameter$country<-"Belgium"
-parameter$year<-c(2020:2021)
-parameter$month<-c(6:12)
+params$country<-"Norway"
+params$year<-c(2020:2021)
+params$month<-c(1:9)
 ```
 
 ```{r}
@@ -77,9 +75,9 @@ covid_data_vis$year<-factor(as.character(covid_data$year), levels = as.character
 
 months<-c("January", "Februari", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December") #Storing months to plaster on x-axis
 
-covid_data_vis_filter1<-covid_data_vis %>% filter(year %in% parameter$year,
-                          month %in% parameter$month,
-                          countriesAndTerritories %in% parameter$country)
+covid_data_vis_filter1<-covid_data_vis %>% filter(year %in% params$year,
+                          month %in% params$month,
+                          countriesAndTerritories %in% params$country)
 
 ############################################################### Creating visualisation: Cases per month
 covid_data_vis_filter1 %>% group_by(month, year) %>% dplyr::summarise(
@@ -90,7 +88,7 @@ covid_data_vis_filter1 %>% group_by(month, year) %>% dplyr::summarise(
   theme_bw()+
   theme(axis.text.x = element_text(angle=45, hjust=1))+
   labs(
-    title=paste0("SARS-COV 2 cases in ",parameter$country, " per month"),
+    title=paste0("SARS-COV 2 cases in ",params$country, " per month"),
     subtitle = "Data from ECDC",
     x="Month",
     y="COVID-19 cases",
@@ -107,7 +105,7 @@ covid_data_vis_filter1 %>% group_by(month, year) %>% dplyr::summarise(
   theme_bw()+
   theme(axis.text.x = element_text(angle=45, hjust=1))+
   labs(
-    title=paste0("SARS-COV 2 deaths in ",parameter$country, " per month in ", parameter$year),
+    title=paste0("SARS-COV 2 deaths in ",params$country, " per month in ", params$year),
     subtitle = "Data from ECDC",
     x="Month",
     y="COVID-19 deaths",
