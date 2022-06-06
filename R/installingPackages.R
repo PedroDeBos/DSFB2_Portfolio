@@ -12,6 +12,9 @@ install.packages("vitae")
 #Installing pagedown for RMD 3.1, creating a cv
 install.packages("pagedown")
 
+#Installing devtools to install rbbt
+install.packages("devtools")
+
 #Installing rbbt for citation
 devtools::install_github("paleolimbot/rbbt")
 
@@ -20,3 +23,11 @@ install.packages("available")
 
 #Installing class for machine learning
 install.packages("class")
+
+install.packages("dslabs")
+
+install.packages("RPostgres")
+install.packages("RPostgreSQL")
+
+#Installing pokemonAnalyse to analyse data
+install_github("PedroDeBos/PokemonAnalyse", build_vignettes = TRUE)

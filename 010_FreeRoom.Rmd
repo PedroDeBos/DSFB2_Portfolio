@@ -20,6 +20,7 @@
 ```{r}
 library(ggplot2)
 library(tidyverse)
+knitr::opts_chunk$set(eval=FALSE)
 ```
 
 
