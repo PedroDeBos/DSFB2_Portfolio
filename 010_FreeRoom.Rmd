@@ -446,7 +446,94 @@ print(ids)
 plot(ids)
 ```
 
-Yup, that was the problem. Now, using a proper training set, the algorythm _does_ give correct input.
+Yup, that was the problem. Now, using a proper training set, the algorythm _does_ give correct input. Let's try it for the original 3 files we downloaded, shall we?
+
+```{r}
+fas1<-"./data.raw/sequence_staphaureus.fasta"
+fas2<-"./data.raw/sequence_salmonella.fasta"
+fas3<-"./data.raw/sequence_streptopyogenes.fasta"
+
+seqs1<-readDNAStringSet(fas1)
+seqs2<-readDNAStringSet(fas2)
+seqs3<-readDNAStringSet(fas3)
+
+seqs1<-RemoveGaps(seqs1)
+seqs2<-RemoveGaps(seqs2)
+seqs3<-RemoveGaps(seqs3)
+
+
+load("../Contax_v1_March2018.RData")
+
+ids1<-IdTaxa(seqs1,
+            trainingSet,
+            strand = "both",
+            threshold = 60,
+            processors = NULL)
+
+
+ids2<-IdTaxa(seqs2,
+            trainingSet,
+            strand = "both",
+            threshold = 60,
+            processors = NULL)
+
+
+ids3<-IdTaxa(seqs3,
+            trainingSet,
+            strand = "both",
+            threshold = 60,
+            processors = NULL)
+
+print(ids1)
+print(ids2)
+print(ids3)
+```
+The program, however, still cannot identify the 3 original datasets. This means there's a difference between the data given in the example, and the data FASTA data we gave. To find this difference, we'll inspect both datafiles.
+
+An interesting find: the HMP-16s.fas file is way smaller (~200kb) than the fasta sequences (2-5mb), even though the HMP file contains DNA of approxx 130 bacteria. Perhaps the FASTA files I've given are whole genomes, while the input for the idTaxa command is 16S-dna. To test this, we'll get 3 new examples, this time of bacterial 16s-DNA
+
+```{r}
+fas1<-"./data.raw/AB002521.1.fasta"
+fas2<-"./data.raw/AB243005.1.fasta"
+fas3<-"./data.raw/AB594754.1.fasta"
+
+seqs1<-readDNAStringSet(fas1)
+seqs2<-readDNAStringSet(fas2)
+seqs3<-readDNAStringSet(fas3)
+
+seqs1<-RemoveGaps(seqs1)
+seqs2<-RemoveGaps(seqs2)
+seqs3<-RemoveGaps(seqs3)
+
+
+load("../Contax_v1_March2018.RData")
+
+ids1<-IdTaxa(seqs1,
+            trainingSet,
+            strand = "both",
+            threshold = 60,
+            processors = NULL)
+
+
+ids2<-IdTaxa(seqs2,
+            trainingSet,
+            strand = "both",
+            threshold = 60,
+            processors = NULL)
+
+
+ids3<-IdTaxa(seqs3,
+            trainingSet,
+            strand = "both",
+            threshold = 60,
+            processors = NULL)
+
+print(ids1)
+print(ids2)
+print(ids3)
+```
+And now, finally, the program works: it can identify the bacteria with 85% confidence.
+
 
 
 

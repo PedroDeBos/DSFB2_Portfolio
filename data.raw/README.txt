@@ -15,3 +15,7 @@ Belongs to directory "data.raw"
 "CV_Photo_V1" is a directory which contains an old version of the CV photo.
 
 "Sequence.fasta" are sequence files containing the FASTA data from 3 different bacteria, salmonella enteritica, staphylococcus aureus, en streptococcus pyogenes
+
+AB594754.1.fasta contains the 16sRNA of salmonella enteretica
+AB243005.1.fasta contains the 16sRNA of staphylococcus aureus
+AB002521.1.fasta contains the 16sRNA of streptococcus pyogenes
