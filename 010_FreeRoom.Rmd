@@ -559,18 +559,41 @@ car_data$Maintenance<-factor(car_data$Maintenance)
 car_data$NumDoors<-factor(car_data$NumDoors)
 car_data$NumPersons<-factor(car_data$NumPersons)
 car_data$BootSpace<-factor(car_data$BootSpace)
-car_data$Safety<-factor(car_data$Condition)
+car_data$Safety<-factor(car_data$Safety)
+car_data$Condition<-factor(car_data$Condition)
 
 summary(car_data)
 ```
 As is usual for machine learning, we'll split the data into a training-set and a testing-set.
 
 ```{r}
-set.seed(9001)
+set.seed(100)
 train<-sample(nrow(car_data), 0.7*nrow(car_data), replace=FALSE)
 train %>% duplicated() %>% table()
-```
 
+car_train<-car_data[train,]
+car_test<-car_data[-train,]
+summary(car_train)
+summary(car_test)
+```
+Now, with the training data properly separated, we'll create a training set of data.
+
+```{r}
+Model1<-randomForest(Condition ~ ., data = car_train, importance = TRUE)
+Model1
+
+Model2<-randomForest(Condition ~ ., data= car_train, ntree = 500, mtry = 6, importance = TRUE)
+Model2
+
+# Predicting the model:
+predModel1<-predict(Model1, car_train, type="class")
+table(predModel1, car_train$Condition)
+
+# Validating the model
+predModel1Valid<-predict(Model1, car_train, type = "class")
+table(predModel1Valid, car_train$Condition)
+# Even in validation there's a 0% error rate, this feels wrong.
+```
 
 
 
