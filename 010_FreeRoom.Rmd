@@ -532,7 +532,18 @@ print(ids1)
 print(ids2)
 print(ids3)
 ```
-And now, finally, the program works: it can identify the bacteria with 85% confidence.
+
+And now, finally, the program works: it can identify the bacteria with 85% confidence. And thus, we have used a machine learning algorythm to identify bacteria based on their 16s RNA data. However, I still do not fully understand how IDTAXA works: that is because, like other microbiota machine-learning algorythms like rSeqTU, uses the "RandomForest" machine learning method, not the machine learning method I studied earlier (KNN). Because of this, we'll now return to the basics and perform a basic RandomForest machine learning project in order to truly understand how random forest works. For this, we'll use the guide given [here](https://www.r-bloggers.com/2018/01/how-to-implement-random-forests-in-r/).
+
+The random forest method works via decision tree classification: a model in which information on nodes. The reference forms a giant "tree" consisting of multiple branching paths, connected by nodes. These nodes contain information which of the branches a individual datapoint should go across. Data goes down the tree untill it no longer has any nodes on the tree or information about itself anymore.
+
+This model, while simple, has very low predictive power. Random Forest works on the same principle as decision tree classification, but instead of taking áll datapoints and áll variables, it takes a random selection of them and performs the tree. It then repeats this process for an X amount of times, and finally combines the results of all different decision trees into a single tree. By doing this, it greatly increases its predictive power, and decreases it's bias.
+
+Now, we'll perform a randomForest analysis in R.
+
+```{r, eval=FALSE}
+install.packages("randomForest")
+```
 
 
 
