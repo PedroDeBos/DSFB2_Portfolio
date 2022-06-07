@@ -539,10 +539,36 @@ The random forest method works via decision tree classification: a model in whic
 
 This model, while simple, has very low predictive power. Random Forest works on the same principle as decision tree classification, but instead of taking áll datapoints and áll variables, it takes a random selection of them and performs the tree. It then repeats this process for an X amount of times, and finally combines the results of all different decision trees into a single tree. By doing this, it greatly increases its predictive power, and decreases it's bias.
 
-Now, we'll perform a randomForest analysis in R.
+Now, we'll perform a randomForest analysis in R. Data has been aquired from [an archive of a UCI website](https://archive.ics.uci.edu/ml/machine-learning-databases/car/)
 
 ```{r, eval=FALSE}
 install.packages("randomForest")
+```
+```{r}
+library(randomForest)
+
+#Reading the data
+car_data<-read.csv("data.raw/car.data", header=FALSE)
+
+#Updating colnames
+colnames(car_data)<-c("BuyingPrice", "Maintenance", "NumDoors", "NumPersons", "BootSpace", "Safety", "Condition")
+
+#Changing "character" data into factor data for all data sets
+car_data$BuyingPrice<-factor(car_data$BuyingPrice)
+car_data$Maintenance<-factor(car_data$Maintenance)
+car_data$NumDoors<-factor(car_data$NumDoors)
+car_data$NumPersons<-factor(car_data$NumPersons)
+car_data$BootSpace<-factor(car_data$BootSpace)
+car_data$Safety<-factor(car_data$Condition)
+
+summary(car_data)
+```
+As is usual for machine learning, we'll split the data into a training-set and a testing-set.
+
+```{r}
+set.seed(9001)
+train<-sample(nrow(car_data), 0.7*nrow(car_data), replace=FALSE)
+train %>% duplicated() %>% table()
 ```
 
 
