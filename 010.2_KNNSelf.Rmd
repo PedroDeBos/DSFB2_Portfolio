@@ -1,0 +1,95 @@
+---
+output: html_document
+---
+
+<body id="start">
+<div class="topnav">
+  <a href='index.html#Frontpage'>Frontpage</a>
+  <a href='data-visualisation.html#data-visualisation'>Data visualisation</a>
+  <a href='parametized-data-germany.html#parametized-data'>Parametizing data</a>
+  <a href='directory-structure.html#directory-structure'>Directory structure</a>
+  <a href='creating-a-r-package.html#creating-a-r-package'>R-package</a>
+  <a href='sql.html#SQL'>SQL</a>
+  <a href='bibliography-using-zotero.html#Bibliography using Zotero'>Zotero</a>
+  <a href='open-reproductibility-analysis.html#open-reproductibility-analysis'>Reproductibility</a>
+  <a href='future-endeavours.html#future-endeavours'>Future endeavours</a>
+  <a href='new-skills.html#new-skills'> New skills (Machine learning)</a>
+  <a href='cv.html#cv'>CV</a>
+  <a href='bibliography.html#bibliography'>Bibliography</a>
+</div>
+
+&nbsp;
+
+```{r, include=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(mlbench)
+```
+
+In this page, what was previous learned about KNN-models will be brought into practice using the "Glass" dataset. First, we'll load the dataset in an inspect it
+
+```{r}
+data(Glass)
+
+Glass %>% head()
+summary(Glass)
+```
+We can immidiately see that glass consists off 10 columns: 9 for variables, and 1 for the identifying variable. The range between this data goes from 0.29:75.41, a factor 100 difference. A little on the large side, but still not high enough for normalisation to be necessary.
+
+We'll use the same "sample" technique as before to split the data into 2 groups, a training and a test group
+
+```{r}
+set.seed(4321)
+ind_glass<-sample(2, nrow(Glass), replace=TRUE, prob=c(0.67,0.33)) #Creating a random selection of datapoints
+
+glass_training<-Glass[ind_glass==1,1:9] # Separating the training the training and the testing datasets
+glass_test<-Glass[ind_glass==2,1:9]
+
+glass_training_labels<-Glass[ind_glass==1,10] # Storing the labels seperately
+glass_test_labels<-Glass[ind_glass==2,10]
+```
+
+With the data set ordered and all, we can perform the machine-learning
+
+```{r}
+glass_pred<-class::knn(glass_training, glass_test, glass_training_labels) #Performing the machine learning test.
+
+glass_result<-glass_pred == glass_test_labels
+table(glass_result)
+
+CrossTable(x = glass_test_labels, y=glass_pred)
+```
+
+Based on the table, we can conclude that using the KNN-model for this Glass dataset was less accurate than for the iris dataset. In the table, you'll notice of the 21 glasstypes 1, only 17 were identified correctly. Of the 26 glasstypes 2, only 21 were correctly identified. This pattern continues for _all_ glasstypes, only glasstype 5 was perfectly identified. 
+
+Purely to sate my own curiosity, I've also performed the analysis using normalised data, to see what the impact of normalisation would be on this data. 
+
+```{r}
+normalize<-function(x){
+  num<-x-min(x)
+  denom<-max(x)-min(x)
+  return(num/denom)
+}
+
+set.seed(4321)
+ind_glass<-sample(2, nrow(Glass), replace=TRUE, prob=c(0.67,0.33)) #Creating a random selection of datapoints
+
+Glass_norm<-normalize(Glass[1:9]) %>% mutate(Type=Glass$Type)
+
+glass_training<-Glass_norm[ind_glass==1,1:9] # Separating the training the training and the testing datasets
+glass_test<-Glass_norm[ind_glass==2,1:9]
+
+glass_training_labels<-Glass_norm[ind_glass==1,10] # Storing the labels seperately
+glass_test_labels<-Glass_norm[ind_glass==2,10]
+
+glass_pred<-class::knn(glass_training, glass_test, glass_training_labels) #Performing the machine learning test.
+
+glass_result<-glass_pred == glass_test_labels
+table(glass_result)
+
+CrossTable(x = glass_test_labels, y=glass_pred)
+```
+
+Conclusion: in this specific example, normalisation does not change anything at all.
+
+Now, we've completely studied and used one form of machine learning, it's time to look into another aspect of machine learning that's important, a step before the training even starts: pre processing.
