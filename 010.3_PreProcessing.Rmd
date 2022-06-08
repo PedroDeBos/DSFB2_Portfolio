@@ -27,4 +27,50 @@ library(caret)
 names(getModelInfo()) %>% head(50)
 ```
 
-Caret contains _a lot_ of predictive models: above are shown only the top 50 of the over 200 models available in caret. 
+Caret contains _a lot_ of predictive models: above are shown only the top 50 of the over 200 models available in caret. For now we'll continue to use a KNN model, though we'll study another model later too.
+
+First of all, we can use "createDataPartition" instead of "sample" to create a training and a test group more easily
+
+```{r}
+set.seed(1234)
+index<-createDataPartition(iris$Species, p=0.75, list=FALSE)
+
+iris_training2<-iris[index,]
+
+iris_test2<-iris[-index,]
+```
+
+Now, with the training data separated, we can use the caret-method of training a model and predicting with it
+
+```{r}
+model_knn<-train(iris_training2[,1:4], iris_training2[,5], method='knn')
+
+#Then, we use the model to make a prediction
+prediction<-predict(object=model_knn, iris_test2[,1:4])
+
+#We check if the predicitons are true
+pred<-prediction == iris_test2[,5]
+table(pred)
+```
+
+And, due to the fact that we're using caret, we can create a confusion matrix: this'll allow us to study the sensitivity and the specificity of our model way easier.
+
+```{r}
+#And we create a confusion matrix for the results
+confusionMatrix(prediction,iris_test2[,5])
+```
+
+We can see that the model can identify Setosa perfectly, but struggles a little with versicolor (92% accuracy) and some more with virginica (83% accuracy).
+
+What's nice about caret training is that it contains pre-built in preprocessing methods. For example: 
+
+```{r}
+model_knn<-train(iris_training2[,1:4],iris_training2[,5],method='knn',preProcess = c("center", "scale"))
+
+prediction<-predict(object=model_knn, iris_test2[,1:4], type='raw')
+
+confusionMatrix(prediction, iris_test2[,5])
+```
+
+centering and scaling the data already increases the accuracy of the system, making it detect the versicolor originally classified as a virginica as the correct species. However, the question remains: what other forms of pre-processing are available? And when do you need to use which form of pre-processing?
+
