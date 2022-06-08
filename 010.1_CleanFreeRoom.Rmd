@@ -1,3 +1,7 @@
+---
+output: html_document
+---
+
 # New skills
 
 <body id="start">
@@ -21,16 +25,61 @@
 ```{r, include=FALSE}
 library(tidyverse)
 library(ggplot2)
+library(gridExtra)
 ```
 
 In order to prove my skills in learning a new skill on my own, I decided to delve into a completely new subject for me: machine learning in R, in microbiology. Originally, I planned on studying [this site](https://towardsdatascience.com/recognition-and-counting-of-microorganisms-on-petri-dishes-53a499283dc8) and focussing on image-based machine learning for identifying bacterial colonies. However, this was too complicated for a beginner. Thus, I started by following [this guide](https://www.datacamp.com/tutorial/machine-learning-in-r) on KNN-based machine learning within R. 
 
 This guide guides you through KNN-based machine learning using the in-built R database "iris". KNN-based machine learning stands for "K-nearest-neighbour". In this technique, a computer model takes a dataset used for learning, and determines the distance between each of the different training data-points. Then, it places the to-be-determined datapoint into this web of training-datapoints, and it'll determine the K-amount of nearest neighbours (if K=5, the 5 nearest neighbours). Then it'll classify the to-be-determined datapoint based on which category has the most datapoints within that K range. Underneath is a example of this. 
 
+<img src="./images/KNN_explanation.png" class=center>
+
+Important is to first understand your data. Thus, to begin, I looked it up some background information about what data iris contains. 
+
+Iris contains 5 columns: Sepal width/length, petal width/length and species. A "sepal" is a modified leave which encases and protects the flower before it blooms. A "petal" is a modified leave that surrounds the reproductive part of the flower
+
+<img src="./images/iris.png" class=center>
+[Images taken from Dodona, universiteit Gent](https://dodona.ugent.be/nl/activities/779139786/)
+
+We'll perform some basic visualisation on the data, in order to get a feel for what the data represents
+
+```{r}
+iris %>% ggplot(aes(x=Sepal.Length, y=Sepal.Width, colour=Species))+
+  geom_point()+
+  theme_bw()+
+  labs(
+    title="Correlation between sepal length and width",
+    x="Sepal length (cm)",
+    y="Sepal width (cm)"
+  )
+  
+
+iris %>% ggplot(aes(x=Petal.Length, y=Petal.Width, colour=Species))+
+  geom_point()+
+  theme_bw()+
+  labs(
+    title="Correlation between petal length and width",
+    x="Petal length (cm)",
+    y="Petal width (cm)"
+  )
+```
+
+We can clearly see that there appears to be some form of correlation between the length and the width of a petal/sepal. 
+
+To further study the dataset, a table off "species", the factor that we'd like to predict using our KNN model, will be created
+
+```{r}
+table(iris$Species)
+```
+
+We can see that our dataset has 50 of each of the different flower types.
+
+Finally, we'll also have a look at the range of data in our data-set
+
+```{r}
+summary(iris)
+```
 
 
-First steps are too really undersand your data, and too visualise your data. So:
 
-- Sepals are modified leaves which encase and protect the flower before it blooms
 
-- Petals are modified leaves that surround the reproductive parts of the flower.
