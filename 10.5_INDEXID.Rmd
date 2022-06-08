@@ -1,0 +1,33 @@
+---
+output: html_document
+---
+
+<body id="start">
+<div class="topnav">
+  <a href='index.html#Frontpage'>Frontpage</a>
+  <a href='data-visualisation.html#data-visualisation'>Data visualisation</a>
+  <a href='parametized-data-germany.html#parametized-data'>Parametizing data</a>
+  <a href='directory-structure.html#directory-structure'>Directory structure</a>
+  <a href='creating-a-r-package.html#creating-a-r-package'>R-package</a>
+  <a href='sql.html#SQL'>SQL</a>
+  <a href='bibliography-using-zotero.html#Bibliography using Zotero'>Zotero</a>
+  <a href='open-reproductibility-analysis.html#open-reproductibility-analysis'>Reproductibility</a>
+  <a href='future-endeavours.html#future-endeavours'>Future endeavours</a>
+  <a href='new-skills.html#new-skills'> New skills (Machine learning)</a>
+  <a href='cv.html#cv'>CV</a>
+  <a href='bibliography.html#bibliography'>Bibliography</a>
+</div>
+
+&nbsp;
+
+```{r, include=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(gridExtra)
+library(caret)
+library(DECIPHER)
+```
+
+Now, for the grand finale: we'll use all previous knowledge we've gathered, and study an fully developed microbiology machine learning package in R: IDTAXA. 
+
+IDTAXA is part of the DECIPHER package, a package hosted on the bioconductor website. DECIPHER is a "software toolset that can be used for deciphering and managing biological sequences efficiently using R". It contains functions for many different uses, including maintaining databases, aligning sequences, finding genes, and the main use we'll be studying, analysing sequences for classification. 
