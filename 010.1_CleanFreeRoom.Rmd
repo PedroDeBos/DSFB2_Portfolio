@@ -1,0 +1,36 @@
+# New skills
+
+<body id="start">
+<div class="topnav">
+  <a href='index.html#Frontpage'>Frontpage</a>
+  <a href='data-visualisation.html#data-visualisation'>Data visualisation</a>
+  <a href='parametized-data-germany.html#parametized-data'>Parametizing data</a>
+  <a href='directory-structure.html#directory-structure'>Directory structure</a>
+  <a href='creating-a-r-package.html#creating-a-r-package'>R-package</a>
+  <a href='sql.html#SQL'>SQL</a>
+  <a href='bibliography-using-zotero.html#Bibliography using Zotero'>Zotero</a>
+  <a href='open-reproductibility-analysis.html#open-reproductibility-analysis'>Reproductibility</a>
+  <a href='future-endeavours.html#future-endeavours'>Future endeavours</a>
+  <a href='new-skills.html#new-skills'> New skills (Machine learning)</a>
+  <a href='cv.html#cv'>CV</a>
+  <a href='bibliography.html#bibliography'>Bibliography</a>
+</div>
+
+&nbsp;
+
+```{r, include=FALSE}
+library(tidyverse)
+library(ggplot2)
+```
+
+In order to prove my skills in learning a new skill on my own, I decided to delve into a completely new subject for me: machine learning in R, in microbiology. Originally, I planned on studying [this site](https://towardsdatascience.com/recognition-and-counting-of-microorganisms-on-petri-dishes-53a499283dc8) and focussing on image-based machine learning for identifying bacterial colonies. However, this was too complicated for a beginner. Thus, I started by following [this guide](https://www.datacamp.com/tutorial/machine-learning-in-r) on KNN-based machine learning within R. 
+
+This guide guides you through KNN-based machine learning using the in-built R database "iris". KNN-based machine learning stands for "K-nearest-neighbour". In this technique, a computer model takes a dataset used for learning, and determines the distance between each of the different training data-points. Then, it places the to-be-determined datapoint into this web of training-datapoints, and it'll determine the K-amount of nearest neighbours (if K=5, the 5 nearest neighbours). Then it'll classify the to-be-determined datapoint based on which category has the most datapoints within that K range. Underneath is a example of this. 
+
+
+
+First steps are too really undersand your data, and too visualise your data. So:
+
+- Sepals are modified leaves which encase and protect the flower before it blooms
+
+- Petals are modified leaves that surround the reproductive parts of the flower.
