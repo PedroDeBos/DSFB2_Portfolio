@@ -20,4 +20,5 @@ AB594754.1.fasta contains the 16sRNA of salmonella enteretica
 AB243005.1.fasta contains the 16sRNA of staphylococcus aureus
 AB002521.1.fasta contains the 16sRNA of streptococcus pyogenes
 
-"car.data" contains data used for machine learning using the randomForest method, taken from
+"car.data" contains data used for machine learning using the randomForest method, taken from https://archive.ics.uci.edu/ml/machine-learning-databases/car/
+"car.names" contains metadata about this "car.data" data
