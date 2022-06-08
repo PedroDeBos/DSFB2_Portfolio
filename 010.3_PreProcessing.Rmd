@@ -18,6 +18,12 @@ output: html_document
   <a href='bibliography.html#bibliography'>Bibliography</a>
 </div>
 
+```{r, include=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(gridExtra)
+```
+
 &nbsp;
 
 For the studying of pre-processing, we'll use the package called "Karet". caret, short for Classification And REgression Training, is a package containing functions to help create machine learning-based (or actually, any form of predictive) models.
@@ -68,6 +74,9 @@ What's nice about caret training is that it contains pre-built in preprocessing 
 model_knn<-train(iris_training2[,1:4],iris_training2[,5],method='knn',preProcess = c("center", "scale"))
 
 prediction<-predict(object=model_knn, iris_test2[,1:4], type='raw')
+
+pred<-prediction == iris_test2[,5]
+table(pred)
 
 confusionMatrix(prediction, iris_test2[,5])
 ```
