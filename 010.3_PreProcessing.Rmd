@@ -27,3 +27,4 @@ library(caret)
 names(getModelInfo()) %>% head(50)
 ```
 
+Caret contains _a lot_ of predictive models: above are shown only the top 50 of the over 200 models available in caret. 
