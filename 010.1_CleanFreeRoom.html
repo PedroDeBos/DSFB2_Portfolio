@@ -452,6 +452,102 @@ data-set</p>
 ##  Mean   :5.843   Mean   :3.057   Mean   :3.758   Mean   :1.199                  
 ##  3rd Qu.:6.400   3rd Qu.:3.300   3rd Qu.:5.100   3rd Qu.:1.800                  
 ##  Max.   :7.900   Max.   :4.400   Max.   :6.900   Max.   :2.500</code></pre>
+<p>The lowest value present in the variables is “0.1”, under
+Petal.Width. The highest value is “7.9”, under “Sepal.Length”. This
+gives a difference of approximately factor 10-100, which is within
+acceptable levels. If it were not, and the factor difference would be
+above 1000, we would have to normalise the data with a function like the
+one below</p>
+<pre class="r"><code>normalize&lt;-function(x){
+  num&lt;-x-min(x)
+  denom&lt;-max(x)-min(x)
+  return(num/denom)
+}
+
+as.data.frame(lapply(iris[1:4], normalize)) %&gt;% mutate(Species=iris$Species) %&gt;% head()</code></pre>
+<pre><code>##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1   0.22222222   0.6250000   0.06779661  0.04166667  setosa
+## 2   0.16666667   0.4166667   0.06779661  0.04166667  setosa
+## 3   0.11111111   0.5000000   0.05084746  0.04166667  setosa
+## 4   0.08333333   0.4583333   0.08474576  0.04166667  setosa
+## 5   0.19444444   0.6666667   0.06779661  0.04166667  setosa
+## 6   0.30555556   0.7916667   0.11864407  0.12500000  setosa</code></pre>
+<p>In order to properly train the algorythm, we must separate our data
+into 2 groups: a “training” group and a “test” group. The training
+dataset usually takes about 2/3rds of the dataset, while the test group
+is the other 1/3rd. Important is that the algorythm has equal amounts of
+test conditions: if the algorythm got 50 setosa, 50 versicolor and 0
+virginica, it’d be impossible for it to recognize virginica. Thus, we’ll
+use “setseed” and “sample” to generate a sample.</p>
+<pre class="r"><code>set.seed(1234) #Set seed to &quot;determine&quot; the randomness&quot;
+
+ind&lt;-sample(2, nrow(iris), replace=TRUE, prob=c(0.67, 0.33))
+
+iris_training&lt;-iris[ind==1,1:4] #Storing the training dataset
+iris_testing&lt;-iris[ind==2,1:4] #Storing the testing dataset
+
+# We have the training and testing dataset, but we don&#39;t have the labels associated to those datasets. We have to store these seperately:
+
+iris_trainlabels&lt;-iris[ind==1,5]
+iris_testlabels&lt;-iris[ind==2,5]</code></pre>
+<p>With both the training group and the test group set up, we can now
+feed these into the KNN algorythm, and set up a prediction for what the
+testlabels are</p>
+<pre class="r"><code>iris_pred&lt;-class::knn(train = iris_training, test = iris_testing, cl = iris_trainlabels)
+
+store&lt;-iris_pred == iris_testlabels
+
+table(store)</code></pre>
+<pre><code>## store
+## FALSE  TRUE 
+##     1    39</code></pre>
+<p>This gives an output of 1 mismatch and 39 correct matches, a pretty
+accurate result. To further study the result, we’ll use the package
+called “gmodels”</p>
+<pre class="r"><code>library(gmodels)
+
+CrossTable(x = iris_testlabels, y=iris_pred)</code></pre>
+<pre><code>## 
+##  
+##    Cell Contents
+## |-------------------------|
+## |                       N |
+## | Chi-square contribution |
+## |           N / Row Total |
+## |           N / Col Total |
+## |         N / Table Total |
+## |-------------------------|
+## 
+##  
+## Total Observations in Table:  40 
+## 
+##  
+##                 | iris_pred 
+## iris_testlabels |     setosa | versicolor |  virginica |  Row Total | 
+## ----------------|------------|------------|------------|------------|
+##          setosa |         12 |          0 |          0 |         12 | 
+##                 |     19.600 |      3.900 |      4.500 |            | 
+##                 |      1.000 |      0.000 |      0.000 |      0.300 | 
+##                 |      1.000 |      0.000 |      0.000 |            | 
+##                 |      0.300 |      0.000 |      0.000 |            | 
+## ----------------|------------|------------|------------|------------|
+##      versicolor |          0 |         12 |          0 |         12 | 
+##                 |      3.600 |     16.823 |      4.500 |            | 
+##                 |      0.000 |      1.000 |      0.000 |      0.300 | 
+##                 |      0.000 |      0.923 |      0.000 |            | 
+##                 |      0.000 |      0.300 |      0.000 |            | 
+## ----------------|------------|------------|------------|------------|
+##       virginica |          0 |          1 |         15 |         16 | 
+##                 |      4.800 |      3.392 |     13.500 |            | 
+##                 |      0.000 |      0.062 |      0.938 |      0.400 | 
+##                 |      0.000 |      0.077 |      1.000 |            | 
+##                 |      0.000 |      0.025 |      0.375 |            | 
+## ----------------|------------|------------|------------|------------|
+##    Column Total |         12 |         13 |         15 |         40 | 
+##                 |      0.300 |      0.325 |      0.375 |            | 
+## ----------------|------------|------------|------------|------------|
+## 
+## </code></pre>
 </div>
 
 
