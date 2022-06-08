@@ -532,9 +532,123 @@ print(ids1)
 print(ids2)
 print(ids3)
 ```
-And now, finally, the program works: it can identify the bacteria with 85% confidence.
 
+And now, finally, the program works: it can identify the bacteria with 85% confidence. And thus, we have used a machine learning algorythm to identify bacteria based on their 16s RNA data. However, I still do not fully understand how IDTAXA works: that is because, like other microbiota machine-learning algorythms like rSeqTU, uses the "RandomForest" machine learning method, not the machine learning method I studied earlier (KNN). Because of this, we'll now return to the basics and perform a basic RandomForest machine learning project in order to truly understand how random forest works. For this, we'll use the guide given [here](https://www.r-bloggers.com/2018/01/how-to-implement-random-forests-in-r/).
 
+The random forest method works via decision tree classification: a model in which information on nodes. The reference forms a giant "tree" consisting of multiple branching paths, connected by nodes. These nodes contain information which of the branches a individual datapoint should go across. Data goes down the tree untill it no longer has any nodes on the tree or information about itself anymore.
 
+This model, while simple, has very low predictive power. Random Forest works on the same principle as decision tree classification, but instead of taking áll datapoints and áll variables, it takes a random selection of them and performs the tree. It then repeats this process for an X amount of times, and finally combines the results of all different decision trees into a single tree. By doing this, it greatly increases its predictive power, and decreases it's bias.
+
+Now, we'll perform a randomForest analysis in R. Data has been aquired from [an archive of a UCI website](https://archive.ics.uci.edu/ml/machine-learning-databases/car/)
+
+```{r, eval=FALSE}
+install.packages("randomForest")
+```
+```{r}
+library(randomForest)
+
+#Reading the data
+car_data<-read.csv("data.raw/car.data", header=FALSE)
+
+#Updating colnames
+colnames(car_data)<-c("BuyingPrice", "Maintenance", "NumDoors", "NumPersons", "BootSpace", "Safety", "Condition")
+
+#Changing "character" data into factor data for all data sets
+car_data$BuyingPrice<-factor(car_data$BuyingPrice)
+car_data$Maintenance<-factor(car_data$Maintenance)
+car_data$NumDoors<-factor(car_data$NumDoors)
+car_data$NumPersons<-factor(car_data$NumPersons)
+car_data$BootSpace<-factor(car_data$BootSpace)
+car_data$Safety<-factor(car_data$Safety)
+car_data$Condition<-factor(car_data$Condition)
+
+summary(car_data)
+```
+As is usual for machine learning, we'll split the data into a training-set and a testing-set.
+
+```{r}
+set.seed(100)
+train<-sample(nrow(car_data), 0.7*nrow(car_data), replace=FALSE)
+train %>% duplicated() %>% table()
+
+car_train<-car_data[train,]
+car_test<-car_data[-train,]
+summary(car_train)
+summary(car_test)
+```
+Now, with the training data properly separated, we'll create a training set of data.
+
+```{r}
+Model1<-randomForest(Condition ~ ., data = car_train, importance = TRUE)
+Model1
+
+Model2<-randomForest(Condition ~ ., data= car_train, ntree = 500, mtry = 6, importance = TRUE)
+Model2
+
+# Predicting the model:
+predModel1<-predict(Model1, car_train, type="class")
+table(predModel1, car_train$Condition)
+
+# Validating the model
+predModel1Valid<-predict(Model1, car_train, type = "class")
+table(predModel1Valid, car_train$Condition)
+# Even in validation there's a 0% error rate, this feels wrong. Let's just continue, perhaps it's a new update which has increased it's accuracy. Site is from 2018
+
+# And now, after doing everything again, it just fixed itself?? Strange.
+
+# Predicting model 2:
+predModel2<-predict(Model2, car_train, type="class")
+table(predModel2, car_train$Condition)
+
+# Validating model 2
+predModel2Valid<-predict(Model2, car_train, type = "class")
+table(predModel2Valid, car_train$Condition)
+
+```
+
+We've set up two potential randomForest Models. The question is, how do we know which model is the most accurate? Validating model 2 gave a perfect score, while validating model one gave 3 wrongly identified. However, to be completely sure of it's accuracy, randomForest has some built in functions. 
+
+```{r}
+importance(Model1)
+importance(Model2)
+
+varImpPlot(Model1)
+varImpPlot(Model2)
+```
+
+Based on these plots, we can definitely state that model 2 has a better track record for identifying conditions. However, we've only tested for either 2 or 6-sized nodes, with mtry=6. In order to create the most optimal machine learning systen, we must identify what amount of nodes will give the best result possible. For this, we can write a for-do-done loop. 
+
+```{r}
+x=c()
+i=3
+for(i in 1:6){
+  print(i)
+  Model3<-randomForest(Condition ~ ., data= car_train, ntree = 500, mtry = i, importance = TRUE)
+  PredictModel3<-predict(Model3, car_test, type="class")
+  x[i]=mean(PredictModel3 == car_test$Condition)
+}
+x
+data.frame(mtry=1:6,
+           prediction_power=x)
+```
+
+Based on this, we can conclude that performing the randomForest using mtry=5/6 brings the best results. Just for further testing, we'll also be performing this same kind of for-do-done loop 
+
+```{r}
+y=c()
+
+range<-seq(from = 100, to = 1000, by = 100)
+for(i in seq(from = 100, to = 1000, by = 100)){
+  print(i)
+  Model3<-randomForest(Condition ~ ., data= car_train, ntree = i, mtry = 6, importance = TRUE)
+  PredictModel3<-predict(Model3, car_test, type="class")
+  y[i]=(mean(PredictModel3 == car_test$Condition))
+}
+y[range]
+
+```
+And based on this, we can conclude that the "Ntree" doesn't matter a _whole_ lot, but that the optimal ranges tested here are 800 or 1000.
+
+Now that I understand this technique a little better, I'll
 
 

@@ -1,0 +1,30 @@
+---
+output: html_document
+---
+
+<body id="start">
+<div class="topnav">
+  <a href='index.html#Frontpage'>Frontpage</a>
+  <a href='data-visualisation.html#data-visualisation'>Data visualisation</a>
+  <a href='parametized-data-germany.html#parametized-data'>Parametizing data</a>
+  <a href='directory-structure.html#directory-structure'>Directory structure</a>
+  <a href='creating-a-r-package.html#creating-a-r-package'>R-package</a>
+  <a href='sql.html#SQL'>SQL</a>
+  <a href='bibliography-using-zotero.html#Bibliography using Zotero'>Zotero</a>
+  <a href='open-reproductibility-analysis.html#open-reproductibility-analysis'>Reproductibility</a>
+  <a href='future-endeavours.html#future-endeavours'>Future endeavours</a>
+  <a href='new-skills.html#new-skills'> New skills (Machine learning)</a>
+  <a href='cv.html#cv'>CV</a>
+  <a href='bibliography.html#bibliography'>Bibliography</a>
+</div>
+
+&nbsp;
+
+For the studying of pre-processing, we'll use the package called "Karet". caret, short for Classification And REgression Training, is a package containing functions to help create machine learning-based (or actually, any form of predictive) models.
+
+```{r}
+library(caret)
+names(getModelInfo()) %>% head(50)
+```
+
+Caret contains _a lot_ of predictive models: above are shown only the top 50 of the over 200 models available in caret. 
