@@ -141,6 +141,7 @@ Based on testing mtry's 1-6 (6 being the maximum, since we only have 6 variables
 
 ```{r}
 y=c()
+range<-seq(from = 100, to = 1500, by = 100)
 for(i in seq(from = 100, to = 1500, by = 100)){
   print(i)
   Model3<-randomForest(Condition ~ ., data= car_train, ntree = i, mtry = 6, importance = TRUE)
@@ -150,9 +151,27 @@ for(i in seq(from = 100, to = 1500, by = 100)){
 
 data<-data.frame(prediction_power=y[range],
            ntree=seq(from = 100, to = 1500, by = 100))
-max(y[range])
 data %>% filter(prediction_power==max(y[range]))
 ```
 
-Based on 
+Based on these results, we can see that 5 different ranges, 100, 200, 600, 700 and 1100, all show the exact same (highest) prediction power. Thus, we can conclude in the 100's range, there is no real big difference between different ntree amounts. Perhaps a logarythmic scale will show more difference?
+
+```{r}
+y=c()
+
+length<-c(1 %o% 10^(0:4))
+for(i in c(1 %o% 10^(0:4))){
+  print(i)
+  Model3<-randomForest(Condition ~ ., data= car_train, ntree = i, mtry = 6, importance = TRUE)
+  PredictModel3<-predict(Model3, car_test, type="class")
+  y[i]=(mean(PredictModel3 == car_test$Condition))
+}
+data<-data.frame(prediction_power=y[length],
+                 ntree=length)
+data
+```
+
+With this table, we _can_ see that a ntree=1 has a lower predictive power, however, these differences are still quite small. Even still, they're handy to keep in mind. Important to keep in mind is that any numbers in a higher power than 1.000 take significantly mote time to render. Thus, it's the question of all that extra rendering time is worth an (in this case) insignificant difference.
+
+With that, we've succesfully performed a randomForest analysis upon a "cars" dataset. Now, we'll look into a package for R called IDTAXA, which uses randomForest computation to identify bacteria based on their 16sRNA.
 
