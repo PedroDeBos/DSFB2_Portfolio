@@ -657,8 +657,10 @@ readDNAStringSet(fas)
 ```
 
 ```{bash}
-conda
+
 ```
+
+Yeah I'm giving up on installing this stupid fasta data untill I've calmed down. I'll try it tomorrow. For now I'll just do what I need to do with pre-processing
 
 
 
