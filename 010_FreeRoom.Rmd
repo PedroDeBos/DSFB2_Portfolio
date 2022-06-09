@@ -649,6 +649,17 @@ y[range]
 ```
 And based on this, we can conclude that the "Ntree" doesn't matter a _whole_ lot, but that the optimal ranges tested here are 800 or 1000.
 
-Now that I understand this technique a little better, I'll
+will now return to Using INDEXID, trying to use real data on it
+
+```{r}
+fas<-"./data.raw/SRR10013537.1"
+readDNAStringSet(fas)
+```
+
+```{bash}
+conda
+```
+
+
 
 
