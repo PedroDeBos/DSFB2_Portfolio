@@ -1,0 +1,100 @@
+---
+output: html_document
+---
+
+<body id="start">
+<div class="topnav">
+  <a href='index.html#Frontpage'>Frontpage</a>
+  <a href='data-visualisation.html#data-visualisation'>Data visualisation</a>
+  <a href='parametized-data-germany.html#parametized-data'>Parametizing data</a>
+  <a href='directory-structure.html#directory-structure'>Directory structure</a>
+  <a href='creating-a-r-package.html#creating-a-r-package'>R-package</a>
+  <a href='sql.html#SQL'>SQL</a>
+  <a href='bibliography-using-zotero.html#Bibliography using Zotero'>Zotero</a>
+  <a href='open-reproductibility-analysis.html#open-reproductibility-analysis'>Reproductibility</a>
+  <a href='future-endeavours.html#future-endeavours'>Future endeavours</a>
+  <a href='new-skills.html#new-skills'> New skills (Machine learning)</a>
+  <a href='cv.html#cv'>CV</a>
+  <a href='bibliography.html#bibliography'>Bibliography</a>
+</div>
+
+&nbsp;
+
+Perfoming the entire randomForest workflow on the glass dataset
+
+```{r}
+library(mlbench)
+data(Glass)
+
+set.seed(4321)
+ind_glass<-sample(2, nrow(Glass), replace=TRUE, prob=c(0.67,0.33)) #Creating a random selection of datapoints
+
+glass_training<-Glass[ind_glass==1,] # Separating the training the training and the testing datasets
+glass_test<-Glass[ind_glass==2,]
+
+summary(glass_training)
+summary(glass_test)
+```
+
+
+```{r}
+ModelGlass<-randomForest::randomForest(Type ~ ., data=glass_training, importance = TRUE)
+
+PredictGlass<-predict(ModelGlass, glass_test, type="class")
+table(PredictGlass, glass_test$Type)
+
+importance(ModelGlass)
+varImpPlot(ModelGlass)
+
+confusionMatrix(PredictGlass, glass_test$Type)
+```
+
+Without editing the mtry and ntree, we get a accuracy of ~ 0.81 (which, mind you, is already way higher than the original accuracy of ~ 0.7 given by the KKN model). Now we'll test for the optimum mtry and kmean amount again, like with the cars dataset. 
+
+```{r}
+x=c()
+for(i in 1:9){
+  Model3<-randomForest(Type ~ ., data= glass_training, ntree = 500, mtry = i, importance = TRUE)
+  PredictModel3<-predict(Model3, glass_training, type="class")
+  x[i]=mean(PredictModel3 == glass_training$Type)
+}
+data.frame(mtry=1:9,
+           prediction_power=x)
+```
+
+Conclusion: any mtry above 1 is good enough
+
+```{r}
+y=c()
+
+length<-c(1 %o% 10^(0:4))
+for(i in c(1 %o% 10^(0:4))){
+  Model3<-randomForest(Type ~ ., data= glass_training, ntree = i, mtry = 6, importance = TRUE)
+  PredictModel3<-predict(Model3, glass_training, type="class")
+  y[i]=(mean(PredictModel3 == glass_training$Type))
+}
+data<-data.frame(prediction_power=y[length],
+                 ntree=length)
+data
+```
+
+Once again, any amount of Ntree above 1 is good enough
+
+Based on these results, we can see that changing the mtry/ntree will not affect the data in any mayor way. However, to see if this hypothesis is truly true, we'll test it anyway.
+
+```{r}
+ModelGlass<-randomForest::randomForest(Type ~ ., data=glass_training, ntree = 1000, mtry = 3, importance = TRUE)
+
+PredictGlass<-predict(ModelGlass, glass_test, type="class")
+table(PredictGlass, glass_test$Type)
+
+importance(ModelGlass)
+varImpPlot(ModelGlass)
+
+confusionMatrix(PredictGlass, glass_test$Type)
+```
+
+Specifying the ntree to 1000 and mtry to 3 gives a small increase in accuracty, up to ~ 0.82. 
+
+With this, I've proven my skills in setting up a randomForest machine learning algorythm for a dataset, and performing small-scale optimisations to the algorythm. Next, as final research subject, we'll move on to a randomForest-based machine learning technique specifically made for micriology: IDTAXA
+

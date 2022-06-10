@@ -675,10 +675,27 @@ fastqDump()
 Nope, in the end I just used my own bash terminal 
 
 ```{r}
+library(mlbench)
+data(Glass)
 
+set.seed(4321)
+ind_glass<-sample(2, nrow(Glass), replace=TRUE, prob=c(0.67,0.33)) #Creating a random selection of datapoints
+
+glass_training<-Glass[ind_glass==1,] # Separating the training the training and the testing datasets
+glass_test<-Glass[ind_glass==2,]
+
+ModelGlass<-randomForest::randomForest(Type ~ ., data=glass_training, importance = TRUE)
+
+PredictGlass<-predict(ModelGlass, glass_test, type="class")
+table(PredictGlass, glass_test$Type)
+
+importance(ModelGlass)
+varImpPlot(ModelGlass)
 ```
 
 And even using my own bash terminal isn't working. I'm giving up. Suppose my end result'll just look a little less good. I'll just focus on the other form of machine learning IDTAXA also gives
 
 Back to pre-processing, learning the types of pre-processing that exist
+
+Using random forest on glass
 
