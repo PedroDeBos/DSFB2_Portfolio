@@ -1,0 +1,701 @@
+# New skills
+
+<body id="start">
+<div class="topnav">
+  <a href='index.html#Frontpage'>Frontpage</a>
+  <a href='data-visualisation.html#data-visualisation'>Data visualisation</a>
+  <a href='parametized-data-germany.html#parametized-data'>Parametizing data</a>
+  <a href='directory-structure.html#directory-structure'>Directory structure</a>
+  <a href='creating-a-r-package.html#creating-a-r-package'>R-package</a>
+  <a href='sql.html#SQL'>SQL</a>
+  <a href='bibliography-using-zotero.html#Bibliography using Zotero'>Zotero</a>
+  <a href='open-reproductibility-analysis.html#open-reproductibility-analysis'>Reproductibility</a>
+  <a href='future-endeavours.html#future-endeavours'>Future endeavours</a>
+  <a href='new-skills.html#new-skills'> New skills (Machine learning)</a>
+  <a href='cv.html#cv'>CV</a>
+  <a href='bibliography.html#bibliography'>Bibliography</a>
+</div>
+
+
+```{r}
+library(ggplot2)
+library(tidyverse)
+knitr::opts_chunk$set(eval=FALSE)
+```
+
+
+For my free Space, I will study [this site](https://towardsdatascience.com/recognition-and-counting-of-microorganisms-on-petri-dishes-53a499283dc8). in order to find information about using bacterial identification using machine learning. 
+
+In this article, there is a link too the site [agar.neurosys.com](https://agar.neurosys.com/) which contains a dataset containing picture of agarplates in different conditions
+
+Conclusion based on the site: this is _way_ too complicated to start out with. Trying to find a simpler introduction to machine learning, specifically in R
+
+Trying [this link](https://www.datacamp.com/tutorial/machine-learning-in-r), mayhaps this'll give a better introduction.
+
+Would appear that a technique called "KNN" might be a good algorythm to start with. Gonna follow the tutorial the previous link gives, using the "iris" dataset
+
+First steps are too really undersand your data, and too visualise your data. So:
+
+- Sepals are modified leaves which encase and protect the flower before it blooms
+
+- Petals are modified leaves that surround the reproductive parts of the flower.
+
+```{r}
+iris %>% ggplot(aes(x=Sepal.Length, y=Sepal.Width, colour=Species))+
+  geom_point()
+
+iris %>% ggplot(aes(x=Petal.Length, y=Petal.Width, colour=Species))+
+  geom_point()
+
+str(iris)
+
+table(iris$Species)
+```
+
+Apparently, normalising is very important in machine learning. Using summary, we can check if datasets are too far appart
+
+```{r}
+summary(iris)
+```
+
+Ranges appear to be within 0.1-7.9, a factor 10 difference. Seems reasonable enough.
+
+Just in case though, you usually have to create normalising functions yourself, so here's one anyway, created by the site and broken down for me to understand it
+
+```{r}
+normalize<-function(x){
+  num<-x-min(x)
+  denom<-max(x)-min(x)
+  return(num/denom)
+}
+
+normalize(iris[1:4]) %>% head()
+
+#Generating a set where the the data is compensated for the lowest datapoint
+num<-iris$Sepal.Length-min(iris$Sepal.Length)
+
+#Generating the biggest difference in the dataset
+denom<-max(iris$Sepal.Length)-min(iris$Sepal.Length)
+
+#Generating the size of a datapoint relative to the maximum size of a datapoint.
+num/denom %>% head()
+
+as.data.frame(lapply(iris[1:4], normalize)) %>% mutate(Species=iris$Species) %>% head()
+```
+
+In order to properly train the algorythm, we must separate our data into 2 groups: a "training" group and a "test" group. Apparently, usually the "training group" is 2/3rds of the dataset, while the "test group" is one third of the dataset. Important is to give the algorythm equal amounts of each test condition, if we'd split the iris set into 2/3rds and 1/3rds it'd give 50 setosa, 50 versicolor and 0 virginica which would make the algorythm not recognize virginica at all. Thus, we use setseed and sample to generate a sample.
+
+```{r}
+set.seed(1234) #Set seed to "determine" the randomness"
+
+ind<-sample(2, nrow(iris), replace=TRUE, prob=c(0.67, 0.33))
+
+iris_training<-iris[ind==1,1:4] #Storing the training dataset
+iris_testing<-iris[ind==2,1:4] #Storing the testing dataset
+
+# We have the training and testing dataset, but we don't have the labels associated to those datasets. We have to store these seperately:
+
+iris_trainlabels<-iris[ind==1,5]
+iris_testlabels<-iris[ind==2,5]
+
+```
+
+With this, everything is set up to use knn: k-nearest neighbour classification.
+
+```{r}
+iris_pred<-class::knn(train = iris_training, test = iris_testing, cl = iris_trainlabels)
+iris_testlabels
+
+store<-iris_pred == iris_testlabels
+
+table(store)
+#Knn predicted 44 correct, 1 wrong
+
+```
+
+In order to further study the model's performance, we'll install the package gmodels
+
+```{r, eval=FALSE}
+install.packages("gmodels")
+```
+
+```{r}
+library(gmodels)
+
+CrossTable(x = iris_testlabels, y=iris_pred)
+```
+There were 14 setosa's, 11 versicolors and 20 virginica in the training set (See the rows). The program identified 14 setosa's 10 versicolors and 21 virginica's (see the columns). 1 versicolor was thus incorrectly identified as a virginica. This is unfortunate, but significant enough to discredit this method.
+
+In order to test if I've truly understood these past lessons, I will now perform them on a dataset of my own. For this, I'll be using the "Glass" dataset from mlbench. This dataset contains 213 observations of a chemical analysis of 7 different types of glass.
+
+```{r, eval=FALSE}
+install.packages("mlbench")
+```
+
+```{r}
+library(mlbench)
+data(Glass)
+```
+Firstly, we'll take a look at the data to determine whether it needs to be normalized or not.
+
+```{r}
+summary(Glass)
+```
+Based on the summary data, we can tell that the biggest scale of difference between data is 0.1-75. This is a factor 100 difference, which seems pretty big. For now, we'll just accept this and continue on with the machine learning.
+
+We'll now split out data into a train-group and a test group using the same technique as before
+
+```{r}
+set.seed(4321)
+ind_glass<-sample(2, nrow(Glass), replace=TRUE, prob=c(0.67,0.33)) #Creating a random selection of datapoints
+
+
+glass_training<-Glass[ind_glass==1,1:9] # Separating the training the training and the testing datasets
+glass_test<-Glass[ind_glass==2,1:9]
+
+glass_training_labels<-Glass[ind_glass==1,10] # Storing the labels seperately
+glass_test_labels<-Glass[ind_glass==2,10]
+```
+
+Now, with all datasets ready, we'll perform the learning
+
+```{r}
+glass_pred<-class::knn(glass_training, glass_test, glass_training_labels) #Performing the machine learning test.
+
+glass_result<-glass_pred == glass_test_labels
+table(glass_result)
+
+CrossTable(x = glass_test_labels, y=glass_pred)
+```
+For this dataset, KNN was less accurate: from the 70 test subjects, it managed to identify 55 correctly, but miss-identified 15 of them. As such, we can immidiately see that KNN is not perfect. However, this _does_ prove that I can now use a basic machine learning algorythm in R.
+
+Just to sate my curiousity, we'll now look at the results which we would've gotten if we'd normalised the data.
+
+```{r}
+set.seed(4321)
+ind_glass<-sample(2, nrow(Glass), replace=TRUE, prob=c(0.67,0.33)) #Creating a random selection of datapoints
+
+Glass_norm<-normalize(Glass[1:9]) %>% mutate(Type=Glass$Type)
+
+glass_training<-Glass_norm[ind_glass==1,1:9] # Separating the training the training and the testing datasets
+glass_test<-Glass_norm[ind_glass==2,1:9]
+
+glass_training_labels<-Glass_norm[ind_glass==1,10] # Storing the labels seperately
+glass_test_labels<-Glass_norm[ind_glass==2,10]
+
+glass_pred<-class::knn(glass_training, glass_test, glass_training_labels) #Performing the machine learning test.
+
+glass_result<-glass_pred == glass_test_labels
+table(glass_result)
+
+CrossTable(x = glass_test_labels, y=glass_pred)
+```
+
+The normalised test gives the exact same result as  the non-normalised test.
+
+Now, as a small sidetrack, we'll practice with the "karet" package, "classification and regression training". This is a more generalised way to do different kinds of machine learning
+
+```{r, eval=FALSE}
+install.packages("caret")
+install.packages("ipred") #Requirement of caret
+```
+
+This time, the data will be split with a 75-25 ratio
+
+```{r}
+library(caret)
+index<-createDataPartition(iris$Species, p=0.75, list=FALSE)
+
+iris_training2<-iris[index,]
+
+iris_test2<-iris[-index,]
+```
+
+There's a _lot_ of algorythms in Caret, so we'll use getModelInfo() to get info about these models. There's over 230 models, so only the top 50 will be shown
+
+```{r}
+names(getModelInfo()) %>% head(50)
+#We'll once again just use knn. But now
+
+#First, we create and train the algorythm
+model_knn<-train(iris_training2[,1:4], iris_training2[,5], method='knn')
+
+#Then, we use the model to make a prediction
+prediction<-predict(object=model_knn, iris_test2[,1:4])
+
+#We check if the predicitons are true
+pred<-prediction == iris_test2[,5]
+table(pred)
+
+#And we create a confusion matrix for the results
+confusionMatrix(prediction,iris_test2[,5])
+```
+
+In the caret package, there's also built-in pre-processing options, as shown below
+
+```{r}
+model_knn<-train(iris_training2[,1:4],iris_training2[,5],method='knn',preProcess = c("center", "scale"))
+
+prediction<-predict(object=model_knn, iris_test2[,1:4], type='raw')
+
+confusionMatrix(prediction, iris_test2[,5])
+```
+
+Using these forms of pr-processing give us 1 less mistake, and thus a more accurate system.
+
+Once again, to properly demonstrate my ability in now using the carets package, I'll be using it on the glass dataset once again
+
+```{r}
+Glass_part<-createDataPartition(Glass$Type, p=0.75, list=FALSE)
+Glass_training2<-Glass[Glass_part,]
+Glass_test2<-Glass[-Glass_part,]
+
+model_knn2<-train(Glass_training2[,1:9], Glass_training2[,10], method = "knn")
+
+Prediction<-predict(object=model_knn2, Glass_test2)
+
+confusionMatrix(Prediction, Glass_test2[,10])
+```
+
+Without pre-processing nor setting the data raw, the prediction comes down to a accuracy of .69
+
+```{r}
+Glass_part<-createDataPartition(Glass$Type, p=0.75, list=FALSE)
+Glass_training2<-Glass[Glass_part,]
+Glass_test2<-Glass[-Glass_part,]
+
+model_knn3<-train(Glass_training2[,1:9], Glass_training2[,10], method = "knn", preProcess = c("center", "scale"))
+
+Prediction<-predict(object=model_knn3, Glass_test2, type = "raw")
+
+confusionMatrix(Prediction, Glass_test2[,10])
+```
+
+Using pre-processing, the accuracy _decreased_ by 0.04, to a accuracy of .65
+
+Thus, we can conclude: pre-processing is _not_ always beneficial if done without knowledge of what the pre-processing does.
+
+Now that we understand the _basics_ of machine learning, we'll try to go a little deeper in the specific subject I want: machine learning in microbiology. For this, we'll study [this article](https://www.frontiersin.org/articles/10.3389/fmicb.2019.00827/full). Underneath are the notes I've taken while reading through this article:
+
+- Machine learning has two forms: supervised and unsupervised learning. Supervised requires a specific training package, unsupervised uses clustering, adapts k-means to reduce erorr through iteration.
+
+- Machine learning in microbiology has 4 steps: Extraction of features, Operational classifaction units (OTU) by clustering, important features selection to improve accuracy, training dataset to train the model -> testing dataset to test the model. 
+
+- Raw microbe data has high data dimensions: the data is too complex. Thus, the data's complexity needs to be reduced. For this, usually a PCA / PCoA analysis is usually performed.
+
+- In microbial study, supervised studying is usually used: using support vector machine (SVM), Naïve Bayes (NB), random forest (RF) or K nearest neighbour (KNN) methods.
+
+- In machine learning, there's  two different types of identification: determining whether an organism belongs to a species or not (is it streptococcus pneumoniae or is it _something else_), or classification based on domain: which kingdom, phylum, class, etc. does the micro-organism belong too?
+
+- Next too identification of microbes, machine learning can also be used to predict of enviromental and host phenotypes or too predict disease using microbial communities.
+
+- Finally, machine learning can also be used to look at interactions between micro-organisms and microbiome-disease associations.
+
+Now, to apply all this knowledge gained from reading the article, we'll look for a referenced article which has their data and code open sourced, and then use that to further figure out how to apply machine learning in practical applications. For this, we'll use the IDTAXA function [from this article](https://www.frontiersin.org/articles/10.3389/fgene.2018.00304/full)
+
+```{r, eval=FALSE}
+install.packages("BiocManager")
+BiocManager::install("DECIPHER")
+```
+
+
+```{r}
+library(BiocManager)
+library(DECIPHER)
+
+data("TrainingSet_16S")
+TrainingSet_16S
+```
+
+By looking around at some of the data a functions. Under the [DECIPHER site](http://www2.decipher.codes/Gallery.html) we can find a tutorial on how "DECIPHER" can be used. To test the functions out, I've taken 3 random bacterial DNA sequences: One from [streptococcus pyogenes](https://www.ncbi.nlm.nih.gov/genome/175?genome_assembly_id=383877), one from [staphylococcus aureus](https://www.ncbi.nlm.nih.gov/genome/154?genome_assembly_id=360991) and finally, one from [Salmonella enterica typhi](https://www.ncbi.nlm.nih.gov/genome/152?genome_assembly_id=299225). Before that, however, we'll use the built-in example given by DECIPHER to truly study how decipher works.
+
+```{r}
+#Loading sequences into database
+fas<-system.file("extdata", "50S_ribosomal_protein_L2.fas", package="DECIPHER") #First we take a built-in data set
+
+dbConn<-dbConnect(SQLite(),":memory:") #Then we set up a connection to a database
+
+Seqs2DB(fas, type="FASTA", dbFile = dbConn, identifier="") #Now we're adding out fasta data to a database from the file
+
+#Identifiying sequences based on genus
+x<-dbGetQuery(dbConn, "Select description from Seqs")$description #Getting the description values out of the database
+
+ns<-unlist(lapply(strsplit(x, split=" "), #I have no idea _how_ it works, but this extracts the genus names from all bacteria
+                  FUN=`[`,1L))
+
+Add2DB(myData = data.frame(identifier=ns, stringsAsFactors = FALSE), dbFile = dbConn) #Add
+
+# Align the translated sequences
+
+dna<-SearchDB(dbConn, nameBy = "identifier")
+AA<-AlignTranslation(dna, type="AAStringSet")
+
+Seqs2DB(AA, type = "AAStringSet",
+        dbFile = dbConn,
+        identifier = "",
+        tblName = "Aligned")
+
+Add2DB(myData = data.frame(identifier=ns, stringsAsFactors = FALSE),
+       dbFile = dbConn,
+       tblName = "Aligned")
+
+# Form a concensus sequence for each genus
+
+cons<-IdConsensus(dbConn, 
+            tblName = "Aligned",
+            type="AAStringSet",
+            threshold=0.5,
+            minInformation=0.5)
+
+Seqs2DB(cons, type = "DNAStringSet", dbFile = dbConn, identifier = "", tblName = "Consensus")
+
+aa<-SearchDB(dbConn, "Consensus",type = "AAStringSet", nameBy = "description", limit="40,20", removeGaps = "common")
+
+# Now see the sequences fully
+
+BrowseSeqs(aa, threshold=0.5,minInformation=0.5,colWidth = 60)
+```
+
+Only after performing these steps, do I realise they have nothing to do with machine learning. oops.
+
+Now, with this new knowledge, we'll focus on the ACTUAL machine learning part of DECIPHER: IDTAXA
+
+```{r}
+library(DECIPHER)
+fas<-"./data.raw/sequence_salmonella.fasta"
+
+seqs<-readDNAStringSet(fas)
+
+seqs<-RemoveGaps(seqs)
+```
+
+As the data set used for the training of the algorythm is larger than 1GB, it cannot be stored on github. Thus, you'll have to manually install it from [the DECIPHER downloads page](http://www2.decipher.codes/Downloads.html), under code "KEGG ALL"
+
+```{r}
+load("../KEGG_AllLineage_r95.RData")
+
+ids<-IdTaxa(seqs,
+            trainingSet,
+            strand = "both",
+            threshold = 60,
+            processors = NULL)
+
+print(ids)
+plot(ids)
+```
+Using this training set, the machine learning algorythm could _not_ figure out what salmonella was. Instead, we'll try it using another training data set, specifically that of proteobacteria (which salmonella is). If this algorythm cannot identify salmonella using this secondd dataset, we'll look into the FASTA input we're using
+
+```{r}
+fas<-"./data.raw/sequence_salmonella.fasta"
+
+seqs<-readDNAStringSet(fas)
+
+seqs<-RemoveGaps(seqs)
+
+load("../KEGG_Proteobacteria_r95.RData")
+
+ids<-IdTaxa(seqs,
+            trainingSet,
+            strand = "both",
+            threshold = 60,
+            processors = NULL)
+
+plot(ids)
+```
+ids once again does not give any classification: We'll try a standard dataset this time in order to see if the program is working at all.
+
+```{r}
+fas<-"./data.raw/HMP_16S.fas.txt"
+
+seqs<-readDNAStringSet(fas)
+
+seqs<-RemoveGaps(seqs)
+
+load("../KEGG_AllLineage_r95.RData")
+
+ids<-IdTaxa(seqs,
+            trainingSet,
+            strand = "both",
+            threshold = 60,
+            processors = NULL)
+
+print(ids)
+plot(ids)
+```
+
+Even the test dataset is not working, and gives "unclassified root". I think, however, I've discovered the issue: I'm using a "functional classifciation training set", while I should've been using a "organismal classification training set". Shoot. 
+
+Once again, trying it again: this time using a organismal classification training set.
+
+```{r}
+fas<-"./data.raw/HMP_16S.fas.txt"
+
+seqs<-readDNAStringSet(fas)
+
+seqs<-RemoveGaps(seqs)
+
+load("../Contax_v1_March2018.RData")
+
+ids<-IdTaxa(seqs,
+            trainingSet,
+            strand = "both",
+            threshold = 60,
+            processors = NULL)
+
+print(ids)
+plot(ids)
+```
+
+Yup, that was the problem. Now, using a proper training set, the algorythm _does_ give correct input. Let's try it for the original 3 files we downloaded, shall we?
+
+```{r}
+fas1<-"./data.raw/sequence_staphaureus.fasta"
+fas2<-"./data.raw/sequence_salmonella.fasta"
+fas3<-"./data.raw/sequence_streptopyogenes.fasta"
+
+seqs1<-readDNAStringSet(fas1)
+seqs2<-readDNAStringSet(fas2)
+seqs3<-readDNAStringSet(fas3)
+
+seqs1<-RemoveGaps(seqs1)
+seqs2<-RemoveGaps(seqs2)
+seqs3<-RemoveGaps(seqs3)
+
+
+load("../Contax_v1_March2018.RData")
+
+ids1<-IdTaxa(seqs1,
+            trainingSet,
+            strand = "both",
+            threshold = 60,
+            processors = NULL)
+
+
+ids2<-IdTaxa(seqs2,
+            trainingSet,
+            strand = "both",
+            threshold = 60,
+            processors = NULL)
+
+
+ids3<-IdTaxa(seqs3,
+            trainingSet,
+            strand = "both",
+            threshold = 60,
+            processors = NULL)
+
+print(ids1)
+print(ids2)
+print(ids3)
+```
+The program, however, still cannot identify the 3 original datasets. This means there's a difference between the data given in the example, and the data FASTA data we gave. To find this difference, we'll inspect both datafiles.
+
+An interesting find: the HMP-16s.fas file is way smaller (~200kb) than the fasta sequences (2-5mb), even though the HMP file contains DNA of approxx 130 bacteria. Perhaps the FASTA files I've given are whole genomes, while the input for the idTaxa command is 16S-dna. To test this, we'll get 3 new examples, this time of bacterial 16s-DNA
+
+```{r}
+fas1<-"./data.raw/AB002521.1.fasta"
+fas2<-"./data.raw/AB243005.1.fasta"
+fas3<-"./data.raw/AB594754.1.fasta"
+
+seqs1<-readDNAStringSet(fas1)
+seqs2<-readDNAStringSet(fas2)
+seqs3<-readDNAStringSet(fas3)
+
+seqs1<-RemoveGaps(seqs1)
+seqs2<-RemoveGaps(seqs2)
+seqs3<-RemoveGaps(seqs3)
+
+
+load("../Contax_v1_March2018.RData")
+
+ids1<-IdTaxa(seqs1,
+            trainingSet,
+            strand = "both",
+            threshold = 60,
+            processors = NULL)
+
+
+ids2<-IdTaxa(seqs2,
+            trainingSet,
+            strand = "both",
+            threshold = 60,
+            processors = NULL)
+
+
+ids3<-IdTaxa(seqs3,
+            trainingSet,
+            strand = "both",
+            threshold = 60,
+            processors = NULL)
+
+print(ids1)
+print(ids2)
+print(ids3)
+```
+
+And now, finally, the program works: it can identify the bacteria with 85% confidence. And thus, we have used a machine learning algorythm to identify bacteria based on their 16s RNA data. However, I still do not fully understand how IDTAXA works: that is because, like other microbiota machine-learning algorythms like rSeqTU, uses the "RandomForest" machine learning method, not the machine learning method I studied earlier (KNN). Because of this, we'll now return to the basics and perform a basic RandomForest machine learning project in order to truly understand how random forest works. For this, we'll use the guide given [here](https://www.r-bloggers.com/2018/01/how-to-implement-random-forests-in-r/).
+
+The random forest method works via decision tree classification: a model in which information on nodes. The reference forms a giant "tree" consisting of multiple branching paths, connected by nodes. These nodes contain information which of the branches a individual datapoint should go across. Data goes down the tree untill it no longer has any nodes on the tree or information about itself anymore.
+
+This model, while simple, has very low predictive power. Random Forest works on the same principle as decision tree classification, but instead of taking áll datapoints and áll variables, it takes a random selection of them and performs the tree. It then repeats this process for an X amount of times, and finally combines the results of all different decision trees into a single tree. By doing this, it greatly increases its predictive power, and decreases it's bias.
+
+Now, we'll perform a randomForest analysis in R. Data has been aquired from [an archive of a UCI website](https://archive.ics.uci.edu/ml/machine-learning-databases/car/)
+
+```{r, eval=FALSE}
+install.packages("randomForest")
+```
+```{r}
+library(randomForest)
+
+#Reading the data
+car_data<-read.csv("data.raw/car.data", header=FALSE)
+
+#Updating colnames
+colnames(car_data)<-c("BuyingPrice", "Maintenance", "NumDoors", "NumPersons", "BootSpace", "Safety", "Condition")
+
+#Changing "character" data into factor data for all data sets
+car_data$BuyingPrice<-factor(car_data$BuyingPrice)
+car_data$Maintenance<-factor(car_data$Maintenance)
+car_data$NumDoors<-factor(car_data$NumDoors)
+car_data$NumPersons<-factor(car_data$NumPersons)
+car_data$BootSpace<-factor(car_data$BootSpace)
+car_data$Safety<-factor(car_data$Safety)
+car_data$Condition<-factor(car_data$Condition)
+
+summary(car_data)
+```
+As is usual for machine learning, we'll split the data into a training-set and a testing-set.
+
+```{r}
+set.seed(100)
+train<-sample(nrow(car_data), 0.7*nrow(car_data), replace=FALSE)
+train %>% duplicated() %>% table()
+
+car_train<-car_data[train,]
+car_test<-car_data[-train,]
+summary(car_train)
+summary(car_test)
+```
+Now, with the training data properly separated, we'll create a training set of data.
+
+```{r}
+Model1<-randomForest(Condition ~ ., data = car_train, importance = TRUE)
+Model1
+
+Model2<-randomForest(Condition ~ ., data= car_train, ntree = 500, mtry = 6, importance = TRUE)
+Model2
+
+# Predicting the model:
+predModel1<-predict(Model1, car_train, type="class")
+table(predModel1, car_train$Condition)
+
+# Validating the model
+predModel1Valid<-predict(Model1, car_train, type = "class")
+table(predModel1Valid, car_train$Condition)
+# Even in validation there's a 0% error rate, this feels wrong. Let's just continue, perhaps it's a new update which has increased it's accuracy. Site is from 2018
+
+# And now, after doing everything again, it just fixed itself?? Strange.
+
+# Predicting model 2:
+predModel2<-predict(Model2, car_train, type="class")
+table(predModel2, car_train$Condition)
+
+# Validating model 2
+predModel2Valid<-predict(Model2, car_train, type = "class")
+table(predModel2Valid, car_train$Condition)
+
+```
+
+We've set up two potential randomForest Models. The question is, how do we know which model is the most accurate? Validating model 2 gave a perfect score, while validating model one gave 3 wrongly identified. However, to be completely sure of it's accuracy, randomForest has some built in functions. 
+
+```{r}
+importance(Model1)
+importance(Model2)
+
+varImpPlot(Model1)
+varImpPlot(Model2)
+```
+
+Based on these plots, we can definitely state that model 2 has a better track record for identifying conditions. However, we've only tested for either 2 or 6-sized nodes, with mtry=6. In order to create the most optimal machine learning systen, we must identify what amount of nodes will give the best result possible. For this, we can write a for-do-done loop. 
+
+```{r}
+x=c()
+i=3
+for(i in 1:6){
+  print(i)
+  Model3<-randomForest(Condition ~ ., data= car_train, ntree = 500, mtry = i, importance = TRUE)
+  PredictModel3<-predict(Model3, car_test, type="class")
+  x[i]=mean(PredictModel3 == car_test$Condition)
+}
+x
+data.frame(mtry=1:6,
+           prediction_power=x)
+```
+
+Based on this, we can conclude that performing the randomForest using mtry=5/6 brings the best results. Just for further testing, we'll also be performing this same kind of for-do-done loop 
+
+```{r}
+y=c()
+
+range<-seq(from = 100, to = 1000, by = 100)
+for(i in seq(from = 100, to = 1000, by = 100)){
+  print(i)
+  Model3<-randomForest(Condition ~ ., data= car_train, ntree = i, mtry = 6, importance = TRUE)
+  PredictModel3<-predict(Model3, car_test, type="class")
+  y[i]=(mean(PredictModel3 == car_test$Condition))
+}
+y[range]
+
+```
+And based on this, we can conclude that the "Ntree" doesn't matter a _whole_ lot, but that the optimal ranges tested here are 800 or 1000.
+
+will now return to Using INDEXID, trying to use real data on it
+
+```{r, eval=FALSE}
+fas<-"./data.raw/SRR10013537.1"
+readDNAStringSet(fas)
+```
+
+```{bash. eval=FALSE}
+export PATH=$PATH:$HOME/Downloads/sratoolkit.current-win64/sratoolkit.3.0.0-win64/bin
+```
+
+```{bash, eval=FALSE}
+vdb-config --interactive
+```
+
+
+Perhaps using the R-package geomedb and using the "fastq dump" command will allow us to dump a fastq
+
+```{r}
+library(geomedb)
+fastqDump()
+```
+
+Nope, in the end I just used my own bash terminal 
+
+```{r}
+library(mlbench)
+data(Glass)
+
+set.seed(4321)
+ind_glass<-sample(2, nrow(Glass), replace=TRUE, prob=c(0.67,0.33)) #Creating a random selection of datapoints
+
+glass_training<-Glass[ind_glass==1,] # Separating the training the training and the testing datasets
+glass_test<-Glass[ind_glass==2,]
+
+ModelGlass<-randomForest::randomForest(Type ~ ., data=glass_training, importance = TRUE)
+
+PredictGlass<-predict(ModelGlass, glass_test, type="class")
+table(PredictGlass, glass_test$Type)
+
+importance(ModelGlass)
+varImpPlot(ModelGlass)
+```
+
+And even using my own bash terminal isn't working. I'm giving up. Suppose my end result'll just look a little less good. I'll just focus on the other form of machine learning IDTAXA also gives
+
+Back to pre-processing, learning the types of pre-processing that exist
+
+Using random forest on glass
+

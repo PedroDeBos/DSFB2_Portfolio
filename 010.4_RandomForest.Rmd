@@ -2,6 +2,8 @@
 output: html_document
 ---
 
+# Random Forest
+
 <body id="start">
 <div class="topnav">
   <a href='index.html#Frontpage'>Frontpage</a>
@@ -20,14 +22,16 @@ output: html_document
 
 &nbsp;
 
+
+
 ```{r, include=FALSE}
 library(tidyverse)
 library(ggplot2)
 library(gridExtra)
 library(caret)
+library(DT)
 ```
 
-Now, while KNN is a very usefull model, there's other models that are more used within microbiology. One of these very often used models is the "random forest" method. 
 
 The random forest method works via decision tree classification: a model in which information on nodes. The reference forms a giant "tree" consisting of multiple branching paths, connected by nodes. These nodes contain information which of the branches a individual datapoint should go across. Data goes down the tree untill it no longer has any nodes on the tree or information about itself anymore.
 
@@ -67,7 +71,7 @@ car_data$Safety<-factor(car_data$Safety)
 car_data$Condition<-factor(car_data$Condition)
 
 
-summary(car_data)
+knitr::kable(summary(car_data))
 ```
 
 According the summary, we can see that Buying price - Safety are all equallty spread, with Condition being the only factor where the 4 different levels have different amounts of expression. Because of this. We'll use this condition as condition for our machine learning algorythm.
@@ -80,8 +84,8 @@ partition<-createDataPartition(car_data$Condition, p=0.75, list=FALSE)
 
 car_train<-car_data[partition,]
 car_test<-car_data[-partition,]
-summary(car_train)
-summary(car_test)
+knitr::kable(summary(car_train))
+knitr::kable(summary(car_test))
 ```
 
 Now, with the training data properly separated, we'll create a random forest model to determine the "condition" of the car data.
@@ -93,8 +97,6 @@ Model1
 predModel1<-predict(Model1, car_test, type="class")
 table(predModel1, car_test[,7])
 
-predModel1Valid<-predict(Model1, car_test, type = "class")
-table(predModel1Valid, car_test$Condition)
 ```
 
 It's as easy as that, we've officially created a randomForest learning algorythm in R! However, as with all machine learning algorythms, there's still much to be tweaked in order to create a optimal algorythm. For example, we can modify the "mtry" and the "ntree", two important variables in randomForest models.
@@ -108,27 +110,33 @@ Model2
 predModel2<-predict(Model2, car_test, type="class")
 table(predModel2, car_test$Condition)
 
-predModel2Valid<-predict(Model2, car_test, type = "class")
-table(predModel2Valid, car_test$Condition)
 ```
-By increasing the mtry to 6 and setting the ntree to 500, we've increased the accuracy of our randomForest program. In order to get a detailed breakdown of whether Model 2 is better than Model 1, randomForest has two built-in functions called "importance" and "varImPlot", which we'll use on both models
+By increasing the mtry to 6 and setting the ntree to 500, we've increased the accuracy of our randomForest program. In order to get a detailed breakdown of whether Model 2 is better than Model 1, randomForest has two built-in functions called "importance" and "varImPlot", which we'll use on both models. We can also use the previous "confusionMatrix" to determine the accuracy
 
 ```{r}
 importance(Model1)
 importance(Model2)
+```
 
+
+```{r}
 varImpPlot(Model1)
 varImpPlot(Model2)
 ```
+In these plots, the "MeanDecreaseAccuracy" expresses how much accuracy the model loses when it does _not_ consider the given variable, MeanDecreaseGini expresses measures how important that variable is for the homogeneity of the model. The higher the MeanDecreaseAccuracy/Gini, the more important it is for the model. Based on the significantly higher MeanDecreaseAccuracy in model 2 in comparisson to model 1, we can state that model 2 is indeed more accurate than model 1. Furthermore, the confusionMatrix for model 2 gives a higher accuracy than model 1.
 
-In these plots, the "MeanDecreaseAccuracy" expresses how much accuracy the model loses when it does _not_ consider the given variable, MeanDecreaseGini expresses measures how important that variable is for the homogeneity of the model. The higher the MeanDecreaseAccuracy/Gini, the more important it is for the model. Based on the significantly higher MeanDecreaseAccuracy in model 2 in comparisson to model 1, we can state that model 2 is indeed more accurate than model 1.
+```{r}
+confusionMatrix(predModel1, car_test[,7])
+confusionMatrix(predModel2, car_test$Condition)
+```
+
+This is backed up by the confusion matrix giving model 2 a higher accuracy than model 1
 
 Now we know that a ntree = 500 and a mtry = 6 gives a higher, but what about all other posibilities? It'd be a lot of work to manually test for every single possibility, and determine the one with the highest accuracy. 
 
 ```{r}
 x=c()
 for(i in 1:6){
-  print(i)
   Model3<-randomForest(Condition ~ ., data= car_train, ntree = 500, mtry = i, importance = TRUE)
   PredictModel3<-predict(Model3, car_test, type="class")
   x[i]=mean(PredictModel3 == car_test$Condition)
@@ -143,7 +151,6 @@ Based on testing mtry's 1-6 (6 being the maximum, since we only have 6 variables
 y=c()
 range<-seq(from = 100, to = 1500, by = 100)
 for(i in seq(from = 100, to = 1500, by = 100)){
-  print(i)
   Model3<-randomForest(Condition ~ ., data= car_train, ntree = i, mtry = 6, importance = TRUE)
   PredictModel3<-predict(Model3, car_test, type="class")
   y[i]=(mean(PredictModel3 == car_test$Condition))
@@ -154,14 +161,13 @@ data<-data.frame(prediction_power=y[range],
 data %>% filter(prediction_power==max(y[range]))
 ```
 
-Based on these results, we can see that 5 different ranges, 100, 200, 600, 700 and 1100, all show the exact same (highest) prediction power. Thus, we can conclude in the 100's range, there is no real big difference between different ntree amounts. Perhaps a logarythmic scale will show more difference?
+Based on these results, we can see that 5 different ranges, 200, 400 and 800 all show the exact same (highest) prediction power. Thus, we can conclude in the 100's range, there is no real big difference between different ntree amounts. Perhaps a logarithmic scale will show more difference?
 
 ```{r}
 y=c()
 
 length<-c(1 %o% 10^(0:4))
 for(i in c(1 %o% 10^(0:4))){
-  print(i)
   Model3<-randomForest(Condition ~ ., data= car_train, ntree = i, mtry = 6, importance = TRUE)
   PredictModel3<-predict(Model3, car_test, type="class")
   y[i]=(mean(PredictModel3 == car_test$Condition))
@@ -173,5 +179,9 @@ data
 
 With this table, we _can_ see that a ntree=1 has a lower predictive power, however, these differences are still quite small. Even still, they're handy to keep in mind. Important to keep in mind is that any numbers in a higher power than 1.000 take significantly mote time to render. Thus, it's the question of all that extra rendering time is worth an (in this case) insignificant difference.
 
-With that, we've succesfully performed a randomForest analysis upon a "cars" dataset. Now, we'll look into a package for R called IDTAXA, which uses randomForest computation to identify bacteria based on their 16sRNA.
+With that, we've succesfully performed a randomForest analysis upon a "cars" dataset. Just like with the KNN, we'll now perform the entire RandomForest workflow with the "Glass" dataset.
+
+
+
+Now, we'll look into a package for R called IDTAXA, which uses randomForest computation to identify bacteria based on their 16sRNA.
 

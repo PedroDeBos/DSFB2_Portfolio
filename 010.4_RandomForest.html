@@ -384,9 +384,8 @@ structure</a>
 <a href="bibliography.html#bibliography">Bibliography</a></p>
 </div>
 <p> </p>
-<p>Now, while KNN is a very usefull model, there’s other models that are
-more used within microbiology. One of these very often used models is
-the “random forest” method.</p>
+<div id="random-forest" class="section level1">
+<h1>Random Forest</h1>
 <p>The random forest method works via decision tree classification: a
 model in which information on nodes. The reference forms a giant “tree”
 consisting of multiple branching paths, connected by nodes. These nodes
@@ -457,12 +456,73 @@ summary(car_train)</code></pre>
 ##  low  :326   low  :322   3    :328   4   :445   med  :435   low :416   good : 52  
 ##  med  :327   med  :326   4    :321   more:421   small:429   med :450   unacc:908  
 ##  vhigh:323   vhigh:318   5more:319                                     vgood: 49</code></pre>
-<pre class="r"><code>summary(car_test)</code></pre>
-<pre><code>##  BuyingPrice Maintenance  NumDoors   NumPersons BootSpace    Safety    Condition  
-##  high :111   high :101   2    :103   2   :145   big  :143   high:145   acc  : 96  
-##  low  :106   low  :110   3    :104   4   :131   med  :141   low :160   good : 17  
-##  med  :105   med  :106   4    :111   more:155   small:147   med :126   unacc:302  
-##  vhigh:109   vhigh:114   5more:113                                     vgood: 16</code></pre>
+<pre class="r"><code>knitr::kable(summary(car_test))</code></pre>
+<table>
+<colgroup>
+<col width="3%" />
+<col width="15%" />
+<col width="15%" />
+<col width="12%" />
+<col width="14%" />
+<col width="12%" />
+<col width="11%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">BuyingPrice</th>
+<th align="left">Maintenance</th>
+<th align="left">NumDoors</th>
+<th align="left">NumPersons</th>
+<th align="left">BootSpace</th>
+<th align="left">Safety</th>
+<th align="left">Condition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">high :111</td>
+<td align="left">high :101</td>
+<td align="left">2 :103</td>
+<td align="left">2 :145</td>
+<td align="left">big :143</td>
+<td align="left">high:145</td>
+<td align="left">acc : 96</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">low :106</td>
+<td align="left">low :110</td>
+<td align="left">3 :104</td>
+<td align="left">4 :131</td>
+<td align="left">med :141</td>
+<td align="left">low :160</td>
+<td align="left">good : 17</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">med :105</td>
+<td align="left">med :106</td>
+<td align="left">4 :111</td>
+<td align="left">more:155</td>
+<td align="left">small:147</td>
+<td align="left">med :126</td>
+<td align="left">unacc:302</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">vhigh:109</td>
+<td align="left">vhigh:114</td>
+<td align="left">5more:113</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">vgood: 16</td>
+</tr>
+</tbody>
+</table>
 <p>Now, with the training data properly separated, we’ll create a random
 forest model to determine the “condition” of the car data.</p>
 <pre class="r"><code>Model1&lt;-randomForest(Condition ~ ., data = car_train, importance = TRUE)
@@ -489,14 +549,6 @@ table(predModel1, car_test[,7])</code></pre>
 ##      good    0   14     0     0
 ##      unacc   3    0   299     0
 ##      vgood   0    1     0    13</code></pre>
-<pre class="r"><code>predModel1Valid&lt;-predict(Model1, car_test, type = &quot;class&quot;)
-table(predModel1Valid, car_test$Condition)</code></pre>
-<pre><code>##                
-## predModel1Valid acc good unacc vgood
-##           acc    93    2     3     3
-##           good    0   14     0     0
-##           unacc   3    0   299     0
-##           vgood   0    1     0    13</code></pre>
 <p>It’s as easy as that, we’ve officially created a randomForest
 learning algorythm in R! However, as with all machine learning
 algorythms, there’s still much to be tweaked in order to create a
@@ -534,19 +586,12 @@ table(predModel2, car_test$Condition)</code></pre>
 ##      good    2   16     0     0
 ##      unacc   3    0   301     0
 ##      vgood   0    0     0    16</code></pre>
-<pre class="r"><code>predModel2Valid&lt;-predict(Model2, car_test, type = &quot;class&quot;)
-table(predModel2Valid, car_test$Condition)</code></pre>
-<pre><code>##                
-## predModel2Valid acc good unacc vgood
-##           acc    91    1     1     0
-##           good    2   16     0     0
-##           unacc   3    0   301     0
-##           vgood   0    0     0    16</code></pre>
 <p>By increasing the mtry to 6 and setting the ntree to 500, we’ve
 increased the accuracy of our randomForest program. In order to get a
 detailed breakdown of whether Model 2 is better than Model 1,
 randomForest has two built-in functions called “importance” and
-“varImPlot”, which we’ll use on both models</p>
+“varImPlot”, which we’ll use on both models. We can also use the
+previous “confusionMatrix” to determine the accuracy</p>
 <pre class="r"><code>importance(Model1)</code></pre>
 <pre><code>##                    acc       good      unacc      vgood MeanDecreaseAccuracy MeanDecreaseGini
 ## BuyingPrice  78.399893 40.6308337  62.861221 42.2281098           95.8290633         74.87927
@@ -574,25 +619,85 @@ variable is for the homogeneity of the model. The higher the
 MeanDecreaseAccuracy/Gini, the more important it is for the model. Based
 on the significantly higher MeanDecreaseAccuracy in model 2 in
 comparisson to model 1, we can state that model 2 is indeed more
-accurate than model 1.</p>
+accurate than model 1. Furthermore, the confusionMatrix for model 2
+gives a higher accuracy than model 1.</p>
+<pre class="r"><code>confusionMatrix(predModel1, car_test[,7])</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction acc good unacc vgood
+##      acc    93    2     3     3
+##      good    0   14     0     0
+##      unacc   3    0   299     0
+##      vgood   0    1     0    13
+## 
+## Overall Statistics
+##                                           
+##                Accuracy : 0.9722          
+##                  95% CI : (0.9519, 0.9855)
+##     No Information Rate : 0.7007          
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+##                                           
+##                   Kappa : 0.9387          
+##                                           
+##  Mcnemar&#39;s Test P-Value : NA              
+## 
+## Statistics by Class:
+## 
+##                      Class: acc Class: good Class: unacc Class: vgood
+## Sensitivity              0.9688     0.82353       0.9901      0.81250
+## Specificity              0.9761     1.00000       0.9767      0.99759
+## Pos Pred Value           0.9208     1.00000       0.9901      0.92857
+## Neg Pred Value           0.9909     0.99281       0.9767      0.99281
+## Prevalence               0.2227     0.03944       0.7007      0.03712
+## Detection Rate           0.2158     0.03248       0.6937      0.03016
+## Detection Prevalence     0.2343     0.03248       0.7007      0.03248
+## Balanced Accuracy        0.9724     0.91176       0.9834      0.90505</code></pre>
+<pre class="r"><code>confusionMatrix(predModel2, car_test$Condition)</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction acc good unacc vgood
+##      acc    91    1     1     0
+##      good    2   16     0     0
+##      unacc   3    0   301     0
+##      vgood   0    0     0    16
+## 
+## Overall Statistics
+##                                           
+##                Accuracy : 0.9838          
+##                  95% CI : (0.9668, 0.9934)
+##     No Information Rate : 0.7007          
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+##                                           
+##                   Kappa : 0.9643          
+##                                           
+##  Mcnemar&#39;s Test P-Value : NA              
+## 
+## Statistics by Class:
+## 
+##                      Class: acc Class: good Class: unacc Class: vgood
+## Sensitivity              0.9479     0.94118       0.9967      1.00000
+## Specificity              0.9940     0.99517       0.9767      1.00000
+## Pos Pred Value           0.9785     0.88889       0.9901      1.00000
+## Neg Pred Value           0.9852     0.99758       0.9921      1.00000
+## Prevalence               0.2227     0.03944       0.7007      0.03712
+## Detection Rate           0.2111     0.03712       0.6984      0.03712
+## Detection Prevalence     0.2158     0.04176       0.7053      0.03712
+## Balanced Accuracy        0.9710     0.96817       0.9867      1.00000</code></pre>
+<p>This is backed up by the confusion matrix giving model 2 a higher
+accuracy than model 1</p>
 <p>Now we know that a ntree = 500 and a mtry = 6 gives a higher, but
 what about all other posibilities? It’d be a lot of work to manually
 test for every single possibility, and determine the one with the
 highest accuracy.</p>
 <pre class="r"><code>x=c()
 for(i in 1:6){
-  print(i)
   Model3&lt;-randomForest(Condition ~ ., data= car_train, ntree = 500, mtry = i, importance = TRUE)
   PredictModel3&lt;-predict(Model3, car_test, type=&quot;class&quot;)
   x[i]=mean(PredictModel3 == car_test$Condition)
-}</code></pre>
-<pre><code>## [1] 1
-## [1] 2
-## [1] 3
-## [1] 4
-## [1] 5
-## [1] 6</code></pre>
-<pre class="r"><code>data.frame(mtry=1:6,
+}
+data.frame(mtry=1:6,
            prediction_power=x)</code></pre>
 <pre><code>##   mtry prediction_power
 ## 1    1        0.7935035
@@ -607,53 +712,32 @@ highest prediction power.</p>
 <pre class="r"><code>y=c()
 range&lt;-seq(from = 100, to = 1500, by = 100)
 for(i in seq(from = 100, to = 1500, by = 100)){
-  print(i)
   Model3&lt;-randomForest(Condition ~ ., data= car_train, ntree = i, mtry = 6, importance = TRUE)
   PredictModel3&lt;-predict(Model3, car_test, type=&quot;class&quot;)
   y[i]=(mean(PredictModel3 == car_test$Condition))
-}</code></pre>
-<pre><code>## [1] 100
-## [1] 200
-## [1] 300
-## [1] 400
-## [1] 500
-## [1] 600
-## [1] 700
-## [1] 800
-## [1] 900
-## [1] 1000
-## [1] 1100
-## [1] 1200
-## [1] 1300
-## [1] 1400
-## [1] 1500</code></pre>
-<pre class="r"><code>data&lt;-data.frame(prediction_power=y[range],
+}
+
+data&lt;-data.frame(prediction_power=y[range],
            ntree=seq(from = 100, to = 1500, by = 100))
 data %&gt;% filter(prediction_power==max(y[range]))</code></pre>
 <pre><code>##   prediction_power ntree
 ## 1        0.9860789   200
 ## 2        0.9860789   400
 ## 3        0.9860789   800</code></pre>
-<p>Based on these results, we can see that 5 different ranges, 100, 200,
-600, 700 and 1100, all show the exact same (highest) prediction power.
-Thus, we can conclude in the 100’s range, there is no real big
-difference between different ntree amounts. Perhaps a logarythmic scale
-will show more difference?</p>
+<p>Based on these results, we can see that 5 different ranges, 200, 400
+and 800 all show the exact same (highest) prediction power. Thus, we can
+conclude in the 100’s range, there is no real big difference between
+different ntree amounts. Perhaps a logarithmic scale will show more
+difference?</p>
 <pre class="r"><code>y=c()
 
 length&lt;-c(1 %o% 10^(0:4))
 for(i in c(1 %o% 10^(0:4))){
-  print(i)
   Model3&lt;-randomForest(Condition ~ ., data= car_train, ntree = i, mtry = 6, importance = TRUE)
   PredictModel3&lt;-predict(Model3, car_test, type=&quot;class&quot;)
   y[i]=(mean(PredictModel3 == car_test$Condition))
-}</code></pre>
-<pre><code>## [1] 1
-## [1] 10
-## [1] 100
-## [1] 1000
-## [1] 10000</code></pre>
-<pre class="r"><code>data&lt;-data.frame(prediction_power=y[length],
+}
+data&lt;-data.frame(prediction_power=y[length],
                  ntree=length)
 data</code></pre>
 <pre><code>##   prediction_power ntree
@@ -664,7 +748,16 @@ data</code></pre>
 ## 5        0.9837587 10000</code></pre>
 <p>With this table, we <em>can</em> see that a ntree=1 has a lower
 predictive power, however, these differences are still quite small. Even
-still, they’re handy to keep in mind.</p>
+still, they’re handy to keep in mind. Important to keep in mind is that
+any numbers in a higher power than 1.000 take significantly mote time to
+render. Thus, it’s the question of all that extra rendering time is
+worth an (in this case) insignificant difference.</p>
+<p>With that, we’ve succesfully performed a randomForest analysis upon a
+“cars” dataset. Just like with the KNN, we’ll now perform the entire
+RandomForest workflow with the “Glass” dataset.</p>
+<p>Now, we’ll look into a package for R called IDTAXA, which uses
+randomForest computation to identify bacteria based on their 16sRNA.</p>
+</div>
 
 
 

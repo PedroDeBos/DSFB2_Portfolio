@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="KNN in Glass | Portfolio Pedro de Bos" />
+<meta property="og:type" content="book" />
+
+
+
+
+
+
+
+<meta name="description" content="KNN in Glass | Portfolio Pedro de Bos">
+
+<title>KNN in Glass | Portfolio Pedro de Bos</title>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.23/datatables.js"></script>
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+/* show arrow before summary tag as in bootstrap
+TODO: remove if boostrap in updated in html_document (rmarkdown#1485) */
+details > summary {
+  display: list-item;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid main-container">
+
+
+<div class="row">
+<div class="col-sm-12">
+<!--bookdown:toc:end-->
+<!--bookdown:toc:start-->
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<div id="knn-in-glass" class="section level1">
+<h1>KNN in Glass</h1>
+<body id="start">
+<div class="topnav">
+<p><a href='index.html#Frontpage'>Frontpage</a>
+<a href='data-visualisation.html#data-visualisation'>Data visualisation</a>
+<a href='parametized-data-germany.html#parametized-data'>Parametizing data</a>
+<a href='directory-structure.html#directory-structure'>Directory structure</a>
+<a href='creating-a-r-package.html#creating-a-r-package'>R-package</a>
+<a href='sql.html#SQL'>SQL</a>
+<a href='bibliography-using-zotero.html#Bibliography using Zotero'>Zotero</a>
+<a href='open-reproductibility-analysis.html#open-reproductibility-analysis'>Reproductibility</a>
+<a href='future-endeavours.html#future-endeavours'>Future endeavours</a>
+<a href='new-skills.html#new-skills'> New skills (Machine learning)</a>
+<a href='cv.html#cv'>CV</a>
+<a href='bibliography.html#bibliography'>Bibliography</a></p>
+</div>
+<p> </p>
+<p>In this page, what was previous learned about KNN-models will be brought into practice using the “Glass” dataset. First, we’ll load the dataset in an inspect it</p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="knn-in-glass.html#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Glass)</span>
+<span id="cb80-2"><a href="knn-in-glass.html#cb80-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-3"><a href="knn-in-glass.html#cb80-3" aria-hidden="true" tabindex="-1"></a>Glass <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>##        RI    Na   Mg   Al    Si    K   Ca Ba   Fe Type
+## 1 1.52101 13.64 4.49 1.10 71.78 0.06 8.75  0 0.00    1
+## 2 1.51761 13.89 3.60 1.36 72.73 0.48 7.83  0 0.00    1
+## 3 1.51618 13.53 3.55 1.54 72.99 0.39 7.78  0 0.00    1
+## 4 1.51766 13.21 3.69 1.29 72.61 0.57 8.22  0 0.00    1
+## 5 1.51742 13.27 3.62 1.24 73.08 0.55 8.07  0 0.00    1
+## 6 1.51596 12.79 3.61 1.62 72.97 0.64 8.07  0 0.26    1</code></pre>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="knn-in-glass.html#cb82-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">summary</span>(Glass))</span></code></pre></div>
+<table>
+<colgroup>
+<col width="2%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="11%" />
+<col width="3%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">RI</th>
+<th align="left">Na</th>
+<th align="left">Mg</th>
+<th align="left">Al</th>
+<th align="left">Si</th>
+<th align="left">K</th>
+<th align="left">Ca</th>
+<th align="left">Ba</th>
+<th align="left">Fe</th>
+<th align="left">Type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">Min. :1.511</td>
+<td align="left">Min. :10.73</td>
+<td align="left">Min. :0.000</td>
+<td align="left">Min. :0.290</td>
+<td align="left">Min. :69.81</td>
+<td align="left">Min. :0.0000</td>
+<td align="left">Min. : 5.430</td>
+<td align="left">Min. :0.000</td>
+<td align="left">Min. :0.00000</td>
+<td align="left">1:70</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">1st Qu.:1.517</td>
+<td align="left">1st Qu.:12.91</td>
+<td align="left">1st Qu.:2.115</td>
+<td align="left">1st Qu.:1.190</td>
+<td align="left">1st Qu.:72.28</td>
+<td align="left">1st Qu.:0.1225</td>
+<td align="left">1st Qu.: 8.240</td>
+<td align="left">1st Qu.:0.000</td>
+<td align="left">1st Qu.:0.00000</td>
+<td align="left">2:76</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">Median :1.518</td>
+<td align="left">Median :13.30</td>
+<td align="left">Median :3.480</td>
+<td align="left">Median :1.360</td>
+<td align="left">Median :72.79</td>
+<td align="left">Median :0.5550</td>
+<td align="left">Median : 8.600</td>
+<td align="left">Median :0.000</td>
+<td align="left">Median :0.00000</td>
+<td align="left">3:17</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">Mean :1.518</td>
+<td align="left">Mean :13.41</td>
+<td align="left">Mean :2.685</td>
+<td align="left">Mean :1.445</td>
+<td align="left">Mean :72.65</td>
+<td align="left">Mean :0.4971</td>
+<td align="left">Mean : 8.957</td>
+<td align="left">Mean :0.175</td>
+<td align="left">Mean :0.05701</td>
+<td align="left">5:13</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">3rd Qu.:1.519</td>
+<td align="left">3rd Qu.:13.82</td>
+<td align="left">3rd Qu.:3.600</td>
+<td align="left">3rd Qu.:1.630</td>
+<td align="left">3rd Qu.:73.09</td>
+<td align="left">3rd Qu.:0.6100</td>
+<td align="left">3rd Qu.: 9.172</td>
+<td align="left">3rd Qu.:0.000</td>
+<td align="left">3rd Qu.:0.10000</td>
+<td align="left">6: 9</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">Max. :1.534</td>
+<td align="left">Max. :17.38</td>
+<td align="left">Max. :4.490</td>
+<td align="left">Max. :3.500</td>
+<td align="left">Max. :75.41</td>
+<td align="left">Max. :6.2100</td>
+<td align="left">Max. :16.190</td>
+<td align="left">Max. :3.150</td>
+<td align="left">Max. :0.51000</td>
+<td align="left">7:29</td>
+</tr>
+</tbody>
+</table>
+<p>We can immidiately see that glass consists off 10 columns: 9 for variables, and 1 for the identifying variable. The range between this data goes from 0.29:75.41, a factor 100 difference. A little on the large side, but still not high enough for normalisation to be necessary.</p>
+<p>We’ll use the same “sample” technique as before to split the data into 2 groups, a training and a test group</p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="knn-in-glass.html#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4321</span>)</span>
+<span id="cb83-2"><a href="knn-in-glass.html#cb83-2" aria-hidden="true" tabindex="-1"></a>ind_glass<span class="ot">&lt;-</span><span class="fu">sample</span>(<span class="dv">2</span>, <span class="fu">nrow</span>(Glass), <span class="at">replace=</span><span class="cn">TRUE</span>, <span class="at">prob=</span><span class="fu">c</span>(<span class="fl">0.67</span>,<span class="fl">0.33</span>)) <span class="co">#Creating a random selection of datapoints</span></span>
+<span id="cb83-3"><a href="knn-in-glass.html#cb83-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-4"><a href="knn-in-glass.html#cb83-4" aria-hidden="true" tabindex="-1"></a>glass_training<span class="ot">&lt;-</span>Glass[ind_glass<span class="sc">==</span><span class="dv">1</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>] <span class="co"># Separating the training the training and the testing datasets</span></span>
+<span id="cb83-5"><a href="knn-in-glass.html#cb83-5" aria-hidden="true" tabindex="-1"></a>glass_test<span class="ot">&lt;-</span>Glass[ind_glass<span class="sc">==</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>]</span>
+<span id="cb83-6"><a href="knn-in-glass.html#cb83-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-7"><a href="knn-in-glass.html#cb83-7" aria-hidden="true" tabindex="-1"></a>glass_training_labels<span class="ot">&lt;-</span>Glass[ind_glass<span class="sc">==</span><span class="dv">1</span>,<span class="dv">10</span>] <span class="co"># Storing the labels seperately</span></span>
+<span id="cb83-8"><a href="knn-in-glass.html#cb83-8" aria-hidden="true" tabindex="-1"></a>glass_test_labels<span class="ot">&lt;-</span>Glass[ind_glass<span class="sc">==</span><span class="dv">2</span>,<span class="dv">10</span>]</span></code></pre></div>
+<p>With the data set ordered and all, we can perform the machine-learning</p>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="knn-in-glass.html#cb84-1" aria-hidden="true" tabindex="-1"></a>glass_pred<span class="ot">&lt;-</span>class<span class="sc">::</span><span class="fu">knn</span>(glass_training, glass_test, glass_training_labels) <span class="co">#Performing the machine learning test.</span></span>
+<span id="cb84-2"><a href="knn-in-glass.html#cb84-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-3"><a href="knn-in-glass.html#cb84-3" aria-hidden="true" tabindex="-1"></a>glass_result<span class="ot">&lt;-</span>glass_pred <span class="sc">==</span> glass_test_labels</span>
+<span id="cb84-4"><a href="knn-in-glass.html#cb84-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(glass_result)</span></code></pre></div>
+<pre><code>## glass_result
+## FALSE  TRUE 
+##    15    55</code></pre>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="knn-in-glass.html#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">CrossTable</span>(<span class="at">x =</span> glass_test_labels, <span class="at">y=</span>glass_pred)</span></code></pre></div>
+<pre><code>## 
+##  
+##    Cell Contents
+## |-------------------------|
+## |                       N |
+## | Chi-square contribution |
+## |           N / Row Total |
+## |           N / Col Total |
+## |         N / Table Total |
+## |-------------------------|
+## 
+##  
+## Total Observations in Table:  70 
+## 
+##  
+##                   | glass_pred 
+## glass_test_labels |         1 |         2 |         3 |         5 |         6 |         7 | Row Total | 
+## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+##                 1 |        17 |         2 |         2 |         0 |         0 |         0 |        21 | 
+##                   |    12.033 |     4.033 |     1.344 |     1.800 |     0.600 |     2.700 |           | 
+##                   |     0.810 |     0.095 |     0.095 |     0.000 |     0.000 |     0.000 |     0.300 | 
+##                   |     0.680 |     0.080 |     0.667 |     0.000 |     0.000 |     0.000 |           | 
+##                   |     0.243 |     0.029 |     0.029 |     0.000 |     0.000 |     0.000 |           | 
+## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+##                 2 |         5 |        21 |         0 |         0 |         0 |         0 |        26 | 
+##                   |     1.978 |    14.778 |     1.114 |     2.229 |     0.743 |     3.343 |           | 
+##                   |     0.192 |     0.808 |     0.000 |     0.000 |     0.000 |     0.000 |     0.371 | 
+##                   |     0.200 |     0.840 |     0.000 |     0.000 |     0.000 |     0.000 |           | 
+##                   |     0.071 |     0.300 |     0.000 |     0.000 |     0.000 |     0.000 |           | 
+## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+##                 3 |         3 |         0 |         1 |         0 |         0 |         0 |         4 | 
+##                   |     1.729 |     1.429 |     4.005 |     0.343 |     0.114 |     0.514 |           | 
+##                   |     0.750 |     0.000 |     0.250 |     0.000 |     0.000 |     0.000 |     0.057 | 
+##                   |     0.120 |     0.000 |     0.333 |     0.000 |     0.000 |     0.000 |           | 
+##                   |     0.043 |     0.000 |     0.014 |     0.000 |     0.000 |     0.000 |           | 
+## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+##                 5 |         0 |         0 |         0 |         6 |         0 |         0 |         6 | 
+##                   |     2.143 |     2.143 |     0.257 |    58.514 |     0.171 |     0.771 |           | 
+##                   |     0.000 |     0.000 |     0.000 |     1.000 |     0.000 |     0.000 |     0.086 | 
+##                   |     0.000 |     0.000 |     0.000 |     1.000 |     0.000 |     0.000 |           | 
+##                   |     0.000 |     0.000 |     0.000 |     0.086 |     0.000 |     0.000 |           | 
+## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+##                 6 |         0 |         1 |         0 |         0 |         1 |         0 |         2 | 
+##                   |     0.714 |     0.114 |     0.086 |     0.171 |    15.557 |     0.257 |           | 
+##                   |     0.000 |     0.500 |     0.000 |     0.000 |     0.500 |     0.000 |     0.029 | 
+##                   |     0.000 |     0.040 |     0.000 |     0.000 |     0.500 |     0.000 |           | 
+##                   |     0.000 |     0.014 |     0.000 |     0.000 |     0.014 |     0.000 |           | 
+## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+##                 7 |         0 |         1 |         0 |         0 |         1 |         9 |        11 | 
+##                   |     3.929 |     2.183 |     0.471 |     0.943 |     1.496 |    40.687 |           | 
+##                   |     0.000 |     0.091 |     0.000 |     0.000 |     0.091 |     0.818 |     0.157 | 
+##                   |     0.000 |     0.040 |     0.000 |     0.000 |     0.500 |     1.000 |           | 
+##                   |     0.000 |     0.014 |     0.000 |     0.000 |     0.014 |     0.129 |           | 
+## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+##      Column Total |        25 |        25 |         3 |         6 |         2 |         9 |        70 | 
+##                   |     0.357 |     0.357 |     0.043 |     0.086 |     0.029 |     0.129 |           | 
+## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+## 
+## </code></pre>
+<p>Based on the table, we can conclude that using the KNN-model for this Glass dataset was less accurate than for the iris dataset. In the table, you’ll notice of the 21 glasstypes 1, only 17 were identified correctly. Of the 26 glasstypes 2, only 21 were correctly identified. This pattern continues for <em>all</em> glasstypes, only glasstype 5 was perfectly identified.</p>
+<p>Purely to sate my own curiosity, I’ve also performed the analysis using normalised data, to see what the impact of normalisation would be on this data.</p>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="knn-in-glass.html#cb88-1" aria-hidden="true" tabindex="-1"></a>normalize<span class="ot">&lt;-</span><span class="cf">function</span>(x){</span>
+<span id="cb88-2"><a href="knn-in-glass.html#cb88-2" aria-hidden="true" tabindex="-1"></a>  num<span class="ot">&lt;-</span>x<span class="sc">-</span><span class="fu">min</span>(x)</span>
+<span id="cb88-3"><a href="knn-in-glass.html#cb88-3" aria-hidden="true" tabindex="-1"></a>  denom<span class="ot">&lt;-</span><span class="fu">max</span>(x)<span class="sc">-</span><span class="fu">min</span>(x)</span>
+<span id="cb88-4"><a href="knn-in-glass.html#cb88-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(num<span class="sc">/</span>denom)</span>
+<span id="cb88-5"><a href="knn-in-glass.html#cb88-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb88-6"><a href="knn-in-glass.html#cb88-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-7"><a href="knn-in-glass.html#cb88-7" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4321</span>)</span>
+<span id="cb88-8"><a href="knn-in-glass.html#cb88-8" aria-hidden="true" tabindex="-1"></a>ind_glass<span class="ot">&lt;-</span><span class="fu">sample</span>(<span class="dv">2</span>, <span class="fu">nrow</span>(Glass), <span class="at">replace=</span><span class="cn">TRUE</span>, <span class="at">prob=</span><span class="fu">c</span>(<span class="fl">0.67</span>,<span class="fl">0.33</span>)) <span class="co">#Creating a random selection of datapoints</span></span>
+<span id="cb88-9"><a href="knn-in-glass.html#cb88-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-10"><a href="knn-in-glass.html#cb88-10" aria-hidden="true" tabindex="-1"></a>Glass_norm<span class="ot">&lt;-</span><span class="fu">normalize</span>(Glass[<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>]) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Type=</span>Glass<span class="sc">$</span>Type)</span>
+<span id="cb88-11"><a href="knn-in-glass.html#cb88-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-12"><a href="knn-in-glass.html#cb88-12" aria-hidden="true" tabindex="-1"></a>glass_training<span class="ot">&lt;-</span>Glass_norm[ind_glass<span class="sc">==</span><span class="dv">1</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>] <span class="co"># Separating the training the training and the testing datasets</span></span>
+<span id="cb88-13"><a href="knn-in-glass.html#cb88-13" aria-hidden="true" tabindex="-1"></a>glass_test<span class="ot">&lt;-</span>Glass_norm[ind_glass<span class="sc">==</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>]</span>
+<span id="cb88-14"><a href="knn-in-glass.html#cb88-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-15"><a href="knn-in-glass.html#cb88-15" aria-hidden="true" tabindex="-1"></a>glass_training_labels<span class="ot">&lt;-</span>Glass_norm[ind_glass<span class="sc">==</span><span class="dv">1</span>,<span class="dv">10</span>] <span class="co"># Storing the labels seperately</span></span>
+<span id="cb88-16"><a href="knn-in-glass.html#cb88-16" aria-hidden="true" tabindex="-1"></a>glass_test_labels<span class="ot">&lt;-</span>Glass_norm[ind_glass<span class="sc">==</span><span class="dv">2</span>,<span class="dv">10</span>]</span>
+<span id="cb88-17"><a href="knn-in-glass.html#cb88-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-18"><a href="knn-in-glass.html#cb88-18" aria-hidden="true" tabindex="-1"></a>glass_pred<span class="ot">&lt;-</span>class<span class="sc">::</span><span class="fu">knn</span>(glass_training, glass_test, glass_training_labels) <span class="co">#Performing the machine learning test.</span></span>
+<span id="cb88-19"><a href="knn-in-glass.html#cb88-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-20"><a href="knn-in-glass.html#cb88-20" aria-hidden="true" tabindex="-1"></a>glass_result<span class="ot">&lt;-</span>glass_pred <span class="sc">==</span> glass_test_labels</span>
+<span id="cb88-21"><a href="knn-in-glass.html#cb88-21" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(glass_result)</span></code></pre></div>
+<pre><code>## glass_result
+## FALSE  TRUE 
+##    15    55</code></pre>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="knn-in-glass.html#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">CrossTable</span>(<span class="at">x =</span> glass_test_labels, <span class="at">y=</span>glass_pred)</span></code></pre></div>
+<pre><code>## 
+##  
+##    Cell Contents
+## |-------------------------|
+## |                       N |
+## | Chi-square contribution |
+## |           N / Row Total |
+## |           N / Col Total |
+## |         N / Table Total |
+## |-------------------------|
+## 
+##  
+## Total Observations in Table:  70 
+## 
+##  
+##                   | glass_pred 
+## glass_test_labels |         1 |         2 |         3 |         5 |         6 |         7 | Row Total | 
+## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+##                 1 |        17 |         2 |         2 |         0 |         0 |         0 |        21 | 
+##                   |    12.033 |     4.033 |     1.344 |     1.800 |     0.600 |     2.700 |           | 
+##                   |     0.810 |     0.095 |     0.095 |     0.000 |     0.000 |     0.000 |     0.300 | 
+##                   |     0.680 |     0.080 |     0.667 |     0.000 |     0.000 |     0.000 |           | 
+##                   |     0.243 |     0.029 |     0.029 |     0.000 |     0.000 |     0.000 |           | 
+## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+##                 2 |         5 |        21 |         0 |         0 |         0 |         0 |        26 | 
+##                   |     1.978 |    14.778 |     1.114 |     2.229 |     0.743 |     3.343 |           | 
+##                   |     0.192 |     0.808 |     0.000 |     0.000 |     0.000 |     0.000 |     0.371 | 
+##                   |     0.200 |     0.840 |     0.000 |     0.000 |     0.000 |     0.000 |           | 
+##                   |     0.071 |     0.300 |     0.000 |     0.000 |     0.000 |     0.000 |           | 
+## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+##                 3 |         3 |         0 |         1 |         0 |         0 |         0 |         4 | 
+##                   |     1.729 |     1.429 |     4.005 |     0.343 |     0.114 |     0.514 |           | 
+##                   |     0.750 |     0.000 |     0.250 |     0.000 |     0.000 |     0.000 |     0.057 | 
+##                   |     0.120 |     0.000 |     0.333 |     0.000 |     0.000 |     0.000 |           | 
+##                   |     0.043 |     0.000 |     0.014 |     0.000 |     0.000 |     0.000 |           | 
+## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+##                 5 |         0 |         0 |         0 |         6 |         0 |         0 |         6 | 
+##                   |     2.143 |     2.143 |     0.257 |    58.514 |     0.171 |     0.771 |           | 
+##                   |     0.000 |     0.000 |     0.000 |     1.000 |     0.000 |     0.000 |     0.086 | 
+##                   |     0.000 |     0.000 |     0.000 |     1.000 |     0.000 |     0.000 |           | 
+##                   |     0.000 |     0.000 |     0.000 |     0.086 |     0.000 |     0.000 |           | 
+## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+##                 6 |         0 |         1 |         0 |         0 |         1 |         0 |         2 | 
+##                   |     0.714 |     0.114 |     0.086 |     0.171 |    15.557 |     0.257 |           | 
+##                   |     0.000 |     0.500 |     0.000 |     0.000 |     0.500 |     0.000 |     0.029 | 
+##                   |     0.000 |     0.040 |     0.000 |     0.000 |     0.500 |     0.000 |           | 
+##                   |     0.000 |     0.014 |     0.000 |     0.000 |     0.014 |     0.000 |           | 
+## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+##                 7 |         0 |         1 |         0 |         0 |         1 |         9 |        11 | 
+##                   |     3.929 |     2.183 |     0.471 |     0.943 |     1.496 |    40.687 |           | 
+##                   |     0.000 |     0.091 |     0.000 |     0.000 |     0.091 |     0.818 |     0.157 | 
+##                   |     0.000 |     0.040 |     0.000 |     0.000 |     0.500 |     1.000 |           | 
+##                   |     0.000 |     0.014 |     0.000 |     0.000 |     0.014 |     0.129 |           | 
+## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+##      Column Total |        25 |        25 |         3 |         6 |         2 |         9 |        70 | 
+##                   |     0.357 |     0.357 |     0.043 |     0.086 |     0.029 |     0.129 |           | 
+## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+## 
+## </code></pre>
+<p>Conclusion: in this specific example, normalisation does not change anything at all.</p>
+<p>Now, we’ve completely studied and used one form of machine learning, it’s time to look into another aspect of machine learning that’s important, a step before the training even starts: pre processing.</p>
+
+</div>
+<p style="text-align: center;">
+<a href="knn-machine-learning.html"><button class="btn btn-default">Previous</button></a>
+<a href="pre-processing-karet.html"><button class="btn btn-default">Next</button></a>
+</p>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+</body>
+</html>
