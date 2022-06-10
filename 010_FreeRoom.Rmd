@@ -651,22 +651,34 @@ And based on this, we can conclude that the "Ntree" doesn't matter a _whole_ lot
 
 will now return to Using INDEXID, trying to use real data on it
 
-```{r}
+```{r, eval=FALSE}
 fas<-"./data.raw/SRR10013537.1"
 readDNAStringSet(fas)
 ```
 
-```{bash}
+```{bash. eval=FALSE}
 export PATH=$PATH:$HOME/Downloads/sratoolkit.current-win64/sratoolkit.3.0.0-win64/bin
 ```
 
-```{bash}
+```{bash, eval=FALSE}
 vdb-config --interactive
 ```
 
 
-Yeah I'm giving up on installing this stupid fasta data untill I've calmed down. I'll try it tomorrow. For now I'll just do what I need to do with pre-processing
+Perhaps using the R-package geomedb and using the "fastq dump" command will allow us to dump a fastq
 
+```{r}
+library(geomedb)
+fastqDump()
+```
 
+Nope, in the end I just used my own bash terminal 
 
+```{r}
+
+```
+
+And even using my own bash terminal isn't working. I'm giving up. Suppose my end result'll just look a little less good. I'll just focus on the other form of machine learning IDTAXA also gives
+
+Back to pre-processing, learning the types of pre-processing that exist
 

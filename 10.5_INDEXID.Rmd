@@ -127,7 +127,8 @@ print(ids)
 
 <img src="./images/IDTAXA_2.png">
 
-So, we can use our own data, but how does ID-TAXA hold up against 16s-RNA from a real experiment? To discover this, I've taken the data from a study
+And thus, like that, we've officially learned how to use the IDTAXA machine learning method for 16s RNA!
+
 
 
 

@@ -68,7 +68,11 @@ confusionMatrix(prediction,iris_test2[,5])
 
 We can see that the model can identify Setosa perfectly, but struggles a little with versicolor (92% accuracy) and some more with virginica (83% accuracy).
 
-What's nice about caret training is that it contains pre-built in preprocessing methods. For example: 
+What's nice about caret training is that it contains pre-built in preprocessing methods. For the most basic examples of pre-processing, take centering and scaling.
+
+- Centering is a form of pre-processing where the mean of the data is determined, and all other data is represented based on their distance to the mean
+
+- Scaling is a form of pre-processing where all data is changed to the same scale of size. This makes sure the machine learning algorythm does not determine that one variable is more important than another, purely because it has higher numbers.
 
 ```{r}
 model_knn<-train(iris_training2[,1:4],iris_training2[,5],method='knn',preProcess = c("center", "scale"))
@@ -81,5 +85,10 @@ table(pred)
 confusionMatrix(prediction, iris_test2[,5])
 ```
 
-centering and scaling the data already increases the accuracy of the system, making it detect the versicolor originally classified as a virginica as the correct species. However, the question remains: what other forms of pre-processing are available? And when do you need to use which form of pre-processing?
+centering and scaling the data already increases the accuracy of the system, making it detect the versicolor originally classified as a virginica as the correct species. To further explore the power of pre-processing, we'll take our home-made Glass KNN-model again, re-make it in caret, and pre-process the data before applying the model.
+
+```{r}
+
+```
+
 
