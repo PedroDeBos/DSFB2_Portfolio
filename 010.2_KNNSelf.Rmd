@@ -61,8 +61,6 @@ glass_result<-glass_pred == glass_test_labels
 table(glass_result)
 
 CrossTable(x = glass_test_labels, y=glass_pred)
-
-confusionMatrix(glass_test_labels, glass_pred)
 ```
 
 Based on the table, we can conclude that using the KNN-model for this Glass dataset was less accurate than for the iris dataset. In the table, you'll notice of the 21 glasstypes 1, only 17 were identified correctly. Of the 26 glasstypes 2, only 21 were correctly identified. This pattern continues for _all_ glasstypes, only glasstype 5 was perfectly identified. 

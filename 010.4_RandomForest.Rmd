@@ -27,6 +27,7 @@ library(tidyverse)
 library(ggplot2)
 library(gridExtra)
 library(caret)
+library(DT)
 ```
 
 
@@ -68,7 +69,7 @@ car_data$Safety<-factor(car_data$Safety)
 car_data$Condition<-factor(car_data$Condition)
 
 
-summary(car_data)
+knitr::kabel(summary(car_data))
 ```
 
 According the summary, we can see that Buying price - Safety are all equallty spread, with Condition being the only factor where the 4 different levels have different amounts of expression. Because of this. We'll use this condition as condition for our machine learning algorythm.
@@ -81,8 +82,8 @@ partition<-createDataPartition(car_data$Condition, p=0.75, list=FALSE)
 
 car_train<-car_data[partition,]
 car_test<-car_data[-partition,]
-summary(car_train)
-summary(car_test)
+knitr::kabel(summary(car_train))
+knitr::kable(summary(car_test))
 ```
 
 Now, with the training data properly separated, we'll create a random forest model to determine the "condition" of the car data.
@@ -113,16 +114,22 @@ By increasing the mtry to 6 and setting the ntree to 500, we've increased the ac
 ```{r}
 importance(Model1)
 importance(Model2)
+```
 
-confusionMatrix(predModel1, car_test[,7])
 
+```{r}
 varImpPlot(Model1)
 varImpPlot(Model2)
-
-confusionMatrix(predModel2, car_test$Condition)
 ```
 
 In these plots, the "MeanDecreaseAccuracy" expresses how much accuracy the model loses when it does _not_ consider the given variable, MeanDecreaseGini expresses measures how important that variable is for the homogeneity of the model. The higher the MeanDecreaseAccuracy/Gini, the more important it is for the model. Based on the significantly higher MeanDecreaseAccuracy in model 2 in comparisson to model 1, we can state that model 2 is indeed more accurate than model 1. Furthermore, the confusionMatrix for model 2 gives a higher accuracy than model 1.
+
+```{r}
+confusionMatrix(predModel1, car_test[,7])
+confusionMatrix(predModel2, car_test$Condition)
+```
+
+This is backed up by the confusion matrix giving model 2 a higher accuracy than model 1
 
 Now we know that a ntree = 500 and a mtry = 6 gives a higher, but what about all other posibilities? It'd be a lot of work to manually test for every single possibility, and determine the one with the highest accuracy. 
 
@@ -153,7 +160,7 @@ data<-data.frame(prediction_power=y[range],
 data %>% filter(prediction_power==max(y[range]))
 ```
 
-Based on these results, we can see that 5 different ranges, 100, 200, 600, 700 and 1100, all show the exact same (highest) prediction power. Thus, we can conclude in the 100's range, there is no real big difference between different ntree amounts. Perhaps a logarythmic scale will show more difference?
+Based on these results, we can see that 5 different ranges, 200, 400 and 800 all show the exact same (highest) prediction power. Thus, we can conclude in the 100's range, there is no real big difference between different ntree amounts. Perhaps a logarithmic scale will show more difference?
 
 ```{r}
 y=c()

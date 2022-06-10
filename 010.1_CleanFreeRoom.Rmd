@@ -79,7 +79,7 @@ We can see that our dataset has 50 of each of the different flower types.
 Finally, we'll also have a look at the range of data in our data-set
 
 ```{r}
-summary(iris)
+knitr::kable(summary(iris))
 ```
 
 The lowest value present in the variables is "0.1", under Petal.Width. The highest value is "7.9", under "Sepal.Length". This gives a difference of approximately factor 10-100, which is within acceptable levels. If it were not, and the factor difference would be above 1000, we would have to normalise the data with a function like the one below

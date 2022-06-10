@@ -11,7 +11,7 @@
 
 
 
-<title>010.2_KNNSelf.knit</title>
+<title>010.6_INDEXID.knit</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -384,245 +384,122 @@ structure</a>
 <a href="bibliography.html#bibliography">Bibliography</a></p>
 </div>
 <p> </p>
-<div id="knn-in-glass" class="section level1">
-<h1>KNN in Glass</h1>
-<p>In this page, what was previous learned about KNN-models will be
-brought into practice using the “Glass” dataset. First, we’ll load the
-dataset in an inspect it</p>
-<pre class="r"><code>data(Glass)
+<div id="indexid" class="section level1">
+<h1>INDEXID</h1>
+<p>Now, for the grand finale: we’ll use all previous knowledge we’ve
+gathered, and study an fully developed microbiology machine learning
+package in R: IDTAXA.</p>
+<p>IDTAXA is part of the DECIPHER package, a package hosted on the
+bioconductor website. DECIPHER is a “software toolset that can be used
+for deciphering and managing biological sequences efficiently using R”.
+It contains functions for many different uses, including maintaining
+databases, aligning sequences, finding genes, and the main use we’ll be
+studying, analysing sequences for classification.</p>
+<p>IDTAXA contains 2 forms of identification: Taxonomy by organism, and
+taxonomy by functions. ITDAXA: classify organisms takes rRNA or an ITS
+sequence, and classifies it as a taxonomy of organisms. IDTAXA: classify
+functions takes a protein or coding sequence, and classifies it as a
+taxonomy of functions.</p>
+<p>The site for IDTAXA, specifically <a href="http://www2.decipher.codes/ClassifyOrganismsCode.html">this link
+here</a>, contains a guide on how to perform an IDTAXA identification
+yourself in R. This guide will be performed on an A: pre-assembled mock
+data set, B: 3 16sRNA sequences from taken from an online database, and
+C: 16sRNA sequencces from a random published study.</p>
+<p>The process goes as follows: First, store the location of the fasta
+data, and read it using readDNAStringSet(or RNAStringSet if it’s RNA
+data). Use “remove gaps” to remove any possible gaps found in the
+data</p>
+<pre class="r"><code>fas&lt;-&quot;./data.raw/HMP_16S.fas.txt&quot;
 
-Glass %&gt;% head()</code></pre>
-<pre><code>##        RI    Na   Mg   Al    Si    K   Ca Ba   Fe Type
-## 1 1.52101 13.64 4.49 1.10 71.78 0.06 8.75  0 0.00    1
-## 2 1.51761 13.89 3.60 1.36 72.73 0.48 7.83  0 0.00    1
-## 3 1.51618 13.53 3.55 1.54 72.99 0.39 7.78  0 0.00    1
-## 4 1.51766 13.21 3.69 1.29 72.61 0.57 8.22  0 0.00    1
-## 5 1.51742 13.27 3.62 1.24 73.08 0.55 8.07  0 0.00    1
-## 6 1.51596 12.79 3.61 1.62 72.97 0.64 8.07  0 0.26    1</code></pre>
-<pre class="r"><code>summary(Glass)</code></pre>
-<pre><code>##        RI              Na              Mg              Al              Si              K                Ca               Ba              Fe          Type  
-##  Min.   :1.511   Min.   :10.73   Min.   :0.000   Min.   :0.290   Min.   :69.81   Min.   :0.0000   Min.   : 5.430   Min.   :0.000   Min.   :0.00000   1:70  
-##  1st Qu.:1.517   1st Qu.:12.91   1st Qu.:2.115   1st Qu.:1.190   1st Qu.:72.28   1st Qu.:0.1225   1st Qu.: 8.240   1st Qu.:0.000   1st Qu.:0.00000   2:76  
-##  Median :1.518   Median :13.30   Median :3.480   Median :1.360   Median :72.79   Median :0.5550   Median : 8.600   Median :0.000   Median :0.00000   3:17  
-##  Mean   :1.518   Mean   :13.41   Mean   :2.685   Mean   :1.445   Mean   :72.65   Mean   :0.4971   Mean   : 8.957   Mean   :0.175   Mean   :0.05701   5:13  
-##  3rd Qu.:1.519   3rd Qu.:13.82   3rd Qu.:3.600   3rd Qu.:1.630   3rd Qu.:73.09   3rd Qu.:0.6100   3rd Qu.: 9.172   3rd Qu.:0.000   3rd Qu.:0.10000   6: 9  
-##  Max.   :1.534   Max.   :17.38   Max.   :4.490   Max.   :3.500   Max.   :75.41   Max.   :6.2100   Max.   :16.190   Max.   :3.150   Max.   :0.51000   7:29</code></pre>
-<p>We can immidiately see that glass consists off 10 columns: 9 for
-variables, and 1 for the identifying variable. The range between this
-data goes from 0.29:75.41, a factor 100 difference. A little on the
-large side, but still not high enough for normalisation to be
-necessary.</p>
-<p>We’ll use the same “sample” technique as before to split the data
-into 2 groups, a training and a test group</p>
-<pre class="r"><code>set.seed(4321)
-ind_glass&lt;-sample(2, nrow(Glass), replace=TRUE, prob=c(0.67,0.33)) #Creating a random selection of datapoints
+seqs&lt;-readDNAStringSet(fas)
 
-glass_training&lt;-Glass[ind_glass==1,1:9] # Separating the training the training and the testing datasets
-glass_test&lt;-Glass[ind_glass==2,1:9]
+seqs&lt;-RemoveGaps(seqs)</code></pre>
+<p>Then, load in the training data set downloaded from the DECIPHER
+website.</p>
+<p>(Please keep in mind, loading this data and performing the machine
+learning is a very CPU-heavy process. In order to make this .Rmd
+accessible to those without a strong computer, I’ve instead ran the code
+myself, and will only be showing the plots as output)</p>
+<pre class="r"><code>load(&quot;../KEGG_AllLineage_r95.RData&quot;)</code></pre>
+<p>Now, let the IdTaxa algorythm run, store the output, and use plot()
+to immdiately plot the output</p>
+<pre class="r"><code>ids&lt;-IdTaxa(seqs,
+            trainingSet,
+            strand = &quot;both&quot;,
+            threshold = 60,
+            processors = NULL)
+print(ids)
+plot(ids)</code></pre>
+<p>print(ids)</p>
+<p>A test set of class ‘Taxa’ with length 118</p>
+<pre><code>  confidence name                 taxon</code></pre>
+<p>[1] 78% Acinetobacter bau… Root; Bacteria; Proteobacteria;
+Gammaproteobacteria; Pseudomonadales; Moraxellaceae; Acinetobacter<br />
+[2] 78% Acinetobacter bau… Root; Bacteria; Proteobacteria;
+Gammaproteobacteria; Pseudomonadales; Moraxellaceae; Acinetobacter<br />
+[3] 78% Acinetobacter bau… Root; Bacteria; Proteobacteria;
+Gammaproteobacteria; Pseudomonadales; Moraxellaceae; Acinetobacter<br />
+[4] 78% Acinetobacter bau… Root; Bacteria; Proteobacteria;
+Gammaproteobacteria; Pseudomonadales; Moraxellaceae; Acinetobacter<br />
+[5] 78% Acinetobacter bau… Root; Bacteria; Proteobacteria;
+Gammaproteobacteria; Pseudomonadales; Moraxellaceae; Acinetobacter<br />
+… … … …</p>
+<p>[114] 57% Streptococcus mut… Root; unclassified_Root<br />
+[115] 81% Streptococcus pne… Root; Bacteria; Firmicutes; Bacilli;
+Lactobacillales; Streptococcaceae; Streptococcus<br />
+[116] 81% Streptococcus pne… Root; Bacteria; Firmicutes; Bacilli;
+Lactobacillales; Streptococcaceae; Streptococcus<br />
+[117] 81% Streptococcus pne… Root; Bacteria; Firmicutes; Bacilli;
+Lactobacillales; Streptococcaceae; Streptococcus<br />
+[118] 81% Streptococcus pne… Root; Bacteria; Firmicutes; Bacilli;
+Lactobacillales; Streptococcaceae; Streptococcus</p>
+<p><img src="data:image/png;base64,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"></p>
+<p>And easy as that, you’ve used IdTaxa machine learning to identify the
+given 16s RNA sequences.</p>
+<p>That was for a training dataset that was already pre-assembled. But
+what if you’ve got a bunch of individual 16s RNA strands, of which you
+want to identify all of them? For that, we’ll need to manually take some
+16s RNA sequences, and put them together into a single file via R.</p>
+<p>I’ve taken 3 random bacterial DNA sequences:</p>
+<ul>
+<li>One from <a href="https://www.ncbi.nlm.nih.gov/genome/175?genome_assembly_id=383877">streptococcus
+pyogenes</a>,</li>
+<li>one from <a href="https://www.ncbi.nlm.nih.gov/genome/154?genome_assembly_id=360991">staphylococcus
+aureus</a> and finally,</li>
+<li>one from <a href="https://www.ncbi.nlm.nih.gov/genome/152?genome_assembly_id=299225">Salmonella
+enterica typhi</a>.</li>
+</ul>
+<pre class="r"><code>fas1&lt;-&quot;./data.raw/AB002521.1.fasta&quot;
+fas2&lt;-&quot;./data.raw/AB243005.1.fasta&quot;
+fas3&lt;-&quot;./data.raw/AB594754.1.fasta&quot;
 
-glass_training_labels&lt;-Glass[ind_glass==1,10] # Storing the labels seperately
-glass_test_labels&lt;-Glass[ind_glass==2,10]</code></pre>
-<p>With the data set ordered and all, we can perform the
-machine-learning</p>
-<pre class="r"><code>glass_pred&lt;-class::knn(glass_training, glass_test, glass_training_labels) #Performing the machine learning test.
+seqs&lt;-readDNAStringSet(c(fas1, fas2, fas3))
 
-glass_result&lt;-glass_pred == glass_test_labels
-table(glass_result)</code></pre>
-<pre><code>## glass_result
-## FALSE  TRUE 
-##    15    55</code></pre>
-<pre class="r"><code>CrossTable(x = glass_test_labels, y=glass_pred)</code></pre>
-<pre><code>## 
-##  
-##    Cell Contents
-## |-------------------------|
-## |                       N |
-## | Chi-square contribution |
-## |           N / Row Total |
-## |           N / Col Total |
-## |         N / Table Total |
-## |-------------------------|
-## 
-##  
-## Total Observations in Table:  70 
-## 
-##  
-##                   | glass_pred 
-## glass_test_labels |         1 |         2 |         3 |         5 |         6 |         7 | Row Total | 
-## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-##                 1 |        17 |         2 |         2 |         0 |         0 |         0 |        21 | 
-##                   |    12.033 |     4.033 |     1.344 |     1.800 |     0.600 |     2.700 |           | 
-##                   |     0.810 |     0.095 |     0.095 |     0.000 |     0.000 |     0.000 |     0.300 | 
-##                   |     0.680 |     0.080 |     0.667 |     0.000 |     0.000 |     0.000 |           | 
-##                   |     0.243 |     0.029 |     0.029 |     0.000 |     0.000 |     0.000 |           | 
-## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-##                 2 |         5 |        21 |         0 |         0 |         0 |         0 |        26 | 
-##                   |     1.978 |    14.778 |     1.114 |     2.229 |     0.743 |     3.343 |           | 
-##                   |     0.192 |     0.808 |     0.000 |     0.000 |     0.000 |     0.000 |     0.371 | 
-##                   |     0.200 |     0.840 |     0.000 |     0.000 |     0.000 |     0.000 |           | 
-##                   |     0.071 |     0.300 |     0.000 |     0.000 |     0.000 |     0.000 |           | 
-## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-##                 3 |         3 |         0 |         1 |         0 |         0 |         0 |         4 | 
-##                   |     1.729 |     1.429 |     4.005 |     0.343 |     0.114 |     0.514 |           | 
-##                   |     0.750 |     0.000 |     0.250 |     0.000 |     0.000 |     0.000 |     0.057 | 
-##                   |     0.120 |     0.000 |     0.333 |     0.000 |     0.000 |     0.000 |           | 
-##                   |     0.043 |     0.000 |     0.014 |     0.000 |     0.000 |     0.000 |           | 
-## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-##                 5 |         0 |         0 |         0 |         6 |         0 |         0 |         6 | 
-##                   |     2.143 |     2.143 |     0.257 |    58.514 |     0.171 |     0.771 |           | 
-##                   |     0.000 |     0.000 |     0.000 |     1.000 |     0.000 |     0.000 |     0.086 | 
-##                   |     0.000 |     0.000 |     0.000 |     1.000 |     0.000 |     0.000 |           | 
-##                   |     0.000 |     0.000 |     0.000 |     0.086 |     0.000 |     0.000 |           | 
-## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-##                 6 |         0 |         1 |         0 |         0 |         1 |         0 |         2 | 
-##                   |     0.714 |     0.114 |     0.086 |     0.171 |    15.557 |     0.257 |           | 
-##                   |     0.000 |     0.500 |     0.000 |     0.000 |     0.500 |     0.000 |     0.029 | 
-##                   |     0.000 |     0.040 |     0.000 |     0.000 |     0.500 |     0.000 |           | 
-##                   |     0.000 |     0.014 |     0.000 |     0.000 |     0.014 |     0.000 |           | 
-## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-##                 7 |         0 |         1 |         0 |         0 |         1 |         9 |        11 | 
-##                   |     3.929 |     2.183 |     0.471 |     0.943 |     1.496 |    40.687 |           | 
-##                   |     0.000 |     0.091 |     0.000 |     0.000 |     0.091 |     0.818 |     0.157 | 
-##                   |     0.000 |     0.040 |     0.000 |     0.000 |     0.500 |     1.000 |           | 
-##                   |     0.000 |     0.014 |     0.000 |     0.000 |     0.014 |     0.129 |           | 
-## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-##      Column Total |        25 |        25 |         3 |         6 |         2 |         9 |        70 | 
-##                   |     0.357 |     0.357 |     0.043 |     0.086 |     0.029 |     0.129 |           | 
-## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-## 
-## </code></pre>
-<pre class="r"><code>confusionMatrix(glass_test_labels, glass_pred)</code></pre>
-<pre><code>## Confusion Matrix and Statistics
-## 
-##           Reference
-## Prediction  1  2  3  5  6  7
-##          1 17  2  2  0  0  0
-##          2  5 21  0  0  0  0
-##          3  3  0  1  0  0  0
-##          5  0  0  0  6  0  0
-##          6  0  1  0  0  1  0
-##          7  0  1  0  0  1  9
-## 
-## Overall Statistics
-##                                           
-##                Accuracy : 0.7857          
-##                  95% CI : (0.6713, 0.8748)
-##     No Information Rate : 0.3571          
-##     P-Value [Acc &gt; NIR] : 2.852e-13       
-##                                           
-##                   Kappa : 0.7062          
-##                                           
-##  Mcnemar&#39;s Test P-Value : NA              
-## 
-## Statistics by Class:
-## 
-##                      Class: 1 Class: 2 Class: 3 Class: 5 Class: 6 Class: 7
-## Sensitivity            0.6800   0.8400  0.33333  1.00000  0.50000   1.0000
-## Specificity            0.9111   0.8889  0.95522  1.00000  0.98529   0.9672
-## Pos Pred Value         0.8095   0.8077  0.25000  1.00000  0.50000   0.8182
-## Neg Pred Value         0.8367   0.9091  0.96970  1.00000  0.98529   1.0000
-## Prevalence             0.3571   0.3571  0.04286  0.08571  0.02857   0.1286
-## Detection Rate         0.2429   0.3000  0.01429  0.08571  0.01429   0.1286
-## Detection Prevalence   0.3000   0.3714  0.05714  0.08571  0.02857   0.1571
-## Balanced Accuracy      0.7956   0.8644  0.64428  1.00000  0.74265   0.9836</code></pre>
-<p>Based on the table, we can conclude that using the KNN-model for this
-Glass dataset was less accurate than for the iris dataset. In the table,
-you’ll notice of the 21 glasstypes 1, only 17 were identified correctly.
-Of the 26 glasstypes 2, only 21 were correctly identified. This pattern
-continues for <em>all</em> glasstypes, only glasstype 5 was perfectly
-identified.</p>
-<p>Purely to sate my own curiosity, I’ve also performed the analysis
-using normalised data, to see what the impact of normalisation would be
-on this data.</p>
-<pre class="r"><code>normalize&lt;-function(x){
-  num&lt;-x-min(x)
-  denom&lt;-max(x)-min(x)
-  return(num/denom)
-}
+seqs&lt;-RemoveGaps(seqs)
 
-set.seed(4321)
-ind_glass&lt;-sample(2, nrow(Glass), replace=TRUE, prob=c(0.67,0.33)) #Creating a random selection of datapoints
-
-Glass_norm&lt;-normalize(Glass[1:9]) %&gt;% mutate(Type=Glass$Type)
-
-glass_training&lt;-Glass_norm[ind_glass==1,1:9] # Separating the training the training and the testing datasets
-glass_test&lt;-Glass_norm[ind_glass==2,1:9]
-
-glass_training_labels&lt;-Glass_norm[ind_glass==1,10] # Storing the labels seperately
-glass_test_labels&lt;-Glass_norm[ind_glass==2,10]
-
-glass_pred&lt;-class::knn(glass_training, glass_test, glass_training_labels) #Performing the machine learning test.
-
-glass_result&lt;-glass_pred == glass_test_labels
-table(glass_result)</code></pre>
-<pre><code>## glass_result
-## FALSE  TRUE 
-##    15    55</code></pre>
-<pre class="r"><code>CrossTable(x = glass_test_labels, y=glass_pred)</code></pre>
-<pre><code>## 
-##  
-##    Cell Contents
-## |-------------------------|
-## |                       N |
-## | Chi-square contribution |
-## |           N / Row Total |
-## |           N / Col Total |
-## |         N / Table Total |
-## |-------------------------|
-## 
-##  
-## Total Observations in Table:  70 
-## 
-##  
-##                   | glass_pred 
-## glass_test_labels |         1 |         2 |         3 |         5 |         6 |         7 | Row Total | 
-## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-##                 1 |        17 |         2 |         2 |         0 |         0 |         0 |        21 | 
-##                   |    12.033 |     4.033 |     1.344 |     1.800 |     0.600 |     2.700 |           | 
-##                   |     0.810 |     0.095 |     0.095 |     0.000 |     0.000 |     0.000 |     0.300 | 
-##                   |     0.680 |     0.080 |     0.667 |     0.000 |     0.000 |     0.000 |           | 
-##                   |     0.243 |     0.029 |     0.029 |     0.000 |     0.000 |     0.000 |           | 
-## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-##                 2 |         5 |        21 |         0 |         0 |         0 |         0 |        26 | 
-##                   |     1.978 |    14.778 |     1.114 |     2.229 |     0.743 |     3.343 |           | 
-##                   |     0.192 |     0.808 |     0.000 |     0.000 |     0.000 |     0.000 |     0.371 | 
-##                   |     0.200 |     0.840 |     0.000 |     0.000 |     0.000 |     0.000 |           | 
-##                   |     0.071 |     0.300 |     0.000 |     0.000 |     0.000 |     0.000 |           | 
-## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-##                 3 |         3 |         0 |         1 |         0 |         0 |         0 |         4 | 
-##                   |     1.729 |     1.429 |     4.005 |     0.343 |     0.114 |     0.514 |           | 
-##                   |     0.750 |     0.000 |     0.250 |     0.000 |     0.000 |     0.000 |     0.057 | 
-##                   |     0.120 |     0.000 |     0.333 |     0.000 |     0.000 |     0.000 |           | 
-##                   |     0.043 |     0.000 |     0.014 |     0.000 |     0.000 |     0.000 |           | 
-## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-##                 5 |         0 |         0 |         0 |         6 |         0 |         0 |         6 | 
-##                   |     2.143 |     2.143 |     0.257 |    58.514 |     0.171 |     0.771 |           | 
-##                   |     0.000 |     0.000 |     0.000 |     1.000 |     0.000 |     0.000 |     0.086 | 
-##                   |     0.000 |     0.000 |     0.000 |     1.000 |     0.000 |     0.000 |           | 
-##                   |     0.000 |     0.000 |     0.000 |     0.086 |     0.000 |     0.000 |           | 
-## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-##                 6 |         0 |         1 |         0 |         0 |         1 |         0 |         2 | 
-##                   |     0.714 |     0.114 |     0.086 |     0.171 |    15.557 |     0.257 |           | 
-##                   |     0.000 |     0.500 |     0.000 |     0.000 |     0.500 |     0.000 |     0.029 | 
-##                   |     0.000 |     0.040 |     0.000 |     0.000 |     0.500 |     0.000 |           | 
-##                   |     0.000 |     0.014 |     0.000 |     0.000 |     0.014 |     0.000 |           | 
-## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-##                 7 |         0 |         1 |         0 |         0 |         1 |         9 |        11 | 
-##                   |     3.929 |     2.183 |     0.471 |     0.943 |     1.496 |    40.687 |           | 
-##                   |     0.000 |     0.091 |     0.000 |     0.000 |     0.091 |     0.818 |     0.157 | 
-##                   |     0.000 |     0.040 |     0.000 |     0.000 |     0.500 |     1.000 |           | 
-##                   |     0.000 |     0.014 |     0.000 |     0.000 |     0.014 |     0.129 |           | 
-## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-##      Column Total |        25 |        25 |         3 |         6 |         2 |         9 |        70 | 
-##                   |     0.357 |     0.357 |     0.043 |     0.086 |     0.029 |     0.129 |           | 
-## ------------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
-## 
-## </code></pre>
-<p>Conclusion: in this specific example, normalisation does not change
-anything at all.</p>
-<p>Now, we’ve completely studied and used one form of machine learning,
-it’s time to look into another aspect of machine learning that’s
-important, a step before the training even starts: pre processing.</p>
+ids&lt;-IdTaxa(seqs,
+            trainingSet,
+            strand = &quot;both&quot;,
+            threshold = 60,
+            processors = NULL)
+print(ids)
+plot(ids)</code></pre>
+<p>print(ids)</p>
+<p>A test set of class ‘Taxa’ with length 3</p>
+<pre><code>confidence name                 taxon</code></pre>
+<p>[1] 81% ENA|AB002521|AB00… Root; Bacteria; Firmicutes; Bacilli;
+Lactobacillales; Streptococcaceae; Streptococcus<br />
+[2] 80% ENA|AB243005|AB24… Root; Bacteria; Firmicutes; Bacilli;
+Bacillales; Staphylococcaceae; Staphylococcus<br />
+[3] 85% ENA|AB594754|AB59… Root; Bacteria; Proteobacteria;
+Gammaproteobacteria; Enterobacteriales; Enterobacteriaceae;
+Salmonella</p>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAArwAAAGwCAMAAAB8TkaXAAABCFBMVEUAAAAAACsAAFUAKysAK1UAK4AAVYAAVaorAAArACsrAFUrKwArKysrK1UrK4ArVVUrVYArVaorgKorgNRVAABVACtVKwBVKytVVStVVVVVVYBVVapVgFVVgIBVgKpVgNRVqqpVqtRVqv9mZv9msrJm/2aAKwCAKyuAVSuAVVWAVYCAgFWAgICAgKqAqoCAqqqAqtSA1KqA1NSA1P+ZmZmqVQCqVSuqVVWqgCuqgFWqgICqqlWqqoCqqqqqqtSqqv+q1ICq1Kqq1NSq1P+q/6qq/9Sq///UgCvUgFXUqlXUqoDUqqrU1KrU1NTU1P/U////Zmb/qlX/1ID/1Kr/1NT//6r//9T////XUzjwAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAVLklEQVR4nO3dC3sbRxXG8ZVj402wQ1xfEgNNGrcohnIJlSXqQgLEYMVtUiHJ2v3+34SdvdiSpZX3MmfG55z3/zytaZIHdmd/bGfvQYwQ0wLfC4BQ04AXsQ14EduAF7ENeBHbgBexDXgR24AXsQ14EduAF7ENeBHbgBexDXgR24AXsQ14EduAF7ENeBHbgBexDXgR24AXsQ14EduAF7ENeBHbgBexDXgR24AXsQ14EduAF7ENeBHbgBexDXgR24AXsQ14EduAF7ENeBHbgBexDXgR24AXsQ14EduAF7ENeBHbgBexDXgR24AXsQ14EduAF7ENeBHbgBexDXgR24AXsY013kHQeeV7GZC/OOMdb1xMu/u+lwJ5iy3e61E83hrFs8Oe7yVBvuKKd3awn8HtY9erNq54zV7XwJ0enPheFOQrrngnTy4zwde+lwR5iyveuL+dTHo3LuPJ7ovOW98Lg7zEFm80eHQcbsfxVZgIRipjizeOpz+8j6enm88DM/1FCmOMN053u2+vP1/tYt+rMtZ4J4+DRy82L+Lhtu8lQT5ijTfuB714svNdH3hVxhtveoliEm5i2qAy5nij851fpjfnXOOgTV/M8aZ35xjDIa4S64s9XtP06NHLc5xyUJcAvNH3gdnt4pSDuvjjTXa7e+ZndsrhCpeK9cQe7/edV5M9s/s1V4mn3U3c3qsn9nivf47jwe6LcDM5bvsY7uGkg6LY402bvvvZzB86xy92L3wvC3KWDLxxerbsi1F+kzrSkRi8QzNvSKa+wKsnMXjTpkebF9EfwFdJkvBGA3OleIh9r5Yk4R0+vTC3SeJkmZYk4TVFXfM08U+j6Py170VB1EnD29/+fH4U7P7xaBPnzMQnCe/H19FVEHS+/JBNfpH0JOEdh8Hu2+RobXK0hd2uhiThzUp2u6/jT6c7z3DSQXry8A6fXcSDzks8Uyw/eXjjOH2TTqIYD1cITyTe7M2RwCs9kXjThyquOrhaITyReOPB5nG42Zue7ji/vzdYkeNF0JPQkZ2++xAPO3tuj9oM1K8XEjq6DyW5wztOpw0uJr7FHvbrpeSO7oNI7vCmR23ZrQ6ErUYLvE6SO7zZPpfyxenr4QIveXKHNxp0wq0R2bW2e+ECL3mShzcyDxbTXGurIhd4qRM+vCTX2irtdIGXPuHDa/1a2/3z3DK8/SDofGvOgAyT/4p98yW5rw6C4CT5eRKnf5uEgflnVDnheO1ea6sF9w7efvLvgHGQLMkw+WsS7ides38o8E7C5OcYemskHK/Na2115S7gTWnGfWPV/Gsgmc6k/yH55QLvGF81qpt0vNautTWgO483oznu9LJrJ3Nob39Cb83E442tXGtrRHce7/AGb345bglvHHUx562XBrztr7U1o7tmzxvH8RLedFFxK1yNNOBte62t4W736+U5b3F8ZrrFu1/89i1iVCUNePNrbQ2P2prTLT/bkB25ZXij7tYomTGcpLvkMfa8NdKAN7vW1uyorQ3dpfO8G383kwdznjf5eTNdmB0EwVfJTzMbht066cAbNzxqa0d3+QobTodZTQ3eBkdtbekuzXmzc7zIVmrwFkdt1b822Jruwp43PUWGozGrqcGbH7VdVf3aYPvd7te4MYc4RcObHLVNq75/zwrdBC8ewKRM1ciO089W3D9zsEQXe17iNA1vdrgWfd+559W9tugCL3Gqhre/N4p/TGYOH8N1swd7doGXNl3D++NxmOx2Z4e9SfnVCot2gZc2ZcM7fHrR3zPTh37ZWSubdufxDtPHJ1aUXWTDSbQGKcObTXyH29Gb1VqsHardxbv++gTwNkodXnO1YvKkZNJgl+4i3nU8gbdR+vBGg92j1Z9qs7zbncdrHq7cuDQ355irbJPQPHu5b37xpJg29M3Tdukjd6hq+vDG8fT9yl+2Tndpz2uAZs9fmlsjjeaheZbtpHiEjfzlVMLSiHd1BHbv4J0d9rI7dMzDw8XfTnK86cPv+ABirYA3j8Luijnv2MwU0lvMir8VZxuS3TK+PFsv3Xhv157E7l28w2Ti+6+wBG8yb+jjjsla6cZ7s/o0du/gvTG7Eu/s8K+HmDXUSjnebP3tn2ZYiTd9jmJcNm2IujuYNdRLO14zAFR0V+15ZwfB/mq8yaQCs4Z6qcdLt9tdwmvmvJ1ev9NbjRfnGuoGvG7wVmjyFLOGeqnHS0i3Jl589LBu2vGS2q2DdxLicK1uwPtA8KL6KR9eWrvAS5vu4SW2i6eHaVM9stR2seelTfPwktsFXtoUDy+9XeClTe/wOrALvLTpHV7/ePEm6ZapxevCLvDSphWvE7vASxvwusI7zr/aevht+uTl3Y+5Zr+M6qQUrxu7iy+XNnc+bid/mXsYVnzMFbc21E4nXkd25/BG3fSrrfnnW0s+5orqpRKvK7tL32Ervtpa8jFXVC+NeJ3ZXcJbfPCy5GOuqF4K8bqzW3XPG+NtZY0CXjd45+a8J6Ufc0X10ofXod3VZxtytys+5orqBbyO8N6c582ULpznLT7miuqlDq9Lu7gxhzZ1wwu8ctI2vE7tAi9tyobXrV3gpU3Z8AKvpHQNryu73+Th6WHSdI0sPd5vFtI1us5TNbzEdr9ZStXouk/V8JLiXaYLvMRpGl46u6vgAi95moaXDG+Z3RV4cRnYYorwUtktpQu8xAEvHV3gJU4PXhK7a+ku4jW3j+V3ROafIE6/SJx9izj/BVQrNXgp7N5DdwGvuXF3drCff+syf2r4JL3Pt/jpb3CYBrx0dOfxFk8Hm6fYik8Qj/MXNYzxwoZmacHrxe4c3uzBn5s5b/oJ4tlBprb4iWoGvHR0F/DmH1kzeItPEMdRN5vrFj9RvZTg9WN39Z739hOCpn7+/HAfLy6rHfAS2l095735BHHxCws/UfV04PVk9+7Zhqi7ne95008Qpy9tKF7egFdG1g946eiWnectPkGcPlCcws1/onoBryu8yHoqhteXXeClTcXwWsRbhy7wEqdieIFXZiqG1x7eenbxACZtGkbWm13seWnTMLzW8Na1C7y0aRheW3hr2wVe2hQMrz+7wEubguF9WHjv3MOAWxpaJB+vR7vASxvwAi/bgJfQ7sLN6H8O89f6fxmaO8/Ng2zxcLv4uFV6t9lXB8kfmYS4Mb1i4vHasduI7uLN6InI7KMq2WdUzF29UfdkAa/5nfTDxHgsqFLA6wqvuRl9uDUqPt9qyE4e9xbw7ud/7uYxC7Q24CW0u/QYUPEdtvwB+NTyHN7i8SDgrRbwOsKbPoA5jzeZN/T3Y+BtkXS8Xu2uxTs7/OthD3jbBLyO8KZz3n46T8jwRt2drVGGN5vmAm/dgJfQ7gLe9Jm1k/gGbzzMP4gZdbdGUTcA3toBryu82endObzpTCKdQBwEwVeYNtRPOF6/s4YVLx2Za/J05HQs5AW8hHbX4x3uOx0KgQGvJ7yTcAs73pYBL6Fd3M9Lm/DhBV7JCR/e9ngbwz1LwtPDpAkfWU94z/KEj67vhA+vH7xnwOsk2cPrZcp7dga8bpI9vB52vGdnwOsq2cPrHu/ZWrz3v0Eaz7TVCHit4j1rixfVSDRe51PeM+B1GfAS2l3Aa17m/23xEv/0Dt6Fh4XzT7pmd5mZ38H04d6A1xHe/sZlwvbmpt7tePFh4eKTrhne7AFjfwPHJOC1h3fJ7tndG3P6nV7UNTeTJfOHhYeFbz7pmuHFE8SVAl5reJftzuHNvi+cms2+975873n+Sdf5hy3Q2oCXcMc7h3e4iHfpecvik67AWyPgdYP3nj3vzT8Ab42A1xbeFXaX5rzDhTnvHN6bT7oCb42A1w3e9OzBnbMNd/a86SddgbdGwOsI74rzvHfmvOknXYG3RsBrCe8qu7gxhzbRwwu8shM9vMArO9HDC7yyEz28Qdta4/Wf721AmeyV+13L2uJd3f8cJnv7+l4AyoAXeNkGvMDLNuAFXrYBL/CyzSXe6npd2gVetgEv8LINeIGXbU7xVtXr1C7wsg14gZdtrfES6HVrF3jZBrzAyzbHeKvodWwXeNnmGu/9el3bBV62tcdrWS/sWk342rnGu16vc7vAyzj3eNfpdW8XeBnnAW+5Xg92gZdx7ie9pXx90BVuVzheL7veVXy90AVe3nnCu+jXk1zgZZ4/vGmBP7fAyz4/k17gdZP01QNewUlfvfZ42+gFXtKkrx7wCk766lnA20KvZ7zCN650vJ53vcBLmvj1A165iV8/C3ib6wVe0sSvn2K80reteLx+9QIvafJXEHjFJn8FbeBtqhd4SZO/gmrxit+08vFa0tuML/CSpmAN7eBtpBd4SVOwhkrxyt+yCvD61Au8pGlYRZV4FWxYDXg96gVe0lSsoyW89fUCL2kq1tEW3tp6/eHVsF1V4PWnF3hJ07GS1vDW1Au8pOlYSeAVmY6VtIe3Hl9veFVsVh14vekFXtKUrCXwSkzJWtrEW4OvL7w6tqoSvL70Ai9pWlbTLt6qej3hVbJRteD1pBd4SVOznpbxVuPrB6+WbaoGrx+9wEuanhW1jrcCXy941WxSPXhJ9N7HF3hJ07OmNHrX8/WBV9MW9b0A7qLBu5Yv8JKmaFXJ9Jbz9YBX1Qb1vQAOI8Nb6tc9Xk3bUxVeUr0r+QIvabpWlhLvKsDO8aranLrw0uu9Qxh4SVO2tk7w3uYar66tqQyva73AS5q21RWNV9nG1IbXsV7gJU3b+rrV6xavvm3pewFcB7xyUrfCTvU6xatwU/peAOdJxatvSyrE61Iv8JKmcZVF4lW4ITXidagXeEnTuM7u9LrDq3M7+l4AL7nS6wyv0s3oewH85EivK7xat6LvBfCUG72O8KrdiL4XwFPAKyCt6+1Grxu8ereh7wXwlgu9TvAq3oS+F8BbUvDq3YKK8brQC7ykKV51B3od4FW9AX0vgM/I9dLj1b39fC+A16j1kuNVvvl8L4DfiPVS49W+9XwvgOdo9RLjVb/xfC+A54CXcdrXn1YvLV5sO98L4L2AkC8l3gCbDiMAvGxTPwIB5cyBEG+Abad+ANL1J9v5kuHNdrvYeKorVp9ILxXe4M7iK0336t+uPY1eIrzBihXQmO61n4tELw1ebLM8DEQRhV4SvNhkRRiJmwj0EuDFGbLbMBS32T/pYB8vttdcOgcj+unDyl+3rdc6Xp2bqyyVozE7+tXu5crfsbzztYy3dMowCDqv6IbrwaYS76BX/ntW9drFW7qtxhsX0+4+xUg97BTijd69+e7H58HWaPVv29RrFW/JproexeNkXWaHa/4fKTSFeCePj8NHLz93T0p+36Jem3hLttTsYD+D29e361WINx6mO91+GV6Leu3hLZ3umr2ugTs9KF0fsWnDG71P/up+8cOHwV75H7J22GYL75qTu5Mnl5nga4LReuBpwzt5nPwbdhzs7LwsmfJmWeJrCe/ajdTfTia9G5cfd56tXSOJqcIbvXufzhlmB2VHa7dZ4WsF7z3X1KLBo+Nw4/3156uS039y04R39vxXO72omxzg/Pp9hT9uQa8FvBUuB09/OHj0YvMiHm63HiJeacKbHaJNHr8dVDswb7/zbY232p0M5mzDZOe7foI3On/dYoSYpQhv9CaZ7kZ/GI3Dvaqzw7Z8W+KtfBOOOU02CTcv4+lRsgdWkyK86SZOBdeoHd9WeGvcPxad7/yy8yqZ/uq6SqwFrzlWM2ca6uJtx7cN3npbZrxxEU+OthTtdmM1eNNjtXjYeXm65vRuWc35Nsdb/7bdZLdrprvXik6YKcGbX0778Xj96d2ymuptirfJHefDZ2a3+zFUdJVYB97iWK3xf0HDnW8zvM0flpgedY5f6DndqwNvo2O1xRrxbYK3Od3o/LH5F4ue070K8EbnL39udqy2WAO+9fG2eURtmJ4mmxz9osolGAnJxzt7/vK002t4rLZYUNdvTbxB+6crk8O2l5/Plcwc5OM1x2rjjcumx2p3CmoBroE3sCA3OSI9Sg/blNzbKx5vdqxWeud5k6r7rYrXClzTR3O2LNn76niqQjzebC9ke1dUkW81vJZfxXAVPht9OtVwh6RsvOa6WjJlWP/IZbMq7X4r4LW2082LTjtvYzPxVXCHpGi82XW1Qecv7Y/VVnX//PcevHbmuXf6aZT9/zUeip/4isZ7c13tLdn/xHrAa/CSwM3LJknAy7nW19UqFuRVwlv8YcoFSi9TXMk/apOM18J1tVotAw7c7W0XGmweh5s98XfpiMVr67pazYJ1uVuM6TvzMrarx7Ifq5CK1+J1Na5ld+lIvsNXJN7ZPy1fV2NYdB5+McrfSSI1kXgnT/5zaP26GrOyu3SiAfByq98JKK6rsWt6tPnv053Kz5tySyTeqBsc01xXY5V5HnMYfCH3WptIvPH11cYLqutqfBo+vRhv/CORK/VyhUC809//+iLub1NeV2NTMnGa7F6m57sFvo1EHt7ozZennd7s4PU730vyADLX2ibhhtC3kYjDG52/St/AOw6UTxqyBp0Xe58u0reRyNv3isM7Cd1eE37oXb/7OXsbicB9rzi82XvPy197rq/0bSQi3wQlD695hynwzmXeRiLzTVCi8EY//GlkJg67zzHfnS97E5S8d6dLwmtuxjHXJoZbQk/KN83se38S+O50SXiHJ9lHnSKNH9S7p77Ed6cLwhu96c2ef/e3Xv7VFDTX3LvTBSUHbzTqP3veyw7VPgo8OmnXzbvTJSUC7+yf6Vxh8vg1zvCWlL87XVYi8E6e/Pfzv3+TTHo7X2q/Gac88+50YYnAG/c7vw3NdO7T73EzjqL4452++xB1g5Phhqz5HLo/9niHnZ3OyfXVxn9xfkxd3PEO82e0+ts4P6Yu5njTixLpfzh43ZX8rCFakQC814Mw2BuNg2da3maP8pjjjQdBGOy+/XSAu8gUxh1vPH1vJgvqH3JXGXu8aapfL6I3/nij93Ek7IYTVC3+eCdhJxD7Thi0Lv540xfZI41JwIuUBryIbcCL2Aa8iG3Ai9gGvIhtwIvYBryIbcCL2Aa8iG3Ai9gGvIhtwIvYBryIbcCL2Aa8iG3Ai9gGvIhtwIvYBryIbcCL2Aa8iG3Ai9gGvIhtwIvYBryIbcCL2Aa8iG3Ai9gGvIhtwIvYBryIbcCL2Aa8iG3Ai9gGvIhtwIvYBryIbcCL2Aa8iG3Ai9gGvIhtwIvYBryIbcCL2Aa8iG3Ai9gGvIhtwIvYBryIbcCL2Aa8iG3Ai9gGvIhtwIvY9n9+iIWTouoIDwAAAABJRU5ErkJggg=="></p>
+<p>And thus, like that, we’ve officially learned how to use the IDTAXA
+machine learning method for 16s RNA! In the final page of this small
+research project into machine learning, I’ve written a self-reflection
+on what I’ve learned through performing this research project, some
+closing thoughts.</p>
 </div>
 
 

@@ -34,8 +34,8 @@ ind_glass<-sample(2, nrow(Glass), replace=TRUE, prob=c(0.67,0.33)) #Creating a r
 glass_training<-Glass[ind_glass==1,] # Separating the training the training and the testing datasets
 glass_test<-Glass[ind_glass==2,]
 
-summary(glass_training)
-summary(glass_test)
+knitr::kable(summary(glass_training))
+knitr::kabel(summary(glass_test))
 ```
 
 
