@@ -1,0 +1,35 @@
+---
+output: html_document
+---
+
+<body id="start">
+<div class="topnav">
+  <a href='index.html#Frontpage'>Frontpage</a>
+  <a href='data-visualisation.html#data-visualisation'>Data visualisation</a>
+  <a href='parametized-data-germany.html#parametized-data'>Parametizing data</a>
+  <a href='directory-structure.html#directory-structure'>Directory structure</a>
+  <a href='creating-a-r-package.html#creating-a-r-package'>R-package</a>
+  <a href='sql.html#SQL'>SQL</a>
+  <a href='bibliography-using-zotero.html#Bibliography using Zotero'>Zotero</a>
+  <a href='open-reproductibility-analysis.html#open-reproductibility-analysis'>Reproductibility</a>
+  <a href='future-endeavours.html#future-endeavours'>Future endeavours</a>
+  <a href='new-skills.html#new-skills'> New skills (Machine learning)</a>
+  <a href='cv.html#cv'>CV</a>
+  <a href='bibliography.html#bibliography'>Bibliography</a>
+</div>
+
+&nbsp;
+
+# Closing words
+
+For my free room, I was given 4 days (32 hours) to research a data-science subject of choice. As my interests lie within microbiology, I went to search for a (for me) new skill in data sciences which seemed to have much use in microbiology. I chose machine learning, as it seemed to be relevant in most if not all microbiology-related research, from antiobitic resistance to microbiota research to automated agar plate-based bacteria identification. 
+
+I originally going specifically into image-based machine learning for atomating bacterial identifcation, however, I was immediately confronted by how horrendously difficult that would be. Thus, I decided to instead switch to some more basic techniques, like KNN-based machine learning. Then, I looked for an more realistic end-goal than an image-based algorythm, and thought that being able to use a algroythm like IDTAXA would be a good, concrete end goal.
+
+I think that during these 4 days of time, I've definitely learned the basics of machine learning. Getting a feel for two flexible algorythms and 1 pre-made algorythm, learning the basics of how to set up a algorhythm, learning some forms of pre-processing, I've definitely learned a about machine learning in this time. Although I most definitely still could not yet apply this knowledge on a research project, I do now have a basis which I could use to, under guidance of a more advanced data scientist, set up a practical machine learning algorythm. 
+
+If I were to re-do this entire machine-learning research project
+
+
+
+

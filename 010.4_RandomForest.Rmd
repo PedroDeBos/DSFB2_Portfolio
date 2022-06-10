@@ -20,6 +20,8 @@ output: html_document
 
 &nbsp;
 
+# Random Forest
+
 ```{r, include=FALSE}
 library(tidyverse)
 library(ggplot2)

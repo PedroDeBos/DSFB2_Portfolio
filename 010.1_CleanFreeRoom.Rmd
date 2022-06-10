@@ -22,6 +22,8 @@ output: html_document
 
 &nbsp;
 
+# KNN Machine-learning
+
 ```{r, include=FALSE}
 library(tidyverse)
 library(ggplot2)
