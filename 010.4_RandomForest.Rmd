@@ -27,7 +27,6 @@ library(gridExtra)
 library(caret)
 ```
 
-Now, while KNN is a very usefull model, there's other models that are more used within microbiology. One of these very often used models is the "random forest" method. 
 
 The random forest method works via decision tree classification: a model in which information on nodes. The reference forms a giant "tree" consisting of multiple branching paths, connected by nodes. These nodes contain information which of the branches a individual datapoint should go across. Data goes down the tree untill it no longer has any nodes on the tree or information about itself anymore.
 

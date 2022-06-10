@@ -88,7 +88,43 @@ confusionMatrix(prediction, iris_test2[,5])
 centering and scaling the data already increases the accuracy of the system, making it detect the versicolor originally classified as a virginica as the correct species. To further explore the power of pre-processing, we'll take our home-made Glass KNN-model again, re-make it in caret, and pre-process the data before applying the model.
 
 ```{r}
+library(mlbench)
+data(Glass)
 
+set.seed(4321)
+ind_glass<-sample(2, nrow(Glass), replace=TRUE, prob=c(0.67,0.33)) #Creating a random selection of datapoints
+
+glass_training<-Glass[ind_glass==1,1:9] # Separating the training the training and the testing datasets
+glass_test<-Glass[ind_glass==2,1:9]
+
+glass_training_labels<-Glass[ind_glass==1,10] # Storing the labels seperately
+glass_test_labels<-Glass[ind_glass==2,10]
+
+model_knn_glass<-train(glass_training, glass_training_labels, method="knn", preProcess=c("center", "scale"))
+
+prediction<-predict(object=model_knn_glass, glass_test, type="raw")
+
+confusionMatrix(prediction, glass_test_labels)
 ```
 
+As you can see, pre-processing does not significantly affect the accuracy of the model. In fact, if we compare the confusionMatrix of this model to the original model set up using the KNN: command, you'll see that creating the model this way actually _reduced_ it's accuracy.
+
+```{r}
+set.seed(4321)
+ind_glass<-sample(2, nrow(Glass), replace=TRUE, prob=c(0.67,0.33)) #Creating a random selection of datapoints
+
+Glass_norm<-normalize(Glass[1:9]) %>% mutate(Type=Glass$Type)
+
+glass_training<-Glass_norm[ind_glass==1,1:9] # Separating the training the training and the testing datasets
+glass_test<-Glass_norm[ind_glass==2,1:9]
+
+glass_training_labels<-Glass_norm[ind_glass==1,10] # Storing the labels seperately
+glass_test_labels<-Glass_norm[ind_glass==2,10]
+
+glass_pred<-class::knn(glass_training, glass_test, glass_training_labels) #Performing the machine learning test.
+
+confusionMatrix(glass_test_labels, glass_pred)
+```
+
+Why this happens is something I've yet to figure out: perhaps the class::knn model already uses a form of built-in preprocessing. However, the KNN-model was purely used as an introduction to other machine learning processes, the question about why the KNN-model loses accuracy using karet is one for another time. For now, we'll continue to the next machine learning technique, one significant in the field of microbiology: randomForest.
 

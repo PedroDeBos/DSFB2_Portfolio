@@ -127,8 +127,7 @@ print(ids)
 
 <img src="./images/IDTAXA_2.png">
 
-And thus, like that, we've officially learned how to use the IDTAXA machine learning method for 16s RNA!
-
+And thus, like that, we've officially learned how to use the IDTAXA machine learning method for 16s RNA! In the final page of this small research project into machine learning, I've written a self-reflection on what I've learned through performing this research project, some closing thoughts.
 
 
 
