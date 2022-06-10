@@ -2,6 +2,8 @@
 output: html_document
 ---
 
+# INDEXID
+
 <body id="start">
 <div class="topnav">
   <a href='index.html#Frontpage'>Frontpage</a>
@@ -19,8 +21,6 @@ output: html_document
 </div>
 
 &nbsp;
-
-# INDEXID
 
 ```{r, include=FALSE}
 library(tidyverse)

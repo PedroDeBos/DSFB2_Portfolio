@@ -2,6 +2,8 @@
 output: html_document
 ---
 
+# KNN in Glass
+
 <body id="start">
 <div class="topnav">
   <a href='index.html#Frontpage'>Frontpage</a>
@@ -20,8 +22,6 @@ output: html_document
 
 &nbsp;
 
-# KNN in Glass
-
 ```{r, include=FALSE}
 library(tidyverse)
 library(ggplot2)
@@ -35,7 +35,7 @@ In this page, what was previous learned about KNN-models will be brought into pr
 data(Glass)
 
 Glass %>% head()
-summary(Glass)
+knitr::kable(summary(Glass))
 ```
 We can immidiately see that glass consists off 10 columns: 9 for variables, and 1 for the identifying variable. The range between this data goes from 0.29:75.41, a factor 100 difference. A little on the large side, but still not high enough for normalisation to be necessary.
 

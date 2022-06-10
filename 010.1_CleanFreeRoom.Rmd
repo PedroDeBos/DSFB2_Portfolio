@@ -2,7 +2,7 @@
 output: html_document
 ---
 
-# New skills
+# KNN Machine-learning
 
 <body id="start">
 <div class="topnav">
@@ -21,8 +21,6 @@ output: html_document
 </div>
 
 &nbsp;
-
-# KNN Machine-learning
 
 ```{r, include=FALSE}
 library(tidyverse)

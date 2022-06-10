@@ -2,6 +2,9 @@
 output: html_document
 ---
 
+
+# Pre-Processing, karet
+
 <body id="start">
 <div class="topnav">
   <a href='index.html#Frontpage'>Frontpage</a>
@@ -17,8 +20,6 @@ output: html_document
   <a href='cv.html#cv'>CV</a>
   <a href='bibliography.html#bibliography'>Bibliography</a>
 </div>
-
-# Pre-Processing, karet
 
 ```{r, include=FALSE}
 library(tidyverse)

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Pre-Processing, karet | Portfolio Pedro de Bos" />
+<meta property="og:type" content="book" />
+
+
+
+
+
+
+
+<meta name="description" content="Pre-Processing, karet | Portfolio Pedro de Bos">
+
+<title>Pre-Processing, karet | Portfolio Pedro de Bos</title>
+
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.23/datatables.js"></script>
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+/* show arrow before summary tag as in bootstrap
+TODO: remove if boostrap in updated in html_document (rmarkdown#1485) */
+details > summary {
+  display: list-item;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid main-container">
+
+
+<div class="row">
+<div class="col-sm-12">
+<!--bookdown:toc:end-->
+<!--bookdown:toc:start-->
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<div id="pre-processing-karet" class="section level1">
+<h1>Pre-Processing, karet</h1>
+<body id="start">
+<div class="topnav">
+<p><a href='index.html#Frontpage'>Frontpage</a>
+<a href='data-visualisation.html#data-visualisation'>Data visualisation</a>
+<a href='parametized-data-germany.html#parametized-data'>Parametizing data</a>
+<a href='directory-structure.html#directory-structure'>Directory structure</a>
+<a href='creating-a-r-package.html#creating-a-r-package'>R-package</a>
+<a href='sql.html#SQL'>SQL</a>
+<a href='bibliography-using-zotero.html#Bibliography using Zotero'>Zotero</a>
+<a href='open-reproductibility-analysis.html#open-reproductibility-analysis'>Reproductibility</a>
+<a href='future-endeavours.html#future-endeavours'>Future endeavours</a>
+<a href='new-skills.html#new-skills'> New skills (Machine learning)</a>
+<a href='cv.html#cv'>CV</a>
+<a href='bibliography.html#bibliography'>Bibliography</a></p>
+</div>
+<p> </p>
+<p>For the studying of pre-processing, we’ll use the package called “Karet”. caret, short for Classification And REgression Training, is a package containing functions to help create machine learning-based (or actually, any form of predictive) models.</p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="pre-processing-karet.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb92-2"><a href="pre-processing-karet.html#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(<span class="fu">getModelInfo</span>()) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">50</span>)</span></code></pre></div>
+<pre><code>##  [1] &quot;ada&quot;            &quot;AdaBag&quot;         &quot;AdaBoost.M1&quot;    &quot;adaboost&quot;       &quot;amdai&quot;          &quot;ANFIS&quot;          &quot;avNNet&quot;         &quot;awnb&quot;           &quot;awtan&quot;         
+## [10] &quot;bag&quot;            &quot;bagEarth&quot;       &quot;bagEarthGCV&quot;    &quot;bagFDA&quot;         &quot;bagFDAGCV&quot;      &quot;bam&quot;            &quot;bartMachine&quot;    &quot;bayesglm&quot;       &quot;binda&quot;         
+## [19] &quot;blackboost&quot;     &quot;blasso&quot;         &quot;blassoAveraged&quot; &quot;bridge&quot;         &quot;brnn&quot;           &quot;BstLm&quot;          &quot;bstSm&quot;          &quot;bstTree&quot;        &quot;C5.0&quot;          
+## [28] &quot;C5.0Cost&quot;       &quot;C5.0Rules&quot;      &quot;C5.0Tree&quot;       &quot;cforest&quot;        &quot;chaid&quot;          &quot;CSimca&quot;         &quot;ctree&quot;          &quot;ctree2&quot;         &quot;cubist&quot;        
+## [37] &quot;dda&quot;            &quot;deepboost&quot;      &quot;DENFIS&quot;         &quot;dnn&quot;            &quot;dwdLinear&quot;      &quot;dwdPoly&quot;        &quot;dwdRadial&quot;      &quot;earth&quot;          &quot;elm&quot;           
+## [46] &quot;enet&quot;           &quot;evtree&quot;         &quot;extraTrees&quot;     &quot;fda&quot;            &quot;FH.GBML&quot;</code></pre>
+<p>Caret contains <em>a lot</em> of predictive models: above are shown only the top 50 of the over 200 models available in caret. For now we’ll continue to use a KNN model, though we’ll study another model later too.</p>
+<p>First of all, we can use “createDataPartition” instead of “sample” to create a training and a test group more easily</p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="pre-processing-karet.html#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb94-2"><a href="pre-processing-karet.html#cb94-2" aria-hidden="true" tabindex="-1"></a>index<span class="ot">&lt;-</span><span class="fu">createDataPartition</span>(iris<span class="sc">$</span>Species, <span class="at">p=</span><span class="fl">0.75</span>, <span class="at">list=</span><span class="cn">FALSE</span>)</span>
+<span id="cb94-3"><a href="pre-processing-karet.html#cb94-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-4"><a href="pre-processing-karet.html#cb94-4" aria-hidden="true" tabindex="-1"></a>iris_training2<span class="ot">&lt;-</span>iris[index,]</span>
+<span id="cb94-5"><a href="pre-processing-karet.html#cb94-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb94-6"><a href="pre-processing-karet.html#cb94-6" aria-hidden="true" tabindex="-1"></a>iris_test2<span class="ot">&lt;-</span>iris[<span class="sc">-</span>index,]</span></code></pre></div>
+<p>Now, with the training data separated, we can use the caret-method of training a model and predicting with it</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="pre-processing-karet.html#cb95-1" aria-hidden="true" tabindex="-1"></a>model_knn<span class="ot">&lt;-</span><span class="fu">train</span>(iris_training2[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], iris_training2[,<span class="dv">5</span>], <span class="at">method=</span><span class="st">&#39;knn&#39;</span>)</span>
+<span id="cb95-2"><a href="pre-processing-karet.html#cb95-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb95-3"><a href="pre-processing-karet.html#cb95-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Then, we use the model to make a prediction</span></span>
+<span id="cb95-4"><a href="pre-processing-karet.html#cb95-4" aria-hidden="true" tabindex="-1"></a>prediction<span class="ot">&lt;-</span><span class="fu">predict</span>(<span class="at">object=</span>model_knn, iris_test2[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span>
+<span id="cb95-5"><a href="pre-processing-karet.html#cb95-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb95-6"><a href="pre-processing-karet.html#cb95-6" aria-hidden="true" tabindex="-1"></a><span class="co">#We check if the predicitons are true</span></span>
+<span id="cb95-7"><a href="pre-processing-karet.html#cb95-7" aria-hidden="true" tabindex="-1"></a>pred<span class="ot">&lt;-</span>prediction <span class="sc">==</span> iris_test2[,<span class="dv">5</span>]</span>
+<span id="cb95-8"><a href="pre-processing-karet.html#cb95-8" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(pred)</span></code></pre></div>
+<pre><code>## pred
+## FALSE  TRUE 
+##     2    34</code></pre>
+<p>And, due to the fact that we’re using caret, we can create a confusion matrix: this’ll allow us to study the sensitivity and the specificity of our model way easier.</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="pre-processing-karet.html#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="co">#And we create a confusion matrix for the results</span></span>
+<span id="cb97-2"><a href="pre-processing-karet.html#cb97-2" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(prediction,iris_test2[,<span class="dv">5</span>])</span></code></pre></div>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##             Reference
+## Prediction   setosa versicolor virginica
+##   setosa         12          0         0
+##   versicolor      0         11         1
+##   virginica       0          1        11
+## 
+## Overall Statistics
+##                                           
+##                Accuracy : 0.9444          
+##                  95% CI : (0.8134, 0.9932)
+##     No Information Rate : 0.3333          
+##     P-Value [Acc &gt; NIR] : 1.728e-14       
+##                                           
+##                   Kappa : 0.9167          
+##                                           
+##  Mcnemar&#39;s Test P-Value : NA              
+## 
+## Statistics by Class:
+## 
+##                      Class: setosa Class: versicolor Class: virginica
+## Sensitivity                 1.0000            0.9167           0.9167
+## Specificity                 1.0000            0.9583           0.9583
+## Pos Pred Value              1.0000            0.9167           0.9167
+## Neg Pred Value              1.0000            0.9583           0.9583
+## Prevalence                  0.3333            0.3333           0.3333
+## Detection Rate              0.3333            0.3056           0.3056
+## Detection Prevalence        0.3333            0.3333           0.3333
+## Balanced Accuracy           1.0000            0.9375           0.9375</code></pre>
+<p>We can see that the model can identify Setosa perfectly, but struggles a little with versicolor (92% accuracy) and some more with virginica (92% accuracy).</p>
+<p>What’s nice about caret training is that it contains pre-built in preprocessing methods. For the most basic examples of pre-processing, take centering and scaling.</p>
+<ul>
+<li><p>Centering is a form of pre-processing where the mean of the data is determined, and all other data is represented based on their distance to the mean</p></li>
+<li><p>Scaling is a form of pre-processing where all data is changed to the same scale of size. This makes sure the machine learning algorythm does not determine that one variable is more important than another, purely because it has higher numbers.</p></li>
+</ul>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="pre-processing-karet.html#cb99-1" aria-hidden="true" tabindex="-1"></a>model_knn<span class="ot">&lt;-</span><span class="fu">train</span>(iris_training2[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>],iris_training2[,<span class="dv">5</span>],<span class="at">method=</span><span class="st">&#39;knn&#39;</span>,<span class="at">preProcess =</span> <span class="fu">c</span>(<span class="st">&quot;center&quot;</span>, <span class="st">&quot;scale&quot;</span>))</span>
+<span id="cb99-2"><a href="pre-processing-karet.html#cb99-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb99-3"><a href="pre-processing-karet.html#cb99-3" aria-hidden="true" tabindex="-1"></a>prediction<span class="ot">&lt;-</span><span class="fu">predict</span>(<span class="at">object=</span>model_knn, iris_test2[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">type=</span><span class="st">&#39;raw&#39;</span>)</span>
+<span id="cb99-4"><a href="pre-processing-karet.html#cb99-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb99-5"><a href="pre-processing-karet.html#cb99-5" aria-hidden="true" tabindex="-1"></a>pred<span class="ot">&lt;-</span>prediction <span class="sc">==</span> iris_test2[,<span class="dv">5</span>]</span>
+<span id="cb99-6"><a href="pre-processing-karet.html#cb99-6" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(pred)</span></code></pre></div>
+<pre><code>## pred
+## FALSE  TRUE 
+##     2    34</code></pre>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="pre-processing-karet.html#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(prediction, iris_test2[,<span class="dv">5</span>])</span></code></pre></div>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##             Reference
+## Prediction   setosa versicolor virginica
+##   setosa         12          0         0
+##   versicolor      0         12         2
+##   virginica       0          0        10
+## 
+## Overall Statistics
+##                                           
+##                Accuracy : 0.9444          
+##                  95% CI : (0.8134, 0.9932)
+##     No Information Rate : 0.3333          
+##     P-Value [Acc &gt; NIR] : 1.728e-14       
+##                                           
+##                   Kappa : 0.9167          
+##                                           
+##  Mcnemar&#39;s Test P-Value : NA              
+## 
+## Statistics by Class:
+## 
+##                      Class: setosa Class: versicolor Class: virginica
+## Sensitivity                 1.0000            1.0000           0.8333
+## Specificity                 1.0000            0.9167           1.0000
+## Pos Pred Value              1.0000            0.8571           1.0000
+## Neg Pred Value              1.0000            1.0000           0.9231
+## Prevalence                  0.3333            0.3333           0.3333
+## Detection Rate              0.3333            0.3333           0.2778
+## Detection Prevalence        0.3333            0.3889           0.2778
+## Balanced Accuracy           1.0000            0.9583           0.9167</code></pre>
+<p>centering and scaling the data already increases the accuracy of the system, but is not a perfect system. It removed the versicolor mis-identification, but added a virginica mis-identification.</p>
+<p>To apply this newfound knowledge about pre-processing to another example, we’ll once again perform it upon the “glass”</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="pre-processing-karet.html#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mlbench)</span>
+<span id="cb103-2"><a href="pre-processing-karet.html#cb103-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Glass)</span>
+<span id="cb103-3"><a href="pre-processing-karet.html#cb103-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-4"><a href="pre-processing-karet.html#cb103-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4321</span>)</span>
+<span id="cb103-5"><a href="pre-processing-karet.html#cb103-5" aria-hidden="true" tabindex="-1"></a>ind_glass<span class="ot">&lt;-</span><span class="fu">sample</span>(<span class="dv">2</span>, <span class="fu">nrow</span>(Glass), <span class="at">replace=</span><span class="cn">TRUE</span>, <span class="at">prob=</span><span class="fu">c</span>(<span class="fl">0.67</span>,<span class="fl">0.33</span>)) <span class="co">#Creating a random selection of datapoints</span></span>
+<span id="cb103-6"><a href="pre-processing-karet.html#cb103-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-7"><a href="pre-processing-karet.html#cb103-7" aria-hidden="true" tabindex="-1"></a>glass_training<span class="ot">&lt;-</span>Glass[ind_glass<span class="sc">==</span><span class="dv">1</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>] <span class="co"># Separating the training the training and the testing datasets</span></span>
+<span id="cb103-8"><a href="pre-processing-karet.html#cb103-8" aria-hidden="true" tabindex="-1"></a>glass_test<span class="ot">&lt;-</span>Glass[ind_glass<span class="sc">==</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>]</span>
+<span id="cb103-9"><a href="pre-processing-karet.html#cb103-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-10"><a href="pre-processing-karet.html#cb103-10" aria-hidden="true" tabindex="-1"></a>glass_training_labels<span class="ot">&lt;-</span>Glass[ind_glass<span class="sc">==</span><span class="dv">1</span>,<span class="dv">10</span>] <span class="co"># Storing the labels seperately</span></span>
+<span id="cb103-11"><a href="pre-processing-karet.html#cb103-11" aria-hidden="true" tabindex="-1"></a>glass_test_labels<span class="ot">&lt;-</span>Glass[ind_glass<span class="sc">==</span><span class="dv">2</span>,<span class="dv">10</span>]</span>
+<span id="cb103-12"><a href="pre-processing-karet.html#cb103-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-13"><a href="pre-processing-karet.html#cb103-13" aria-hidden="true" tabindex="-1"></a>model_knn_glass<span class="ot">&lt;-</span><span class="fu">train</span>(glass_training, glass_training_labels, <span class="at">method=</span><span class="st">&quot;knn&quot;</span>, <span class="at">preProcess=</span><span class="fu">c</span>(<span class="st">&quot;center&quot;</span>, <span class="st">&quot;scale&quot;</span>))</span>
+<span id="cb103-14"><a href="pre-processing-karet.html#cb103-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-15"><a href="pre-processing-karet.html#cb103-15" aria-hidden="true" tabindex="-1"></a>prediction<span class="ot">&lt;-</span><span class="fu">predict</span>(<span class="at">object=</span>model_knn_glass, glass_test, <span class="at">type=</span><span class="st">&quot;raw&quot;</span>)</span>
+<span id="cb103-16"><a href="pre-processing-karet.html#cb103-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-17"><a href="pre-processing-karet.html#cb103-17" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(prediction, glass_test_labels)</span></code></pre></div>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction  1  2  3  5  6  7
+##          1 17  8  4  0  0  1
+##          2  4 16  0  1  1  0
+##          3  0  0  0  0  0  0
+##          5  0  2  0  3  0  0
+##          6  0  0  0  0  1  0
+##          7  0  0  0  2  0 10
+## 
+## Overall Statistics
+##                                           
+##                Accuracy : 0.6714          
+##                  95% CI : (0.5488, 0.7791)
+##     No Information Rate : 0.3714          
+##     P-Value [Acc &gt; NIR] : 3.469e-07       
+##                                           
+##                   Kappa : 0.5444          
+##                                           
+##  Mcnemar&#39;s Test P-Value : NA              
+## 
+## Statistics by Class:
+## 
+##                      Class: 1 Class: 2 Class: 3 Class: 5 Class: 6 Class: 7
+## Sensitivity            0.8095   0.6154  0.00000  0.50000  0.50000   0.9091
+## Specificity            0.7347   0.8636  1.00000  0.96875  1.00000   0.9661
+## Pos Pred Value         0.5667   0.7273      NaN  0.60000  1.00000   0.8333
+## Neg Pred Value         0.9000   0.7917  0.94286  0.95385  0.98551   0.9828
+## Prevalence             0.3000   0.3714  0.05714  0.08571  0.02857   0.1571
+## Detection Rate         0.2429   0.2286  0.00000  0.04286  0.01429   0.1429
+## Detection Prevalence   0.4286   0.3143  0.00000  0.07143  0.01429   0.1714
+## Balanced Accuracy      0.7721   0.7395  0.50000  0.73438  0.75000   0.9376</code></pre>
+<p>As you can see, pre-processing does not significantly affect the accuracy of the model. In fact, if we compare the confusionMatrix of this model to the original model set up using the KNN: command (Shown in the table below), you’ll see that creating the model this way actually <em>reduced</em> it’s accuracy.</p>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="pre-processing-karet.html#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4321</span>)</span>
+<span id="cb105-2"><a href="pre-processing-karet.html#cb105-2" aria-hidden="true" tabindex="-1"></a>ind_glass<span class="ot">&lt;-</span><span class="fu">sample</span>(<span class="dv">2</span>, <span class="fu">nrow</span>(Glass), <span class="at">replace=</span><span class="cn">TRUE</span>, <span class="at">prob=</span><span class="fu">c</span>(<span class="fl">0.67</span>,<span class="fl">0.33</span>)) <span class="co">#Creating a random selection of datapoints</span></span>
+<span id="cb105-3"><a href="pre-processing-karet.html#cb105-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb105-4"><a href="pre-processing-karet.html#cb105-4" aria-hidden="true" tabindex="-1"></a>Glass_norm<span class="ot">&lt;-</span><span class="fu">normalize</span>(Glass[<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>]) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Type=</span>Glass<span class="sc">$</span>Type)</span>
+<span id="cb105-5"><a href="pre-processing-karet.html#cb105-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb105-6"><a href="pre-processing-karet.html#cb105-6" aria-hidden="true" tabindex="-1"></a>glass_training<span class="ot">&lt;-</span>Glass_norm[ind_glass<span class="sc">==</span><span class="dv">1</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>] <span class="co"># Separating the training the training and the testing datasets</span></span>
+<span id="cb105-7"><a href="pre-processing-karet.html#cb105-7" aria-hidden="true" tabindex="-1"></a>glass_test<span class="ot">&lt;-</span>Glass_norm[ind_glass<span class="sc">==</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>]</span>
+<span id="cb105-8"><a href="pre-processing-karet.html#cb105-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb105-9"><a href="pre-processing-karet.html#cb105-9" aria-hidden="true" tabindex="-1"></a>glass_training_labels<span class="ot">&lt;-</span>Glass_norm[ind_glass<span class="sc">==</span><span class="dv">1</span>,<span class="dv">10</span>] <span class="co"># Storing the labels seperately</span></span>
+<span id="cb105-10"><a href="pre-processing-karet.html#cb105-10" aria-hidden="true" tabindex="-1"></a>glass_test_labels<span class="ot">&lt;-</span>Glass_norm[ind_glass<span class="sc">==</span><span class="dv">2</span>,<span class="dv">10</span>]</span>
+<span id="cb105-11"><a href="pre-processing-karet.html#cb105-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb105-12"><a href="pre-processing-karet.html#cb105-12" aria-hidden="true" tabindex="-1"></a>glass_pred<span class="ot">&lt;-</span>class<span class="sc">::</span><span class="fu">knn</span>(glass_training, glass_test, glass_training_labels) <span class="co">#Performing the machine learning test.</span></span>
+<span id="cb105-13"><a href="pre-processing-karet.html#cb105-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb105-14"><a href="pre-processing-karet.html#cb105-14" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(glass_test_labels, glass_pred)</span></code></pre></div>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction  1  2  3  5  6  7
+##          1 17  2  2  0  0  0
+##          2  5 21  0  0  0  0
+##          3  3  0  1  0  0  0
+##          5  0  0  0  6  0  0
+##          6  0  1  0  0  1  0
+##          7  0  1  0  0  1  9
+## 
+## Overall Statistics
+##                                           
+##                Accuracy : 0.7857          
+##                  95% CI : (0.6713, 0.8748)
+##     No Information Rate : 0.3571          
+##     P-Value [Acc &gt; NIR] : 2.852e-13       
+##                                           
+##                   Kappa : 0.7062          
+##                                           
+##  Mcnemar&#39;s Test P-Value : NA              
+## 
+## Statistics by Class:
+## 
+##                      Class: 1 Class: 2 Class: 3 Class: 5 Class: 6 Class: 7
+## Sensitivity            0.6800   0.8400  0.33333  1.00000  0.50000   1.0000
+## Specificity            0.9111   0.8889  0.95522  1.00000  0.98529   0.9672
+## Pos Pred Value         0.8095   0.8077  0.25000  1.00000  0.50000   0.8182
+## Neg Pred Value         0.8367   0.9091  0.96970  1.00000  0.98529   1.0000
+## Prevalence             0.3571   0.3571  0.04286  0.08571  0.02857   0.1286
+## Detection Rate         0.2429   0.3000  0.01429  0.08571  0.01429   0.1286
+## Detection Prevalence   0.3000   0.3714  0.05714  0.08571  0.02857   0.1571
+## Balanced Accuracy      0.7956   0.8644  0.64428  1.00000  0.74265   0.9836</code></pre>
+<p>Why this happens is something I’ve yet to figure out: perhaps the class::knn model already uses a form of built-in preprocessing. However, the KNN-model was purely used as an introduction to other machine learning processes, the question about why the KNN-model loses accuracy using karet is one for another time. For now, we’ll continue to the next machine learning technique, one significant in the field of microbiology: randomForest.</p>
+
+</div>
+<p style="text-align: center;">
+<a href="knn-in-glass.html"><button class="btn btn-default">Previous</button></a>
+<a href="random-forest.html"><button class="btn btn-default">Next</button></a>
+</p>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+</body>
+</html>

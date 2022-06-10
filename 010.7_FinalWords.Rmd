@@ -2,6 +2,8 @@
 output: html_document
 ---
 
+# Closing words
+
 <body id="start">
 <div class="topnav">
   <a href='index.html#Frontpage'>Frontpage</a>
@@ -19,8 +21,6 @@ output: html_document
 </div>
 
 &nbsp;
-
-# Closing words
 
 For my free room, I was given 4 days (32 hours) to research a data-science subject of choice. As my interests lie within microbiology, I went to search for a (for me) new skill in data sciences which seemed to have much use in microbiology. I chose machine learning, as it seemed to be relevant in most if not all microbiology-related research, from antiobitic resistance to microbiota research to automated agar plate-based bacteria identification. 
 

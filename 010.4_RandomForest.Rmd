@@ -2,6 +2,8 @@
 output: html_document
 ---
 
+# Random Forest
+
 <body id="start">
 <div class="topnav">
   <a href='index.html#Frontpage'>Frontpage</a>
@@ -20,7 +22,7 @@ output: html_document
 
 &nbsp;
 
-# Random Forest
+
 
 ```{r, include=FALSE}
 library(tidyverse)
@@ -69,7 +71,7 @@ car_data$Safety<-factor(car_data$Safety)
 car_data$Condition<-factor(car_data$Condition)
 
 
-knitr::kabel(summary(car_data))
+knitr::kable(summary(car_data))
 ```
 
 According the summary, we can see that Buying price - Safety are all equallty spread, with Condition being the only factor where the 4 different levels have different amounts of expression. Because of this. We'll use this condition as condition for our machine learning algorythm.
@@ -82,7 +84,7 @@ partition<-createDataPartition(car_data$Condition, p=0.75, list=FALSE)
 
 car_train<-car_data[partition,]
 car_test<-car_data[-partition,]
-knitr::kabel(summary(car_train))
+knitr::kable(summary(car_train))
 knitr::kable(summary(car_test))
 ```
 
@@ -121,7 +123,6 @@ importance(Model2)
 varImpPlot(Model1)
 varImpPlot(Model2)
 ```
-
 In these plots, the "MeanDecreaseAccuracy" expresses how much accuracy the model loses when it does _not_ consider the given variable, MeanDecreaseGini expresses measures how important that variable is for the homogeneity of the model. The higher the MeanDecreaseAccuracy/Gini, the more important it is for the model. Based on the significantly higher MeanDecreaseAccuracy in model 2 in comparisson to model 1, we can state that model 2 is indeed more accurate than model 1. Furthermore, the confusionMatrix for model 2 gives a higher accuracy than model 1.
 
 ```{r}

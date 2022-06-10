@@ -2,6 +2,8 @@
 output: html_document
 ---
 
+# Random forest in Glass
+
 <body id="start">
 <div class="topnav">
   <a href='index.html#Frontpage'>Frontpage</a>
@@ -20,8 +22,6 @@ output: html_document
 
 &nbsp;
 
-# Random forest in Glass
-
 Perfoming the entire randomForest workflow on the glass dataset
 
 ```{r}
@@ -35,7 +35,7 @@ glass_training<-Glass[ind_glass==1,] # Separating the training the training and 
 glass_test<-Glass[ind_glass==2,]
 
 knitr::kable(summary(glass_training))
-knitr::kabel(summary(glass_test))
+knitr::kable(summary(glass_test))
 ```
 
 
