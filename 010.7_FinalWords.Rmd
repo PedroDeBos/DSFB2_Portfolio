@@ -28,7 +28,13 @@ I originally going specifically into image-based machine learning for atomating 
 
 I think that during these 4 days of time, I've definitely learned the basics of machine learning. Getting a feel for two flexible algorythms and 1 pre-made algorythm, learning the basics of how to set up a algorhythm, learning some forms of pre-processing, I've definitely learned a about machine learning in this time. Although I most definitely still could not yet apply this knowledge on a research project, I do now have a basis which I could use to, under guidance of a more advanced data scientist, set up a practical machine learning algorythm. 
 
-If I were to re-do this entire machine-learning research project
+If I were to re-do this entire machine-learning research project, there'd be 2 things I'd definitely want to change.
+
+1: Pick a different mock dataset than Glass. Glass is small, has unbalanced test conditions, and it's datapoints aren't really intuitive. If would've known beforehand that I was gonna use it mutliple times, as an example for all of my skills, I would've definitely chose a microbiology-related dataset instead. 
+
+2: Dedicate more time to using machine learning on genuine studies. I was originally planning on performing the IDTAXA determination on a study using 16s-RNA to study [the microbiome of professional athletes](https://www.ncbi.nlm.nih.gov/sra/SRX6751670[accn]), however, due to SRA-toolkit not functioning within R-studio and it for some reason not working easily on a loose command prompt too, this could not be done within the time limit of the research.
+
+Despite these points of improvement, I'm definitely still satisfied with what I've learned.
 
 
 
