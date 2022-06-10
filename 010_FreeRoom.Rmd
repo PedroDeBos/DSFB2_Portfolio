@@ -657,8 +657,13 @@ readDNAStringSet(fas)
 ```
 
 ```{bash}
-
+export PATH=$PATH:$HOME/Downloads/sratoolkit.current-win64/sratoolkit.3.0.0-win64/bin
 ```
+
+```{bash}
+vdb-config --interactive
+```
+
 
 Yeah I'm giving up on installing this stupid fasta data untill I've calmed down. I'll try it tomorrow. For now I'll just do what I need to do with pre-processing
 
