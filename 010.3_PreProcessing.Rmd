@@ -133,3 +133,8 @@ confusionMatrix(glass_test_labels, glass_pred)
 
 Why this happens is something I've yet to figure out: perhaps the class::knn model already uses a form of built-in preprocessing. However, the KNN-model was purely used as an introduction to other machine learning processes, the question about why the KNN-model loses accuracy using karet is one for another time. For now, we'll continue to the next machine learning technique, one significant in the field of microbiology: randomForest.
 
+<div>
+  <button class='button button1' onclick="window.location.href='knn-in-glass.html#knn-in-glass'" type="button">Return</button>
+  <button class='button button2' onclick="window.location.href='random-forest.html#random-forest'" type="button">Continue</button>
+</div>
+

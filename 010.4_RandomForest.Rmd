@@ -181,7 +181,10 @@ With this table, we _can_ see that a ntree=1 has a lower predictive power, howev
 
 With that, we've succesfully performed a randomForest analysis upon a "cars" dataset. Just like with the KNN, we'll now perform the entire RandomForest workflow with the "Glass" dataset.
 
-
-
 Now, we'll look into a package for R called IDTAXA, which uses randomForest computation to identify bacteria based on their 16sRNA.
+
+<div>
+  <button class='button button1' onclick="window.location.href='pre-processing-karet.html#pre-processing-karet'" type="button">Return</button>
+  <button class='button button2' onclick="window.location.href='random-forest-in-glass.html#random-forest-in-glass'" type="button">Continue</button>
+</div>
 

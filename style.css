@@ -2,6 +2,10 @@
     display: none;
 }
 
+.btn{
+  display: none;
+}
+
 .header{
   background-color: black;
   text-align: center;
@@ -26,6 +30,17 @@
   text-decoration: none;
 }
 
+.topnav a:hover{
+  background-color:white;
+  color: black;
+}
+
+.topnav a.active{
+  background-color: #d40f08;
+  color: black;
+  border: black;
+}
+
 /* Dropdown doesn't work so making buttons */
 .button {
   border: 2px solid white;
@@ -34,6 +49,10 @@
   padding: 14px 28px;
   font-size: 16px;
   cursor: pointer;
+}
+
+.button1:{
+  float:left;
 }
 
 .button2{
