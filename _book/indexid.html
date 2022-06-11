@@ -201,22 +201,22 @@ details > summary {
 <p>IDTAXA contains 2 forms of identification: Taxonomy by organism, and taxonomy by functions. ITDAXA: classify organisms takes rRNA or an ITS sequence, and classifies it as a taxonomy of organisms. IDTAXA: classify functions takes a protein or coding sequence, and classifies it as a taxonomy of functions.</p>
 <p>The site for IDTAXA, specifically <a href="http://www2.decipher.codes/ClassifyOrganismsCode.html">this link here</a>, contains a guide on how to perform an IDTAXA identification yourself in R. This guide will be performed on an A: pre-assembled mock data set, B: 3 16sRNA sequences from taken from an online database, and C: 16sRNA sequencces from a random published study.</p>
 <p>The process goes as follows: First, store the location of the fasta data, and read it using readDNAStringSet(or RNAStringSet if it’s RNA data). Use “remove gaps” to remove any possible gaps found in the data</p>
-<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="indexid.html#cb155-1" aria-hidden="true" tabindex="-1"></a>fas<span class="ot">&lt;-</span><span class="st">&quot;./data.raw/HMP_16S.fas.txt&quot;</span></span>
-<span id="cb155-2"><a href="indexid.html#cb155-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb155-3"><a href="indexid.html#cb155-3" aria-hidden="true" tabindex="-1"></a>seqs<span class="ot">&lt;-</span><span class="fu">readDNAStringSet</span>(fas)</span>
-<span id="cb155-4"><a href="indexid.html#cb155-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb155-5"><a href="indexid.html#cb155-5" aria-hidden="true" tabindex="-1"></a>seqs<span class="ot">&lt;-</span><span class="fu">RemoveGaps</span>(seqs)</span></code></pre></div>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="indexid.html#cb156-1" aria-hidden="true" tabindex="-1"></a>fas<span class="ot">&lt;-</span><span class="st">&quot;./data.raw/HMP_16S.fas.txt&quot;</span></span>
+<span id="cb156-2"><a href="indexid.html#cb156-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-3"><a href="indexid.html#cb156-3" aria-hidden="true" tabindex="-1"></a>seqs<span class="ot">&lt;-</span><span class="fu">readDNAStringSet</span>(fas)</span>
+<span id="cb156-4"><a href="indexid.html#cb156-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-5"><a href="indexid.html#cb156-5" aria-hidden="true" tabindex="-1"></a>seqs<span class="ot">&lt;-</span><span class="fu">RemoveGaps</span>(seqs)</span></code></pre></div>
 <p>Then, load in the training data set downloaded from the DECIPHER website.</p>
 <p>(Please keep in mind, loading this data and performing the machine learning is a very CPU-heavy process. In order to make this .Rmd accessible to those without a strong computer, I’ve instead ran the code myself, and will only be showing the plots as output)</p>
-<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="indexid.html#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;../KEGG_AllLineage_r95.RData&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="indexid.html#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;../KEGG_AllLineage_r95.RData&quot;</span>)</span></code></pre></div>
 <p>Now, let the IdTaxa algorythm run, store the output, and use plot() to immdiately plot the output</p>
-<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="indexid.html#cb157-1" aria-hidden="true" tabindex="-1"></a>ids<span class="ot">&lt;-</span><span class="fu">IdTaxa</span>(seqs,</span>
-<span id="cb157-2"><a href="indexid.html#cb157-2" aria-hidden="true" tabindex="-1"></a>            trainingSet,</span>
-<span id="cb157-3"><a href="indexid.html#cb157-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">strand =</span> <span class="st">&quot;both&quot;</span>,</span>
-<span id="cb157-4"><a href="indexid.html#cb157-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">threshold =</span> <span class="dv">60</span>,</span>
-<span id="cb157-5"><a href="indexid.html#cb157-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">processors =</span> <span class="cn">NULL</span>)</span>
-<span id="cb157-6"><a href="indexid.html#cb157-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ids)</span>
-<span id="cb157-7"><a href="indexid.html#cb157-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ids)</span></code></pre></div>
+<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="indexid.html#cb158-1" aria-hidden="true" tabindex="-1"></a>ids<span class="ot">&lt;-</span><span class="fu">IdTaxa</span>(seqs,</span>
+<span id="cb158-2"><a href="indexid.html#cb158-2" aria-hidden="true" tabindex="-1"></a>            trainingSet,</span>
+<span id="cb158-3"><a href="indexid.html#cb158-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">strand =</span> <span class="st">&quot;both&quot;</span>,</span>
+<span id="cb158-4"><a href="indexid.html#cb158-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">threshold =</span> <span class="dv">60</span>,</span>
+<span id="cb158-5"><a href="indexid.html#cb158-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">processors =</span> <span class="cn">NULL</span>)</span>
+<span id="cb158-6"><a href="indexid.html#cb158-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ids)</span>
+<span id="cb158-7"><a href="indexid.html#cb158-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ids)</span></code></pre></div>
 <p>print(ids)</p>
 <p>A test set of class ‘Taxa’ with length 118</p>
 <pre><code>  confidence name                 taxon</code></pre>
@@ -240,21 +240,21 @@ details > summary {
 <li>one from <a href="https://www.ncbi.nlm.nih.gov/genome/154?genome_assembly_id=360991">staphylococcus aureus</a> and finally,</li>
 <li>one from <a href="https://www.ncbi.nlm.nih.gov/genome/152?genome_assembly_id=299225">Salmonella enterica typhi</a>.</li>
 </ul>
-<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="indexid.html#cb159-1" aria-hidden="true" tabindex="-1"></a>fas1<span class="ot">&lt;-</span><span class="st">&quot;./data.raw/AB002521.1.fasta&quot;</span></span>
-<span id="cb159-2"><a href="indexid.html#cb159-2" aria-hidden="true" tabindex="-1"></a>fas2<span class="ot">&lt;-</span><span class="st">&quot;./data.raw/AB243005.1.fasta&quot;</span></span>
-<span id="cb159-3"><a href="indexid.html#cb159-3" aria-hidden="true" tabindex="-1"></a>fas3<span class="ot">&lt;-</span><span class="st">&quot;./data.raw/AB594754.1.fasta&quot;</span></span>
-<span id="cb159-4"><a href="indexid.html#cb159-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb159-5"><a href="indexid.html#cb159-5" aria-hidden="true" tabindex="-1"></a>seqs<span class="ot">&lt;-</span><span class="fu">readDNAStringSet</span>(<span class="fu">c</span>(fas1, fas2, fas3))</span>
-<span id="cb159-6"><a href="indexid.html#cb159-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb159-7"><a href="indexid.html#cb159-7" aria-hidden="true" tabindex="-1"></a>seqs<span class="ot">&lt;-</span><span class="fu">RemoveGaps</span>(seqs)</span>
-<span id="cb159-8"><a href="indexid.html#cb159-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb159-9"><a href="indexid.html#cb159-9" aria-hidden="true" tabindex="-1"></a>ids<span class="ot">&lt;-</span><span class="fu">IdTaxa</span>(seqs,</span>
-<span id="cb159-10"><a href="indexid.html#cb159-10" aria-hidden="true" tabindex="-1"></a>            trainingSet,</span>
-<span id="cb159-11"><a href="indexid.html#cb159-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">strand =</span> <span class="st">&quot;both&quot;</span>,</span>
-<span id="cb159-12"><a href="indexid.html#cb159-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">threshold =</span> <span class="dv">60</span>,</span>
-<span id="cb159-13"><a href="indexid.html#cb159-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">processors =</span> <span class="cn">NULL</span>)</span>
-<span id="cb159-14"><a href="indexid.html#cb159-14" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ids)</span>
-<span id="cb159-15"><a href="indexid.html#cb159-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ids)</span></code></pre></div>
+<div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="indexid.html#cb160-1" aria-hidden="true" tabindex="-1"></a>fas1<span class="ot">&lt;-</span><span class="st">&quot;./data.raw/AB002521.1.fasta&quot;</span></span>
+<span id="cb160-2"><a href="indexid.html#cb160-2" aria-hidden="true" tabindex="-1"></a>fas2<span class="ot">&lt;-</span><span class="st">&quot;./data.raw/AB243005.1.fasta&quot;</span></span>
+<span id="cb160-3"><a href="indexid.html#cb160-3" aria-hidden="true" tabindex="-1"></a>fas3<span class="ot">&lt;-</span><span class="st">&quot;./data.raw/AB594754.1.fasta&quot;</span></span>
+<span id="cb160-4"><a href="indexid.html#cb160-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb160-5"><a href="indexid.html#cb160-5" aria-hidden="true" tabindex="-1"></a>seqs<span class="ot">&lt;-</span><span class="fu">readDNAStringSet</span>(<span class="fu">c</span>(fas1, fas2, fas3))</span>
+<span id="cb160-6"><a href="indexid.html#cb160-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb160-7"><a href="indexid.html#cb160-7" aria-hidden="true" tabindex="-1"></a>seqs<span class="ot">&lt;-</span><span class="fu">RemoveGaps</span>(seqs)</span>
+<span id="cb160-8"><a href="indexid.html#cb160-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb160-9"><a href="indexid.html#cb160-9" aria-hidden="true" tabindex="-1"></a>ids<span class="ot">&lt;-</span><span class="fu">IdTaxa</span>(seqs,</span>
+<span id="cb160-10"><a href="indexid.html#cb160-10" aria-hidden="true" tabindex="-1"></a>            trainingSet,</span>
+<span id="cb160-11"><a href="indexid.html#cb160-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">strand =</span> <span class="st">&quot;both&quot;</span>,</span>
+<span id="cb160-12"><a href="indexid.html#cb160-12" aria-hidden="true" tabindex="-1"></a>            <span class="at">threshold =</span> <span class="dv">60</span>,</span>
+<span id="cb160-13"><a href="indexid.html#cb160-13" aria-hidden="true" tabindex="-1"></a>            <span class="at">processors =</span> <span class="cn">NULL</span>)</span>
+<span id="cb160-14"><a href="indexid.html#cb160-14" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ids)</span>
+<span id="cb160-15"><a href="indexid.html#cb160-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ids)</span></code></pre></div>
 <p>print(ids)</p>
 <p>A test set of class ‘Taxa’ with length 3</p>
 <pre><code>confidence name                 taxon</code></pre>

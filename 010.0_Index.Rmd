@@ -1,4 +1,4 @@
-# Bibliography
+# Free research project Index
 
 <body id="start">
 <div class="topnav">
@@ -11,16 +11,27 @@
   <a href='bibliography-using-zotero.html#Bibliography using Zotero'>Zotero</a>
   <a href='open-reproductibility-analysis.html#open-reproductibility-analysis'>Reproductibility</a>
   <a href='future-endeavours.html#future-endeavours'>Future endeavours</a>
-  <a href='new-skills.html#new-skills'> New skills (Machine learning)</a>
+  <a href='free-research-project-index.html#free-research-project'> Free research (Machine learning)</a>
   <a href='cv.html#cv'>CV</a>
   <a href='bibliography.html#bibliography'>Bibliography</a>
 </div>
 
 &nbsp;
 
+<script>
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
 
-Here's a collection of all used references for setting up this portfolio
-
-__Bibliography__
-
-<div id="refs"></div>
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(e) {
+  if (!e.target.matches('.dropbtn')) {
+  var myDropdown = document.getElementById("myDropdown");
+    if (myDropdown.classList.contains('show')) {
+      myDropdown.classList.remove('show');
+    }
+  }
+}
+</script>

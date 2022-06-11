@@ -197,8 +197,8 @@ details > summary {
 </div>
 <p> </p>
 <p>For the studying of pre-processing, we’ll use the package called “Karet”. caret, short for Classification And REgression Training, is a package containing functions to help create machine learning-based (or actually, any form of predictive) models.</p>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="pre-processing-karet.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
-<span id="cb92-2"><a href="pre-processing-karet.html#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(<span class="fu">getModelInfo</span>()) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">50</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="pre-processing-karet.html#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb93-2"><a href="pre-processing-karet.html#cb93-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(<span class="fu">getModelInfo</span>()) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">50</span>)</span></code></pre></div>
 <pre><code>##  [1] &quot;ada&quot;            &quot;AdaBag&quot;         &quot;AdaBoost.M1&quot;    &quot;adaboost&quot;       &quot;amdai&quot;          &quot;ANFIS&quot;          &quot;avNNet&quot;         &quot;awnb&quot;           &quot;awtan&quot;         
 ## [10] &quot;bag&quot;            &quot;bagEarth&quot;       &quot;bagEarthGCV&quot;    &quot;bagFDA&quot;         &quot;bagFDAGCV&quot;      &quot;bam&quot;            &quot;bartMachine&quot;    &quot;bayesglm&quot;       &quot;binda&quot;         
 ## [19] &quot;blackboost&quot;     &quot;blasso&quot;         &quot;blassoAveraged&quot; &quot;bridge&quot;         &quot;brnn&quot;           &quot;BstLm&quot;          &quot;bstSm&quot;          &quot;bstTree&quot;        &quot;C5.0&quot;          
@@ -207,27 +207,27 @@ details > summary {
 ## [46] &quot;enet&quot;           &quot;evtree&quot;         &quot;extraTrees&quot;     &quot;fda&quot;            &quot;FH.GBML&quot;</code></pre>
 <p>Caret contains <em>a lot</em> of predictive models: above are shown only the top 50 of the over 200 models available in caret. For now we’ll continue to use a KNN model, though we’ll study another model later too.</p>
 <p>First of all, we can use “createDataPartition” instead of “sample” to create a training and a test group more easily</p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="pre-processing-karet.html#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
-<span id="cb94-2"><a href="pre-processing-karet.html#cb94-2" aria-hidden="true" tabindex="-1"></a>index<span class="ot">&lt;-</span><span class="fu">createDataPartition</span>(iris<span class="sc">$</span>Species, <span class="at">p=</span><span class="fl">0.75</span>, <span class="at">list=</span><span class="cn">FALSE</span>)</span>
-<span id="cb94-3"><a href="pre-processing-karet.html#cb94-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb94-4"><a href="pre-processing-karet.html#cb94-4" aria-hidden="true" tabindex="-1"></a>iris_training2<span class="ot">&lt;-</span>iris[index,]</span>
-<span id="cb94-5"><a href="pre-processing-karet.html#cb94-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb94-6"><a href="pre-processing-karet.html#cb94-6" aria-hidden="true" tabindex="-1"></a>iris_test2<span class="ot">&lt;-</span>iris[<span class="sc">-</span>index,]</span></code></pre></div>
-<p>Now, with the training data separated, we can use the caret-method of training a model and predicting with it</p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="pre-processing-karet.html#cb95-1" aria-hidden="true" tabindex="-1"></a>model_knn<span class="ot">&lt;-</span><span class="fu">train</span>(iris_training2[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], iris_training2[,<span class="dv">5</span>], <span class="at">method=</span><span class="st">&#39;knn&#39;</span>)</span>
-<span id="cb95-2"><a href="pre-processing-karet.html#cb95-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb95-3"><a href="pre-processing-karet.html#cb95-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Then, we use the model to make a prediction</span></span>
-<span id="cb95-4"><a href="pre-processing-karet.html#cb95-4" aria-hidden="true" tabindex="-1"></a>prediction<span class="ot">&lt;-</span><span class="fu">predict</span>(<span class="at">object=</span>model_knn, iris_test2[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="pre-processing-karet.html#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb95-2"><a href="pre-processing-karet.html#cb95-2" aria-hidden="true" tabindex="-1"></a>index<span class="ot">&lt;-</span><span class="fu">createDataPartition</span>(iris<span class="sc">$</span>Species, <span class="at">p=</span><span class="fl">0.75</span>, <span class="at">list=</span><span class="cn">FALSE</span>)</span>
+<span id="cb95-3"><a href="pre-processing-karet.html#cb95-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb95-4"><a href="pre-processing-karet.html#cb95-4" aria-hidden="true" tabindex="-1"></a>iris_training2<span class="ot">&lt;-</span>iris[index,]</span>
 <span id="cb95-5"><a href="pre-processing-karet.html#cb95-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb95-6"><a href="pre-processing-karet.html#cb95-6" aria-hidden="true" tabindex="-1"></a><span class="co">#We check if the predicitons are true</span></span>
-<span id="cb95-7"><a href="pre-processing-karet.html#cb95-7" aria-hidden="true" tabindex="-1"></a>pred<span class="ot">&lt;-</span>prediction <span class="sc">==</span> iris_test2[,<span class="dv">5</span>]</span>
-<span id="cb95-8"><a href="pre-processing-karet.html#cb95-8" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(pred)</span></code></pre></div>
+<span id="cb95-6"><a href="pre-processing-karet.html#cb95-6" aria-hidden="true" tabindex="-1"></a>iris_test2<span class="ot">&lt;-</span>iris[<span class="sc">-</span>index,]</span></code></pre></div>
+<p>Now, with the training data separated, we can use the caret-method of training a model and predicting with it</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="pre-processing-karet.html#cb96-1" aria-hidden="true" tabindex="-1"></a>model_knn<span class="ot">&lt;-</span><span class="fu">train</span>(iris_training2[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], iris_training2[,<span class="dv">5</span>], <span class="at">method=</span><span class="st">&#39;knn&#39;</span>)</span>
+<span id="cb96-2"><a href="pre-processing-karet.html#cb96-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-3"><a href="pre-processing-karet.html#cb96-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Then, we use the model to make a prediction</span></span>
+<span id="cb96-4"><a href="pre-processing-karet.html#cb96-4" aria-hidden="true" tabindex="-1"></a>prediction<span class="ot">&lt;-</span><span class="fu">predict</span>(<span class="at">object=</span>model_knn, iris_test2[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span>
+<span id="cb96-5"><a href="pre-processing-karet.html#cb96-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb96-6"><a href="pre-processing-karet.html#cb96-6" aria-hidden="true" tabindex="-1"></a><span class="co">#We check if the predicitons are true</span></span>
+<span id="cb96-7"><a href="pre-processing-karet.html#cb96-7" aria-hidden="true" tabindex="-1"></a>pred<span class="ot">&lt;-</span>prediction <span class="sc">==</span> iris_test2[,<span class="dv">5</span>]</span>
+<span id="cb96-8"><a href="pre-processing-karet.html#cb96-8" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(pred)</span></code></pre></div>
 <pre><code>## pred
 ## FALSE  TRUE 
 ##     2    34</code></pre>
 <p>And, due to the fact that we’re using caret, we can create a confusion matrix: this’ll allow us to study the sensitivity and the specificity of our model way easier.</p>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="pre-processing-karet.html#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="co">#And we create a confusion matrix for the results</span></span>
-<span id="cb97-2"><a href="pre-processing-karet.html#cb97-2" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(prediction,iris_test2[,<span class="dv">5</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="pre-processing-karet.html#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="co">#And we create a confusion matrix for the results</span></span>
+<span id="cb98-2"><a href="pre-processing-karet.html#cb98-2" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(prediction,iris_test2[,<span class="dv">5</span>])</span></code></pre></div>
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##             Reference
@@ -264,16 +264,16 @@ details > summary {
 <li><p>Centering is a form of pre-processing where the mean of the data is determined, and all other data is represented based on their distance to the mean</p></li>
 <li><p>Scaling is a form of pre-processing where all data is changed to the same scale of size. This makes sure the machine learning algorythm does not determine that one variable is more important than another, purely because it has higher numbers.</p></li>
 </ul>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="pre-processing-karet.html#cb99-1" aria-hidden="true" tabindex="-1"></a>model_knn<span class="ot">&lt;-</span><span class="fu">train</span>(iris_training2[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>],iris_training2[,<span class="dv">5</span>],<span class="at">method=</span><span class="st">&#39;knn&#39;</span>,<span class="at">preProcess =</span> <span class="fu">c</span>(<span class="st">&quot;center&quot;</span>, <span class="st">&quot;scale&quot;</span>))</span>
-<span id="cb99-2"><a href="pre-processing-karet.html#cb99-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb99-3"><a href="pre-processing-karet.html#cb99-3" aria-hidden="true" tabindex="-1"></a>prediction<span class="ot">&lt;-</span><span class="fu">predict</span>(<span class="at">object=</span>model_knn, iris_test2[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">type=</span><span class="st">&#39;raw&#39;</span>)</span>
-<span id="cb99-4"><a href="pre-processing-karet.html#cb99-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb99-5"><a href="pre-processing-karet.html#cb99-5" aria-hidden="true" tabindex="-1"></a>pred<span class="ot">&lt;-</span>prediction <span class="sc">==</span> iris_test2[,<span class="dv">5</span>]</span>
-<span id="cb99-6"><a href="pre-processing-karet.html#cb99-6" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(pred)</span></code></pre></div>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="pre-processing-karet.html#cb100-1" aria-hidden="true" tabindex="-1"></a>model_knn<span class="ot">&lt;-</span><span class="fu">train</span>(iris_training2[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>],iris_training2[,<span class="dv">5</span>],<span class="at">method=</span><span class="st">&#39;knn&#39;</span>,<span class="at">preProcess =</span> <span class="fu">c</span>(<span class="st">&quot;center&quot;</span>, <span class="st">&quot;scale&quot;</span>))</span>
+<span id="cb100-2"><a href="pre-processing-karet.html#cb100-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-3"><a href="pre-processing-karet.html#cb100-3" aria-hidden="true" tabindex="-1"></a>prediction<span class="ot">&lt;-</span><span class="fu">predict</span>(<span class="at">object=</span>model_knn, iris_test2[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">type=</span><span class="st">&#39;raw&#39;</span>)</span>
+<span id="cb100-4"><a href="pre-processing-karet.html#cb100-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-5"><a href="pre-processing-karet.html#cb100-5" aria-hidden="true" tabindex="-1"></a>pred<span class="ot">&lt;-</span>prediction <span class="sc">==</span> iris_test2[,<span class="dv">5</span>]</span>
+<span id="cb100-6"><a href="pre-processing-karet.html#cb100-6" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(pred)</span></code></pre></div>
 <pre><code>## pred
 ## FALSE  TRUE 
 ##     2    34</code></pre>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="pre-processing-karet.html#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(prediction, iris_test2[,<span class="dv">5</span>])</span></code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="pre-processing-karet.html#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(prediction, iris_test2[,<span class="dv">5</span>])</span></code></pre></div>
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##             Reference
@@ -306,23 +306,23 @@ details > summary {
 ## Balanced Accuracy           1.0000            0.9583           0.9167</code></pre>
 <p>centering and scaling the data already increases the accuracy of the system, but is not a perfect system. It removed the versicolor mis-identification, but added a virginica mis-identification.</p>
 <p>To apply this newfound knowledge about pre-processing to another example, we’ll once again perform it upon the “glass”</p>
-<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="pre-processing-karet.html#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mlbench)</span>
-<span id="cb103-2"><a href="pre-processing-karet.html#cb103-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Glass)</span>
-<span id="cb103-3"><a href="pre-processing-karet.html#cb103-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb103-4"><a href="pre-processing-karet.html#cb103-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4321</span>)</span>
-<span id="cb103-5"><a href="pre-processing-karet.html#cb103-5" aria-hidden="true" tabindex="-1"></a>ind_glass<span class="ot">&lt;-</span><span class="fu">sample</span>(<span class="dv">2</span>, <span class="fu">nrow</span>(Glass), <span class="at">replace=</span><span class="cn">TRUE</span>, <span class="at">prob=</span><span class="fu">c</span>(<span class="fl">0.67</span>,<span class="fl">0.33</span>)) <span class="co">#Creating a random selection of datapoints</span></span>
-<span id="cb103-6"><a href="pre-processing-karet.html#cb103-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb103-7"><a href="pre-processing-karet.html#cb103-7" aria-hidden="true" tabindex="-1"></a>glass_training<span class="ot">&lt;-</span>Glass[ind_glass<span class="sc">==</span><span class="dv">1</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>] <span class="co"># Separating the training the training and the testing datasets</span></span>
-<span id="cb103-8"><a href="pre-processing-karet.html#cb103-8" aria-hidden="true" tabindex="-1"></a>glass_test<span class="ot">&lt;-</span>Glass[ind_glass<span class="sc">==</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>]</span>
-<span id="cb103-9"><a href="pre-processing-karet.html#cb103-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb103-10"><a href="pre-processing-karet.html#cb103-10" aria-hidden="true" tabindex="-1"></a>glass_training_labels<span class="ot">&lt;-</span>Glass[ind_glass<span class="sc">==</span><span class="dv">1</span>,<span class="dv">10</span>] <span class="co"># Storing the labels seperately</span></span>
-<span id="cb103-11"><a href="pre-processing-karet.html#cb103-11" aria-hidden="true" tabindex="-1"></a>glass_test_labels<span class="ot">&lt;-</span>Glass[ind_glass<span class="sc">==</span><span class="dv">2</span>,<span class="dv">10</span>]</span>
-<span id="cb103-12"><a href="pre-processing-karet.html#cb103-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb103-13"><a href="pre-processing-karet.html#cb103-13" aria-hidden="true" tabindex="-1"></a>model_knn_glass<span class="ot">&lt;-</span><span class="fu">train</span>(glass_training, glass_training_labels, <span class="at">method=</span><span class="st">&quot;knn&quot;</span>, <span class="at">preProcess=</span><span class="fu">c</span>(<span class="st">&quot;center&quot;</span>, <span class="st">&quot;scale&quot;</span>))</span>
-<span id="cb103-14"><a href="pre-processing-karet.html#cb103-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb103-15"><a href="pre-processing-karet.html#cb103-15" aria-hidden="true" tabindex="-1"></a>prediction<span class="ot">&lt;-</span><span class="fu">predict</span>(<span class="at">object=</span>model_knn_glass, glass_test, <span class="at">type=</span><span class="st">&quot;raw&quot;</span>)</span>
-<span id="cb103-16"><a href="pre-processing-karet.html#cb103-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb103-17"><a href="pre-processing-karet.html#cb103-17" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(prediction, glass_test_labels)</span></code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="pre-processing-karet.html#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mlbench)</span>
+<span id="cb104-2"><a href="pre-processing-karet.html#cb104-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Glass)</span>
+<span id="cb104-3"><a href="pre-processing-karet.html#cb104-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb104-4"><a href="pre-processing-karet.html#cb104-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4321</span>)</span>
+<span id="cb104-5"><a href="pre-processing-karet.html#cb104-5" aria-hidden="true" tabindex="-1"></a>ind_glass<span class="ot">&lt;-</span><span class="fu">sample</span>(<span class="dv">2</span>, <span class="fu">nrow</span>(Glass), <span class="at">replace=</span><span class="cn">TRUE</span>, <span class="at">prob=</span><span class="fu">c</span>(<span class="fl">0.67</span>,<span class="fl">0.33</span>)) <span class="co">#Creating a random selection of datapoints</span></span>
+<span id="cb104-6"><a href="pre-processing-karet.html#cb104-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb104-7"><a href="pre-processing-karet.html#cb104-7" aria-hidden="true" tabindex="-1"></a>glass_training<span class="ot">&lt;-</span>Glass[ind_glass<span class="sc">==</span><span class="dv">1</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>] <span class="co"># Separating the training the training and the testing datasets</span></span>
+<span id="cb104-8"><a href="pre-processing-karet.html#cb104-8" aria-hidden="true" tabindex="-1"></a>glass_test<span class="ot">&lt;-</span>Glass[ind_glass<span class="sc">==</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>]</span>
+<span id="cb104-9"><a href="pre-processing-karet.html#cb104-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb104-10"><a href="pre-processing-karet.html#cb104-10" aria-hidden="true" tabindex="-1"></a>glass_training_labels<span class="ot">&lt;-</span>Glass[ind_glass<span class="sc">==</span><span class="dv">1</span>,<span class="dv">10</span>] <span class="co"># Storing the labels seperately</span></span>
+<span id="cb104-11"><a href="pre-processing-karet.html#cb104-11" aria-hidden="true" tabindex="-1"></a>glass_test_labels<span class="ot">&lt;-</span>Glass[ind_glass<span class="sc">==</span><span class="dv">2</span>,<span class="dv">10</span>]</span>
+<span id="cb104-12"><a href="pre-processing-karet.html#cb104-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb104-13"><a href="pre-processing-karet.html#cb104-13" aria-hidden="true" tabindex="-1"></a>model_knn_glass<span class="ot">&lt;-</span><span class="fu">train</span>(glass_training, glass_training_labels, <span class="at">method=</span><span class="st">&quot;knn&quot;</span>, <span class="at">preProcess=</span><span class="fu">c</span>(<span class="st">&quot;center&quot;</span>, <span class="st">&quot;scale&quot;</span>))</span>
+<span id="cb104-14"><a href="pre-processing-karet.html#cb104-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb104-15"><a href="pre-processing-karet.html#cb104-15" aria-hidden="true" tabindex="-1"></a>prediction<span class="ot">&lt;-</span><span class="fu">predict</span>(<span class="at">object=</span>model_knn_glass, glass_test, <span class="at">type=</span><span class="st">&quot;raw&quot;</span>)</span>
+<span id="cb104-16"><a href="pre-processing-karet.html#cb104-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb104-17"><a href="pre-processing-karet.html#cb104-17" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(prediction, glass_test_labels)</span></code></pre></div>
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##           Reference
@@ -357,20 +357,20 @@ details > summary {
 ## Detection Prevalence   0.4286   0.3143  0.00000  0.07143  0.01429   0.1714
 ## Balanced Accuracy      0.7721   0.7395  0.50000  0.73438  0.75000   0.9376</code></pre>
 <p>As you can see, pre-processing does not significantly affect the accuracy of the model. In fact, if we compare the confusionMatrix of this model to the original model set up using the KNN: command (Shown in the table below), you’ll see that creating the model this way actually <em>reduced</em> it’s accuracy.</p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb105-1"><a href="pre-processing-karet.html#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4321</span>)</span>
-<span id="cb105-2"><a href="pre-processing-karet.html#cb105-2" aria-hidden="true" tabindex="-1"></a>ind_glass<span class="ot">&lt;-</span><span class="fu">sample</span>(<span class="dv">2</span>, <span class="fu">nrow</span>(Glass), <span class="at">replace=</span><span class="cn">TRUE</span>, <span class="at">prob=</span><span class="fu">c</span>(<span class="fl">0.67</span>,<span class="fl">0.33</span>)) <span class="co">#Creating a random selection of datapoints</span></span>
-<span id="cb105-3"><a href="pre-processing-karet.html#cb105-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb105-4"><a href="pre-processing-karet.html#cb105-4" aria-hidden="true" tabindex="-1"></a>Glass_norm<span class="ot">&lt;-</span><span class="fu">normalize</span>(Glass[<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>]) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Type=</span>Glass<span class="sc">$</span>Type)</span>
-<span id="cb105-5"><a href="pre-processing-karet.html#cb105-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb105-6"><a href="pre-processing-karet.html#cb105-6" aria-hidden="true" tabindex="-1"></a>glass_training<span class="ot">&lt;-</span>Glass_norm[ind_glass<span class="sc">==</span><span class="dv">1</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>] <span class="co"># Separating the training the training and the testing datasets</span></span>
-<span id="cb105-7"><a href="pre-processing-karet.html#cb105-7" aria-hidden="true" tabindex="-1"></a>glass_test<span class="ot">&lt;-</span>Glass_norm[ind_glass<span class="sc">==</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>]</span>
-<span id="cb105-8"><a href="pre-processing-karet.html#cb105-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb105-9"><a href="pre-processing-karet.html#cb105-9" aria-hidden="true" tabindex="-1"></a>glass_training_labels<span class="ot">&lt;-</span>Glass_norm[ind_glass<span class="sc">==</span><span class="dv">1</span>,<span class="dv">10</span>] <span class="co"># Storing the labels seperately</span></span>
-<span id="cb105-10"><a href="pre-processing-karet.html#cb105-10" aria-hidden="true" tabindex="-1"></a>glass_test_labels<span class="ot">&lt;-</span>Glass_norm[ind_glass<span class="sc">==</span><span class="dv">2</span>,<span class="dv">10</span>]</span>
-<span id="cb105-11"><a href="pre-processing-karet.html#cb105-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb105-12"><a href="pre-processing-karet.html#cb105-12" aria-hidden="true" tabindex="-1"></a>glass_pred<span class="ot">&lt;-</span>class<span class="sc">::</span><span class="fu">knn</span>(glass_training, glass_test, glass_training_labels) <span class="co">#Performing the machine learning test.</span></span>
-<span id="cb105-13"><a href="pre-processing-karet.html#cb105-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb105-14"><a href="pre-processing-karet.html#cb105-14" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(glass_test_labels, glass_pred)</span></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="pre-processing-karet.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4321</span>)</span>
+<span id="cb106-2"><a href="pre-processing-karet.html#cb106-2" aria-hidden="true" tabindex="-1"></a>ind_glass<span class="ot">&lt;-</span><span class="fu">sample</span>(<span class="dv">2</span>, <span class="fu">nrow</span>(Glass), <span class="at">replace=</span><span class="cn">TRUE</span>, <span class="at">prob=</span><span class="fu">c</span>(<span class="fl">0.67</span>,<span class="fl">0.33</span>)) <span class="co">#Creating a random selection of datapoints</span></span>
+<span id="cb106-3"><a href="pre-processing-karet.html#cb106-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-4"><a href="pre-processing-karet.html#cb106-4" aria-hidden="true" tabindex="-1"></a>Glass_norm<span class="ot">&lt;-</span><span class="fu">normalize</span>(Glass[<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>]) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Type=</span>Glass<span class="sc">$</span>Type)</span>
+<span id="cb106-5"><a href="pre-processing-karet.html#cb106-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-6"><a href="pre-processing-karet.html#cb106-6" aria-hidden="true" tabindex="-1"></a>glass_training<span class="ot">&lt;-</span>Glass_norm[ind_glass<span class="sc">==</span><span class="dv">1</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>] <span class="co"># Separating the training the training and the testing datasets</span></span>
+<span id="cb106-7"><a href="pre-processing-karet.html#cb106-7" aria-hidden="true" tabindex="-1"></a>glass_test<span class="ot">&lt;-</span>Glass_norm[ind_glass<span class="sc">==</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>]</span>
+<span id="cb106-8"><a href="pre-processing-karet.html#cb106-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-9"><a href="pre-processing-karet.html#cb106-9" aria-hidden="true" tabindex="-1"></a>glass_training_labels<span class="ot">&lt;-</span>Glass_norm[ind_glass<span class="sc">==</span><span class="dv">1</span>,<span class="dv">10</span>] <span class="co"># Storing the labels seperately</span></span>
+<span id="cb106-10"><a href="pre-processing-karet.html#cb106-10" aria-hidden="true" tabindex="-1"></a>glass_test_labels<span class="ot">&lt;-</span>Glass_norm[ind_glass<span class="sc">==</span><span class="dv">2</span>,<span class="dv">10</span>]</span>
+<span id="cb106-11"><a href="pre-processing-karet.html#cb106-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-12"><a href="pre-processing-karet.html#cb106-12" aria-hidden="true" tabindex="-1"></a>glass_pred<span class="ot">&lt;-</span>class<span class="sc">::</span><span class="fu">knn</span>(glass_training, glass_test, glass_training_labels) <span class="co">#Performing the machine learning test.</span></span>
+<span id="cb106-13"><a href="pre-processing-karet.html#cb106-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb106-14"><a href="pre-processing-karet.html#cb106-14" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(glass_test_labels, glass_pred)</span></code></pre></div>
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##           Reference
