@@ -191,15 +191,15 @@ details > summary {
 <a href='bibliography-using-zotero.html#Bibliography using Zotero'>Zotero</a>
 <a href='open-reproductibility-analysis.html#open-reproductibility-analysis'>Reproductibility</a>
 <a href='future-endeavours.html#future-endeavours'>Future endeavours</a>
-<a href='new-skills.html#new-skills'> New skills (Machine learning)</a>
+<a href='free-research-project-index.html#free-research-project'> Free research (Machine learning)</a>
 <a href='cv.html#cv'>CV</a>
 <a href='bibliography.html#bibliography'>Bibliography</a></p>
 </div>
 <p> </p>
 <p>In this page, what was previous learned about KNN-models will be brought into practice using the “Glass” dataset. First, we’ll load the dataset in an inspect it</p>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="knn-in-glass.html#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Glass)</span>
-<span id="cb81-2"><a href="knn-in-glass.html#cb81-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb81-3"><a href="knn-in-glass.html#cb81-3" aria-hidden="true" tabindex="-1"></a>Glass <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="knn-in-glass.html#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Glass)</span>
+<span id="cb80-2"><a href="knn-in-glass.html#cb80-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-3"><a href="knn-in-glass.html#cb80-3" aria-hidden="true" tabindex="-1"></a>Glass <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code></pre></div>
 <pre><code>##        RI    Na   Mg   Al    Si    K   Ca Ba   Fe Type
 ## 1 1.52101 13.64 4.49 1.10 71.78 0.06 8.75  0 0.00    1
 ## 2 1.51761 13.89 3.60 1.36 72.73 0.48 7.83  0 0.00    1
@@ -207,7 +207,7 @@ details > summary {
 ## 4 1.51766 13.21 3.69 1.29 72.61 0.57 8.22  0 0.00    1
 ## 5 1.51742 13.27 3.62 1.24 73.08 0.55 8.07  0 0.00    1
 ## 6 1.51596 12.79 3.61 1.62 72.97 0.64 8.07  0 0.26    1</code></pre>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="knn-in-glass.html#cb83-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">summary</span>(Glass))</span></code></pre></div>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="knn-in-glass.html#cb82-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">summary</span>(Glass))</span></code></pre></div>
 <table>
 <colgroup>
 <col width="2%" />
@@ -320,23 +320,23 @@ details > summary {
 </table>
 <p>We can immidiately see that glass consists off 10 columns: 9 for variables, and 1 for the identifying variable. The range between this data goes from 0.29:75.41, a factor 100 difference. A little on the large side, but still not high enough for normalisation to be necessary.</p>
 <p>We’ll use the same “sample” technique as before to split the data into 2 groups, a training and a test group</p>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="knn-in-glass.html#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4321</span>)</span>
-<span id="cb84-2"><a href="knn-in-glass.html#cb84-2" aria-hidden="true" tabindex="-1"></a>ind_glass<span class="ot">&lt;-</span><span class="fu">sample</span>(<span class="dv">2</span>, <span class="fu">nrow</span>(Glass), <span class="at">replace=</span><span class="cn">TRUE</span>, <span class="at">prob=</span><span class="fu">c</span>(<span class="fl">0.67</span>,<span class="fl">0.33</span>)) <span class="co">#Creating a random selection of datapoints</span></span>
-<span id="cb84-3"><a href="knn-in-glass.html#cb84-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb84-4"><a href="knn-in-glass.html#cb84-4" aria-hidden="true" tabindex="-1"></a>glass_training<span class="ot">&lt;-</span>Glass[ind_glass<span class="sc">==</span><span class="dv">1</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>] <span class="co"># Separating the training the training and the testing datasets</span></span>
-<span id="cb84-5"><a href="knn-in-glass.html#cb84-5" aria-hidden="true" tabindex="-1"></a>glass_test<span class="ot">&lt;-</span>Glass[ind_glass<span class="sc">==</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>]</span>
-<span id="cb84-6"><a href="knn-in-glass.html#cb84-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb84-7"><a href="knn-in-glass.html#cb84-7" aria-hidden="true" tabindex="-1"></a>glass_training_labels<span class="ot">&lt;-</span>Glass[ind_glass<span class="sc">==</span><span class="dv">1</span>,<span class="dv">10</span>] <span class="co"># Storing the labels seperately</span></span>
-<span id="cb84-8"><a href="knn-in-glass.html#cb84-8" aria-hidden="true" tabindex="-1"></a>glass_test_labels<span class="ot">&lt;-</span>Glass[ind_glass<span class="sc">==</span><span class="dv">2</span>,<span class="dv">10</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="knn-in-glass.html#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4321</span>)</span>
+<span id="cb83-2"><a href="knn-in-glass.html#cb83-2" aria-hidden="true" tabindex="-1"></a>ind_glass<span class="ot">&lt;-</span><span class="fu">sample</span>(<span class="dv">2</span>, <span class="fu">nrow</span>(Glass), <span class="at">replace=</span><span class="cn">TRUE</span>, <span class="at">prob=</span><span class="fu">c</span>(<span class="fl">0.67</span>,<span class="fl">0.33</span>)) <span class="co">#Creating a random selection of datapoints</span></span>
+<span id="cb83-3"><a href="knn-in-glass.html#cb83-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-4"><a href="knn-in-glass.html#cb83-4" aria-hidden="true" tabindex="-1"></a>glass_training<span class="ot">&lt;-</span>Glass[ind_glass<span class="sc">==</span><span class="dv">1</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>] <span class="co"># Separating the training the training and the testing datasets</span></span>
+<span id="cb83-5"><a href="knn-in-glass.html#cb83-5" aria-hidden="true" tabindex="-1"></a>glass_test<span class="ot">&lt;-</span>Glass[ind_glass<span class="sc">==</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>]</span>
+<span id="cb83-6"><a href="knn-in-glass.html#cb83-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-7"><a href="knn-in-glass.html#cb83-7" aria-hidden="true" tabindex="-1"></a>glass_training_labels<span class="ot">&lt;-</span>Glass[ind_glass<span class="sc">==</span><span class="dv">1</span>,<span class="dv">10</span>] <span class="co"># Storing the labels seperately</span></span>
+<span id="cb83-8"><a href="knn-in-glass.html#cb83-8" aria-hidden="true" tabindex="-1"></a>glass_test_labels<span class="ot">&lt;-</span>Glass[ind_glass<span class="sc">==</span><span class="dv">2</span>,<span class="dv">10</span>]</span></code></pre></div>
 <p>With the data set ordered and all, we can perform the machine-learning</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="knn-in-glass.html#cb85-1" aria-hidden="true" tabindex="-1"></a>glass_pred<span class="ot">&lt;-</span>class<span class="sc">::</span><span class="fu">knn</span>(glass_training, glass_test, glass_training_labels) <span class="co">#Performing the machine learning test.</span></span>
-<span id="cb85-2"><a href="knn-in-glass.html#cb85-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb85-3"><a href="knn-in-glass.html#cb85-3" aria-hidden="true" tabindex="-1"></a>glass_result<span class="ot">&lt;-</span>glass_pred <span class="sc">==</span> glass_test_labels</span>
-<span id="cb85-4"><a href="knn-in-glass.html#cb85-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(glass_result)</span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="knn-in-glass.html#cb84-1" aria-hidden="true" tabindex="-1"></a>glass_pred<span class="ot">&lt;-</span>class<span class="sc">::</span><span class="fu">knn</span>(glass_training, glass_test, glass_training_labels) <span class="co">#Performing the machine learning test.</span></span>
+<span id="cb84-2"><a href="knn-in-glass.html#cb84-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-3"><a href="knn-in-glass.html#cb84-3" aria-hidden="true" tabindex="-1"></a>glass_result<span class="ot">&lt;-</span>glass_pred <span class="sc">==</span> glass_test_labels</span>
+<span id="cb84-4"><a href="knn-in-glass.html#cb84-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(glass_result)</span></code></pre></div>
 <pre><code>## glass_result
 ## FALSE  TRUE 
 ##    15    55</code></pre>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="knn-in-glass.html#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">CrossTable</span>(<span class="at">x =</span> glass_test_labels, <span class="at">y=</span>glass_pred)</span></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="knn-in-glass.html#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">CrossTable</span>(<span class="at">x =</span> glass_test_labels, <span class="at">y=</span>glass_pred)</span></code></pre></div>
 <pre><code>## 
 ##  
 ##    Cell Contents
@@ -398,31 +398,31 @@ details > summary {
 ## </code></pre>
 <p>Based on the table, we can conclude that using the KNN-model for this Glass dataset was less accurate than for the iris dataset. In the table, you’ll notice of the 21 glasstypes 1, only 17 were identified correctly. Of the 26 glasstypes 2, only 21 were correctly identified. This pattern continues for <em>all</em> glasstypes, only glasstype 5 was perfectly identified.</p>
 <p>Purely to sate my own curiosity, I’ve also performed the analysis using normalised data, to see what the impact of normalisation would be on this data.</p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="knn-in-glass.html#cb89-1" aria-hidden="true" tabindex="-1"></a>normalize<span class="ot">&lt;-</span><span class="cf">function</span>(x){</span>
-<span id="cb89-2"><a href="knn-in-glass.html#cb89-2" aria-hidden="true" tabindex="-1"></a>  num<span class="ot">&lt;-</span>x<span class="sc">-</span><span class="fu">min</span>(x)</span>
-<span id="cb89-3"><a href="knn-in-glass.html#cb89-3" aria-hidden="true" tabindex="-1"></a>  denom<span class="ot">&lt;-</span><span class="fu">max</span>(x)<span class="sc">-</span><span class="fu">min</span>(x)</span>
-<span id="cb89-4"><a href="knn-in-glass.html#cb89-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(num<span class="sc">/</span>denom)</span>
-<span id="cb89-5"><a href="knn-in-glass.html#cb89-5" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb89-6"><a href="knn-in-glass.html#cb89-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb89-7"><a href="knn-in-glass.html#cb89-7" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4321</span>)</span>
-<span id="cb89-8"><a href="knn-in-glass.html#cb89-8" aria-hidden="true" tabindex="-1"></a>ind_glass<span class="ot">&lt;-</span><span class="fu">sample</span>(<span class="dv">2</span>, <span class="fu">nrow</span>(Glass), <span class="at">replace=</span><span class="cn">TRUE</span>, <span class="at">prob=</span><span class="fu">c</span>(<span class="fl">0.67</span>,<span class="fl">0.33</span>)) <span class="co">#Creating a random selection of datapoints</span></span>
-<span id="cb89-9"><a href="knn-in-glass.html#cb89-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb89-10"><a href="knn-in-glass.html#cb89-10" aria-hidden="true" tabindex="-1"></a>Glass_norm<span class="ot">&lt;-</span><span class="fu">normalize</span>(Glass[<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>]) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Type=</span>Glass<span class="sc">$</span>Type)</span>
-<span id="cb89-11"><a href="knn-in-glass.html#cb89-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb89-12"><a href="knn-in-glass.html#cb89-12" aria-hidden="true" tabindex="-1"></a>glass_training<span class="ot">&lt;-</span>Glass_norm[ind_glass<span class="sc">==</span><span class="dv">1</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>] <span class="co"># Separating the training the training and the testing datasets</span></span>
-<span id="cb89-13"><a href="knn-in-glass.html#cb89-13" aria-hidden="true" tabindex="-1"></a>glass_test<span class="ot">&lt;-</span>Glass_norm[ind_glass<span class="sc">==</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>]</span>
-<span id="cb89-14"><a href="knn-in-glass.html#cb89-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb89-15"><a href="knn-in-glass.html#cb89-15" aria-hidden="true" tabindex="-1"></a>glass_training_labels<span class="ot">&lt;-</span>Glass_norm[ind_glass<span class="sc">==</span><span class="dv">1</span>,<span class="dv">10</span>] <span class="co"># Storing the labels seperately</span></span>
-<span id="cb89-16"><a href="knn-in-glass.html#cb89-16" aria-hidden="true" tabindex="-1"></a>glass_test_labels<span class="ot">&lt;-</span>Glass_norm[ind_glass<span class="sc">==</span><span class="dv">2</span>,<span class="dv">10</span>]</span>
-<span id="cb89-17"><a href="knn-in-glass.html#cb89-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb89-18"><a href="knn-in-glass.html#cb89-18" aria-hidden="true" tabindex="-1"></a>glass_pred<span class="ot">&lt;-</span>class<span class="sc">::</span><span class="fu">knn</span>(glass_training, glass_test, glass_training_labels) <span class="co">#Performing the machine learning test.</span></span>
-<span id="cb89-19"><a href="knn-in-glass.html#cb89-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb89-20"><a href="knn-in-glass.html#cb89-20" aria-hidden="true" tabindex="-1"></a>glass_result<span class="ot">&lt;-</span>glass_pred <span class="sc">==</span> glass_test_labels</span>
-<span id="cb89-21"><a href="knn-in-glass.html#cb89-21" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(glass_result)</span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="knn-in-glass.html#cb88-1" aria-hidden="true" tabindex="-1"></a>normalize<span class="ot">&lt;-</span><span class="cf">function</span>(x){</span>
+<span id="cb88-2"><a href="knn-in-glass.html#cb88-2" aria-hidden="true" tabindex="-1"></a>  num<span class="ot">&lt;-</span>x<span class="sc">-</span><span class="fu">min</span>(x)</span>
+<span id="cb88-3"><a href="knn-in-glass.html#cb88-3" aria-hidden="true" tabindex="-1"></a>  denom<span class="ot">&lt;-</span><span class="fu">max</span>(x)<span class="sc">-</span><span class="fu">min</span>(x)</span>
+<span id="cb88-4"><a href="knn-in-glass.html#cb88-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(num<span class="sc">/</span>denom)</span>
+<span id="cb88-5"><a href="knn-in-glass.html#cb88-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb88-6"><a href="knn-in-glass.html#cb88-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-7"><a href="knn-in-glass.html#cb88-7" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4321</span>)</span>
+<span id="cb88-8"><a href="knn-in-glass.html#cb88-8" aria-hidden="true" tabindex="-1"></a>ind_glass<span class="ot">&lt;-</span><span class="fu">sample</span>(<span class="dv">2</span>, <span class="fu">nrow</span>(Glass), <span class="at">replace=</span><span class="cn">TRUE</span>, <span class="at">prob=</span><span class="fu">c</span>(<span class="fl">0.67</span>,<span class="fl">0.33</span>)) <span class="co">#Creating a random selection of datapoints</span></span>
+<span id="cb88-9"><a href="knn-in-glass.html#cb88-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-10"><a href="knn-in-glass.html#cb88-10" aria-hidden="true" tabindex="-1"></a>Glass_norm<span class="ot">&lt;-</span><span class="fu">normalize</span>(Glass[<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>]) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Type=</span>Glass<span class="sc">$</span>Type)</span>
+<span id="cb88-11"><a href="knn-in-glass.html#cb88-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-12"><a href="knn-in-glass.html#cb88-12" aria-hidden="true" tabindex="-1"></a>glass_training<span class="ot">&lt;-</span>Glass_norm[ind_glass<span class="sc">==</span><span class="dv">1</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>] <span class="co"># Separating the training the training and the testing datasets</span></span>
+<span id="cb88-13"><a href="knn-in-glass.html#cb88-13" aria-hidden="true" tabindex="-1"></a>glass_test<span class="ot">&lt;-</span>Glass_norm[ind_glass<span class="sc">==</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>]</span>
+<span id="cb88-14"><a href="knn-in-glass.html#cb88-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-15"><a href="knn-in-glass.html#cb88-15" aria-hidden="true" tabindex="-1"></a>glass_training_labels<span class="ot">&lt;-</span>Glass_norm[ind_glass<span class="sc">==</span><span class="dv">1</span>,<span class="dv">10</span>] <span class="co"># Storing the labels seperately</span></span>
+<span id="cb88-16"><a href="knn-in-glass.html#cb88-16" aria-hidden="true" tabindex="-1"></a>glass_test_labels<span class="ot">&lt;-</span>Glass_norm[ind_glass<span class="sc">==</span><span class="dv">2</span>,<span class="dv">10</span>]</span>
+<span id="cb88-17"><a href="knn-in-glass.html#cb88-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-18"><a href="knn-in-glass.html#cb88-18" aria-hidden="true" tabindex="-1"></a>glass_pred<span class="ot">&lt;-</span>class<span class="sc">::</span><span class="fu">knn</span>(glass_training, glass_test, glass_training_labels) <span class="co">#Performing the machine learning test.</span></span>
+<span id="cb88-19"><a href="knn-in-glass.html#cb88-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb88-20"><a href="knn-in-glass.html#cb88-20" aria-hidden="true" tabindex="-1"></a>glass_result<span class="ot">&lt;-</span>glass_pred <span class="sc">==</span> glass_test_labels</span>
+<span id="cb88-21"><a href="knn-in-glass.html#cb88-21" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(glass_result)</span></code></pre></div>
 <pre><code>## glass_result
 ## FALSE  TRUE 
 ##    15    55</code></pre>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="knn-in-glass.html#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">CrossTable</span>(<span class="at">x =</span> glass_test_labels, <span class="at">y=</span>glass_pred)</span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="knn-in-glass.html#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">CrossTable</span>(<span class="at">x =</span> glass_test_labels, <span class="at">y=</span>glass_pred)</span></code></pre></div>
 <pre><code>## 
 ##  
 ##    Cell Contents

@@ -18,20 +18,16 @@
 
 &nbsp;
 
-<script>
-/* When the user clicks on the button, 
-toggle between hiding and showing the dropdown content */
-function myFunction() {
-  document.getElementById("myDropdown").classList.toggle("show");
-}
+To prove that I'm able to learn new skills on my own, I've dedicated 32 hours into learning a subject completely new to me: Machine learning. I've separated this project into 6 different steps, listed below
 
-// Close the dropdown if the user clicks outside of it
-window.onclick = function(e) {
-  if (!e.target.matches('.dropbtn')) {
-  var myDropdown = document.getElementById("myDropdown");
-    if (myDropdown.classList.contains('show')) {
-      myDropdown.classList.remove('show');
-    }
-  }
-}
-</script>
+Click <a href='knn-machine-learning.html#knn-machine-learning'>here</a> for the start of the process, learning an KNN-algorythm, and click <a href='knn-in-glass.html#knn-in-glass'>here</a> to see me applying this technique on the "Glass" dataset
+
+Click <a href='pre-processing-karet.html#pre-processing-karet'>here</a> for my research info pre-processing data for machine learning
+
+Click <a href='random-forest.html#random-forest'>here</a> for my research into the randomForest machine learning algorythm, and <a href='random-forest-in-glass.html#random-forest-in-glass'>here</a> for me once again applying that knowledge on the "Glass" dataset
+
+Click <a href='idtaxa.html#idtaxa'>here</a> for my research into IDTAXA, a novel randomForest-based approach to identifying bacterial 16s RNA
+
+And finally, click <a href='closing-words.html#closing-words'>here</a> for my closing thoughts about how I performed this free research project. 
+
+</body>

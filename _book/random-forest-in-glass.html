@@ -191,22 +191,22 @@ details > summary {
 <a href='bibliography-using-zotero.html#Bibliography using Zotero'>Zotero</a>
 <a href='open-reproductibility-analysis.html#open-reproductibility-analysis'>Reproductibility</a>
 <a href='future-endeavours.html#future-endeavours'>Future endeavours</a>
-<a href='new-skills.html#new-skills'> New skills (Machine learning)</a>
+<a href='free-research-project-index.html#free-research-project'> Free research (Machine learning)</a>
 <a href='cv.html#cv'>CV</a>
 <a href='bibliography.html#bibliography'>Bibliography</a></p>
 </div>
 <p> </p>
 <p>Perfoming the entire randomForest workflow on the glass dataset</p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="random-forest-in-glass.html#cb136-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mlbench)</span>
-<span id="cb136-2"><a href="random-forest-in-glass.html#cb136-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Glass)</span>
-<span id="cb136-3"><a href="random-forest-in-glass.html#cb136-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb136-4"><a href="random-forest-in-glass.html#cb136-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4321</span>)</span>
-<span id="cb136-5"><a href="random-forest-in-glass.html#cb136-5" aria-hidden="true" tabindex="-1"></a>ind_glass<span class="ot">&lt;-</span><span class="fu">sample</span>(<span class="dv">2</span>, <span class="fu">nrow</span>(Glass), <span class="at">replace=</span><span class="cn">TRUE</span>, <span class="at">prob=</span><span class="fu">c</span>(<span class="fl">0.67</span>,<span class="fl">0.33</span>)) <span class="co">#Creating a random selection of datapoints</span></span>
-<span id="cb136-6"><a href="random-forest-in-glass.html#cb136-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb136-7"><a href="random-forest-in-glass.html#cb136-7" aria-hidden="true" tabindex="-1"></a>glass_training<span class="ot">&lt;-</span>Glass[ind_glass<span class="sc">==</span><span class="dv">1</span>,] <span class="co"># Separating the training the training and the testing datasets</span></span>
-<span id="cb136-8"><a href="random-forest-in-glass.html#cb136-8" aria-hidden="true" tabindex="-1"></a>glass_test<span class="ot">&lt;-</span>Glass[ind_glass<span class="sc">==</span><span class="dv">2</span>,]</span>
-<span id="cb136-9"><a href="random-forest-in-glass.html#cb136-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb136-10"><a href="random-forest-in-glass.html#cb136-10" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">summary</span>(glass_training))</span></code></pre></div>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="random-forest-in-glass.html#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mlbench)</span>
+<span id="cb135-2"><a href="random-forest-in-glass.html#cb135-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Glass)</span>
+<span id="cb135-3"><a href="random-forest-in-glass.html#cb135-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb135-4"><a href="random-forest-in-glass.html#cb135-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">4321</span>)</span>
+<span id="cb135-5"><a href="random-forest-in-glass.html#cb135-5" aria-hidden="true" tabindex="-1"></a>ind_glass<span class="ot">&lt;-</span><span class="fu">sample</span>(<span class="dv">2</span>, <span class="fu">nrow</span>(Glass), <span class="at">replace=</span><span class="cn">TRUE</span>, <span class="at">prob=</span><span class="fu">c</span>(<span class="fl">0.67</span>,<span class="fl">0.33</span>)) <span class="co">#Creating a random selection of datapoints</span></span>
+<span id="cb135-6"><a href="random-forest-in-glass.html#cb135-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb135-7"><a href="random-forest-in-glass.html#cb135-7" aria-hidden="true" tabindex="-1"></a>glass_training<span class="ot">&lt;-</span>Glass[ind_glass<span class="sc">==</span><span class="dv">1</span>,] <span class="co"># Separating the training the training and the testing datasets</span></span>
+<span id="cb135-8"><a href="random-forest-in-glass.html#cb135-8" aria-hidden="true" tabindex="-1"></a>glass_test<span class="ot">&lt;-</span>Glass[ind_glass<span class="sc">==</span><span class="dv">2</span>,]</span>
+<span id="cb135-9"><a href="random-forest-in-glass.html#cb135-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb135-10"><a href="random-forest-in-glass.html#cb135-10" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">summary</span>(glass_training))</span></code></pre></div>
 <table>
 <colgroup>
 <col width="2%" />
@@ -317,7 +317,7 @@ details > summary {
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="random-forest-in-glass.html#cb137-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">summary</span>(glass_test))</span></code></pre></div>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="random-forest-in-glass.html#cb136-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">summary</span>(glass_test))</span></code></pre></div>
 <table>
 <colgroup>
 <col width="2%" />
@@ -428,10 +428,10 @@ details > summary {
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="random-forest-in-glass.html#cb138-1" aria-hidden="true" tabindex="-1"></a>ModelGlass<span class="ot">&lt;-</span>randomForest<span class="sc">::</span><span class="fu">randomForest</span>(Type <span class="sc">~</span> ., <span class="at">data=</span>glass_training, <span class="at">importance =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb138-2"><a href="random-forest-in-glass.html#cb138-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb138-3"><a href="random-forest-in-glass.html#cb138-3" aria-hidden="true" tabindex="-1"></a>PredictGlass<span class="ot">&lt;-</span><span class="fu">predict</span>(ModelGlass, glass_test, <span class="at">type=</span><span class="st">&quot;class&quot;</span>)</span>
-<span id="cb138-4"><a href="random-forest-in-glass.html#cb138-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(PredictGlass, glass_test<span class="sc">$</span>Type)</span></code></pre></div>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="random-forest-in-glass.html#cb137-1" aria-hidden="true" tabindex="-1"></a>ModelGlass<span class="ot">&lt;-</span>randomForest<span class="sc">::</span><span class="fu">randomForest</span>(Type <span class="sc">~</span> ., <span class="at">data=</span>glass_training, <span class="at">importance =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb137-2"><a href="random-forest-in-glass.html#cb137-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb137-3"><a href="random-forest-in-glass.html#cb137-3" aria-hidden="true" tabindex="-1"></a>PredictGlass<span class="ot">&lt;-</span><span class="fu">predict</span>(ModelGlass, glass_test, <span class="at">type=</span><span class="st">&quot;class&quot;</span>)</span>
+<span id="cb137-4"><a href="random-forest-in-glass.html#cb137-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(PredictGlass, glass_test<span class="sc">$</span>Type)</span></code></pre></div>
 <pre><code>##             
 ## PredictGlass  1  2  3  5  6  7
 ##            1 19  0  3  0  0  0
@@ -440,7 +440,7 @@ details > summary {
 ##            5  0  2  0  3  0  0
 ##            6  0  0  0  0  1  0
 ##            7  0  0  0  0  0 10</code></pre>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="random-forest-in-glass.html#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">importance</span>(ModelGlass)</span></code></pre></div>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="random-forest-in-glass.html#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="fu">importance</span>(ModelGlass)</span></code></pre></div>
 <pre><code>##             1         2          3           5          6          7 MeanDecreaseAccuracy MeanDecreaseGini
 ## RI 25.9516672 15.981884  8.6355170  3.01558132  5.2054141  8.1761219            28.527676        14.982608
 ## Na  7.0153218  3.465588  2.4742629  2.67561186 10.7079299  9.5412346            14.240678         8.973814
@@ -451,9 +451,9 @@ details > summary {
 ## Ca 13.3933883 23.812395  5.5731976 11.54097673  2.0839665  5.9300857            28.135538        15.254431
 ## Ba  4.2571321 13.147049  4.7544812  3.80935388  6.1771571 26.1962433            24.494792         9.858269
 ## Fe  0.1021816  2.533907  0.7303576 -2.90363006  3.8284240  0.6368166             2.003686         3.380027</code></pre>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="random-forest-in-glass.html#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="fu">varImpPlot</span>(ModelGlass)</span></code></pre></div>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="random-forest-in-glass.html#cb141-1" aria-hidden="true" tabindex="-1"></a><span class="fu">varImpPlot</span>(ModelGlass)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-66-1.png" width="672" /></p>
-<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="random-forest-in-glass.html#cb143-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(PredictGlass, glass_test<span class="sc">$</span>Type)</span></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="random-forest-in-glass.html#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(PredictGlass, glass_test<span class="sc">$</span>Type)</span></code></pre></div>
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##           Reference
@@ -488,14 +488,14 @@ details > summary {
 ## Detection Prevalence   0.3143   0.4286  0.02857  0.07143  0.01429   0.1429
 ## Balanced Accuracy      0.9218   0.8628  0.61742  0.73438  0.75000   0.9545</code></pre>
 <p>Without editing the mtry and ntree, we get a accuracy of ~ 0.81 (which, mind you, is already way higher than the original accuracy of ~ 0.7 given by the KKN model). Now we’ll test for the optimum mtry and kmean amount again, like with the cars dataset.</p>
-<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="random-forest-in-glass.html#cb145-1" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">c</span>()</span>
-<span id="cb145-2"><a href="random-forest-in-glass.html#cb145-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>){</span>
-<span id="cb145-3"><a href="random-forest-in-glass.html#cb145-3" aria-hidden="true" tabindex="-1"></a>  Model3<span class="ot">&lt;-</span><span class="fu">randomForest</span>(Type <span class="sc">~</span> ., <span class="at">data=</span> glass_training, <span class="at">ntree =</span> <span class="dv">500</span>, <span class="at">mtry =</span> i, <span class="at">importance =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb145-4"><a href="random-forest-in-glass.html#cb145-4" aria-hidden="true" tabindex="-1"></a>  PredictModel3<span class="ot">&lt;-</span><span class="fu">predict</span>(Model3, glass_training, <span class="at">type=</span><span class="st">&quot;class&quot;</span>)</span>
-<span id="cb145-5"><a href="random-forest-in-glass.html#cb145-5" aria-hidden="true" tabindex="-1"></a>  x[i]<span class="ot">=</span><span class="fu">mean</span>(PredictModel3 <span class="sc">==</span> glass_training<span class="sc">$</span>Type)</span>
-<span id="cb145-6"><a href="random-forest-in-glass.html#cb145-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb145-7"><a href="random-forest-in-glass.html#cb145-7" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">mtry=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>,</span>
-<span id="cb145-8"><a href="random-forest-in-glass.html#cb145-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">prediction_power=</span>x)</span></code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="random-forest-in-glass.html#cb144-1" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">c</span>()</span>
+<span id="cb144-2"><a href="random-forest-in-glass.html#cb144-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>){</span>
+<span id="cb144-3"><a href="random-forest-in-glass.html#cb144-3" aria-hidden="true" tabindex="-1"></a>  Model3<span class="ot">&lt;-</span><span class="fu">randomForest</span>(Type <span class="sc">~</span> ., <span class="at">data=</span> glass_training, <span class="at">ntree =</span> <span class="dv">500</span>, <span class="at">mtry =</span> i, <span class="at">importance =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb144-4"><a href="random-forest-in-glass.html#cb144-4" aria-hidden="true" tabindex="-1"></a>  PredictModel3<span class="ot">&lt;-</span><span class="fu">predict</span>(Model3, glass_training, <span class="at">type=</span><span class="st">&quot;class&quot;</span>)</span>
+<span id="cb144-5"><a href="random-forest-in-glass.html#cb144-5" aria-hidden="true" tabindex="-1"></a>  x[i]<span class="ot">=</span><span class="fu">mean</span>(PredictModel3 <span class="sc">==</span> glass_training<span class="sc">$</span>Type)</span>
+<span id="cb144-6"><a href="random-forest-in-glass.html#cb144-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb144-7"><a href="random-forest-in-glass.html#cb144-7" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">mtry=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">9</span>,</span>
+<span id="cb144-8"><a href="random-forest-in-glass.html#cb144-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">prediction_power=</span>x)</span></code></pre></div>
 <pre><code>##   mtry prediction_power
 ## 1    1                1
 ## 2    2                1
@@ -507,17 +507,17 @@ details > summary {
 ## 8    8                1
 ## 9    9                1</code></pre>
 <p>Conclusion: any mtry above 1 is good enough</p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="random-forest-in-glass.html#cb147-1" aria-hidden="true" tabindex="-1"></a>y<span class="ot">=</span><span class="fu">c</span>()</span>
-<span id="cb147-2"><a href="random-forest-in-glass.html#cb147-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb147-3"><a href="random-forest-in-glass.html#cb147-3" aria-hidden="true" tabindex="-1"></a>length<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">1</span> <span class="sc">%o%</span> <span class="dv">10</span><span class="sc">^</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>))</span>
-<span id="cb147-4"><a href="random-forest-in-glass.html#cb147-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">1</span> <span class="sc">%o%</span> <span class="dv">10</span><span class="sc">^</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>))){</span>
-<span id="cb147-5"><a href="random-forest-in-glass.html#cb147-5" aria-hidden="true" tabindex="-1"></a>  Model3<span class="ot">&lt;-</span><span class="fu">randomForest</span>(Type <span class="sc">~</span> ., <span class="at">data=</span> glass_training, <span class="at">ntree =</span> i, <span class="at">mtry =</span> <span class="dv">6</span>, <span class="at">importance =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb147-6"><a href="random-forest-in-glass.html#cb147-6" aria-hidden="true" tabindex="-1"></a>  PredictModel3<span class="ot">&lt;-</span><span class="fu">predict</span>(Model3, glass_training, <span class="at">type=</span><span class="st">&quot;class&quot;</span>)</span>
-<span id="cb147-7"><a href="random-forest-in-glass.html#cb147-7" aria-hidden="true" tabindex="-1"></a>  y[i]<span class="ot">=</span>(<span class="fu">mean</span>(PredictModel3 <span class="sc">==</span> glass_training<span class="sc">$</span>Type))</span>
-<span id="cb147-8"><a href="random-forest-in-glass.html#cb147-8" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb147-9"><a href="random-forest-in-glass.html#cb147-9" aria-hidden="true" tabindex="-1"></a>data<span class="ot">&lt;-</span><span class="fu">data.frame</span>(<span class="at">prediction_power=</span>y[length],</span>
-<span id="cb147-10"><a href="random-forest-in-glass.html#cb147-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ntree=</span>length)</span>
-<span id="cb147-11"><a href="random-forest-in-glass.html#cb147-11" aria-hidden="true" tabindex="-1"></a>data</span></code></pre></div>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="random-forest-in-glass.html#cb146-1" aria-hidden="true" tabindex="-1"></a>y<span class="ot">=</span><span class="fu">c</span>()</span>
+<span id="cb146-2"><a href="random-forest-in-glass.html#cb146-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb146-3"><a href="random-forest-in-glass.html#cb146-3" aria-hidden="true" tabindex="-1"></a>length<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">1</span> <span class="sc">%o%</span> <span class="dv">10</span><span class="sc">^</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>))</span>
+<span id="cb146-4"><a href="random-forest-in-glass.html#cb146-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">c</span>(<span class="dv">1</span> <span class="sc">%o%</span> <span class="dv">10</span><span class="sc">^</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>))){</span>
+<span id="cb146-5"><a href="random-forest-in-glass.html#cb146-5" aria-hidden="true" tabindex="-1"></a>  Model3<span class="ot">&lt;-</span><span class="fu">randomForest</span>(Type <span class="sc">~</span> ., <span class="at">data=</span> glass_training, <span class="at">ntree =</span> i, <span class="at">mtry =</span> <span class="dv">6</span>, <span class="at">importance =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb146-6"><a href="random-forest-in-glass.html#cb146-6" aria-hidden="true" tabindex="-1"></a>  PredictModel3<span class="ot">&lt;-</span><span class="fu">predict</span>(Model3, glass_training, <span class="at">type=</span><span class="st">&quot;class&quot;</span>)</span>
+<span id="cb146-7"><a href="random-forest-in-glass.html#cb146-7" aria-hidden="true" tabindex="-1"></a>  y[i]<span class="ot">=</span>(<span class="fu">mean</span>(PredictModel3 <span class="sc">==</span> glass_training<span class="sc">$</span>Type))</span>
+<span id="cb146-8"><a href="random-forest-in-glass.html#cb146-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb146-9"><a href="random-forest-in-glass.html#cb146-9" aria-hidden="true" tabindex="-1"></a>data<span class="ot">&lt;-</span><span class="fu">data.frame</span>(<span class="at">prediction_power=</span>y[length],</span>
+<span id="cb146-10"><a href="random-forest-in-glass.html#cb146-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">ntree=</span>length)</span>
+<span id="cb146-11"><a href="random-forest-in-glass.html#cb146-11" aria-hidden="true" tabindex="-1"></a>data</span></code></pre></div>
 <pre><code>##   prediction_power ntree
 ## 1        0.8402778     1
 ## 2        0.9791667    10
@@ -526,10 +526,10 @@ details > summary {
 ## 5        1.0000000 10000</code></pre>
 <p>Once again, any amount of Ntree above 1 is good enough</p>
 <p>Based on these results, we can see that changing the mtry/ntree will not affect the data in any mayor way. However, to see if this hypothesis is truly true, we’ll test it anyway.</p>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="random-forest-in-glass.html#cb149-1" aria-hidden="true" tabindex="-1"></a>ModelGlass<span class="ot">&lt;-</span>randomForest<span class="sc">::</span><span class="fu">randomForest</span>(Type <span class="sc">~</span> ., <span class="at">data=</span>glass_training, <span class="at">ntree =</span> <span class="dv">1000</span>, <span class="at">mtry =</span> <span class="dv">3</span>, <span class="at">importance =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb149-2"><a href="random-forest-in-glass.html#cb149-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb149-3"><a href="random-forest-in-glass.html#cb149-3" aria-hidden="true" tabindex="-1"></a>PredictGlass<span class="ot">&lt;-</span><span class="fu">predict</span>(ModelGlass, glass_test, <span class="at">type=</span><span class="st">&quot;class&quot;</span>)</span>
-<span id="cb149-4"><a href="random-forest-in-glass.html#cb149-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(PredictGlass, glass_test<span class="sc">$</span>Type)</span></code></pre></div>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="random-forest-in-glass.html#cb148-1" aria-hidden="true" tabindex="-1"></a>ModelGlass<span class="ot">&lt;-</span>randomForest<span class="sc">::</span><span class="fu">randomForest</span>(Type <span class="sc">~</span> ., <span class="at">data=</span>glass_training, <span class="at">ntree =</span> <span class="dv">1000</span>, <span class="at">mtry =</span> <span class="dv">3</span>, <span class="at">importance =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb148-2"><a href="random-forest-in-glass.html#cb148-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb148-3"><a href="random-forest-in-glass.html#cb148-3" aria-hidden="true" tabindex="-1"></a>PredictGlass<span class="ot">&lt;-</span><span class="fu">predict</span>(ModelGlass, glass_test, <span class="at">type=</span><span class="st">&quot;class&quot;</span>)</span>
+<span id="cb148-4"><a href="random-forest-in-glass.html#cb148-4" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(PredictGlass, glass_test<span class="sc">$</span>Type)</span></code></pre></div>
 <pre><code>##             
 ## PredictGlass  1  2  3  5  6  7
 ##            1 19  0  3  0  0  0
@@ -538,7 +538,7 @@ details > summary {
 ##            5  0  2  0  5  0  0
 ##            6  0  0  0  0  1  0
 ##            7  0  0  0  0  0 10</code></pre>
-<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="random-forest-in-glass.html#cb151-1" aria-hidden="true" tabindex="-1"></a><span class="fu">importance</span>(ModelGlass)</span></code></pre></div>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="random-forest-in-glass.html#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="fu">importance</span>(ModelGlass)</span></code></pre></div>
 <pre><code>##             1         2          3          5          6         7 MeanDecreaseAccuracy MeanDecreaseGini
 ## RI 35.9425852 22.955617 12.6393173  3.2609681  8.0461891 10.125891            39.452868        15.374026
 ## Na 12.6946465  5.804545  2.7151993  9.8071309 12.1866461 13.824966            19.901691         8.870768
@@ -549,9 +549,9 @@ details > summary {
 ## Ca 16.3234783 32.337265  7.1320768 16.6442932  3.1952506  9.074469            36.829526        15.234269
 ## Ba  7.2861647 15.662737  6.3118076  4.0829257  7.0805242 39.179560            35.069476         9.358338
 ## Fe -0.8240873  3.557017  0.7700442 -3.5323248  5.3702326  1.195446             2.635895         3.208900</code></pre>
-<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="random-forest-in-glass.html#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="fu">varImpPlot</span>(ModelGlass)</span></code></pre></div>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="random-forest-in-glass.html#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="fu">varImpPlot</span>(ModelGlass)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-69-1.png" width="672" /></p>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="random-forest-in-glass.html#cb154-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(PredictGlass, glass_test<span class="sc">$</span>Type)</span></code></pre></div>
+<div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="random-forest-in-glass.html#cb153-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(PredictGlass, glass_test<span class="sc">$</span>Type)</span></code></pre></div>
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##           Reference
@@ -591,7 +591,7 @@ details > summary {
 </div>
 <p style="text-align: center;">
 <a href="random-forest.html"><button class="btn btn-default">Previous</button></a>
-<a href="indexid.html"><button class="btn btn-default">Next</button></a>
+<a href="idtaxa.html"><button class="btn btn-default">Next</button></a>
 </p>
 </div>
 </div>
