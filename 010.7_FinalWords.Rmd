@@ -36,6 +36,10 @@ If I were to re-do this entire machine-learning research project, there'd be 2 t
 
 Despite these points of improvement, I'm definitely still satisfied with what I've learned.
 
+<div>
+  <button class='button button1' onclick="window.location.href='idtaxa.html#idtaxa'" type="button">Return</button>
+</div>
+
 
 
 

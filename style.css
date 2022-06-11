@@ -3,7 +3,7 @@
 }
 
 .btn{
-  display:none;
+  display: none;
 }
 
 .header{
@@ -29,6 +29,41 @@
   padding: 14px 16px;
   text-decoration: none;
 }
+
+.topnav a:hover{
+  background-color:white;
+  color: black;
+}
+
+.topnav a.active{
+  background-color: #d40f08;
+  color: black;
+  border: black;
+}
+
+/* Dropdown doesn't work so making buttons */
+.button {
+  border: 2px solid white;
+  background-color: black;
+  color: white;
+  padding: 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.button1:{
+  float:left;
+}
+
+.button2{
+  float:right;
+}
+
+.button:hover{
+  background-color:white;
+  color:black;
+}
+
 
 .center {
   display: block;

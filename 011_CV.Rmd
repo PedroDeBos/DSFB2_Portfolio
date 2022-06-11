@@ -12,7 +12,7 @@
   <a href='open-reproductibility-analysis.html#open-reproductibility-analysis'>Reproductibility</a>
   <a href='future-endeavours.html#future-endeavours'>Future endeavours</a>
   <a href='free-research-project-index.html#free-research-project'> Free research (Machine learning)</a>
-  <a href='cv.html#cv'>CV</a>
+  <a class="active" href='cv.html#cv'>CV</a>
   <a href='bibliography.html#bibliography'>Bibliography</a>
 </div>
 

@@ -8,7 +8,7 @@
   <a href='directory-structure.html#directory-structure'>Directory structure</a>
   <a href='creating-a-r-package.html#creating-a-r-package'>R-package</a>
   <a href='sql.html#SQL'>SQL</a>
-  <a href='bibliography-using-zotero.html#Bibliography using Zotero'>Zotero</a>
+  <a class="active" href='bibliography-using-zotero.html#Bibliography using Zotero'>Zotero</a>
   <a href='open-reproductibility-analysis.html#open-reproductibility-analysis'>Reproductibility</a>
   <a href='future-endeavours.html#future-endeavours'>Future endeavours</a>
   <a href='free-research-project-index.html#free-research-project'> Free research (Machine learning)</a>

@@ -132,4 +132,9 @@ print(ids)
 And thus, like that, we've officially learned how to use the IDTAXA machine learning method for 16s RNA! In the final page of this small research project into machine learning, I've written a self-reflection on what I've learned through performing this research project, some closing thoughts.
 
 
+<div>
+  <button class='button button1' onclick="window.location.href='random-forest-in-glass.html#random-forest-in-glass'" type="button">Return</button>
+  <button class='button button2' onclick="window.location.href='closing-words.html#closing-words'" type="button">Continue</button>
+</div>
+
 

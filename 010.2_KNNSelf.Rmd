@@ -96,3 +96,8 @@ CrossTable(x = glass_test_labels, y=glass_pred)
 Conclusion: in this specific example, normalisation does not change anything at all.
 
 Now, we've completely studied and used one form of machine learning, it's time to look into another aspect of machine learning that's important, a step before the training even starts: pre processing.
+
+<div>
+  <button class='button button1' onclick="window.location.href='knn-machine-learning.html#knn-machine-learning'" type="button">Return</button>
+  <button class='button button2' onclick="window.location.href='pre-processing-karet.html#pre-processing-karet'" type="button">Continue</button>
+</div>

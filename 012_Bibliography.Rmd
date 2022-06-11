@@ -13,7 +13,7 @@
   <a href='future-endeavours.html#future-endeavours'>Future endeavours</a>
   <a href='free-research-project-index.html#free-research-project'> Free research (Machine learning)</a>
   <a href='cv.html#cv'>CV</a>
-  <a href='bibliography.html#bibliography'>Bibliography</a>
+  <a class="active" href='bibliography.html#bibliography'>Bibliography</a>
 </div>
 
 &nbsp;

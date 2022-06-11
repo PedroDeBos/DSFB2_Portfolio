@@ -1,3 +1,8 @@
+---
+css: style.css
+---
+
+
 # Free research project Index
 
 <body id="start">
@@ -11,12 +16,13 @@
   <a href='bibliography-using-zotero.html#Bibliography using Zotero'>Zotero</a>
   <a href='open-reproductibility-analysis.html#open-reproductibility-analysis'>Reproductibility</a>
   <a href='future-endeavours.html#future-endeavours'>Future endeavours</a>
-  <a href='free-research-project-index.html#free-research-project'> Free research (Machine learning)</a>
+  <a class="active" href='free-research-project-index.html#free-research-project'> Free research (Machine learning)</a>
   <a href='cv.html#cv'>CV</a>
   <a href='bibliography.html#bibliography'>Bibliography</a>
 </div>
 
 &nbsp;
+
 
 To prove that I'm able to learn new skills on my own, I've dedicated 32 hours into learning a subject completely new to me: Machine learning. I've separated this project into 6 different steps, listed below
 
@@ -29,5 +35,10 @@ Click <a href='random-forest.html#random-forest'>here</a> for my research into t
 Click <a href='idtaxa.html#idtaxa'>here</a> for my research into IDTAXA, a novel randomForest-based approach to identifying bacterial 16s RNA
 
 And finally, click <a href='closing-words.html#closing-words'>here</a> for my closing thoughts about how I performed this free research project. 
+
+<div>
+  <button class='button button2' onclick="window.location.href='knn-machine-learning.html#knn-machine-learning'" type="button">Continue</button>
+</div>
+
 
 </body>
