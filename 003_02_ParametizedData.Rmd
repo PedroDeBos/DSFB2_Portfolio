@@ -19,7 +19,7 @@ parameter$month<-c(1:9)
 <div class="topnav">
   <a href='index.html#Frontpage'>Frontpage</a>
   <a href='data-visualisation.html#data-visualisation'>Data visualisation</a>
-  <a href='parametized-data-germany.html#parametized-data'>Parametizing data</a>
+  <a class="active" href='parametized-data-germany.html#parametized-data'>Parametizing data</a>
   <a href='directory-structure.html#directory-structure'>Directory structure</a>
   <a href='creating-a-r-package.html#creating-a-r-package'>R-package</a>
   <a href='sql.html#SQL'>SQL</a>
