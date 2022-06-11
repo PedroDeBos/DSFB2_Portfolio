@@ -1,0 +1,33 @@
+# Free research project Index
+
+<body id="start">
+<div class="topnav">
+  <a href='index.html#Frontpage'>Frontpage</a>
+  <a href='data-visualisation.html#data-visualisation'>Data visualisation</a>
+  <a href='parametized-data-germany.html#parametized-data'>Parametizing data</a>
+  <a href='directory-structure.html#directory-structure'>Directory structure</a>
+  <a href='creating-a-r-package.html#creating-a-r-package'>R-package</a>
+  <a href='sql.html#SQL'>SQL</a>
+  <a href='bibliography-using-zotero.html#Bibliography using Zotero'>Zotero</a>
+  <a href='open-reproductibility-analysis.html#open-reproductibility-analysis'>Reproductibility</a>
+  <a href='future-endeavours.html#future-endeavours'>Future endeavours</a>
+  <a href='free-research-project-index.html#free-research-project'> Free research (Machine learning)</a>
+  <a href='cv.html#cv'>CV</a>
+  <a href='bibliography.html#bibliography'>Bibliography</a>
+</div>
+
+&nbsp;
+
+To prove that I'm able to learn new skills on my own, I've dedicated 32 hours into learning a subject completely new to me: Machine learning. I've separated this project into 6 different steps, listed below
+
+Click <a href='knn-machine-learning.html#knn-machine-learning'>here</a> for the start of the process, learning an KNN-algorythm, and click <a href='knn-in-glass.html#knn-in-glass'>here</a> to see me applying this technique on the "Glass" dataset
+
+Click <a href='pre-processing-karet.html#pre-processing-karet'>here</a> for my research info pre-processing data for machine learning
+
+Click <a href='random-forest.html#random-forest'>here</a> for my research into the randomForest machine learning algorythm, and <a href='random-forest-in-glass.html#random-forest-in-glass'>here</a> for me once again applying that knowledge on the "Glass" dataset
+
+Click <a href='idtaxa.html#idtaxa'>here</a> for my research into IDTAXA, a novel randomForest-based approach to identifying bacterial 16s RNA
+
+And finally, click <a href='closing-words.html#closing-words'>here</a> for my closing thoughts about how I performed this free research project. 
+
+</body>
