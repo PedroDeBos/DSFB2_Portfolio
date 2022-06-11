@@ -1,3 +1,8 @@
+---
+css: style.css
+---
+
+
 # Free research project Index
 
 <body id="start">
@@ -17,6 +22,10 @@
 </div>
 
 &nbsp;
+
+<div>
+  <button class='button button2' onclick="window.location.href='free-research-project-index.html#free-research-project'" type="button">Continue</button>
+</div>
 
 To prove that I'm able to learn new skills on my own, I've dedicated 32 hours into learning a subject completely new to me: Machine learning. I've separated this project into 6 different steps, listed below
 
