@@ -5,7 +5,7 @@ position: "Student life sciences"
 address: "University of applied sciences, Utrecht, Netherlands"
 email: "pedrodebos@gmail.com"
 github: PedroDeBos
-profilepic: "../../data/CV_Photo_2.jpg"
+profilepic: "../../images/CV_Photo_2.jpg"
 linkedin: Pedro de Bos
 date: "`r format(Sys.time(), '%B %Y')`"
 output: 
@@ -51,7 +51,7 @@ tribble(
   ~ Desc, ~ Language,
   "Mother language, fluent in both speaking and writing", "Dutch [x][x][x][x][x]",
   "Learned language, fluent in writing, proficient in speaking", "English [x][x][x][x][.]",
-  "Comfortable with visualising data, performing statistics, writing functions, simple workflows (RNAseq, metagenomics). Portfolio is available on pedrodebos.github.io", "R [x][x][x][.][.]",
+  "Comfortable with visualising data, performing statistics, writing functions, simple workflows (RNAseq, metagenomics). Portfolio is available on pedrodebos.github.io", "R [x][x][x][x][.]",
   "Comfortable with writing small scripts for importing data, for-do-done loops, functions containing if/then statements", "bash [x][x][x][.][.]"
 ) %>%
   detailed_entries(Desc, , Language, )

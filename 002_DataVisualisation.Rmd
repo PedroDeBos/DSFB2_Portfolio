@@ -17,7 +17,7 @@
 </div>
 
 ```{r InstallingAllPackages, include=FALSE}
-packages<-c("rmarkdown", "bookdown", "tidyverse", "drc", "readxl", "here", "ggplot2", "DT", "fs", "devtools", "dslabs", "RPostgreSQL", "RPostgres", "DBI", "multcomp", "plyr", "gmodels", "mlbench", "caret", "BiocManager", "randomForest", "gridExtra")
+packages<-c("rmarkdown", "bookdown", "tidyverse", "drc", "readxl", "here", "ggplot2", "DT", "fs", "devtools", "dslabs", "RPostgreSQL", "RPostgres", "DBI", "multcomp", "plyr", "gmodels", "mlbench", "caret", "BiocManager", "randomForest", "gridExtra", "vitae")
 
 package.check<-lapply(
   packages,
@@ -30,7 +30,7 @@ package.check<-lapply(
 )
 
 if(!require("PokemonAnalyse", character.only = TRUE)){
-  install_github("PedroDeBos/PokemonAnalyse", dependencies = TRUE)
+  install_github("PedroDeBos/PokemonAnalyse", dependencies = TRUE, build_vignettes = TRUE)
   library(PokemonAnalyse, character.only = TRUE)
 }
 
