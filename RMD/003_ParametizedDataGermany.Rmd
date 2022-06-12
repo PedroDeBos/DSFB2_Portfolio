@@ -1,0 +1,75 @@
+---
+title: "Paramtized data"
+author: "Pedro de Bos"
+params:
+  country: "Germany"
+  year: !r c(2020, 2021, 2022)
+  month: !r c(1:12)
+---
+
+To prove my skills in the producing parametized .Rmd's, I've used an online COVID-19 dataset and parametized the visualisation of this data file. For this parameterization, the country of the data, the year of the data and the months which the data covers have been added as variables.
+
+For this page, the params have been set too:
+
+- Country: `r params$country` (Only shows data from the `r params$country`)
+
+- Year: `r params$year` (Shows data from `r params$year`)
+
+- Month: `r params$month` (Shows data from months number `r params$month`)
+
+
+```{r, include=FALSE}
+library(here)
+library(tidyverse)
+library(ggplot2)
+```
+
+```{r}
+############################################################### Reading data
+covid_data<-read.csv("../data.raw/data.csv")
+c0ovid_data_vis<-covid_data
+
+############################################################### Mangling data
+covid_years<-covid_data$year %>% unique()
+covid_data_vis$year<-factor(as.character(covid_data$year), levels = as.character(covid_years)) #Making year a factor so it colours nicely instead of using a gradiant
+
+months<-c("January", "Februari", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December") #Storing months to plaster on x-axis
+
+covid_data_vis_filter1<-covid_data_vis %>% filter(year %in% params$year,
+                          month %in% params$month,
+                          countriesAndTerritories %in% params$country)
+
+############################################################### Creating visualisation: Cases per month
+covid_data_vis_filter1 %>% group_by(month, year) %>% summarise(
+  cases=mean(cases, na.rm=TRUE)
+) %>% ggplot(aes(x=month, y=cases))+
+  geom_point(aes(color=year))+
+  geom_line(aes(group=year, color=year))+
+  theme_bw()+
+  theme(axis.text.x = element_text(angle=45, hjust=1))+
+  labs(
+    title=paste0("SARS-COV 2 cases in ",params$country, " per month"),
+    subtitle = "Data from ECDC",
+    x="Month",
+    y="COVID-19 cases",
+    color="Year"
+  )+
+  scale_x_continuous(breaks=(seq(1:12)), labels = months)
+
+############################################################# Creating visualisation: Deaths per month
+covid_data_vis_filter1 %>% group_by(month, year) %>% summarise(
+  deaths=mean(deaths, na.rm=TRUE)
+) %>% ggplot(aes(x=month, y=deaths))+
+  geom_point(aes(color=year))+
+  geom_line(aes(group=year, color=year))+
+  theme_bw()+
+  theme(axis.text.x = element_text(angle=45, hjust=1))+
+  labs(
+    title=paste0("SARS-COV 2 deaths in ",params$country, " per month in ", params$year),
+    subtitle = "Data from ECDC",
+    x="Month",
+    y="COVID-19 deaths",
+    color="Year"
+  )+
+  scale_x_continuous(breaks=(seq(1:12)), labels = months)
+```
