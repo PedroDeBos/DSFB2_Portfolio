@@ -368,7 +368,7 @@ details > summary {
 <span id="cb63-7"><a href="sql.html#cb63-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">&quot;incidence (unit not mentioned)&quot;</span></span>
 <span id="cb63-8"><a href="sql.html#cb63-8" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
 <span id="cb63-9"><a href="sql.html#cb63-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
 <p>Secondly, the incidence of flue through the months in the 4 different countries</p>
 <div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="sql.html#cb64-1" aria-hidden="true" tabindex="-1"></a>month_data<span class="ot">&lt;-</span><span class="fu">data.frame</span>(</span>
 <span id="cb64-2"><a href="sql.html#cb64-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">month=</span><span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>),</span>
@@ -390,7 +390,7 @@ details > summary {
 <span id="cb64-18"><a href="sql.html#cb64-18" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
 <span id="cb64-19"><a href="sql.html#cb64-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
 <span id="cb64-20"><a href="sql.html#cb64-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">45</span>, <span class="at">hjust=</span><span class="dv">1</span>))</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
 <p>And finally, a correlation between dengue incidence and flu incidence? (Spoiler: no. Not at all.)</p>
 <div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="sql.html#cb65-1" aria-hidden="true" tabindex="-1"></a>correlation<span class="ot">&lt;-</span><span class="fu">cor.test</span>(data_full<span class="sc">$</span>dengue_incidence, data_full<span class="sc">$</span>flu_incidence, <span class="at">method=</span><span class="fu">c</span>(<span class="st">&quot;pearson&quot;</span>))<span class="sc">$</span>estimate <span class="sc">%&gt;%</span></span>
 <span id="cb65-2"><a href="sql.html#cb65-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">round</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span>
@@ -404,7 +404,7 @@ details > summary {
 <span id="cb65-10"><a href="sql.html#cb65-10" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
 <span id="cb65-11"><a href="sql.html#cb65-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="dv">2600</span>, <span class="at">y=</span><span class="fl">0.95</span>, <span class="at">label =</span> <span class="fu">paste0</span>(<span class="st">&quot;Pearson&#39;s correlation: </span><span class="sc">\n</span><span class="st">&quot;</span>, correlation))<span class="sc">+</span></span>
 <span id="cb65-12"><a href="sql.html#cb65-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
 
 </div>
 <p style="text-align: center;">

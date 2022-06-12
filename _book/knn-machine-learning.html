@@ -212,7 +212,7 @@ details > summary {
 <span id="cb67-6"><a href="knn-machine-learning.html#cb67-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">&quot;Sepal length (cm)&quot;</span>,</span>
 <span id="cb67-7"><a href="knn-machine-learning.html#cb67-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">&quot;Sepal width (cm)&quot;</span></span>
 <span id="cb67-8"><a href="knn-machine-learning.html#cb67-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
 <div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="knn-machine-learning.html#cb68-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Petal.Length, <span class="at">y=</span>Petal.Width, <span class="at">colour=</span>Species))<span class="sc">+</span></span>
 <span id="cb68-2"><a href="knn-machine-learning.html#cb68-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
 <span id="cb68-3"><a href="knn-machine-learning.html#cb68-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
@@ -221,7 +221,7 @@ details > summary {
 <span id="cb68-6"><a href="knn-machine-learning.html#cb68-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">&quot;Petal length (cm)&quot;</span>,</span>
 <span id="cb68-7"><a href="knn-machine-learning.html#cb68-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">&quot;Petal width (cm)&quot;</span></span>
 <span id="cb68-8"><a href="knn-machine-learning.html#cb68-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-33-2.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-34-2.png" width="672" /></p>
 <p>We can clearly see that there appears to be some form of correlation between the length and the width of a petal/sepal.</p>
 <p>To further study the dataset, a table off “species”, the factor that we’d like to predict using our KNN model, will be created</p>
 <div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="knn-machine-learning.html#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(iris<span class="sc">$</span>Species)</span></code></pre></div>
@@ -324,10 +324,11 @@ details > summary {
 <span id="cb74-5"><a href="knn-machine-learning.html#cb74-5" aria-hidden="true" tabindex="-1"></a>iris_training<span class="ot">&lt;-</span>iris[ind<span class="sc">==</span><span class="dv">1</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>] <span class="co">#Storing the training dataset</span></span>
 <span id="cb74-6"><a href="knn-machine-learning.html#cb74-6" aria-hidden="true" tabindex="-1"></a>iris_testing<span class="ot">&lt;-</span>iris[ind<span class="sc">==</span><span class="dv">2</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>] <span class="co">#Storing the testing dataset</span></span>
 <span id="cb74-7"><a href="knn-machine-learning.html#cb74-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb74-8"><a href="knn-machine-learning.html#cb74-8" aria-hidden="true" tabindex="-1"></a><span class="co"># We have the training and testing dataset, but we don&#39;t have the labels associated to those datasets. We have to store these seperately:</span></span>
-<span id="cb74-9"><a href="knn-machine-learning.html#cb74-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb74-10"><a href="knn-machine-learning.html#cb74-10" aria-hidden="true" tabindex="-1"></a>iris_trainlabels<span class="ot">&lt;-</span>iris[ind<span class="sc">==</span><span class="dv">1</span>,<span class="dv">5</span>]</span>
-<span id="cb74-11"><a href="knn-machine-learning.html#cb74-11" aria-hidden="true" tabindex="-1"></a>iris_testlabels<span class="ot">&lt;-</span>iris[ind<span class="sc">==</span><span class="dv">2</span>,<span class="dv">5</span>]</span></code></pre></div>
+<span id="cb74-8"><a href="knn-machine-learning.html#cb74-8" aria-hidden="true" tabindex="-1"></a><span class="co"># We have the training and testing dataset, but we don&#39;t have the labels associated to those datasets. We have to store </span></span>
+<span id="cb74-9"><a href="knn-machine-learning.html#cb74-9" aria-hidden="true" tabindex="-1"></a>                                                                                                     <span class="co">#these seperately:</span></span>
+<span id="cb74-10"><a href="knn-machine-learning.html#cb74-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-11"><a href="knn-machine-learning.html#cb74-11" aria-hidden="true" tabindex="-1"></a>iris_trainlabels<span class="ot">&lt;-</span>iris[ind<span class="sc">==</span><span class="dv">1</span>,<span class="dv">5</span>]</span>
+<span id="cb74-12"><a href="knn-machine-learning.html#cb74-12" aria-hidden="true" tabindex="-1"></a>iris_testlabels<span class="ot">&lt;-</span>iris[ind<span class="sc">==</span><span class="dv">2</span>,<span class="dv">5</span>]</span></code></pre></div>
 <p>With both the training group and the test group set up, we can now feed these into the KNN algorythm, and set up a prediction for what the testlabels are</p>
 <div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="knn-machine-learning.html#cb75-1" aria-hidden="true" tabindex="-1"></a>iris_pred<span class="ot">&lt;-</span>class<span class="sc">::</span><span class="fu">knn</span>(<span class="at">train =</span> iris_training, <span class="at">test =</span> iris_testing, <span class="at">cl =</span> iris_trainlabels)</span>
 <span id="cb75-2"><a href="knn-machine-learning.html#cb75-2" aria-hidden="true" tabindex="-1"></a></span>

@@ -30,7 +30,7 @@ library(caret)
 library(DECIPHER)
 
 knitr::opts_chunk$set(
-  eval=FALSE
+  eval=TRUE
 )
 ```
 
@@ -71,25 +71,6 @@ ids<-IdTaxa(seqs,
 print(ids)
 plot(ids)
 ```
-print(ids)
-
- A test set of class 'Taxa' with length 118
- 
-      confidence name                 taxon
-  [1]        78% Acinetobacter bau... Root; Bacteria; Proteobacteria; Gammaproteobacteria; Pseudomonadales; Moraxellaceae; Acinetobacter                
-  [2]        78% Acinetobacter bau... Root; Bacteria; Proteobacteria; Gammaproteobacteria; Pseudomonadales; Moraxellaceae; Acinetobacter                
-  [3]        78% Acinetobacter bau... Root; Bacteria; Proteobacteria; Gammaproteobacteria; Pseudomonadales; Moraxellaceae; Acinetobacter                
-  [4]        78% Acinetobacter bau... Root; Bacteria; Proteobacteria; Gammaproteobacteria; Pseudomonadales; Moraxellaceae; Acinetobacter                
-  [5]        78% Acinetobacter bau... Root; Bacteria; Proteobacteria; Gammaproteobacteria; Pseudomonadales; Moraxellaceae; Acinetobacter                
-  ...        ... ...                  ...
-  
-[114]        57% Streptococcus mut... Root; unclassified_Root                                                                                           
-[115]        81% Streptococcus pne... Root; Bacteria; Firmicutes; Bacilli; Lactobacillales; Streptococcaceae; Streptococcus                             
-[116]        81% Streptococcus pne... Root; Bacteria; Firmicutes; Bacilli; Lactobacillales; Streptococcaceae; Streptococcus                             
-[117]        81% Streptococcus pne... Root; Bacteria; Firmicutes; Bacilli; Lactobacillales; Streptococcaceae; Streptococcus                             
-[118]        81% Streptococcus pne... Root; Bacteria; Firmicutes; Bacilli; Lactobacillales; Streptococcaceae; Streptococcus   
-
-<img src="./images/IDTAXA_1.png">
 
 And easy as that, you've used IdTaxa machine learning to identify the given 16s RNA sequences.
 
@@ -118,18 +99,6 @@ ids<-IdTaxa(seqs,
 print(ids)
 plot(ids)
 ```
-print(ids)
-
-  A test set of class 'Taxa' with length 3
-  
-    confidence name                 taxon
-[1]        81% ENA|AB002521|AB00... Root; Bacteria; Firmicutes; Bacilli; Lactobacillales; Streptococcaceae; Streptococcus                               
-[2]        80% ENA|AB243005|AB24... Root; Bacteria; Firmicutes; Bacilli; Bacillales; Staphylococcaceae; Staphylococcus                                  
-[3]        85% ENA|AB594754|AB59... Root; Bacteria; Proteobacteria; Gammaproteobacteria; Enterobacteriales; Enterobacteriaceae; Salmonella              
-
-<img src="./images/IDTAXA_2.png">
-
-And thus, like that, we've officially learned how to use the IDTAXA machine learning method for 16s RNA! In the final page of this small research project into machine learning, I've written a self-reflection on what I've learned through performing this research project, some closing thoughts.
 
 
 <div>
