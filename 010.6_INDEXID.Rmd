@@ -36,7 +36,7 @@ knitr::opts_chunk$set(
 
 Now, for the grand finale: we'll use all previous knowledge we've gathered, and study an fully developed microbiology machine learning package in R: IDTAXA. 
 
-IDTAXA is part of the DECIPHER package, a package hosted on the bioconductor website. DECIPHER is a "software toolset that can be used for deciphering and managing biological sequences efficiently using R". It contains functions for many different uses, including maintaining databases, aligning sequences, finding genes, and the main use we'll be studying, analysing sequences for classification. 
+IDTAXA is part of the DECIPHER package, a package hosted on the bioconductor website. DECIPHER is a "software toolset that can be used for deciphering and managing biological sequences efficiently using R". It contains functions for many different uses, including maintaining databases, aligning sequences, finding genes, and the main use we'll be studying, analysing sequences for classification. [@muraliIDTAXANovelApproach2018]
 
 IDTAXA contains 2 forms of identification: Taxonomy by organism, and taxonomy by functions. ITDAXA: classify organisms takes rRNA or an ITS sequence, and classifies it as a taxonomy of organisms. IDTAXA: classify functions takes a protein or coding sequence, and classifies it as a taxonomy of functions. 
 

@@ -37,7 +37,7 @@ The random forest method works via decision tree classification: a model in whic
 
 This model, while simple, has very low predictive power. Random Forest works on the same principle as decision tree classification, but instead of taking áll datapoints and áll variables, it takes a random selection of them and performs the tree. It then repeats this process for an X amount of times, and finally combines the results of all different decision trees into a single tree. By doing this, it greatly increases its predictive power, and decreases it's bias.
 
-Now, we'll perform a randomForest analysis in R. Data has been aquired from [an archive of a UCI website](https://archive.ics.uci.edu/ml/machine-learning-databases/car/)
+Now, we'll perform a randomForest analysis in R. Data has been aquired from [an archive of a UCI website](https://archive.ics.uci.edu/ml/machine-learning-databases/car/) [@duaUCIMachineLearning2017]
 
 ```{r}
 library(randomForest)

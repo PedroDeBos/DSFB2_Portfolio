@@ -197,7 +197,7 @@ details > summary {
 </div>
 <p> </p>
 <p>Now, for the grand finale: we’ll use all previous knowledge we’ve gathered, and study an fully developed microbiology machine learning package in R: IDTAXA.</p>
-<p>IDTAXA is part of the DECIPHER package, a package hosted on the bioconductor website. DECIPHER is a “software toolset that can be used for deciphering and managing biological sequences efficiently using R”. It contains functions for many different uses, including maintaining databases, aligning sequences, finding genes, and the main use we’ll be studying, analysing sequences for classification.</p>
+<p>IDTAXA is part of the DECIPHER package, a package hosted on the bioconductor website. DECIPHER is a “software toolset that can be used for deciphering and managing biological sequences efficiently using R”. It contains functions for many different uses, including maintaining databases, aligning sequences, finding genes, and the main use we’ll be studying, analysing sequences for classification. <span class="citation">(<a href="#ref-muraliIDTAXANovelApproach2018" role="doc-biblioref">Murali, Bhargava, and Wright 2018</a>)</span></p>
 <p>IDTAXA contains 2 forms of identification: Taxonomy by organism, and taxonomy by functions. ITDAXA: classify organisms takes rRNA or an ITS sequence, and classifies it as a taxonomy of organisms. IDTAXA: classify functions takes a protein or coding sequence, and classifies it as a taxonomy of functions.</p>
 <p>The site for IDTAXA, specifically <a href="http://www2.decipher.codes/ClassifyOrganismsCode.html">this link here</a>, contains a guide on how to perform an IDTAXA identification yourself in R. This guide will be performed on an A: pre-assembled mock data set, B: 3 16sRNA sequences from taken from an online database, and C: 16sRNA sequencces from a random published study.</p>
 <p>The process goes as follows: First, store the location of the fasta data, and read it using readDNAStringSet(or RNAStringSet if it’s RNA data). Use “remove gaps” to remove any possible gaps found in the data</p>
@@ -503,7 +503,7 @@ details > summary {
   |                                                                                                                                                             
   |=======================================================================================================================================================| 100%
 ## 
-## Time difference of 10.44 secs</code></pre>
+## Time difference of 9.99 secs</code></pre>
 <div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="idtaxa.html#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ids)</span></code></pre></div>
 <pre><code>##   A test set of class &#39;Taxa&#39; with length 118
 ##       confidence name                 taxon
@@ -519,7 +519,7 @@ details > summary {
 ## [117]        81% Streptococcus pne... Root; Bacteria; Firmicutes; Bacilli; Lactobacillales; Streptococcaceae; Streptococcus                                      
 ## [118]        81% Streptococcus pne... Root; Bacteria; Firmicutes; Bacilli; Lactobacillales; Streptococcaceae; Streptococcus</code></pre>
 <div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb160-1"><a href="idtaxa.html#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ids)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-74-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-73-1.png" width="672" /></p>
 <p>And easy as that, you’ve used IdTaxa machine learning to identify the given 16s RNA sequences.</p>
 <p>That was for a training dataset that was already pre-assembled. But what if you’ve got a bunch of individual 16s RNA strands, of which you want to identify all of them? For that, we’ll need to manually take some 16s RNA sequences, and put them together into a single file via R.</p>
 <p>I’ve taken 3 random bacterial DNA sequences:</p>
@@ -557,7 +557,7 @@ details > summary {
   |                                                                                                                                                             
   |=======================================================================================================================================================| 100%
 ## 
-## Time difference of 0.34 secs</code></pre>
+## Time difference of 0.85 secs</code></pre>
 <div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="idtaxa.html#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ids)</span></code></pre></div>
 <pre><code>##   A test set of class &#39;Taxa&#39; with length 3
 ##     confidence name                 taxon
@@ -565,12 +565,18 @@ details > summary {
 ## [2]        81% ENA|AB243005|AB24... Root; Bacteria; Firmicutes; Bacilli; Bacillales; Staphylococcaceae; Staphylococcus                                           
 ## [3]        85% ENA|AB594754|AB59... Root; Bacteria; Proteobacteria; Gammaproteobacteria; Enterobacteriales; Enterobacteriaceae; Salmonella</code></pre>
 <div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="idtaxa.html#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ids)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-75-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-74-1.png" width="672" /></p>
 <div>
 <p><button class='button button1' onclick="window.location.href='random-forest-in-glass.html#random-forest-in-glass'" type="button">Return</button>
 <button class='button button2' onclick="window.location.href='closing-words.html#closing-words'" type="button">Continue</button></p>
 </div>
 
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-muraliIDTAXANovelApproach2018" class="csl-entry">
+Murali, Adithya, Aniruddha Bhargava, and Erik S. Wright. 2018. <span>“<span>IDTAXA</span>: A Novel Approach for Accurate Taxonomic Classification of Microbiome Sequences.”</span> <em>Microbiome</em> 6 (1): 140. <a href="https://doi.org/10.1186/s40168-018-0521-5">https://doi.org/10.1186/s40168-018-0521-5</a>.
+</div>
 </div>
 <p style="text-align: center;">
 <a href="random-forest-in-glass.html"><button class="btn btn-default">Previous</button></a>

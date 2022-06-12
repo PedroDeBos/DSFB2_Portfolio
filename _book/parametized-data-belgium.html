@@ -246,7 +246,7 @@ details > summary {
 <span id="cb16-31"><a href="parametized-data-belgium.html#cb16-31" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
 <span id="cb16-32"><a href="parametized-data-belgium.html#cb16-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span>(<span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>)), <span class="at">labels =</span> months)</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;month&#39;. You can override using the `.groups` argument.</code></pre>
-<p><img src="_main_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="parametized-data-belgium.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="do">############################################################# Creating visualisation: Deaths per month</span></span>
 <span id="cb18-2"><a href="parametized-data-belgium.html#cb18-2" aria-hidden="true" tabindex="-1"></a>covid_data_vis_filter1 <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(month, year) <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
 <span id="cb18-3"><a href="parametized-data-belgium.html#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">deaths=</span><span class="fu">mean</span>(deaths, <span class="at">na.rm=</span><span class="cn">TRUE</span>)</span>
@@ -264,7 +264,7 @@ details > summary {
 <span id="cb18-15"><a href="parametized-data-belgium.html#cb18-15" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">+</span></span>
 <span id="cb18-16"><a href="parametized-data-belgium.html#cb18-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span>(<span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>)), <span class="at">labels =</span> months)</span></code></pre></div>
 <pre><code>## `summarise()` has grouped output by &#39;month&#39;. You can override using the `.groups` argument.</code></pre>
-<p><img src="_main_files/figure-html/unnamed-chunk-9-2.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
 
 </div>
 <p style="text-align: center;">

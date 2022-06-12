@@ -198,7 +198,7 @@ details > summary {
 <p> </p>
 <p>The random forest method works via decision tree classification: a model in which information on nodes. The reference forms a giant “tree” consisting of multiple branching paths, connected by nodes. These nodes contain information which of the branches a individual datapoint should go across. Data goes down the tree untill it no longer has any nodes on the tree or information about itself anymore.</p>
 <p>This model, while simple, has very low predictive power. Random Forest works on the same principle as decision tree classification, but instead of taking áll datapoints and áll variables, it takes a random selection of them and performs the tree. It then repeats this process for an X amount of times, and finally combines the results of all different decision trees into a single tree. By doing this, it greatly increases its predictive power, and decreases it’s bias.</p>
-<p>Now, we’ll perform a randomForest analysis in R. Data has been aquired from <a href="https://archive.ics.uci.edu/ml/machine-learning-databases/car/">an archive of a UCI website</a></p>
+<p>Now, we’ll perform a randomForest analysis in R. Data has been aquired from <a href="https://archive.ics.uci.edu/ml/machine-learning-databases/car/">an archive of a UCI website</a> <span class="citation">(<a href="#ref-duaUCIMachineLearning2017" role="doc-biblioref">Dua and Graff 2017</a>)</span></p>
 <div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="random-forest.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
 <span id="cb106-2"><a href="random-forest.html#cb106-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb106-3"><a href="random-forest.html#cb106-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Reading the data</span></span>
@@ -503,9 +503,9 @@ details > summary {
 ## BootSpace    89.80659 62.26000  88.13393  62.47436            138.56693         85.70045
 ## Safety      182.36283 98.65670 193.75459 102.59541            275.01957        177.77858</code></pre>
 <div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="random-forest.html#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="fu">varImpPlot</span>(Model1)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-61-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-60-1.png" width="672" /></p>
 <div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="random-forest.html#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="fu">varImpPlot</span>(Model2)</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-61-2.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-60-2.png" width="672" /></p>
 <p>In these plots, the “MeanDecreaseAccuracy” expresses how much accuracy the model loses when it does <em>not</em> consider the given variable, MeanDecreaseGini expresses measures how important that variable is for the homogeneity of the model. The higher the MeanDecreaseAccuracy/Gini, the more important it is for the model. Based on the significantly higher MeanDecreaseAccuracy in model 2 in comparisson to model 1, we can state that model 2 is indeed more accurate than model 1. Furthermore, the confusionMatrix for model 2 gives a higher accuracy than model 1.</p>
 <div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="random-forest.html#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confusionMatrix</span>(predModel1, car_test[,<span class="dv">7</span>])</span></code></pre></div>
 <pre><code>## Confusion Matrix and Statistics
@@ -630,6 +630,12 @@ details > summary {
 <button class='button button2' onclick="window.location.href='random-forest-in-glass.html#random-forest-in-glass'" type="button">Continue</button></p>
 </div>
 
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-duaUCIMachineLearning2017" class="csl-entry">
+Dua, Dheeru, and Casey Graff. 2017. <span>“<span>UCI Machine Learning Repository</span>.”</span> <em>Machine Learning Repository</em>. https://archive.ics.uci.edu/ml/index.php.
+</div>
 </div>
 <p style="text-align: center;">
 <a href="pre-processing-karet.html"><button class="btn btn-default">Previous</button></a>

@@ -196,7 +196,7 @@ details > summary {
 <a href='bibliography.html#bibliography'>Bibliography</a></p>
 </div>
 <p> </p>
-<p>In order to prove my skills in learning a new skill on my own, I decided to delve into a completely new subject for me: machine learning in R, in microbiology. Originally, I planned on studying <a href="https://towardsdatascience.com/recognition-and-counting-of-microorganisms-on-petri-dishes-53a499283dc8">this site</a> and focussing on image-based machine learning for identifying bacterial colonies. However, this was too complicated for a beginner. Thus, I started by following <a href="https://www.datacamp.com/tutorial/machine-learning-in-r">this guide</a> on KNN-based machine learning within R.</p>
+<p>In order to prove my skills in learning a new skill on my own, I decided to delve into a completely new subject for me: machine learning in R, in microbiology. Originally, I planned on studying <a href="https://towardsdatascience.com/recognition-and-counting-of-microorganisms-on-petri-dishes-53a499283dc8">this site</a> <span class="citation">(<a href="#ref-majchrowskaRecognitionCountingMicroorganisms2021" role="doc-biblioref">Majchrowska 2021</a>)</span> and focussing on image-based machine learning for identifying bacterial colonies. However, this was too complicated for a beginner. Thus, I started by following <a href="https://www.datacamp.com/tutorial/machine-learning-in-r">this guide</a> <span class="citation">(<a href="#ref-willemsMachineLearningBeginners2018" role="doc-biblioref">Willems 2018</a>)</span> on KNN-based machine learning within R.</p>
 <p>This guide guides you through KNN-based machine learning using the in-built R database “iris”. KNN-based machine learning stands for “K-nearest-neighbour”. In this technique, a computer model takes a dataset used for learning, and determines the distance between each of the different training data-points. Then, it places the to-be-determined datapoint into this web of training-datapoints, and it’ll determine the K-amount of nearest neighbours (if K=5, the 5 nearest neighbours). Then it’ll classify the to-be-determined datapoint based on which category has the most datapoints within that K range. Underneath is a example of this.</p>
 <p><img src="images/KNN_Explanation.png" class=center></p>
 <p>Important is to first understand your data. Thus, to begin, I looked it up some background information about what data iris contains.</p>
@@ -212,7 +212,7 @@ details > summary {
 <span id="cb67-6"><a href="knn-machine-learning.html#cb67-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">&quot;Sepal length (cm)&quot;</span>,</span>
 <span id="cb67-7"><a href="knn-machine-learning.html#cb67-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">&quot;Sepal width (cm)&quot;</span></span>
 <span id="cb67-8"><a href="knn-machine-learning.html#cb67-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
 <div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="knn-machine-learning.html#cb68-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">%&gt;%</span> <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>Petal.Length, <span class="at">y=</span>Petal.Width, <span class="at">colour=</span>Species))<span class="sc">+</span></span>
 <span id="cb68-2"><a href="knn-machine-learning.html#cb68-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
 <span id="cb68-3"><a href="knn-machine-learning.html#cb68-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
@@ -221,7 +221,7 @@ details > summary {
 <span id="cb68-6"><a href="knn-machine-learning.html#cb68-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x=</span><span class="st">&quot;Petal length (cm)&quot;</span>,</span>
 <span id="cb68-7"><a href="knn-machine-learning.html#cb68-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y=</span><span class="st">&quot;Petal width (cm)&quot;</span></span>
 <span id="cb68-8"><a href="knn-machine-learning.html#cb68-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-34-2.png" width="672" /></p>
+<p><img src="_main_files/figure-html/unnamed-chunk-33-2.png" width="672" /></p>
 <p>We can clearly see that there appears to be some form of correlation between the length and the width of a petal/sepal.</p>
 <p>To further study the dataset, a table off “species”, the factor that we’d like to predict using our KNN model, will be created</p>
 <div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="knn-machine-learning.html#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(iris<span class="sc">$</span>Species)</span></code></pre></div>
@@ -391,6 +391,15 @@ It tells us that the algorythm succesfully identified all setosa sample, but cla
 <button class='button button2' onclick="window.location.href='knn-in-glass.html#knn-in-glass'" type="button">Continue</button></p>
 </div>
 
+</div>
+<h3>References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-majchrowskaRecognitionCountingMicroorganisms2021" class="csl-entry">
+Majchrowska, Sylwia. 2021. <span>“Recognition and <span>Counting</span> of <span>Microorganisms</span> on <span>Petri Dishes</span>.”</span> <em>Medium</em>. https://towardsdatascience.com/recognition-and-counting-of-microorganisms-on-petri-dishes-53a499283dc8.
+</div>
+<div id="ref-willemsMachineLearningBeginners2018" class="csl-entry">
+Willems, Karlijn. 2018. <span>“Machine <span>Learning</span> in <span>R</span> for Beginners.”</span> <em>Datacamp</em>. https://www.datacamp.com/tutorial/machine-learning-in-r.
+</div>
 </div>
 <p style="text-align: center;">
 <a href="free-research-project-index.html"><button class="btn btn-default">Previous</button></a>
