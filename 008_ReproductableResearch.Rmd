@@ -16,7 +16,6 @@
   <a href='bibliography.html#bibliography'>Bibliography</a>
 </div>
 
-
 &nbsp;
 
 To prove my ability in reviewing articles and identifying (issues in) reproducibility, a random article from the internet has been selected to be analysed based on the reproducibility criteria [found here](https://www.researchgate.net/publication/340244621_Reproducibility_and_reporting_practices_in_COVID-19_preprint_manuscripts) [@sumnerReproducibilityReportingPractices2020].

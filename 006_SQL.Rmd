@@ -166,7 +166,8 @@ In the countries, we can see a way wider spread of countries. Gapminder contains
 
 ```{r, warning=FALSE}
 dengue_countries<-dengue$country %>% unique()
-dengue_flu_countries<-flu$country %>% str_extract(pattern = dengue_countries) %>% unique() #Filtering for countries which are present in both dengue and flu
+dengue_flu_countries<-flu$country %>% str_extract(pattern = dengue_countries) %>% unique() #Filtering for countries which 
+                                                                                      #are present in both dengue and flu
 dengue_flu_countries<-dengue_flu_countries[!is.na(dengue_flu_countries)] #Filtering for NA's
 
 gapminder$country %>% str_subset(pattern = dengue_flu_countries) %>% unique 
@@ -180,7 +181,8 @@ flu_year<-flu$year
 gapminder_join<-gapminder %>% filter(year <= max(flu_year) & year >=min(flu_year)) %>% 
   filter(country %in% dengue_flu_countries)
 
-data_full<-left_join(gapminder_join, dengue, by = c("country", "year")) %>% left_join(flu, by = c("country", "year", "month", "day"))
+data_full<-left_join(gapminder_join, dengue, by = c("country", "year")) %>% 
+  left_join(flu, by = c("country", "year", "month", "day"))
 ```
 
 Now, with this fully joined dataset filtered for both mutual countries and years, some visualisations will be performed
@@ -208,10 +210,12 @@ Secondly, the incidence of flue through the months in the 4 different countries
 ```{r, warning=FALSE, comment=FALSE}
 month_data<-data.frame(
   month=seq(1:12),
-  MONTH=c("January", "Februari", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
+  MONTH=c("January", "Februari", "March", "April", "May", "June", "July", 
+          "August", "September", "October", "November", "December")
 )
 
-month_data$MONTH<-factor(month_data$MONTH, levels =c("January", "Februari", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"))
+month_data$MONTH<-factor(month_data$MONTH, levels =c("January", "Februari", "March", "April", "May", "June", "July", 
+                                                     "August", "September", "October", "November", "December"))
 
 data_month<-left_join(data_full, month_data, by="month")
 
@@ -229,7 +233,8 @@ data_month %>% ggplot(aes(x=MONTH, y=flu_incidence))+
 And finally, a correlation between dengue incidence and flu incidence? (Spoiler: no. Not at all.)
 
 ```{r, warning=FALSE}
-correlation<-cor.test(data_full$dengue_incidence, data_full$flu_incidence, method=c("pearson"))$estimate %>% round(digits = 3)
+correlation<-cor.test(data_full$dengue_incidence, data_full$flu_incidence, method=c("pearson"))$estimate %>%
+  round(digits = 3)
 
 data_full %>% ggplot(aes(x=flu_incidence, y=dengue_incidence))+
   geom_point(aes(color=country), alpha = 0.8)+

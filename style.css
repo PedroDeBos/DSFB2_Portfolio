@@ -2,10 +2,12 @@
     display: none;
 }
 
+/* Removing the auto-generated bookdown buttons */
 .btn{
   display: none;
 }
 
+/* Style for my "The name is Pedro de Bos" header*/
 .header{
   background-color: black;
   text-align: center;
@@ -13,7 +15,7 @@
   color: white;
 }
 
-/*literally copied this code I'll make my own in a bit*/
+/* Style for topnav box */
 .topnav {
   overflow: hidden;
   background-color: #0f0f0f;
@@ -41,7 +43,7 @@
   border: black;
 }
 
-/* Dropdown doesn't work so making buttons */
+/* Style for creating buttons */
 .button {
   border: 2px solid white;
   background-color: black;

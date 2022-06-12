@@ -73,9 +73,11 @@ covid_data_vis<-covid_data
 
 ############################################################### Mangling data
 covid_years<-covid_data$year %>% unique()
-covid_data_vis$year<-factor(as.character(covid_data$year), levels = as.character(covid_years)) #Making year a factor so it colours nicely instead of using a gradiant
+covid_data_vis$year<-factor(as.character(covid_data$year), levels = as.character(covid_years)) #Making year a factor so it 
+                                                                                #colours nicely instead of using a gradiant
 
-months<-c("January", "Februari", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December") #Storing months to plaster on x-axis
+months<-c("January", "Februari", "March", "April", "May", "June", "July", "August", "September", "October", "November",
+          "December") #Storing months to put on the x-axis
 
 covid_data_vis_filter1<-covid_data_vis %>% filter(year %in% parameter$year,
                           month %in% parameter$month,
@@ -107,7 +109,7 @@ covid_data_vis_filter1 %>% group_by(month, year) %>% dplyr::summarise(
   theme_bw()+
   theme(axis.text.x = element_text(angle=45, hjust=1))+
   labs(
-    title=paste0("SARS-COV 2 deaths in ",parameter$country, " per month in ", parameter$year),
+    title=paste0("SARS-COV 2 deaths in ",parameter$country, " per month"),
     subtitle = "Data from ECDC",
     x="Month",
     y="COVID-19 deaths",
