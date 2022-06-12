@@ -22,3 +22,5 @@ AB002521.1.fasta contains the 16sRNA of streptococcus pyogenes
 
 "car.data" contains data used for machine learning using the randomForest method, taken from https://archive.ics.uci.edu/ml/machine-learning-databases/car/
 "car.names" contains metadata about this "car.data" data
+
+"Contax_v1_March2018.Rdata" is a training-dataset made for the IDTAXA machine learning algorythm

@@ -57,7 +57,7 @@ Then, load in the training data set downloaded from the DECIPHER website.
 (Please keep in mind, loading this data and performing the machine learning is a very CPU-heavy process. In order to make this .Rmd accessible to those without a strong computer, I've instead ran the code myself, and will only be showing the plots as output)
 
 ```{r}
-load("../KEGG_AllLineage_r95.RData")
+load("./data.raw/Contax_v1_March2018.RData")
 ```
 
 Now, let the IdTaxa algorythm run, store the output, and use plot() to immdiately plot the output
