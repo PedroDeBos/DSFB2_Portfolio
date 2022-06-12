@@ -18,7 +18,7 @@ bibliography: references.bib
 
 <body id="start">
 <div class="topnav">
-  <a href='index.html#Frontpage'>Frontpage</a>
+  <a class="active" href='index.html#Frontpage'>Frontpage</a>
   <a href='data-visualisation.html#data-visualisation'>Data visualisation</a>
   <a href='parametized-data-germany.html#parametized-data'>Parametizing data</a>
   <a href='directory-structure.html#directory-structure'>Directory structure</a>
@@ -38,5 +38,7 @@ bibliography: references.bib
 <img src="./images/DonkereZonnePedro.png" class="center" style="width:494px;height:659px">
 
 The name's Pedro de Bos, life sciences student at the university of applied sciences Utrecht. Studied general laboratory skills for 2 years, specialised in     microbiology and minored in data sciences. Want to see what I'm capable off? Then you've come to the right place.
+
+Use the table of contents seen at the top of the page to browse around my work
 
 </body>

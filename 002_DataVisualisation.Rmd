@@ -16,7 +16,7 @@
   <a href='bibliography.html#bibliography'>Bibliography</a>
 </div>
 
-```{r InstallingAllPackages}
+```{r InstallingAllPackages, include=FALSE}
 packages<-c("rmarkdown", "bookdown", "tidyverse", "drc", "readxl", "here", "ggplot2", "DT", "fs", "devtools", "dslabs", "RPostgreSQL", "RPostgres", "DBI", "multcomp", "plyr", "gmodels", "mlbench", "caret", "BiocManager", "randomForest", "gridExtra")
 
 package.check<-lapply(
@@ -95,7 +95,7 @@ Celegans_data_select$compConcentration<-Celegans_data_select$compConcentration %
 levels_exptype<-unique(Celegans_data_select$expType) #storing all exptype levels
 Celegans_data_select$expType<-factor(Celegans_data_select$expType, levels = levels_exptype) #Transforming exptype
 levels_compname<-unique(Celegans_data_select$compName) #Storing all compName levels
-Celegans_data_select$compName<-factor(Celegans_data_select$compName, levels = levels_compname) #Transforming compName into factor
+Celegans_data_select$compName<-factor(Celegans_data_select$compName, levels = levels_compname) #Transforming compName->factor
 
 #Filtering NA's from RawData
 Celegans_data_select<-Celegans_data_select %>% filter(!is.na(RawData))
@@ -113,7 +113,7 @@ datatable(Celegans_data, options = list(
 After tidying the data from the excel file, exploratory graphs have been created to study the data more thoroughly
 
 ````{r dataplots}
-Celegans_data %>% ggplot(aes(x=log10(compConcentration+0.00005), y=RawData))+ #Added 0.0005 as otherwise, due to using log10, the S-medium values which are = 0, would be deleted.
+Celegans_data %>% ggplot(aes(x=log10(compConcentration+0.00005), y=RawData))+ #Added 0.0005 to prevent data loss
   geom_jitter(aes(colour=compName, shape=expType), width = 0.05)+
   theme_bw()+
   labs(
@@ -152,9 +152,12 @@ Celegans_data_select_normalised %>% ggplot(aes(x=log10(compConcentration+0.00005
 ````
 
 For a clearer picture of the correlations, a summarized version of the graph has also been made:
-````{r ClearerGraph}
+````{r ClearerGraph, comments=FALSE}
 #Creating a summarised version of the data based on Treatment and concentration
-Celegans_data_normalised_sum<-Celegans_data_select_normalised %>% dplyr::filter(!is.na(normalised_RawData_percentage)) %>% dplyr::group_by(compConcentration, compName) %>% dplyr::summarise(
+Celegans_data_normalised_sum<-Celegans_data_select_normalised %>% 
+  dplyr::filter(!is.na(normalised_RawData_percentage)) %>% 
+  dplyr::group_by(compConcentration, compName) %>% 
+  dplyr::summarise(
   mean_normalised=mean(normalised_RawData_percentage)
 )
 
